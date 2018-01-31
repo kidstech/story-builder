@@ -22,7 +22,7 @@ namespace AssemblyCSharpfirstpass {
 		public static readonly String JSON_DELIMETER = "\n";
 
 		/// <summary> Local context pack text files stored within the Resources directory. </summary>
-		public static readonly String[] LOCAL_CONTEXT_PACK_NAMES = { "Batman", "Minecraft", "MyLittlePony", "SpongebobSquarepants" };
+		public static readonly String[] LOCAL_CONTEXT_PACK_NAMES = { "Batman", "Minecraft", "MyLittlePony", "SpongebobSquarepants", "PreKSightWords" };
 
 
 
