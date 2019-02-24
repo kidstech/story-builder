@@ -65,7 +65,7 @@ public class Trashcan : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 		
 	/// <summary>
 	/// Raises the drop event.
-	/// If a word tile from the sentence is dropped, it is deleted.
+	/// If a word tile from the sentence or word holder is dropped onto trash can, it is deleted.
 	/// A word tile from the word bank is not deleted by the trash can.
 	/// </summary>
 	/// <param name="eventData">Event data.</param>
@@ -82,6 +82,13 @@ public class Trashcan : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				wordTile.delete ();
 				transform.GetComponent<Image> ().rectTransform.sizeDelta = defaultSize;
 			}
+
+            // If word tile was dragged from sentence and dropped on trash can, then it is deleted                  !!!!!!!!!!!!!!!!!!!!
+            else if (wordTile != null && wordTile.draggedFromWordHolder)
+            {
+                wordTile.delete ();
+                transform.GetComponent<Image>().rectTransform.sizeDelta = defaultSize;
+            }
 		}
 	}
 
