@@ -370,6 +370,8 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         {
             transform.SetParent(wordHolder);
 
+            transform.GetComponent<RectTransform>().sizeDelta.Set(150,50);
+
             // Position the tile at the correct index in the sentence
             transform.SetSiblingIndex(placeholderTile.GetSiblingIndex());
         }
