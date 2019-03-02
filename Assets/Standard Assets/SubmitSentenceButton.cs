@@ -33,10 +33,18 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 	// Counter to keep track of number of listens. However, in this class we only need it to reset once the senence is submitted.
 	public ListenCounter counter;
 
+    // Image is a lever which is pulled down while the sentence is being saved
+    public Image upLever, downLever;
+    private Image currentImage;
+    private bool showUpLever = true; // Is the lever up? 
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
 	void Start(){
+        // get a reference to the current image so it can be swapped later
+        currentImage = this.GetComponent<Image>();
+
 		defaultSize = this.transform.GetComponent<Image>().rectTransform.sizeDelta;
 		highlightSize = new Vector2 (defaultSize.x + 10, defaultSize.y + 10);
 	}
@@ -57,6 +65,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 	/// <param name="eventData">Event data.</param>
 	public void OnPointerExit (PointerEventData eventData) {
 		transform.GetComponent<Image> ().rectTransform.sizeDelta = defaultSize;
+
 	}
 
 
@@ -68,9 +77,11 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 	/// <param name="eventData">Event data.</param>
 	public void OnPointerClick (PointerEventData eventData) {
 
-		// If there is words in sentence
-		if (sentence.childCount > 0) {
+        // Pull the lever kronk!
+        StartCoroutine(pullLever());
 
+        // If there is words in sentence
+        if (sentence.childCount > 0) {
 
 			string sentenceText = " ";
 
@@ -105,4 +116,14 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 		}
 	}
 
+    /// <summary>
+    /// Changes the lever image to the down position for 2 seconds, then reset it
+    /// </summary>
+    private IEnumerator pullLever()
+    {
+        currentImage.sprite = downLever.sprite;
+        yield return new WaitForSecondsRealtime(2);
+        currentImage.sprite = upLever.sprite;
+    }
+    
 }

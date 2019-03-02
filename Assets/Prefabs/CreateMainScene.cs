@@ -23,8 +23,10 @@ public class CreateMainScene : MonoBehaviour {
 
         GameObject confirmButton = loadElement.createConfirmButton(confirmButtonPrefab, canvasPrefab);
         var whX = wordHolder.transform.position.x;
+        var whWidth = wordHolder.GetComponent<RectTransform>().sizeDelta.x;
         var whY = wordHolder.transform.position.y;
-        confirmButton.transform.position = new Vector3(whX + 80, whY, 0); // Place this button just to the left of the wordholder
+        var buttonX = whX + whWidth / 2 + 20;
+        confirmButton.transform.position = new Vector3(buttonX, whY, 0); // Place this button just to the right of the wordholder
 
         // Get the wordChoices from the screen
         GameObject wordChoices = GameObject.Find("WordChoices");
