@@ -15,11 +15,17 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	// Is the tile a part of the sentence?
 	public bool tileHeldOverSentence = false;
 
+    // Is the tile a part of the word holder?
+    public bool tileHeldOverWordHolder = false; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 	// Was the tile dragged from the wordbank?
 	public bool draggedFromWordBank = true;
 
 	// Was the tile dragged from the sentence?
 	public bool draggedFromSentence = false;
+
+    // Was the tile dragged from the word holder?
+    public bool draggedFromWordHolder = false; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 	// Should this tile be deleted ASAP?
 	public bool flaggedForDeletion = false;
@@ -39,6 +45,11 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	// Canvas holding all components
 	private static Transform canvas;
 
+    // Space holding dragged word
+    public Transform wordHolder;
+
+
+
 
 
 	/// <summary>
@@ -50,6 +61,9 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		// Grab a static reference for the sentence
 		if (sentence == null) 
 			sentence = GameObject.Find (Sentence.sentenceGameObjectName).transform;
+
+        // Sets reference for word holder from CreateMainScene.cs
+        wordHolder = GameObject.Find("word_holder").transform;
 
 		// Grab a static reference for the canvas
 		if (canvas == null)
@@ -92,7 +106,7 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		} 
 
 		// Word tile began drag from the sentence 
-		else if (draggedFromSentence) 
+		else if (draggedFromSentence || draggedFromWordHolder) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 			// Add the placeholder to the sentence
 			activatePlaceholder (transform.GetSiblingIndex());
 
@@ -122,10 +136,14 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 			// Setup a placeholder for the dragged word bank tile
 			activatePlaceholder (sentence.childCount);
 
-		// A dragged word bank tile is not held over the sentence
-		else if (!tileHeldOverSentence && draggedFromWordBank)
-			// Remove the sentence placeholder
-			deactivatePlaceholder ();
+        // A dragged word bank tile is held over the word holder
+        else if (tileHeldOverWordHolder && draggedFromWordBank)
+            activatePlaceholder (wordHolder.childCount);     //!!!!!
+
+        // A dragged word bank tile is not held over the sentence
+        else if (!tileHeldOverSentence && !tileHeldOverWordHolder && draggedFromWordBank)
+            // Remove the sentence placeholder
+            deactivatePlaceholder();
 
 
 		// Rearrange sentence tiles when a tile is dragged
@@ -168,24 +186,90 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 	/// <param name="eventData">Event data.</param>
 	public void OnEndDrag(PointerEventData eventData){
 
-		// Dragged from word bank and not held over sentence, or, should be
-		if (draggedFromWordBank && !tileHeldOverSentence || flaggedForDeletion)
-			Destroy (this.gameObject);
+        // Dragged from word bank and not held over sentence, or, should be
+        if (draggedFromWordBank && !tileHeldOverSentence && !tileHeldOverWordHolder || flaggedForDeletion) //!!!!!!!!!!!!!!!!!!!!!!
+            Destroy(this.gameObject);
 
-		// Dragged from word bank and tile held over the sentence
-		else if (draggedFromWordBank && tileHeldOverSentence) {
+        /*// Dragged from word bank and not held over word holder, or should be
+        else if (draggedFromWordBank && !tileHeldOverWordHolder || flaggedForDeletion)                  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            Destroy(this.gameObject); */
 
-			// Add the tile to the sentence
-			setTileInSentence ();
+        // Dragged from word bank and tile held over the sentence
+        else if (draggedFromWordBank && tileHeldOverSentence)
+        {
 
-			// Tile will be dragged from sentence in future drags
-			draggedFromWordBank = false;
-			draggedFromSentence = true;
-		}
+            // Add the tile to the sentence
+            setTileInSentence();
 
-		// Dragged from sentence
-		else if (draggedFromSentence) 
-			setTileInSentence ();
+            // Tile will be dragged from sentence in future drags
+            draggedFromWordBank = false;
+            draggedFromSentence = true;
+        }
+
+        // Dragged from word bank and tile held over word holder
+        else if (draggedFromWordBank && tileHeldOverWordHolder && wordHolder.childCount < 1)                  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        {
+
+            // Add the tile to the word holder
+            setTileInWordHolder();
+
+            // Tile will be dragged from word holder in future drags
+            draggedFromWordBank = false;
+            draggedFromWordHolder = true;
+        }
+
+        // Dragged from sentence and tile held over word holder
+        else if (draggedFromSentence && tileHeldOverWordHolder && wordHolder.childCount < 1)
+        {
+
+            // Add the tile to the word holder
+            setTileInWordHolder();
+
+            // Tile will be dragged from word holder in future drags
+            draggedFromSentence = false;
+            draggedFromWordHolder = true;
+        }
+
+        //Destroys current tile in word holder before placing currently dragged tile in word holder
+        else if (draggedFromWordBank && tileHeldOverWordHolder && wordHolder.childCount > 0)
+        {
+
+            foreach (Transform child in wordHolder.transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            setTileInWordHolder();
+
+            draggedFromWordBank = false;
+            draggedFromWordHolder = true;
+
+        }
+
+        else if (draggedFromSentence && tileHeldOverWordHolder && wordHolder.childCount > 0)
+        {
+            setTileInSentence();
+        }
+
+        // Dragged from word holder and tile held over sentence
+        else if (draggedFromWordHolder && tileHeldOverSentence)
+        {
+
+            // Add the tile to the sentence
+            setTileInSentence();
+
+            // Tile will be dragged from sentence in future drags
+            draggedFromWordHolder = false;
+            draggedFromSentence = true;
+        }
+
+        // Dragged from sentence
+        else if (draggedFromSentence)
+            setTileInSentence();
+
+        // Dragged from word holder
+        else if (draggedFromWordHolder)
+            setTileInWordHolder();
+
 
 
 		// Remove the placeholder from the sentence
@@ -277,5 +361,20 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		// Position the tile at the correct index in the sentence
 		transform.SetSiblingIndex (placeholderTile.GetSiblingIndex ());
 	}
+
+    private void setTileInWordHolder()
+    {
+
+        // Add the tile to the sentence
+        if (wordHolder.childCount < 2)
+        {
+            transform.SetParent(wordHolder);
+
+            transform.GetComponent<RectTransform>().sizeDelta.Set(150,50);
+
+            // Position the tile at the correct index in the sentence
+            transform.SetSiblingIndex(placeholderTile.GetSiblingIndex());
+        }
+    }
 
 }

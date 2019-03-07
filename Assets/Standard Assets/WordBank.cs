@@ -19,7 +19,7 @@ public class WordBank : MonoBehaviour {
 	public static readonly int VISIBLE_COLUMNS_WITHOUT_SCROLL = 6;
 
 	// Width of each word bank column
-	public static readonly int COLUMN_WIDTH = 125;
+	public static readonly int COLUMN_WIDTH = 175;
 
 	// Should we rebuild from the master context pack JSON file?
 	public static readonly bool REBUILD_MASTER_CONTEXT_PACK_JSON = false;
