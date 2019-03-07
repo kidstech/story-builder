@@ -1,0 +1,74 @@
+{
+  "batman_context_pack":
+  {
+    "icon": "c:/path",
+    "enabled": true,
+    
+    "batman_villains":
+    {
+    	"nouns":
+    	[
+    		"Penguin",
+        "Joker",
+        "Catwoman",
+        "Bane",
+        "Two-Face",
+        "Poison Ivy",
+        "Scarecrow",
+        "Riddler",
+            {"word": "villain", "forms":["villain", "villains"]}
+    	],
+    	
+    	"verbs":
+    	[
+    		{"word": "fly", "forms":["fly", "flown", "flew", "flies", "flying"]},
+    		{"word": "dance", "forms":["dance", "danced", "dances", "dancing"]},
+            {"word": "steal", "forms":["steal", "stole", "steals", "stealing"]},
+            {"word": "laugh", "forms":["laugh", "laughed", "laughing", "laughs"]},
+            {"word": "hide", "forms":["hide", "hid", "hiding", "hides"]}
+    	],
+    	
+    	"adjectives":
+    	[
+    		"evil",
+    		"dangerous",
+        "mad",
+        "sad",
+        "scary"
+    	],
+    	
+    	"misc": 
+    	[
+    		"the",
+    		"on"
+    	]
+    },
+    
+    "batman_basics":
+    {
+    	"nouns":
+    	[
+    		"fox",
+    		"box"
+    	],
+    	
+    	"verbs":
+    	[
+    		{"word": "fly", "forms":["fly", "flown", "flew"]},
+        {
+          "word": "dance",
+          "forms": [ "dance", "danced" ]
+        }
+    	],
+    	
+    	"adjectives":
+    	[
+    		"dark",
+    		"brave"
+    	],
+    	"misc":
+    	[
+    	  ]
+    }
+  }
+}
