@@ -1,0 +1,215 @@
+{
+  "pawPatrol_general": {
+    "adjectives": [
+      [
+        "clumsy"
+      ],
+      [
+        "red"
+      ],
+      [
+        "blue"
+      ],
+      [
+        "fast"
+      ],
+      [
+        "slow"
+      ],
+      [
+        "fly"
+      ],
+      [
+        "fast"
+      ]
+    ],
+    "verbs": [
+      [
+        "jump",
+        "jumps",
+        "jumping",
+        "jumped"
+      ],
+      [
+        "drive",
+        "drives",
+        "driving",
+        "drived"
+      ],
+      [
+        "transform",
+        "tranforms",
+        "tranformed",
+        "transforming"
+      ],
+      [
+        "run",
+        "ran",
+        "runs",
+        "running"
+      ],
+      [
+        "walk",
+        "walking",
+        "walked",
+        "walks"
+      ],
+      [
+        "talk",
+        "talks",
+        "talked",
+        "talking"
+      ],
+      [
+        "build",
+        "builds",
+        "built",
+        "building"
+      ],
+      [
+        "joke",
+        "jokes",
+        "joked",
+        "joking"
+      ],
+      [
+        "eat",
+        "eats",
+        "ate",
+        "eating"
+      ],
+      [
+        "fly",
+        "flying",
+        "flew",
+        "flies"
+      ]
+    ],
+    "nouns": [
+      [
+        "dalmatian",
+        "dalmatians"
+      ],
+      [
+        "fire truck",
+        "fire trucks"
+      ],
+      [
+        "ambulance",
+        "ambulances"
+      ],
+      [
+        "Bulldog",
+        "Bulldogs"
+      ],
+      [
+        "bulldozer",
+        "bulldozers"
+      ],
+      [
+        "German Shephard",
+        "German Shephards"
+      ],
+      [
+        "police car",
+        "police cars"
+      ],
+      [
+        "recycling truck",
+        "recycling trucks"
+      ],
+      [
+        "tugboat",
+        "tugboats"
+      ],
+      [
+        "chocolate lab",
+        "chocolate labs"
+      ],
+      [
+        "hovercraft",
+        "hovercrafts"
+      ],
+      [
+        "submarine",
+        "submarines"
+      ],
+      [
+        "cockapoo",
+        "cockapoos"
+      ],
+      [
+        "helicopter",
+        "helicopters"
+      ],
+      [
+        "chicken",
+        "chickens"
+      ],
+      [
+        "Foggy Bottom"
+      ],
+      [
+        "walrus",
+        "walruses"
+      ],
+      [
+        "car",
+        "cars"
+      ],
+      [
+        "truck",
+        "trucks"
+      ],
+      [
+        "mission",
+        "missions"
+      ],
+      [
+        "dog",
+        "dogs"
+      ]
+    ],
+    "enabled": true
+  },
+  "pawPatrol_characters": {
+    "nouns": [
+      [
+        "Ryder"
+      ],
+      [
+        "Marshall"
+      ],
+      [
+        "Rubble"
+      ],
+      [
+        "Rocky"
+      ],
+      [
+        "Zuma"
+      ],
+      [
+        "Skye"
+      ],
+      [
+        "Mayor Goodway"
+      ],
+      [
+        "Chase"
+      ],
+      [
+        "Mayor Humdinger"
+      ],
+      [
+        "Chickaletta"
+      ],
+      [
+        "Wally"
+      ]
+    ],
+    "enabled": true
+  },
+  "icon": "not set",
+  "enabled": true
+}

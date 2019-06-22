@@ -61,7 +61,6 @@ public class buildWordBank : MonoBehaviour
             numColumns++;
         }
 
-        Debug.Log(numColumns);
         return numColumns;
     }
 

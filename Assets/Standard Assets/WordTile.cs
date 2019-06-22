@@ -62,9 +62,6 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 		if (sentence == null) 
 			sentence = GameObject.Find (Sentence.sentenceGameObjectName).transform;
 
-        // Sets reference for word holder from CreateMainScene.cs
-        wordHolder = GameObject.Find("word_holder").transform;
-
 		// Grab a static reference for the canvas
 		if (canvas == null)
 			// Hierarchy from word bank tile to top-level canvas
