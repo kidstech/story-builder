@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// Represents the Sentence that the user builds sentences with by dropping word tiles into.
+/// 
+/// <author> antin006@morris.umn.edu </author>
+/// </summary>
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,31 +11,49 @@ using UnityEngine.UI;
 
 public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Boolean for keeping track if a tile is in the word holder or not.
-    public bool tileInHolder = false;
 
+    // Useful for calling GameObject.Find() reliably
+    public static string wordHolderGameObjectName;
 
-    // Do something on start
+    // Position of scrollbar at startup
+    public Vector2 defaultScrolledPosition;
+
+    /// <summary>
+    /// Initalize object.
+    /// </summary>
     void Start()
     {
-        
+        // Grab name for GameObject.Find()
+        wordHolderGameObjectName = gameObject.name;
+
+        // Save the startup scrolled position
+        defaultScrolledPosition = GetComponent<RectTransform>().anchoredPosition;
     }
 
-   // Fires when the cursor enters the word holder
+    /// <summary>
+    /// Raises the pointer enter event. 
+    /// Helps to determine if a word tile is held within the sentence.
+    /// </summary>
+    /// <param name="eventData">Event data.</param>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Get a possible wordTile under our cursor.
+
+        // Grab the possible word tile
         GameObject wordTile = eventData.pointerDrag;
 
-        // Check if we are holding a word tile while over the wordholder
+        // A dragged tile is held over the sentence
         if (wordTile != null && wordTile.GetComponent<WordTile>() != null)
         {
-            // Flag the tile as being held over the word holder
             wordTile.GetComponent<WordTile>().tileHeldOverWordHolder = true;
         }
+
     }
 
-    // Fired when the cursor leaves the word holder
+    /// <summary>
+    /// Raises the pointer exit event. 
+    /// Helps to determine if a word tile is held within the sentence.
+    /// </summary>
+    /// <param name="eventData">Event data.</param>
     public void OnPointerExit(PointerEventData eventData)
     {
 
@@ -39,16 +62,33 @@ public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         // A dragged tile is not held over the sentence
         if (wordTile != null && wordTile.GetComponent<WordTile>() != null)
-            wordTile.GetComponent<WordTile>().tileHeldOverSentence = false;
+        {
+            wordTile.GetComponent<WordTile>().tileHeldOverWordHolder = false;
+        }
 
     }
 
-    // Remove all tiles from the word holder
+    /// <summary>
+    /// Removes all word tiles from the this sentence.
+    /// </summary>
     public void clear()
     {
-        // In case of more tiles
+
+        // Reset any scrolling of the transform
+        resetScroll();
+
+        // Remove all word tiles from the sentence
         foreach (Transform wordTile in this.transform)
             Destroy(wordTile.gameObject);
 
     }
+
+    /// <summary>
+    /// Resets the scroll bar to the default position.
+    /// </summary>
+    public void resetScroll()
+    {
+        GetComponent<RectTransform>().anchoredPosition = defaultScrolledPosition;
+    }
+
 }

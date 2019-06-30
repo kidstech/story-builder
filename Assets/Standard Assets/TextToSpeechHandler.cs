@@ -119,7 +119,6 @@ public class TextToSpeechHandler : MonoBehaviour
         // Allow user to stop speech
         textToSpeechButton.showStopOption();
 
-
         // ------HIGHLIGHTING-------
         // Reset word counter
         currentWord = 0;
@@ -150,7 +149,11 @@ public class TextToSpeechHandler : MonoBehaviour
         }
         else
         {
-            words[0].GetComponent<Image>().color = prevColor;
+            // Account for playing tiles outside of the sentence box.
+            if (words.Length > 0)
+            {
+                words[0].GetComponent<Image>().color = prevColor;
+            }
         }
 
         // Reset Word Counter
@@ -168,27 +171,30 @@ public class TextToSpeechHandler : MonoBehaviour
         // 'Tick' represents the number words in a tile.
         if (tick == 0)
         {
-            // Get the text in the tile and count the number of spaces in it.
-            tick = words[currentWord].GetComponentInChildren<Text>().text.Count(char.IsWhiteSpace);
-
-            // Set the previous tile back to the color it was
-            if (currentWord > 0)
+            // Account for playing tiles outside of the sentence box.
+            if(words.Length > 0)
             {
-                words[currentWord - 1].GetComponent<Image>().color = prevColor;
+                // Get the text in the tile and count the number of spaces in it
+                tick = words[currentWord].GetComponentInChildren<Text>().text.Count(char.IsWhiteSpace);
+
+                // Set the previous tile back to the color it was
+                if (currentWord > 0)
+                {
+                    words[currentWord - 1].GetComponent<Image>().color = prevColor;
+                }
+
+                // Save the color of the n'th tile
+                prevColor = words[currentWord].GetComponent<Image>().color;
+
+                // Change the color of the n'th tile to the highlighted color
+                words[currentWord].GetComponent<Image>().color = new Color32(255, 255, 0, 100);
+
+                // If the tick is still equal to 0, then that means there is no spaces or anything, and is a single word. We can move to the next word safely.
+                if (tick == 0)
+                {
+                    currentWord++;
+                }
             }
-
-            // Save the color of the n'th tile
-            prevColor = words[currentWord].GetComponent<Image>().color;
-
-            // Change the color of the n'th tile to the highlighted color
-            words[currentWord].GetComponent<Image>().color = new Color32(255, 255, 0, 100);
-
-            // If the tick is still equal to 0, then that means there is no spaces or anything, and is a single word. We can move to the next word safely.
-            if(tick == 0)
-            {
-                currentWord++;
-            }
-
         }
         else
         {
