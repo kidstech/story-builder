@@ -1,13 +1,6 @@
-﻿/// <summary>
-/// Represents the Sentence that the user builds sentences with by dropping word tiles into.
-/// 
-/// <author> antin006@morris.umn.edu </author>
-/// </summary>
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -18,9 +11,9 @@ public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     // Position of scrollbar at startup
     public Vector2 defaultScrolledPosition;
 
-    /// <summary>
-    /// Initalize object.
-    /// </summary>
+    // Prefab called "WordHolderPopup"
+    public GameObject wordHolderPopupPrefab;
+
     void Start()
     {
         // Grab name for GameObject.Find()
@@ -30,14 +23,9 @@ public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         defaultScrolledPosition = GetComponent<RectTransform>().anchoredPosition;
     }
 
-    /// <summary>
-    /// Raises the pointer enter event. 
-    /// Helps to determine if a word tile is held within the sentence.
-    /// </summary>
-    /// <param name="eventData">Event data.</param>
+    // When the mouse enters the wordHolder
     public void OnPointerEnter(PointerEventData eventData)
     {
-
         // Grab the possible word tile
         GameObject wordTile = eventData.pointerDrag;
 
@@ -46,17 +34,11 @@ public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             wordTile.GetComponent<WordTile>().tileHeldOverWordHolder = true;
         }
-
     }
 
-    /// <summary>
-    /// Raises the pointer exit event. 
-    /// Helps to determine if a word tile is held within the sentence.
-    /// </summary>
-    /// <param name="eventData">Event data.</param>
+    // When the mouse exits the wordHolder
     public void OnPointerExit(PointerEventData eventData)
     {
-
         // Grab the possible word tile
         GameObject wordTile = eventData.pointerDrag;
 
@@ -65,30 +47,22 @@ public class WordHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             wordTile.GetComponent<WordTile>().tileHeldOverWordHolder = false;
         }
-
     }
 
-    /// <summary>
-    /// Removes all word tiles from the this sentence.
-    /// </summary>
-    public void clear()
+    // Method to build the screen for changing word forms
+    public void setupWordHolderPopup(List<string> wordForms)
     {
+        // If there is more than 1 word forms, open the menu to select the other options.
+        if(wordForms.Count > 1)
+        {
+            // Create the object
+            GameObject wordHolderPopup = Instantiate(wordHolderPopupPrefab);
 
-        // Reset any scrolling of the transform
-        resetScroll();
+            // Set its parent to be the canvas
+            wordHolderPopup.transform.SetParent(GameObject.Find("Canvas").transform, false);
 
-        // Remove all word tiles from the sentence
-        foreach (Transform wordTile in this.transform)
-            Destroy(wordTile.gameObject);
-
+            // Assign the wordForms to the object
+            wordHolderPopup.GetComponent<WordHolderPopup>().wordForms = wordForms;
+        }
     }
-
-    /// <summary>
-    /// Resets the scroll bar to the default position.
-    /// </summary>
-    public void resetScroll()
-    {
-        GetComponent<RectTransform>().anchoredPosition = defaultScrolledPosition;
-    }
-
 }

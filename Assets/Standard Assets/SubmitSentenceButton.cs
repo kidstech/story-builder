@@ -105,10 +105,10 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             completedSentenceScrollView = Instantiate (completedSentenceScrollView);
 
 			// Give it a new color
-			completedSentenceScrollView.GetComponent<Image> ().color = colors [currentColor++ % colors.Length];
+			completedSentenceScrollView.GetComponent<Image>().color = colors [currentColor++ % colors.Length];
 
 			// Set the text of the scroll view
-			completedSentenceScrollView.GetChild (0).GetComponent<Text> ().text = sentenceText;
+			completedSentenceScrollView.GetChild(0).GetComponent<Text>().text = sentenceText;
 
 			// Add the scroll view to the completed sentences list
 			completedSentenceScrollView.SetParent (completedSentences, false);

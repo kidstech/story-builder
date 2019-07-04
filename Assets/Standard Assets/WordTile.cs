@@ -50,9 +50,8 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     // Space holding dragged word
     public Transform wordHolder;
 
-
-
-
+    // Holder for each base case word and all its forms
+    public List<string> wordForms;
 
     /// <summary>
     /// Start this instance.
@@ -62,19 +61,25 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         // Grab a static reference for the sentence
         if (sentence == null)
+        {
             sentence = GameObject.Find(Sentence.sentenceGameObjectName).transform;
+        }
 
         // Sets reference for word holder from CreateMainScene.cs
         wordHolder = GameObject.Find("WordHolder").transform;
 
         // Grab a static reference for the canvas
         if (canvas == null)
+        {
             // Hierarchy from word bank tile to top-level canvas
             canvas = transform.parent.parent.parent.parent.parent;
-
+        }
+            
         // Build a placeholder tile to be used when rearranging sentence tiles
         if (placeholderTile == null)
+        {
             placeholderTile = buildPlaceHolder();
+        }
 
     }
 
@@ -98,7 +103,6 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
 
-
         // Word tile began drag from the word bank
         if (draggedFromWordBank)
         {
@@ -110,9 +114,11 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
 
         // Word tile began drag from the sentence 
-        else if (draggedFromSentence || draggedFromWordHolder) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-                                                               // Add the placeholder to the sentence
+        else if (draggedFromSentence)
+        {
+            // Add the placeholder to the sentence
             activatePlaceholder(transform.GetSiblingIndex());
+        }
 
         // Set dragged tile's parent to canvas for global visibilty
         transform.SetParent(canvas);
@@ -138,20 +144,17 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         // A dragged word bank tile is held over the sentence 
         if (tileHeldOverSentence && draggedFromWordBank)
+        {
             // Setup a placeholder for the dragged word bank tile
             activatePlaceholder(sentence.childCount);
-
-        // A dragged word bank tile is held over the word holder
-        else if (tileHeldOverWordHolder && draggedFromWordBank)
-            activatePlaceholder(wordHolder.childCount);     //!!!!!
+        }
 
         // A dragged word bank tile is not held over the sentence
         else if (!tileHeldOverSentence && !tileHeldOverWordHolder && draggedFromWordBank)
+        {
             // Remove the sentence placeholder
             deactivatePlaceholder();
-
-
-        // Rearrange sentence tiles when a tile is dragged
+        }
 
         // Rearrange tiles when dragged tile is over the sentence and tiles exist in the sentence
         if (tileHeldOverSentence && sentence.childCount >= 1)
@@ -194,9 +197,6 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     /// <param name="eventData">Event data.</param>
     public void OnEndDrag(PointerEventData eventData)
     {
-
-        Debug.Log("DraggedFromWordBank: " + draggedFromWordBank + Environment.NewLine + "DraggedFromWordHolder: " + draggedFromWordHolder + Environment.NewLine + "DraggedFromSentence: " + draggedFromSentence);
-
         // Dragged from word bank and not held over sentence, or, should be
         if ((draggedFromWordBank || draggedFromWordHolder) && !tileHeldOverSentence && !tileHeldOverWordHolder || flaggedForDeletion)
         {
@@ -218,8 +218,6 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         // Dragged from word bank and tile held over word holder
         else if (draggedFromWordBank && tileHeldOverWordHolder && wordHolder.childCount < 1)                  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
-            Debug.Log("Dropped over word holder!");
-
             // Add the tile to the word holder
             setTileInWordHolder();
 
@@ -288,7 +286,6 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
         // Rays cast from the cursor onto the tile will intersect the tile, allowing the tile to be selected for dragging
         GetComponent<CanvasGroup>().blocksRaycasts = true;
-
     }
 
     /// <summary>
@@ -391,6 +388,9 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             // Position the tile at the correct index in the sentence
             transform.SetSiblingIndex(placeholderTile.GetSiblingIndex());
+
+            // Begin building the screen for
+            wordHolder.GetComponent<WordHolder>().setupWordHolderPopup(wordForms);
         }
     }
 
