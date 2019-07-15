@@ -5,7 +5,16 @@ using UnityEngine.UI;
 
 public class buildWordBank : MonoBehaviour
 {
+    // Pull in things form MasterWordList
     public MasterWordList w = new MasterWordList();
+
+    private void Start()
+    {
+        w = LoadContextPacks.loadContextPacks();
+    }
+
+    /*
+    
 
     // Number of words stored vertically in a column
     public static readonly int WORDS_PER_COLUMN = 4;
@@ -35,7 +44,7 @@ public class buildWordBank : MonoBehaviour
     void Start()
     {
         // Initialize master word list, which holds all of the loaded words.
-        w = LoadContextPacks.loadContextPacks();
+        
 
         // Begin setting up the word bank
         setupWordBank();
@@ -62,7 +71,7 @@ public class buildWordBank : MonoBehaviour
         int numColumns = totalWords / WORDS_PER_COLUMN;
 
         // Account for if the number of words aren't divisable by the number of words per column.
-        if(totalWords % WORDS_PER_COLUMN != 0)
+        if (totalWords % WORDS_PER_COLUMN != 0)
         {
             // Add extra column if that's the case
             numColumns++;
@@ -75,17 +84,17 @@ public class buildWordBank : MonoBehaviour
     private void buildWordBankColumns()
     {
         // Add all of the starting columns into the word bank
-        for(int i = 0; i < VISIBLE_COLUMNS_WITHOUT_SCROLL; ++i)
+        for (int i = 0; i < VISIBLE_COLUMNS_WITHOUT_SCROLL; ++i)
         {
             // Set the word columns as a child of the word bank
             wordBankColumns.Add(this.transform.GetChild(i));
         }
 
         // If there are more words than the visible columns can show
-        if(totalColumns > VISIBLE_COLUMNS_WITHOUT_SCROLL)
+        if (totalColumns > VISIBLE_COLUMNS_WITHOUT_SCROLL)
         {
             // Add in more columns
-            for(int i = 0; i < totalColumns - VISIBLE_COLUMNS_WITHOUT_SCROLL; ++i)
+            for (int i = 0; i < totalColumns - VISIBLE_COLUMNS_WITHOUT_SCROLL; ++i)
             {
                 // Create new column
                 wordBankColumn = Instantiate(wordBankColumn);
@@ -120,13 +129,13 @@ public class buildWordBank : MonoBehaviour
         int currentWordSlotInColumn = -1;
 
         // For each word type
-        for(int type = 0; type < 4; type++)
+        for (int type = 0; type < 4; type++)
         {
             // For each word in the word type
-            for(int word = 0; word < w.parseWordType(type).Count; word++)
+            for (int word = 0; word < w.parseWordType(type).Count; word++)
             {
                 // Make sure we are constantly updating which column and slot we are on as we move through
-                if(currentWord % 4 == 0)
+                if (currentWord % 4 == 0)
                 {
                     currentColumn++;
                     currentWordSlotInColumn = -1;
@@ -141,11 +150,14 @@ public class buildWordBank : MonoBehaviour
                 // Change its color based on what type of word it is.
                 wordBankTile.GetComponent<Image>().color = colors[type % 4];
 
+                // Get the word we will be inserting into the tile
+                string wordToBeInserted = w.parseWordType(type)[word][0];
+
                 // Get the text component of the tile
                 Text wordTileText = wordBankTile.GetChild(0).transform.GetComponent<Text>();
 
                 // Set it equal to the base case of the word
-                wordTileText.text = w.parseWordType(type)[word][0];
+                wordTileText.text = wordToBeInserted;
 
                 // Add in the rest of the forms
                 populateWordForms(wordBankTile, w.parseWordType(type)[word]);
@@ -167,4 +179,5 @@ public class buildWordBank : MonoBehaviour
         // Assign it the forms we've given
         access.wordForms = forms;
     }
+    */
 }

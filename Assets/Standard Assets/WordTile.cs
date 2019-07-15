@@ -18,7 +18,7 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public bool tileHeldOverSentence = false;
 
     // Is the tile a part of the word holder?
-    public bool tileHeldOverWordHolder = false; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public bool tileHeldOverWordHolder = false;
 
     // Was the tile dragged from the wordbank?
     public bool draggedFromWordBank = true;
@@ -27,7 +27,7 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public bool draggedFromSentence = false;
 
     // Was the tile dragged from the word holder?
-    public bool draggedFromWordHolder = false; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public bool draggedFromWordHolder = false;
 
     // Should this tile be deleted ASAP?
     public bool flaggedForDeletion = false;
@@ -52,6 +52,9 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     // Holder for each base case word and all its forms
     public List<string> wordForms;
+
+    // Number corisponding to the context pack it came from
+    public int contextPackNumber = -1;
 
     /// <summary>
     /// Start this instance.

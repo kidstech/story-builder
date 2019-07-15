@@ -63,9 +63,9 @@ public class TextToSpeechHandler : MonoBehaviour
 
         // Check if voices are available
         if (Speaker.Voices.Count <= 0)
+        {
             voicesAvailable = false;
-
-        // Initialize TTS event hooks
+        }
 
     }
 
@@ -141,9 +141,8 @@ public class TextToSpeechHandler : MonoBehaviour
         textToSpeechButton.showPlayOption();
 
         // ------HIGHLIGHTING-------
-
         // Set the last word back to its original color
-        if(currentWord > 0)
+        if (currentWord > 0)
         {
             words[currentWord - 1].GetComponent<Image>().color = prevColor;
         }
@@ -207,8 +206,5 @@ public class TextToSpeechHandler : MonoBehaviour
             // Count down a tick
             tick--;
         }
-
-
     }
-
 }

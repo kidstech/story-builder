@@ -26,7 +26,6 @@ public class LoadSavedSentences : MonoBehaviour
 
     public void setupSavedSentences()
     {
-        Debug.Log("Setting up " + allSavedSentences.Count + " new sentences.");
 
         // Begin Instantiating SavedSentence objects for every saved sentence in the list
         for(int i = 0; i < allSavedSentences.Count; i++)
