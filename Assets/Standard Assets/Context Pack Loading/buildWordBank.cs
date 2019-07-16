@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class buildWordBank : MonoBehaviour
 {
-    // Pull in things form MasterWordList
-    public MasterWordList w = new MasterWordList();
 
-    private void Start()
+    enum SORT
     {
-        w = LoadContextPacks.loadContextPacks();
+        ALL = 0,
     }
 
-    /*
-    
+    // Pull in the Master Word List
+    public MasterWordList w;
+
+    // Pull in the word component too
+    List<MasterWordList.Word> currentWordPool;
 
     // Number of words stored vertically in a column
     public static readonly int WORDS_PER_COLUMN = 4;
@@ -44,7 +45,10 @@ public class buildWordBank : MonoBehaviour
     void Start()
     {
         // Initialize master word list, which holds all of the loaded words.
-        
+        w = new MasterWordList();
+
+        // Get all the words
+        currentWordPool = w.sort((int)SORT.ALL);
 
         // Begin setting up the word bank
         setupWordBank();
@@ -53,7 +57,7 @@ public class buildWordBank : MonoBehaviour
     private void setupWordBank()
     {
         // Count the total number of words in the master word list
-        totalWords = w.countTotalWords();
+        totalWords = w.numberOfWords;
 
         // Calculate the total columns we'll need
         totalColumns = calculateTotalColumns();
@@ -132,7 +136,7 @@ public class buildWordBank : MonoBehaviour
         for (int type = 0; type < 4; type++)
         {
             // For each word in the word type
-            for (int word = 0; word < w.parseWordType(type).Count; word++)
+            for (int word = 0; word < w.numberOfPartOfSpeech[type]; word++)
             {
                 // Make sure we are constantly updating which column and slot we are on as we move through
                 if (currentWord % 4 == 0)
@@ -151,7 +155,13 @@ public class buildWordBank : MonoBehaviour
                 wordBankTile.GetComponent<Image>().color = colors[type % 4];
 
                 // Get the word we will be inserting into the tile
-                string wordToBeInserted = w.parseWordType(type)[word][0];
+                string wordToBeInserted = currentWordPool[;
+
+                /*
+                 * Need to worry about parts of speech while doing this for color coding
+                 * 
+                 * 
+                 * 
 
                 // Get the text component of the tile
                 Text wordTileText = wordBankTile.GetChild(0).transform.GetComponent<Text>();
