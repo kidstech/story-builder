@@ -5,23 +5,11 @@ using UnityEngine.UI;
 
 public class buildWordBank : MonoBehaviour
 {
-
-    enum SORT
-    {
-        ALL = 0,
-    }
-
-    // Pull in the Master Word List
-    public MasterWordList w;
-
-    // Pull in the word component too
-    List<MasterWordList.Word> currentWordPool;
-
     // Number of words stored vertically in a column
     public static readonly int WORDS_PER_COLUMN = 4;
 
     // Columns that are visible by default without any scrolling
-    public static readonly int VISIBLE_COLUMNS_WITHOUT_SCROLL = 6;
+    public static readonly int VISIBLE_COLUMNS_WITHOUT_SCROLL = 4;
 
     // Width of each word bank column
     public static readonly int COLUMN_WIDTH = 175;
@@ -41,14 +29,21 @@ public class buildWordBank : MonoBehaviour
     // Prefab for word tile to be stored in word bank columns
     public Transform wordTile;
 
+    /// <summary>
+    /// //////////////////////////////////
+    /// </summary>
+    /// 
+    List<MasterWordList.Word> currentWordPool;
+    MasterWordList w;
+
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize master word list, which holds all of the loaded words.
-        w = new MasterWordList();
+        // Load all the words into the master word list
+        w = LoadContextPacks.loadContextPacks();
 
         // Get all the words
-        currentWordPool = w.sort((int)SORT.ALL);
+        currentWordPool = w.masterWordList;
 
         // Begin setting up the word bank
         setupWordBank();
@@ -57,7 +52,8 @@ public class buildWordBank : MonoBehaviour
     private void setupWordBank()
     {
         // Count the total number of words in the master word list
-        totalWords = w.numberOfWords;
+        Debug.Log("There are: " + w.masterWordList.Count + " words.");
+        totalWords = w.masterWordList.Count;
 
         // Calculate the total columns we'll need
         totalColumns = calculateTotalColumns();
@@ -132,52 +128,42 @@ public class buildWordBank : MonoBehaviour
         // Which position in the column we are on
         int currentWordSlotInColumn = -1;
 
-        // For each word type
-        for (int type = 0; type < 4; type++)
+        // For every word
+        for(int word = 0; word < totalWords; word++)
         {
-            // For each word in the word type
-            for (int word = 0; word < w.numberOfPartOfSpeech[type]; word++)
+            // Make sure we are constantly updating which column and slot we are on as we move through
+            if (currentWord % 4 == 0)
             {
-                // Make sure we are constantly updating which column and slot we are on as we move through
-                if (currentWord % 4 == 0)
-                {
-                    currentColumn++;
-                    currentWordSlotInColumn = -1;
-                }
-
-                // Get the slot this tile will go into
-                Transform wordSlot = wordBankColumns[currentColumn].transform.GetChild(++currentWordSlotInColumn);
-
-                // Add a new tile in
-                Transform wordBankTile = Instantiate(this.wordTile);
-
-                // Change its color based on what type of word it is.
-                wordBankTile.GetComponent<Image>().color = colors[type % 4];
-
-                // Get the word we will be inserting into the tile
-                string wordToBeInserted = currentWordPool[;
-
-                /*
-                 * Need to worry about parts of speech while doing this for color coding
-                 * 
-                 * 
-                 * 
-
-                // Get the text component of the tile
-                Text wordTileText = wordBankTile.GetChild(0).transform.GetComponent<Text>();
-
-                // Set it equal to the base case of the word
-                wordTileText.text = wordToBeInserted;
-
-                // Add in the rest of the forms
-                populateWordForms(wordBankTile, w.parseWordType(type)[word]);
-
-                // Set it as a child of the word slot
-                wordBankTile.SetParent(wordSlot, false);
-
-                // Move to the next word in the list
-                currentWord++;
+                currentColumn++;
+                currentWordSlotInColumn = -1;
             }
+
+            // Get the slot this tile will go into
+            Transform wordSlot = wordBankColumns[currentColumn].transform.GetChild(++currentWordSlotInColumn);
+
+            // Add a new tile in
+            Transform wordBankTile = Instantiate(this.wordTile);
+
+            // Change its color based on what type of word it is.
+            wordBankTile.GetComponent<Image>().color = colors[w.masterWordList[word].partOfSpeechId];
+
+            // Get the word we will be inserting into the tile
+            string wordToBeInserted = w.masterWordList[word].word;
+
+            // Get the text component of the tile
+            Text wordTileText = wordBankTile.GetChild(0).transform.GetComponent<Text>();
+
+            // Set it equal to the base case of the word
+            wordTileText.text = wordToBeInserted;
+
+            // Add in the rest of the forms
+            populateWordForms(wordBankTile, w.masterWordList[word].forms);
+
+            // Set it as a child of the word slot
+            wordBankTile.SetParent(wordSlot, false);
+
+            // Move to the next word in the list
+            currentWord++;
         }
     }
 
@@ -189,5 +175,4 @@ public class buildWordBank : MonoBehaviour
         // Assign it the forms we've given
         access.wordForms = forms;
     }
-    */
 }

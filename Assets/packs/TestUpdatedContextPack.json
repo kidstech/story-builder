@@ -8,21 +8,8 @@
 		"enabled": true,
     	"nouns":
     	[
-    		{
-				"word": "joker", 
-				"forms":
-				[
-					"joker"
-				]
-			},
-            {
-				"word": "villain", 
-				"forms":
-				[
-					"villain",
-					"villains"
-				]
-			}
+    		{"word": "joker", "forms": ["joker"]},
+			{"word": "villain", "forms": ["villain, villains"]}
     	],
     	
     	"verbs":
