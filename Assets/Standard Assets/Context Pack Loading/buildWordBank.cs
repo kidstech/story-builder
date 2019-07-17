@@ -43,7 +43,7 @@ public class buildWordBank : MonoBehaviour
         w = LoadContextPacks.loadContextPacks();
 
         // Get all the words
-        currentWordPool = w.masterWordList;
+        currentWordPool = w.getSpecific(2); //w.masterWordList;
 
         // Begin setting up the word bank
         setupWordBank();
@@ -52,8 +52,7 @@ public class buildWordBank : MonoBehaviour
     private void setupWordBank()
     {
         // Count the total number of words in the master word list
-        Debug.Log("There are: " + w.masterWordList.Count + " words.");
-        totalWords = w.masterWordList.Count;
+        totalWords = currentWordPool.Count;
 
         // Calculate the total columns we'll need
         totalColumns = calculateTotalColumns();
@@ -145,10 +144,10 @@ public class buildWordBank : MonoBehaviour
             Transform wordBankTile = Instantiate(this.wordTile);
 
             // Change its color based on what type of word it is.
-            wordBankTile.GetComponent<Image>().color = colors[w.masterWordList[word].partOfSpeechId];
+            wordBankTile.GetComponent<Image>().color = colors[currentWordPool[word].partOfSpeechId];
 
             // Get the word we will be inserting into the tile
-            string wordToBeInserted = w.masterWordList[word].word;
+            string wordToBeInserted = currentWordPool[word].word;
 
             // Get the text component of the tile
             Text wordTileText = wordBankTile.GetChild(0).transform.GetComponent<Text>();
@@ -157,7 +156,7 @@ public class buildWordBank : MonoBehaviour
             wordTileText.text = wordToBeInserted;
 
             // Add in the rest of the forms
-            populateWordForms(wordBankTile, w.masterWordList[word].forms);
+            populateWordForms(wordBankTile, currentWordPool[word].forms);
 
             // Set it as a child of the word slot
             wordBankTile.SetParent(wordSlot, false);

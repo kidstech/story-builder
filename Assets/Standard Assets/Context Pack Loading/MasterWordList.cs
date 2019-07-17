@@ -1,11 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 public class MasterWordList
 {
     public List<Word> masterWordList = new List<Word>();
+
+    public void basicSort()
+    {
+        masterWordList.Sort((x, y) => x.partOfSpeechId.CompareTo(y.partOfSpeechId));
+    }
+
+    // Used to get nouns, verbs, adjectives, and/or misc from a list
+    public List<Word> getSpecific(int typeToGet)
+    {
+        List<Word> newList = new List<Word>();
+
+        for(int i = 0; i < masterWordList.Count; i++)
+        {
+            if(masterWordList[i].partOfSpeechId == typeToGet)
+            {
+                Debug.Log("Added word: " + masterWordList[i].word);
+                newList.Add(masterWordList[i]);
+            }
+        }
+
+        return newList;
+    }
 
     public void addWordToList(int contextPackId, int wordPackId, int partOfSpeechId, string word, List<string> forms)
     {

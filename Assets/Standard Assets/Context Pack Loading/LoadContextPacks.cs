@@ -71,7 +71,10 @@ public class LoadContextPacks
             }
         }
 
-        //Return the word list
+        // Sort the list
+        w.basicSort();
+
+        // Return the word list
         return w;
     }
 }
