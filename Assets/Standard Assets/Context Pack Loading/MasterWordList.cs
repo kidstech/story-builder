@@ -13,6 +13,32 @@ public class MasterWordList
         masterWordList.Sort((x, y) => x.partOfSpeechId.CompareTo(y.partOfSpeechId));
     }
 
+    public List<Word> getLetter(List<string> letters)
+    {
+        List<Word> newList = new List<Word>();
+
+        for(int i = 0; i < masterWordList.Count; i++)
+        {
+            string word = masterWordList[i].word;
+            string firstChar = word.Substring(0, 1).ToLower();
+
+            for(int o = 0; o < letters.Count; o++)
+            {
+                if(firstChar == letters[o].ToLower())
+                {
+                    newList.Add(masterWordList[i]);
+                }
+            }
+        }
+
+        if(letters.Count == 0)
+        {
+            newList = masterWordList;
+        }
+
+        return newList;
+    }
+
     // Used to get nouns, verbs, adjectives, and/or misc from a list
     public List<Word> getSpecific(int typeToGet)
     {
@@ -22,7 +48,6 @@ public class MasterWordList
         {
             if(masterWordList[i].partOfSpeechId == typeToGet)
             {
-                Debug.Log("Added word: " + masterWordList[i].word);
                 newList.Add(masterWordList[i]);
             }
         }
@@ -32,6 +57,17 @@ public class MasterWordList
 
     public void addWordToList(int contextPackId, int wordPackId, int partOfSpeechId, string word, List<string> forms)
     {
+
+        // Only add one instance of a word
+        for(int i = 0; i < masterWordList.Count; i++)
+        {
+            if(masterWordList[i].word == word)
+            {
+                return;
+            }
+        }
+
+
         // Create a new word object
         Word w = new Word();
 

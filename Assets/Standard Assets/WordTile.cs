@@ -296,7 +296,6 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     /// </summary>
     public void delete()
     {
-
         // Delete tile ASAP
         flaggedForDeletion = true;
 
