@@ -31,30 +31,6 @@
     	[
     		{"word": "the", "forms":["the"]}
     	]
-    },
-    
-    "batman_basics":
-    {
-		"enabled": true,
-    	"nouns":
-    	[
-    		{"word": "fox", "forms":["fox"]},
-    	],
-    	
-    	"verbs":
-    	[
-    		{"word": "fly", "forms":["fly", "flown", "flew"]},
-    		{"word": "dance", "forms":["dance", "danced"]}
-    	],
-    	
-    	"adjectives":
-    	[
-    		{"word": "brave", "forms":["brave"]},
-    	],
-    	"misc":
-    	[
-			
-    	]
     }
   
 }

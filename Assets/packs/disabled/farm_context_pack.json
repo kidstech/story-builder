@@ -1,0 +1,108 @@
+{
+  "farm_context_pack":
+  {
+    "icon": "c:/path",
+    "enabled": true,
+    
+    "farm_animals":
+    {
+    	"nouns":
+    	[
+    		"Goat",
+        "Sheep",
+        "Cat",
+        "Dog",
+        "Cow",
+        "Pig",
+        "Chicken",
+        "Duck",
+        "Llama"
+    	],
+
+      "verbs": [
+        {
+          "word": "moo",
+          "forms": [ "moo" ]
+        },
+        {
+          "word": "oink",
+          "forms": [ "oink" ]
+        },
+        {
+          "word": "cluck",
+          "forms": [ "cluck" ]
+        },
+        {
+          "word": "baaa",
+          "forms": [ "baaa" ]
+        },
+        {
+          "word": "meow",
+          "forms": [ "meow" ]
+        },
+        {
+          "word": "bark",
+          "forms": [ "bark" ]
+        }
+      ],
+    	
+    	"adjectives":
+    	[
+    		
+    	],
+    	
+    	"misc": 
+    	[
+    		
+    	]
+    },
+    
+    "farm_equipment":
+    {
+    	"nouns":
+    	[
+        "Harrow",
+        "Tractor",
+        "Manure Spreader",
+        "Seed Drill",
+        "Baler",
+        "Mower",
+        "Cultivator",
+        "Plow",
+        "Backhoe",
+        "Loader",
+        "Sprayer",
+        "Sickle",
+        "Rake",
+        "Wagon",
+        "Trailer",
+        "Farm Truck",
+        "Hoe",
+        "Shovel"
+    	],
+
+      "verbs": [
+        {
+          "word": "farm",
+          "forms": [ "farm", "farmed" ]
+        },
+        {
+          "word": "grow",
+          "forms": [ "grow", "grew", "grown" ]
+        },
+        {
+          "word": "plow",
+          "forms": [ "plow", "plowed" ]
+        }
+      ],
+    	
+    	"adjectives":
+    	[
+    		
+    	],
+      "misc": [
+
+      ]
+    }
+  }
+}

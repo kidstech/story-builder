@@ -1,0 +1,125 @@
+ {
+    "icon": "c:/path",
+    "enabled": true,
+
+    "farm_animals":
+    {
+      "enabled": true,
+      "nouns": [
+        ["Goat"],
+        ["Sheep"],
+        ["Cat"],
+        ["Dog"],
+        ["Cow"],
+        ["Pig"],
+        ["Chicken"],
+        ["Duck"],
+        ["Llama"]
+      ],
+
+      "verbs": [
+        [
+          "moo",
+          "moos",
+          "mooed",
+          "mooing"
+        ],
+        [
+          "oink",
+          "oinks",
+          "oinked",
+          "oinking"
+        ],
+        [
+          "cluck",
+          "clucks",
+          "clucking",
+          "clucked"
+        ],
+        [
+          "baa",
+          "baas",
+          "baaed",
+          "baaing"
+        ],
+        [
+          "meow",
+          "meows",
+          "meowing",
+          "meowed"
+        ],
+        [
+          "bark",
+          "barks",
+          "barked",
+          "barking"
+        ]
+      ],
+
+      "adjectives":
+      [
+
+      ],
+
+      "misc":
+      [
+
+      ]
+    },
+
+    "farm_equipment":
+    {
+      "enabled": true,
+      "nouns":
+      [
+        ["Harrow"],
+        ["Tractor"],
+        ["Manure Spreader"],
+        ["Seed Drill"],
+        ["Baler"],
+        ["Mower"],
+        ["Cultivator"],
+        ["Plow"],
+        ["Backhoe"],
+        ["Loader"],
+        ["Sprayer"],
+        ["Sickle"],
+        ["Rake"],
+        ["Wagon"],
+        ["Trailer"],
+        ["Farm Truck"],
+        ["Hoe"],
+        ["Shovel"]
+      ],
+
+      "verbs": [
+        [
+          "farm",
+          "farms",
+          "farmed",
+          "farming"
+        ],
+        [
+          "grow",
+          "grows",
+          "grew",
+          "growing"
+        ],
+        [
+          "plow",
+          "plows",
+          "plowing",
+          "plowed"
+        ]
+      ],
+
+      "adjectives":
+      [
+
+      ],
+      "misc": [
+
+      ]
+    }
+  }
+

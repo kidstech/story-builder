@@ -4,7 +4,6 @@
 /// <author> antin006@morris.umn.edu </author>
 /// </summary>
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -86,26 +85,30 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 			string sentenceText = " ";
 
 			// Grab all text from sentence
-			for (int i = 0; i < sentence.childCount; i++) {
+			for (int i = 0; i < sentence.childCount; i++)
+            {
+				string word = sentence.GetChild(i).GetChild(0).GetComponent<Text>().text;
 
-				string word = sentence.GetChild (i).GetChild (0).GetComponent<Text> ().text;
-
-				sentenceText += word + " ";	
-
-				//System.IO.File.WriteAllText(@"C:\Users\gordo580\Documents\Sentences\WriteText.txt", sentenceText);
+				sentenceText += word + " ";
 			}
 
-			System.IO.File.AppendAllText(@"/Users/gordo580/Documents/Sentences/WriteText.txt", System.DateTime.Now + " Submitted: " + sentenceText + System.Environment.NewLine);
+            // Save to json. This is temporary and is taking the place of a database;
+            SaveSentenceHandler.SaveJson(sentenceText);
 
-				
-			// Create a new scroll view
-			completedSentenceScrollView = Instantiate (completedSentenceScrollView);
+            // Debug
+            Debug.Log("Saved sentence: " + sentenceText);
+
+            // Original: 
+            // System.IO.File.AppendAllText(@"/Users/gordo580/Documents/Sentences/WriteText.txt", System.DateTime.Now + " Submitted: " + sentenceText + System.Environment.NewLine);
+
+            // Create a new scroll view
+            completedSentenceScrollView = Instantiate (completedSentenceScrollView);
 
 			// Give it a new color
-			completedSentenceScrollView.GetComponent<Image> ().color = colors [currentColor++ % colors.Length];
+			completedSentenceScrollView.GetComponent<Image>().color = colors [currentColor++ % colors.Length];
 
 			// Set the text of the scroll view
-			completedSentenceScrollView.GetChild (0).GetComponent<Text> ().text = sentenceText;
+			completedSentenceScrollView.GetChild(0).GetComponent<Text>().text = sentenceText;
 
 			// Add the scroll view to the completed sentences list
 			completedSentenceScrollView.SetParent (completedSentences, false);
