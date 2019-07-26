@@ -9,7 +9,9 @@ public class SortButton : MonoBehaviour
 
     public GenerateSortButtons g;
 
-    private Color oldColor = new Color(0, 255, 0);
+    public Animator a;
+
+    public GameObject az;
 
     // Start is called before the first frame update
     void Start()
@@ -17,17 +19,22 @@ public class SortButton : MonoBehaviour
         sortButtonObject = GameObject.Find("SortButton");
 
         g = sortButtonObject.GetComponent<GenerateSortButtons>();
+
+        a = sortButtonObject.GetComponent<Animator>();
+
+        az = GameObject.Find("AZDrawerButton");
     }
 
     public void toggleLetter()
     {
-        g.updateSearchLetters(this.gameObject.GetComponentInChildren<Text>().text);
+        g.updateSearchLetters(this.gameObject);
+    }
 
-        Color tempCol = this.gameObject.GetComponent<Image>().color;
+    public void closeMenu()
+    {
+        a.SetBool("open", true);
 
-        this.gameObject.GetComponent<Image>().color = oldColor;
-
-        oldColor = tempCol;
+        az.SetActive(true);
     }
 
 

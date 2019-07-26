@@ -18,7 +18,7 @@ public class WordHolderPopup : MonoBehaviour
     void Start()
     {
         // Calculate the offset
-        float offset = (2 * Mathf.PI) / wordForms.Count;
+        float offset = 317;
 
         // For every word
         for(int i = 0; i < wordForms.Count; i++)
@@ -36,7 +36,7 @@ public class WordHolderPopup : MonoBehaviour
             button.GetComponentInChildren<Text>().text = wordForms[i];
 
             // Change the X Y based on the offset
-            button.GetComponent<RectTransform>().anchoredPosition = new Vector3(Mathf.Cos(offset * i) * 150, Mathf.Sin(offset * i) * 150, 0);
+            button.GetComponent<RectTransform>().anchoredPosition = new Vector3(330, offset - (150 * (i + 1)), 0);
         }
     }
 

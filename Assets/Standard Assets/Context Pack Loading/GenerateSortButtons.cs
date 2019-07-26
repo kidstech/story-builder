@@ -9,6 +9,9 @@ public class GenerateSortButtons : MonoBehaviour
     // button prefab
     public GameObject buttonPrefab;
 
+    // back button prefab
+    public GameObject backButtonPrefab;
+
     // Master WOrd LIst
     MasterWordList w;
 
@@ -17,6 +20,13 @@ public class GenerateSortButtons : MonoBehaviour
 
     // --
     public List<string> searchLetters;
+
+    // Keep track of what was the last button clicked
+    GameObject oldButton = null;
+
+    // Keep track of what was the last color of the button
+    private Color c_green = new Color(0, 255, 0, 1);
+    private Color c_white = new Color(1, 1, 1, 1);
 
     // Start is called before the first frame update
     void Start()
@@ -46,21 +56,53 @@ public class GenerateSortButtons : MonoBehaviour
             o.transform.SetParent(this.transform, false);
 
         }
+
+        // Add in the button to close the menu
+        GameObject backButton = Instantiate(backButtonPrefab);
+
+        backButton.transform.SetParent(this.transform, false);
     }
 
-    public void updateSearchLetters(string newLetter)
+    public void updateSearchLetters(GameObject button)
     {
-        // Test for the letter already being in our list
-        var itemToUpdate = searchLetters.SingleOrDefault(r => r == newLetter);
-
-        // If the item exists, remove it
-        if(itemToUpdate != null)
+        // If this is the same button
+        if(button == oldButton)
         {
-            searchLetters.Remove(itemToUpdate);
+            // If there isn't anything in the search list, toggle it by either adding or removing the letter
+            if (searchLetters.Count == 0)
+            {
+                string letter = button.GetComponentInChildren<Text>().text;
+
+                button.GetComponent<Image>().color = c_green;
+
+                searchLetters.Add(letter);
+            }
+            else
+            {
+                button.GetComponent<Image>().color = c_white;
+
+                searchLetters.RemoveAt(0);
+            }
         }
+        // This is a different button
         else
         {
-            searchLetters.Add(newLetter);
+            if(searchLetters.Count != 0)
+            {
+                // Remove the current letter
+                searchLetters.RemoveAt(0);
+
+                // Set the other button's color back
+                oldButton.GetComponent<Image>().color = c_white;
+            }
+
+            string letter = button.GetComponentInChildren<Text>().text;
+
+            searchLetters.Add(letter);
+
+            button.GetComponent<Image>().color = c_green;
+
+            oldButton = button;
         }
 
         List<MasterWordList.Word> newList = new List<MasterWordList.Word>();
