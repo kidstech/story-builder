@@ -35,7 +35,6 @@ public class buildWordBank : MonoBehaviour
     /// 
     List<MasterWordList.Word> currentWordPool;
     MasterWordList w;
-    Vector2 originalSizeDelta;
 
     // Start is called before the first frame update
     void Start()
@@ -45,10 +44,6 @@ public class buildWordBank : MonoBehaviour
 
         // Get all the words
         currentWordPool = w.masterWordList;
-
-        // Get the original size of the wordbank
-        RectTransform bank = (RectTransform)this.transform;
-        originalSizeDelta = new Vector2(bank.sizeDelta.x, bank.sizeDelta.y);
 
         // Begin setting up the word bank
         setupWordBank();
@@ -63,7 +58,7 @@ public class buildWordBank : MonoBehaviour
         totalColumns = calculateTotalColumns();
 
         // Structure the columns and add them into the word bank
-        buildWordBankColumns();
+        buildWordBankColumns2();
 
         // Add tiles with names to the word bank
         populateWordTiles();
@@ -113,9 +108,36 @@ public class buildWordBank : MonoBehaviour
                 // Set it as a parent
                 newColumn.SetParent(this.transform, false);
 
+                // Set the name with offset
+                newColumn.name = "WordBankColumn (" + (4 + i) + ")";
+
                 // Add it into the list of columns
                 wordBankColumns.Add(newColumn);
             }
+        }
+    }
+
+    private void buildWordBankColumns2()
+    {
+        // Get the word bank's transform object
+        RectTransform bank = (RectTransform)this.transform;
+
+        // Reset Size of the wordbank
+        bank.sizeDelta = new Vector2(COLUMN_WIDTH * totalColumns / 2, bank.sizeDelta.y);
+
+        for (int i = 0; i < totalColumns; i++)
+        {
+            // Create new column
+            Transform newColumn = Instantiate(wordBankColumn);
+
+            // Set it as a parent
+            newColumn.SetParent(this.transform, false);
+
+            // Set the name with offset
+            newColumn.name = "WordBankColumn (" + (i) + ")";
+
+            // Add it into the list of columns
+            wordBankColumns.Add(newColumn);
         }
     }
 
@@ -188,28 +210,7 @@ public class buildWordBank : MonoBehaviour
             Destroy(childTransform.gameObject);
         }
 
-        
-        // Reset the size of the wordBank
-        RectTransform bank = (RectTransform)this.transform;
-        bank.sizeDelta = originalSizeDelta;
-
         wordBankColumns = new List<Transform>();
-
-        // Re-add the default four word columns
-        for (int i = 0; i < 4; ++i)
-        {
-            // Create new column
-            Transform newColumn = Instantiate(wordBankColumn);
-
-            // Change the name
-            newColumn.name = "WordBankColumn (" + i + ")";
-
-            // Set it as a parent
-            newColumn.SetParent(this.transform, false);
-
-            // Add it into the list of columns
-            wordBankColumns.Add(newColumn);
-        }
 
         currentWordPool = list;
 

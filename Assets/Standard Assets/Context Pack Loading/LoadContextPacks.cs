@@ -26,6 +26,10 @@ public class LoadContextPacks
             //If the context pack is enabled
             if (cp.list[2] == true)
             {
+
+                // Add this to our list of context packs
+                w.addConextPackToList(contextPackId, cp.list[0].str, cp.list[1].str);
+
                 //Get the number of word packs
                 int numWordPacks = cp.list.Count - offset;
 

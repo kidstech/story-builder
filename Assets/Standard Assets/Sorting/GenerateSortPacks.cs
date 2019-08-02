@@ -4,13 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class GenerateSortButtons : MonoBehaviour
+public class GenerateSortPacks : MonoBehaviour
 {
     // button prefab
-    public GameObject buttonPrefab;
-
-    // back button prefab
-    public GameObject backButtonPrefab;
+    public GameObject packPrefab;
 
     // Master WOrd LIst
     MasterWordList w;
@@ -18,11 +15,11 @@ public class GenerateSortButtons : MonoBehaviour
     // Word Bank Script
     buildWordBank b;
 
-    // --
-    public List<string> searchLetters;
-
     // Keep track of what was the last button clicked
     GameObject oldButton = null;
+
+    // --
+    public List<int> searchPacks;
 
     // Keep track of what was the last color of the button
     private Color c_green = new Color(0, 255, 0, 1);
@@ -40,65 +37,64 @@ public class GenerateSortButtons : MonoBehaviour
 
     public void buildButtons(List<MasterWordList.Word> list)
     {
-        // Start by generating the first 26 buttons A-Z
-        List<string> alphabet = new List<string>(26) {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+        // Get the number of context packs
+        int packCount = w.masterContextPackList.Count;
 
-        // For each letter
-        for(int i = 0; i < 26; i++)
+        // For each context pack
+        for(int i = 0; i < packCount; i++)
         {
             // Copy in a new game object
-            GameObject o = Instantiate(buttonPrefab);
+            GameObject o = Instantiate(packPrefab);
 
             // Change the display text
-            o.GetComponentInChildren<Text>().text = alphabet[i];
+            o.GetComponentInChildren<Text>().text = w.masterContextPackList[i].contextPackName;
+
+            // Change some values in the button
+            o.GetComponent<SortPack>().contextPackId = w.masterContextPackList[i].contextPackId;
+            o.GetComponent<SortPack>().contextPackName = w.masterContextPackList[i].contextPackName;
+            o.GetComponent<SortPack>().contextPackIconPath = w.masterContextPackList[i].contextPackIconPath;
 
             // Add it into the button view
             o.transform.SetParent(this.transform, false);
 
         }
-
-        // Add in the button to close the menu
-        GameObject backButton = Instantiate(backButtonPrefab);
-
-        backButton.transform.SetParent(this.transform, false);
     }
 
-    public void updateSearchLetters(GameObject button)
+    public void updateSearchPack(GameObject button)
     {
         // If this is the same button
         if(button == oldButton)
         {
             // If there isn't anything in the search list, toggle it by either adding or removing the letter
-            if (searchLetters.Count == 0)
+            if (searchPacks.Count == 0)
             {
-                string letter = button.GetComponentInChildren<Text>().text;
+                int pack = button.GetComponent<SortPack>().contextPackId;
 
                 button.GetComponent<Image>().color = c_green;
 
-                searchLetters.Add(letter);
+                searchPacks.Add(pack);
             }
             else
             {
                 button.GetComponent<Image>().color = c_white;
 
-                searchLetters.RemoveAt(0);
+                searchPacks.RemoveAt(0);
             }
         }
         // This is a different button
         else
         {
-            if(searchLetters.Count != 0)
+            if(searchPacks.Count != 0)
             {
                 // Remove the current letter
-                searchLetters.RemoveAt(0);
+                searchPacks.RemoveAt(0);
 
-                // Set the other button's color back
                 oldButton.GetComponent<Image>().color = c_white;
             }
 
-            string letter = button.GetComponentInChildren<Text>().text;
+            int pack = button.GetComponent<SortPack>().contextPackId;
 
-            searchLetters.Add(letter);
+            searchPacks.Add(pack);
 
             button.GetComponent<Image>().color = c_green;
 
@@ -107,7 +103,7 @@ public class GenerateSortButtons : MonoBehaviour
 
         List<MasterWordList.Word> newList = new List<MasterWordList.Word>();
 
-        newList = w.getLetter(searchLetters);
+        newList = w.getPack(searchPacks);
 
         b.rebuildWordBank(newList);
     }

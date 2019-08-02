@@ -8,6 +8,8 @@ public class MasterWordList
 {
     public List<Word> masterWordList = new List<Word>();
 
+    public List<ContextPack> masterContextPackList = new List<ContextPack>();
+
     public void basicSort()
     {
         masterWordList.Sort((x, y) => x.partOfSpeechId.CompareTo(y.partOfSpeechId));
@@ -39,6 +41,34 @@ public class MasterWordList
         return newList;
     }
 
+    public List<Word> getPack(List<int> packs)
+    {
+        List<Word> newList = new List<Word>();
+
+        for (int i = 0; i < masterWordList.Count; i++)
+        {
+            int wordConextPackId = masterWordList[i].contextPackId;
+
+            for(int o = 0; o < packs.Count; o++)
+            {
+                if(wordConextPackId == packs[o])
+                {
+                    newList.Add(masterWordList[i]);
+                }
+            }  
+        }
+
+        if (packs.Count == 0)
+        {
+            newList = masterWordList;
+        }
+
+        return newList;
+    }
+
+    /*
+     * This is functional, just not implimented
+     * 
     // Used to get nouns, verbs, adjectives, and/or misc from a list
     public List<Word> getSpecific(int typeToGet)
     {
@@ -54,6 +84,7 @@ public class MasterWordList
 
         return newList;
     }
+    */
 
     public void addWordToList(int contextPackId, int wordPackId, int partOfSpeechId, string word, List<string> forms)
     {
@@ -66,7 +97,6 @@ public class MasterWordList
                 return;
             }
         }
-
 
         // Create a new word object
         Word w = new Word();
@@ -82,10 +112,39 @@ public class MasterWordList
         masterWordList.Add(w);
     }
 
+    public void addConextPackToList(int contextPackId, string contextPackName, string contextPackIconPath)
+    {
+        // Create a new context pack object
+        ContextPack c = new ContextPack();
+
+        // Populate it with the informaiton given
+        c.contextPackId = contextPackId;
+        c.contextPackName = contextPackName;
+        c.contextPackIconPath = contextPackIconPath;
+
+        // Add the context pack into the context pack list
+        masterContextPackList.Add(c);
+    }
+
+    public class ContextPack
+    {
+        /*
+         * What are we keeping track of?
+         * =============================
+         * context pack id
+         * context pack name
+         * context pack icon path
+         */
+        public int contextPackId = -1;
+        public string contextPackName = "";
+        public string contextPackIconPath = "";
+    }
+
     public class Word
     {
         /*
          * What are we keeping track of?
+         * =============================
          * context pack id
          * word pack id
          * part of speech id

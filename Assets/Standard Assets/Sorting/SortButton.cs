@@ -11,7 +11,8 @@ public class SortButton : MonoBehaviour
 
     public Animator a;
 
-    public GameObject az;
+    private Color c_green = new Color(0, 255, 0, 1);
+    private Color c_red = new Color(255, 0, 0, 1);
 
     // Start is called before the first frame update
     void Start()
@@ -21,8 +22,6 @@ public class SortButton : MonoBehaviour
         g = sortButtonObject.GetComponent<GenerateSortButtons>();
 
         a = sortButtonObject.GetComponent<Animator>();
-
-        az = GameObject.Find("AZDrawerButton");
     }
 
     public void toggleLetter()
@@ -30,11 +29,22 @@ public class SortButton : MonoBehaviour
         g.updateSearchLetters(this.gameObject);
     }
 
-    public void closeMenu()
+    public void ToggleMenu()
     {
-        a.SetBool("open", true);
+        bool isOpen = a.GetBool("open");
 
-        az.SetActive(true);
+        if (isOpen)
+        {
+            this.gameObject.GetComponent<Image>().color = c_red;
+            this.gameObject.GetComponentInChildren<Text>().text = "<";
+        }
+        else
+        {
+            this.gameObject.GetComponent<Image>().color = c_green;
+            this.gameObject.GetComponentInChildren<Text>().text = ">";
+        }
+
+        a.SetBool("open", !isOpen);
     }
 
 

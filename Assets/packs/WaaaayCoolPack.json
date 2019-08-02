@@ -1,0 +1,40 @@
+{
+	"name": "Extra Cool Pack That Makes The Text Tiny",
+    "icon": "c:/path",
+    "enabled": true,
+    
+    "default":
+    {
+		"enabled": true,
+    	"nouns":
+    	[
+    		{"word": "mora", "forms": ["mora"]},
+			{"word": "bella", "forms": ["bella"]}
+    	],
+    	
+    	"verbs":
+    	[
+    		{"word": "explode", "forms":["explode", "exploded", "exploding"]},
+			{"word": "jump", "forms":["explode", "exploded", "exploding"]},
+			{"word": "run", "forms":["explode", "exploded", "exploding"]},
+			{"word": "play", "forms":["explode", "exploded", "exploding"]},
+			{"word": "throw", "forms":["explode", "exploded", "exploding"]},
+			{"word": "catch", "forms":["explode", "exploded", "exploding"]},
+			{"word": "walk", "forms":["explode", "exploded", "exploding"]},
+			{"word": "explore", "forms":["explode", "exploded", "exploding"]},
+			{"word": "export", "forms":["explode", "exploded", "exploding"]},
+			{"word": "explain", "forms":["explode", "exploded", "exploding"]},
+			{"word": "plant", "forms":["explode", "exploded", "exploding"]},
+    	],
+    	
+    	"adjectives":
+    	[
+			{"word": "hypnotic", "forms":["hypnotic"]}
+    	],
+    	
+    	"misc": 
+    	[
+    		{"word": "APPDATA", "forms":["APPDATA"]}
+    	]
+    }
+}
