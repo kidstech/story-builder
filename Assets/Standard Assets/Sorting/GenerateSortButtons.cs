@@ -33,7 +33,7 @@ public class GenerateSortButtons : MonoBehaviour
     {
         w = LoadContextPacks.loadContextPacks();
 
-        b = GameObject.Find("WordBank").GetComponent<buildWordBank>();
+        b = GameObject.Find("WordBankContent").GetComponent<buildWordBank>();
 
         buildButtons(w.masterWordList);
     }

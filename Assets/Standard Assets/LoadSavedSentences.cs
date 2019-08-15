@@ -15,6 +15,9 @@ public class LoadSavedSentences : MonoBehaviour
     // The CompletedSentences GameObject in the scene.
     public Transform savedSentenceBox;
 
+    // Size of the savedSentencePrefab's y cord
+    public static readonly int SAVED_SENTENCE_PREFAB_HEIGHT = 50;
+
     void Start()
     {
         // Populate the saved sentences into the completed sentences scrollview.
@@ -26,6 +29,9 @@ public class LoadSavedSentences : MonoBehaviour
 
     public void setupSavedSentences()
     {
+        RectTransform content = (RectTransform)savedSentenceBox.transform;
+
+        content.sizeDelta = new Vector2(content.sizeDelta.x, SAVED_SENTENCE_PREFAB_HEIGHT * allSavedSentences.Count);
 
         // Begin Instantiating SavedSentence objects for every saved sentence in the list
         for(int i = 0; i < allSavedSentences.Count; i++)
@@ -37,12 +43,16 @@ public class LoadSavedSentences : MonoBehaviour
             obj.GetChild(1).GetComponent<Text>().text = allSavedSentences[i].sentence;
 
             // Add that sentence to the savedSentenceBox
-            obj.transform.SetParent(savedSentenceBox);
+            obj.transform.SetParent(savedSentenceBox, false);
         }
     }
 
     public void refreshSavedSentences()
     {
+        // Populate the saved sentences into the completed sentences scrollview.
+        allSavedSentences = SaveSentenceHandler.LoadJson();
 
+        // Set up the saved sentences
+        setupSavedSentences();
     }
 }

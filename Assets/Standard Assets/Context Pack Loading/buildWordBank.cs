@@ -80,50 +80,13 @@ public class buildWordBank : MonoBehaviour
         return numColumns;
     }
 
-    private void buildWordBankColumns()
-    {
-        // Add all of the starting columns into the word bank
-        for (int i = 0; i < VISIBLE_COLUMNS_WITHOUT_SCROLL; ++i)
-        {
-            // Set the word columns as a child of the word bank
-            wordBankColumns.Add(this.transform.GetChild(i));
-        }
-
-        // If there are more words than the visible columns can show
-        if (totalColumns > VISIBLE_COLUMNS_WITHOUT_SCROLL)
-        {
-            
-            // Add in more columns
-            for (int i = 0; i < totalColumns - VISIBLE_COLUMNS_WITHOUT_SCROLL; ++i)
-            {
-                // Create new column
-                Transform newColumn = Instantiate(wordBankColumn);
-
-                // Get the word bank's transform object
-                RectTransform bank = (RectTransform)this.transform;
-
-                // Set the proper size
-                bank.sizeDelta = new Vector2(bank.sizeDelta.x + COLUMN_WIDTH, bank.sizeDelta.y);
-
-                // Set it as a parent
-                newColumn.SetParent(this.transform, false);
-
-                // Set the name with offset
-                newColumn.name = "WordBankColumn (" + (4 + i) + ")";
-
-                // Add it into the list of columns
-                wordBankColumns.Add(newColumn);
-            }
-        }
-    }
-
     private void buildWordBankColumns2()
     {
         // Get the word bank's transform object
         RectTransform bank = (RectTransform)this.transform;
 
         // Reset Size of the wordbank
-        bank.sizeDelta = new Vector2(COLUMN_WIDTH * totalColumns / 2, bank.sizeDelta.y);
+        bank.sizeDelta = new Vector2(COLUMN_WIDTH * totalColumns, bank.sizeDelta.y);
 
         for (int i = 0; i < totalColumns; i++)
         {
