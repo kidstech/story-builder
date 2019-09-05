@@ -13,10 +13,11 @@ using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model.Event;
 using Crosstales.RTVoice.Model;
 using System.Linq;
+using static Crosstales.RTVoice.Speaker;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
-
+    // ----------------- TTS SETTINGS ---------------
 
     // Speech button that changes from play to stop
     public TextToSpeechButton textToSpeechButton;
@@ -27,72 +28,68 @@ public class TextToSpeechHandler : MonoBehaviour
     // Are there TTS voices available?
     public static bool voicesAvailable = true;
 
+    // ----------------- SPEECH BEHAVIOR ---------------
+
+    // Variable to tell us how to handle the upcoming speech.
+    private SoundType type;
+
+    // The object we are working with for getting word information from
+    private GameObject source;
+
+    // enums for behavior handling of the sound engine.
+    public enum SoundType
+    {
+        NONE = -1,
+        TILE = 0,
+        SENTENCE = 1,
+        SAVED_SENTENCE = 2
+    }
 
     // ----------------- HIGHLIGHTING ---------------
 
-    // Keep track of all the words that WILL be currently spoken.
-    public Transform[] words = new Transform[32];
-
-    // Keep track of the last color the button was
-    public Color prevColor = new Color(255, 255, 0, 100);
-
-    // Keep track on what word in the list we are on
-    public int currentWord = 0;
-
-    // Keep track of the words in a word tile
-    public int tick = 0;
-
-    // Get methods from the sentence box
-    public Sentence sentence;
-
-    /// <summary>
-    /// Start this instance.
-    /// Checks for voices and initializes event hooks for RTVoice.
-    /// </summary>
-    /// 
-
-    private void OnEnable()
+    private void Start()
     {
+        // Hook functions to run each time an event is triggered from Speaker, namely when we start and stop speaking, as well as while we are speaking.
         Speaker.OnSpeakNativeCurrentWord += SpeakNativeCurrentWord;
         Speaker.OnSpeakStart += speakStartMethod;
         Speaker.OnSpeakComplete += speakCompleteMethod;
-    }
-
-    void Start()
-    {
-
+        
         // Check if voices are available
         if (Speaker.Voices.Count <= 0)
         {
             voicesAvailable = false;
         }
 
+        // Optional -- If commented out make sure that wordBank is assigned in the inspector.
     }
 
-    /// <summary>
-    /// Starts the speaking of the provided phrase.
-    /// </summary>
-    /// <param name="phrase">Phrase to speak.</param>
-    public void startSpeaking(string phrase)
+    private void OnDestroy()
     {
+        Speaker.OnSpeakNativeCurrentWord -= SpeakNativeCurrentWord;
+        Speaker.OnSpeakStart -= speakStartMethod;
+        Speaker.OnSpeakComplete -= speakCompleteMethod;
+    }
 
+    // Starts a speech
+    public void startSpeaking(string sentence, SoundType behaviorType, GameObject sourceObject)
+    {
         // If we aren't currently speaking
         if (!isSpeaking && voicesAvailable)
         {
+            // Set our behavior type
+            type = behaviorType;
+
+            // Set the object of where we are drawing information from
+            source = sourceObject;
 
             // Then start speaking
-            isSpeaking = true;
-            Speaker.SpeakNative(phrase, Speaker.VoiceForCulture("en"));
+            Speaker.SpeakNative(sentence, Speaker.VoiceForCulture("en"));
         }
-
     }
 
-    /// <summary>
-    /// Stops the speaking of any speech.
-    /// </summary>
+    // Stops an existing speech
     public void stopSpeaking()
     {
-
         // Stop speaking
         Speaker.Silence();
         isSpeaking = false;
@@ -100,111 +97,118 @@ public class TextToSpeechHandler : MonoBehaviour
         // Re-enable play option
         textToSpeechButton.showPlayOption();
 
-        // ------HIGHLIGHTING-------
-        // Reset Color
-        words[currentWord - 1].GetComponent<Image>().color = prevColor;
+        // Reset our behavior type
+        this.type = SoundType.NONE;
 
-        // Reset Variables
-        currentWord = 0;
-        tick = 0;
+        // Reset our source object
+        this.source = null;
     }
 
 
-    /// <summary>
-    /// Event hook for the start of speaking.
-    /// </summary>
-    /// <param name="e">E.</param>
+    // Event hook for the start of a speech
     private void speakStartMethod(SpeakEventArgs e)
     {
-        // Allow user to stop speech
-        textToSpeechButton.showStopOption();
+        // Starting to speak
+        isSpeaking = true;
 
-        // ------HIGHLIGHTING-------
-        // Reset word counter
-        currentWord = 0;
+        switch(type)
+        {
+            case SoundType.SENTENCE:
+            case SoundType.TILE:
 
-        // Populate the array of Words
-        words = sentence.getAllTiles();
+                // Allow user to stop speech
+                textToSpeechButton.showStopOption();
+
+                break;
+
+            case SoundType.SAVED_SENTENCE:
+                break;
+        }
     }
 
-    /// <summary>
-    /// Event hook for the completion of speaking.
-    /// </summary>
-    /// <param name="e">E.</param>
+    // Event hook for the finishing of a speech
     private void speakCompleteMethod(SpeakEventArgs e)
     {
-
         // No longer speaking
         isSpeaking = false;
 
-        // Allow user to use TTS again
-        textToSpeechButton.showPlayOption();
-
-        // ------HIGHLIGHTING-------
-        // Set the last word back to its original color
-        if (currentWord > 0)
+        switch (type)
         {
-            words[currentWord - 1].GetComponent<Image>().color = prevColor;
-        }
-        else
-        {
-            // Account for playing tiles outside of the sentence box.
-            if (words.Length > 0)
-            {
-                words[0].GetComponent<Image>().color = prevColor;
-            }
-        }
+            case SoundType.SENTENCE:
 
-        // Reset Word Counter
-        currentWord = 0;
+                // Allow user to use TTS again
+                textToSpeechButton.showPlayOption();
+
+                // Reset the last tile to be the normal color it was
+                source.transform.GetChild(index - 1).GetComponent<Image>().color = previousColor;
+
+                break;
+
+            case SoundType.TILE:
+
+                // Allow user to use TTS again
+                textToSpeechButton.showPlayOption();
+
+                // Change that tile back to normal
+                source.GetComponent<Image>().color = previousColor;
+
+                break;
+
+            case SoundType.SAVED_SENTENCE:
+                break;
+        }
+        
+        // Reset Variables
+        index = 0;
+        tick = 0;
     }
 
-    /// <summary>
-	/// Event hook for speaking current word.
-	/// </summary>
-	/// <param name="e">E.</param>
+    // TEMP
+    private int tick = 0;
+    private int index = 0;
+
+    private Color previousColor;
+    private Color highlightColor = new Color(255, 255, 0);
+
+    // Event hook fired each time a new word is spoken.
     private void SpeakNativeCurrentWord(SpeakEventArgs e)
     {
-        // ------HIGHLIGHTING-------
-
-        // 'Tick' represents the number words in a tile.
-        if (tick == 0)
+       switch(type)
         {
-            // Account for playing tiles outside of the sentence box.
-            if(words.Length > 0)
-            {
-                // Get the text in the tile and count the number of spaces in it
-                tick = words[currentWord].GetComponentInChildren<Text>().text.Count(char.IsWhiteSpace);
+            case SoundType.SENTENCE:
 
-                // Set the previous tile back to the color it was
-                if (currentWord > 0)
+                // If this isn't the first word, set the previous child's color back to normal.
+                if(index != 0 && tick == 0)
                 {
-                    words[currentWord - 1].GetComponent<Image>().color = prevColor;
+                    source.transform.GetChild(index - 1).GetComponent<Image>().color = previousColor;
                 }
 
-                // Save the color of the n'th tile
-                prevColor = words[currentWord].GetComponent<Image>().color;
-
-                // Change the color of the n'th tile to the highlighted color
-                words[currentWord].GetComponent<Image>().color = new Color32(255, 255, 0, 100);
-
-                // If the tick is still equal to 0, then that means there is no spaces or anything, and is a single word. We can move to the next word safely.
-                if (tick == 0)
+                // Calculate the tick
+                if(tick == 0)
                 {
-                    currentWord++;
+                    tick = source.transform.GetChild(index).GetChild(0).GetComponent<Text>().text.Split().Length;
                 }
-            }
-        }
-        else
-        {
-            // Incement Word if tick is going to become zero
-            if (tick == 1)
-            {
-                currentWord++;
-            }
 
-            // Count down a tick
-            tick--;
+                // Save the previous color
+                previousColor = source.transform.GetChild(index).GetComponent<Image>().color;
+
+                // Set the current tile to be highlighted
+                source.transform.GetChild(index).GetComponent<Image>().color = highlightColor;
+
+                // Increment Variables
+                index++;
+                tick--;
+
+                break;
+
+            case SoundType.TILE:
+
+                
+
+                break;
+
+            case SoundType.SAVED_SENTENCE:
+                break;
         }
     }
 }

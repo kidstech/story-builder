@@ -94,8 +94,7 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnPointerClick(PointerEventData eventData)
     {
         // Speak the word on the tile
-        textToSpeechHandler.startSpeaking(eventData.pointerPress.GetComponent<WordTile>().getText());
-
+        textToSpeechHandler.startSpeaking(eventData.pointerPress.GetComponent<WordTile>().getText(), TextToSpeechHandler.SoundType.TILE, this.gameObject);
     }
 
     /// <summary>

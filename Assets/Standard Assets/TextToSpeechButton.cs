@@ -90,28 +90,15 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 	/// </summary>
 	/// <param name="eventData">Event data.</param>
 	public void OnPointerClick (PointerEventData eventData) {
-		
-		// Start speaking
-		if (showingPlayOption && sentence.transform.childCount > 0) {
-			textToSpeechHandler.startSpeaking (sentence.getSentenceText ());
 
-
-			counter.incrementCount();
-
-			string sentenceText = " ";
-
-			// Grab all text from sentence
-			for (int i = 0; i < sentence.transform.childCount; i++) {
-				string word = sentence.transform.GetChild (i).GetChild (0).GetComponent<Text> ().text;
-				sentenceText += word + " ";	
-			}
-
-			System.IO.File.AppendAllText(@"/Users/gordo580/Documents/Sentences/WriteText.txt", System.DateTime.Now+ 
-				". Listened: " + sentenceText + " Counter:  " + counter.printListenCount() + System.Environment.NewLine);
-		}
-		// Stop speaking
-		else if (!showingPlayOption)
-			textToSpeechHandler.stopSpeaking ();
+        // Start speaking
+        if (showingPlayOption && sentence.transform.childCount > 0)
+        {
+            textToSpeechHandler.startSpeaking(sentence.getSentenceText(), TextToSpeechHandler.SoundType.SENTENCE, sentence.gameObject);
+        }
+        // Stop speaking
+        else if (!showingPlayOption) { }
+			//textToSpeechHandler.stopSpeaking ();
 
 	}
 		

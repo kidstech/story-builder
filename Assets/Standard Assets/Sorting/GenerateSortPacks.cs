@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 using System.Linq;
 
 public class GenerateSortPacks : MonoBehaviour
@@ -41,13 +42,32 @@ public class GenerateSortPacks : MonoBehaviour
         int packCount = w.masterContextPackList.Count;
 
         // For each context pack
-        for(int i = 0; i < packCount; i++)
+        for (int i = 0; i < packCount; i++)
         {
             // Copy in a new game object
             GameObject o = Instantiate(packPrefab);
 
-            // Change the display text
-            o.GetComponentInChildren<Text>().text = w.masterContextPackList[i].contextPackName;
+            byte[] image;
+
+            // Try to load the icon
+            try
+            {
+                image = File.ReadAllBytes(w.masterContextPackList[i].contextPackIconPath);
+
+                Texture2D texture = new Texture2D(88, 44, TextureFormat.ARGB32, false);
+
+                texture.LoadImage(image);
+
+                o.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+                // Change the display text
+                o.GetComponentInChildren<Text>().text = "";
+            }
+            catch(FileNotFoundException e)
+            {
+                // Change the display text
+                o.GetComponentInChildren<Text>().text = w.masterContextPackList[i].contextPackName;
+            }
 
             // Change some values in the button
             o.GetComponent<SortPack>().contextPackId = w.masterContextPackList[i].contextPackId;

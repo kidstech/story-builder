@@ -95,28 +95,12 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveJson(sentenceText);
 
-            // Debug
-            Debug.Log("Saved sentence: " + sentenceText);
+            // Tell the box to refresh
+            GameObject.Find("SavedSentencesContent").GetComponent<LoadSavedSentences>().refreshSavedSentences();
 
-            // Original: 
-            // System.IO.File.AppendAllText(@"/Users/gordo580/Documents/Sentences/WriteText.txt", System.DateTime.Now + " Submitted: " + sentenceText + System.Environment.NewLine);
-
-            // Create a new scroll view
-            completedSentenceScrollView = Instantiate (completedSentenceScrollView);
-
-			// Give it a new color
-			completedSentenceScrollView.GetComponent<Image>().color = colors [currentColor++ % colors.Length];
-
-			// Set the text of the scroll view
-			completedSentenceScrollView.GetChild(0).GetComponent<Text>().text = sentenceText;
-
-			// Add the scroll view to the completed sentences list
-			completedSentenceScrollView.SetParent (completedSentences, false);
-
-			// Clear the sentence to ready it for new sentences
-			sentence.GetComponent<Sentence> ().clear ();
-
-		}
+            // Clear all children in the setence box.
+            sentence.GetComponent<Sentence>().clear();
+        }
 	}
 
     /// <summary>

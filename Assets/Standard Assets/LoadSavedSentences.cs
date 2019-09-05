@@ -47,8 +47,19 @@ public class LoadSavedSentences : MonoBehaviour
         }
     }
 
+    private void clear()
+    {
+        foreach(Transform t in this.transform)
+        {
+            Destroy(t.gameObject);
+        }
+    }
+
     public void refreshSavedSentences()
     {
+        // Delete all previous entries
+        clear();
+
         // Populate the saved sentences into the completed sentences scrollview.
         allSavedSentences = SaveSentenceHandler.LoadJson();
 
