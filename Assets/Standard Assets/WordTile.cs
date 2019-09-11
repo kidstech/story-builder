@@ -68,6 +68,7 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             sentence = GameObject.Find(Sentence.sentenceGameObjectName).transform;
         }
 
+
         // Sets reference for word holder from CreateMainScene.cs
         wordHolder = GameObject.Find("WordHolder").transform;
 
@@ -104,6 +105,8 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     /// <param name="eventData">Event data.</param>
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // Always reset the tile to its original size
+        eventData.pointerDrag.GetComponent<RectTransform>().sizeDelta = new Vector2(175, 75);
 
         // Word tile began drag from the word bank
         if (draggedFromWordBank)
@@ -309,7 +312,7 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     /// <returns>The word tile text</returns>
     public string getText()
     {
-        return transform.GetChild(0).GetComponent<Text>().text;
+        return transform.Find("Text").GetComponent<Text>().text;
     }
 
     /// <summary>

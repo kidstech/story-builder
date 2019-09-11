@@ -98,7 +98,7 @@ public class Sentence : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         // Get all word tile text
         for (int i = 0; i < transform.childCount; i++)
-            phrase += transform.GetChild(i).GetChild(0).GetComponent<Text>().text + " ";
+            phrase += transform.GetChild(i).Find("Text").GetComponent<Text>().text + " ";
 
         return phrase;
     }

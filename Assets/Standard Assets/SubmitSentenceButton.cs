@@ -37,6 +37,8 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     private Image currentImage;
     private bool showUpLever = true; // Is the lever up? 
 
+    public TextToSpeechHandler textToSpeechHandler;
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
@@ -87,7 +89,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 			// Grab all text from sentence
 			for (int i = 0; i < sentence.childCount; i++)
             {
-				string word = sentence.GetChild(i).GetChild(0).GetComponent<Text>().text;
+				string word = sentence.GetChild(i).Find("Text").GetComponent<Text>().text;
 
 				sentenceText += word + " ";
 			}
@@ -98,8 +100,11 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             // Tell the box to refresh
             GameObject.Find("SavedSentencesContent").GetComponent<LoadSavedSentences>().refreshSavedSentences();
 
+            // Play
+            textToSpeechHandler.startSpeaking(sentenceText, TextToSpeechHandler.SoundType.SENTENCE_SAVE, sentence.gameObject);
+
             // Clear all children in the setence box.
-            sentence.GetComponent<Sentence>().clear();
+            // sentence.GetComponent<Sentence>().clear();
         }
 	}
 

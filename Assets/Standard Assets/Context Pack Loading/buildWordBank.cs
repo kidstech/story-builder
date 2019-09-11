@@ -108,6 +108,7 @@ public class buildWordBank : MonoBehaviour
     {
         // Pre-define colors for nouns, verbs, adj, and extra parts of speech
         Color[] colors = { new Color(0.357f, 0.608f, 0.835f), new Color(0.439f, 0.678f, 0.278f), new Color(0.929f, 0.49f, 0.192f), new Color(1f, 0.753f, 0f) };
+        Color[] suplementary = { new Color(0.165f, 0.476f, 1.0f), new Color(0.354f, 0.547f, 0.0f), new Color(0.820f, 0.331f, 0.0f), new Color(0.82f, 0.618f, 0.0f) };
 
         // Which word we are on
         int currentWord = 0;
@@ -135,13 +136,14 @@ public class buildWordBank : MonoBehaviour
             Transform wordBankTile = Instantiate(this.wordTile);
 
             // Change its color based on what type of word it is.
-            wordBankTile.GetComponent<Image>().color = colors[currentWordPool[word].partOfSpeechId];
+            wordBankTile.Find("Background").GetComponent<Image>().color = colors[currentWordPool[word].partOfSpeechId];
+            wordBankTile.Find("Highlight").GetComponent<Image>().color = suplementary[currentWordPool[word].partOfSpeechId];
 
             // Get the word we will be inserting into the tile
             string wordToBeInserted = currentWordPool[word].word;
 
             // Get the text component of the tile
-            Text wordTileText = wordBankTile.GetChild(0).transform.GetComponent<Text>();
+            Text wordTileText = wordBankTile.Find("Text").transform.GetComponent<Text>();
 
             // Set it equal to the base case of the word
             wordTileText.text = wordToBeInserted;
