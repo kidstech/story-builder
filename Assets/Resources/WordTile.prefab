@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 222259488816053468}
   - component: {fileID: 225926621417029924}
   - component: {fileID: 114169077558258504}
-  - component: {fileID: 480070656660003538}
   m_Layer: 5
   m_Name: WordTile
   m_TagString: Untagged
@@ -165,25 +164,6 @@ MonoBehaviour:
   wordHolder: {fileID: 0}
   wordForms: []
   contextPackNumber: -1
---- !u!95 &480070656660003538
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971088261698918}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a9ff918eca6309f45aed207454993432, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5277588415475374157
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,13 +6,34 @@ using System.Linq;
 
 public class MasterWordList
 {
+    public enum SORT
+    {
+        CONTEXT_PACK = 0,
+        PART_OF_SPEECH = 1,
+        ALPHABETICAL = 2
+    }
+
     public List<Word> masterWordList = new List<Word>();
 
     public List<ContextPack> masterContextPackList = new List<ContextPack>();
 
-    public void basicSort()
+    public void basicSort(SORT behavior)
     {
-        masterWordList.Sort((x, y) => x.partOfSpeechId.CompareTo(y.partOfSpeechId));
+        switch(behavior)
+        {
+            case SORT.ALPHABETICAL:
+
+                masterWordList.Sort((x, y) => x.word.CompareTo(y.word));
+                break;
+
+            case SORT.CONTEXT_PACK:
+                masterWordList.Sort((x, y) => x.contextPackId.CompareTo(y.contextPackId));
+                break;
+
+            case SORT.PART_OF_SPEECH:
+                masterWordList.Sort((x, y) => x.partOfSpeechId.CompareTo(y.partOfSpeechId));
+                break;
+        }
     }
 
     public List<Word> getLetter(List<string> letters)

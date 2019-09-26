@@ -47,25 +47,34 @@ public class GenerateSortPacks : MonoBehaviour
             // Copy in a new game object
             GameObject o = Instantiate(packPrefab);
 
-            byte[] image;
+            byte[] image = new byte[0];
 
-            // Try to load the icon
-            try
+            string[] fileTypes = new string[] { ".png", ".jpg", "jpeg" };
+
+            for(int k = 0; k < fileTypes.Length; k++)
             {
-                image = File.ReadAllBytes(w.masterContextPackList[i].contextPackIconPath);
+                string path = w.masterContextPackList[i].contextPackIconPath + fileTypes[k];
 
-                Texture2D texture = new Texture2D(88, 44, TextureFormat.ARGB32, false);
+                if (File.Exists(path))
+                {
+                    image = File.ReadAllBytes(path);
 
-                texture.LoadImage(image);
+                    Texture2D texture = new Texture2D(88, 44, TextureFormat.ARGB32, false);
 
-                o.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    texture.LoadImage(image);
 
-                // Change the display text
-                o.GetComponentInChildren<Text>().text = "";
+                    o.GetComponentInChildren<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+                    // Change the display text
+                    o.GetComponentInChildren<Text>().text = "";
+
+                    break;
+                }
             }
-            catch(FileNotFoundException e)
+
+            // If our image was not loaded, set the text equal to the name
+            if(image.Length == 0)
             {
-                // Change the display text
                 o.GetComponentInChildren<Text>().text = w.masterContextPackList[i].contextPackName;
             }
 

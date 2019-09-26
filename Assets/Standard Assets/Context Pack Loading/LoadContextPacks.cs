@@ -28,7 +28,7 @@ public class LoadContextPacks
             {
 
                 // Add this to our list of context packs
-                w.addConextPackToList(contextPackId, cp.list[0].str, cp.list[1].str);
+                w.addConextPackToList(contextPackId, cp.list[0].str, contextPacks[contextPackId].Substring(0, contextPacks[contextPackId].Length - 5));
 
                 //Get the number of word packs
                 int numWordPacks = cp.list.Count - offset;
@@ -76,7 +76,7 @@ public class LoadContextPacks
         }
 
         // Sort the list
-        w.basicSort();
+        w.basicSort(MasterWordList.SORT.ALPHABETICAL);
 
         // Return the word list
         return w;

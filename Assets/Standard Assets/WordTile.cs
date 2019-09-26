@@ -398,4 +398,56 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         }
     }
 
+    public void BeginFade()
+    {
+        StartCoroutine(FadeCoroutine(0.5f));
+    }
+
+    public void BeginHighlight(float highlightTime)
+    {
+        StartCoroutine(Highlight(highlightTime));
+    }
+
+    IEnumerator Highlight(float highlightTime)
+    {
+        Color previousColor;
+        Color highlightColor = new Color(255, 255, 0);
+
+        Image c = gameObject.transform.Find("Highlight").GetComponent<Image>();
+
+        previousColor = c.color;
+        c.color = highlightColor;
+
+        yield return new WaitForSeconds(highlightTime);
+
+        c.color = previousColor;
+    }
+
+    IEnumerator FadeCoroutine(float fadeTime)
+    {
+        // Fade time is represented in seconds. 0.5 is half a second. 1.0 is one second.
+        float i = 0;
+        float rate = 1 / fadeTime;
+
+        Image hl = gameObject.transform.Find("Highlight").GetComponent<Image>();
+        Image bg = gameObject.transform.Find("Background").GetComponent<Image>();
+        Text txt = gameObject.transform.Find("Text").GetComponent<Text>();
+
+        while (i < 1)
+        {
+            // Modify the three components on the wordtile. The Background, Highlight, and Text
+            hl.color = new Color(hl.color.r, hl.color.g, hl.color.b, 1 - i);
+            bg.color = new Color(bg.color.r, bg.color.g, bg.color.b, 1 - i);
+            txt.color = new Color(txt.color.r, txt.color.g, txt.color.b, 1 - i);
+
+            gameObject.transform.position -= new Vector3(0, -rate, 0);
+
+            i += Time.deltaTime * rate;
+
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
 }

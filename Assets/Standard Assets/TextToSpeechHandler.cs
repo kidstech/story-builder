@@ -104,13 +104,7 @@ public class TextToSpeechHandler : MonoBehaviour
             // Set the object of where we are drawing information from
             if(behaviorType == SoundType.TILE)
             {
-                // If the object is a tile, record the child index number of that tile
-
-                // transform.parent will get the wordTile slot
-                tileNumber = sourceObject.transform.parent.GetSiblingIndex();
-
-                // transform.parent.parent will get the wordColumn
-                columnNumber = sourceObject.transform.parent.parent.GetSiblingIndex();
+                sourceObject.GetComponent<WordTile>().BeginHighlight(Speaker.ApproximateSpeechLength(sentence));
             }
             else
             {
@@ -152,7 +146,6 @@ public class TextToSpeechHandler : MonoBehaviour
         {
             case SoundType.SENTENCE:
             case SoundType.SENTENCE_SAVE:
-            case SoundType.TILE:
             case SoundType.SAVED_SENTENCE:
 
                 // Allow user to stop speech
@@ -177,19 +170,6 @@ public class TextToSpeechHandler : MonoBehaviour
 
                 // Reset the last tile to be the normal color it was
                 source.transform.GetChild(index - 1).Find("Highlight").GetComponent<Image>().color = previousColor;
-
-                break;
-
-            case SoundType.TILE:
-
-                // Allow user to use TTS again
-                textToSpeechButton.showPlayOption();
-
-                // Store object for easier handling
-                Image tileImage = GameObject.Find("WordBankContent").transform.GetChild(columnNumber).transform.GetChild(tileNumber).GetChild(0).Find("Highlight").GetComponent<Image>();
-
-                // Save the previous color
-                tileImage.color = previousColor;
 
                 break;
 
@@ -251,50 +231,21 @@ public class TextToSpeechHandler : MonoBehaviour
             // When we are saving stuff
             case SoundType.SENTENCE_SAVE:
 
-                // If this isn't the first word, set the previous child's color back to normal.
-                if (index != 0 && tick == 0)
-                {
-                    
-                }
-
                 // Calculate the tick
                 if (tick == 0)
                 {
                     //Calculate the tick
                     tick = source.transform.GetChild(index).Find("Text").GetComponent<Text>().text.Split().Length;
 
-                    // Enable the animator
-                    source.transform.GetChild(index).GetComponent<Animator>().enabled = true;
+                    // Start the Fade Coroutine
+                    source.transform.GetChild(index).GetComponent<WordTile>().BeginFade();
 
-                    // Change the animation boolean to play the animation
-                    source.transform.GetChild(index).GetComponent<Animator>().SetBool("open", true);
-
+                    // Pop the word out of the holder
                     source.transform.GetChild(index).SetParent(source.transform.parent.parent.parent);
                 }
 
                 // Increment tick count
                 tick--;
-
-                // Check if our tick went down to zero
-                if (tick == 0)
-                {
-                    // Destroy(source.transform.GetChild(0).gameObject);
-                }
-
-                break;
-
-
-            case SoundType.TILE:
-
-                // Store object for easier handling
-                // GetChild(0) will get the tile inside of the word holder
-                Image tileImage = GameObject.Find("WordBankContent").transform.GetChild(columnNumber).transform.GetChild(tileNumber).GetChild(0).Find("Highlight").GetComponent<Image>();
-
-                // Save the previous color
-                previousColor = tileImage.color;
-
-                // Highlight the tile
-                tileImage.color = highlightColor;
 
                 break;
 
