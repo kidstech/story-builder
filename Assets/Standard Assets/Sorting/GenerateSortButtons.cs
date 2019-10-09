@@ -70,37 +70,34 @@ public class GenerateSortButtons : MonoBehaviour
         // If this is the same button
         if(button == oldButton)
         {
-            // If there isn't anything in the search list, toggle it by either adding or removing the letter
-            if (searchLetters.Count == 0)
+            string letter = button.GetComponentInChildren<Text>().text;
+
+            bool letterOn = w.ToggleFilter(letter);
+
+            if(letterOn)
             {
-                string letter = button.GetComponentInChildren<Text>().text;
-
                 button.GetComponent<Image>().color = c_green;
-
-                searchLetters.Add(letter);
             }
             else
             {
                 button.GetComponent<Image>().color = c_white;
-
-                searchLetters.RemoveAt(0);
             }
         }
         // This is a different button
         else
         {
-            if(searchLetters.Count != 0)
+            if(oldButton != null)
             {
-                // Remove the current letter
-                searchLetters.RemoveAt(0);
-
-                // Set the other button's color back
                 oldButton.GetComponent<Image>().color = c_white;
+
+                string oldLetter = oldButton.GetComponentInChildren<Text>().text;
+
+                w.ToggleFilter(oldLetter);
             }
 
             string letter = button.GetComponentInChildren<Text>().text;
 
-            searchLetters.Add(letter);
+            bool letterOn = w.ToggleFilter(letter);
 
             button.GetComponent<Image>().color = c_green;
 
@@ -109,7 +106,7 @@ public class GenerateSortButtons : MonoBehaviour
 
         List<MasterWordList.Word> newList = new List<MasterWordList.Word>();
 
-        newList = w.getLetter(searchLetters);
+        newList = w.getFilteredWords(); //w.getLetter(searchLetters);
 
         b.rebuildWordBank(newList);
     }

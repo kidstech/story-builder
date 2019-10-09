@@ -19,9 +19,6 @@ public class GenerateSortPacks : MonoBehaviour
     // Keep track of what was the last button clicked
     GameObject oldButton = null;
 
-    // --
-    public List<int> searchPacks;
-
     // Keep track of what was the last color of the button
     private Color c_green = new Color(0, 255, 0, 1);
     private Color c_white = new Color(1, 1, 1, 1);
@@ -94,36 +91,34 @@ public class GenerateSortPacks : MonoBehaviour
         // If this is the same button
         if(button == oldButton)
         {
-            // If there isn't anything in the search list, toggle it by either adding or removing the letter
-            if (searchPacks.Count == 0)
+            int pack = button.GetComponent<SortPack>().contextPackId;
+
+            bool packOn = w.ToggleFilter(pack);
+
+            if (packOn)
             {
-                int pack = button.GetComponent<SortPack>().contextPackId;
-
                 button.GetComponent<Image>().color = c_green;
-
-                searchPacks.Add(pack);
             }
             else
             {
                 button.GetComponent<Image>().color = c_white;
-
-                searchPacks.RemoveAt(0);
             }
         }
         // This is a different button
         else
         {
-            if(searchPacks.Count != 0)
+            if(oldButton != null)
             {
-                // Remove the current letter
-                searchPacks.RemoveAt(0);
-
                 oldButton.GetComponent<Image>().color = c_white;
+
+                int oldPack = oldButton.GetComponent<SortPack>().contextPackId;
+
+                w.ToggleFilter(oldPack);
             }
 
             int pack = button.GetComponent<SortPack>().contextPackId;
 
-            searchPacks.Add(pack);
+            bool packOn = w.ToggleFilter(pack);
 
             button.GetComponent<Image>().color = c_green;
 
@@ -132,7 +127,7 @@ public class GenerateSortPacks : MonoBehaviour
 
         List<MasterWordList.Word> newList = new List<MasterWordList.Word>();
 
-        newList = w.getPack(searchPacks);
+        newList = w.getFilteredWords(); //w.getPack(searchPacks);
 
         b.rebuildWordBank(newList);
     }

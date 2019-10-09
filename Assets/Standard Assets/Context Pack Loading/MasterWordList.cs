@@ -13,9 +13,18 @@ public class MasterWordList
         ALPHABETICAL = 2
     }
 
+    public enum FILTER
+    {
+        LETTER = 0,
+        PACK = 1
+    }
+
     public List<Word> masterWordList = new List<Word>();
 
     public List<ContextPack> masterContextPackList = new List<ContextPack>();
+
+    private List<string> filterLetters = new List<string>();
+    private List<int> filterPacks = new List<int>();
 
     public void basicSort(SORT behavior)
     {
@@ -36,76 +45,75 @@ public class MasterWordList
         }
     }
 
-    public List<Word> getLetter(List<string> letters)
+    // Case for sorting by letter
+    public bool ToggleFilter(string letter)
     {
-        List<Word> newList = new List<Word>();
-
-        for(int i = 0; i < masterWordList.Count; i++)
+        if (filterLetters.Contains(letter))
         {
-            string word = masterWordList[i].word;
-            string firstChar = word.Substring(0, 1).ToLower();
+            filterLetters.Remove(letter);
+            return false;
+        }
+        else
+        {
+            filterLetters.Add(letter);
+            return true;
+        }
+    }
 
-            for(int o = 0; o < letters.Count; o++)
+    // Case for sorting by packs
+    public bool ToggleFilter(int packnumber)
+    {
+        if (filterPacks.Count > 0)
+        {
+            filterPacks.Remove(packnumber);
+            return false;
+        }
+        else
+        {
+            filterPacks.Add(packnumber);
+            return true;
+        }
+    }
+
+    public List<Word> getFilteredWords()
+    {
+        // Create new empty list
+        List<Word> packResult = new List<Word>();
+        List<Word> letterResult = new List<Word>();
+
+        foreach (int pack in filterPacks)
+        {
+            foreach(Word word in masterWordList)
             {
-                if(firstChar == letters[o].ToLower())
+                if(word.contextPackId == pack)
                 {
-                    newList.Add(masterWordList[i]);
+                    packResult.Add(word);
                 }
             }
         }
 
-        if(letters.Count == 0)
+        foreach (string letter in filterLetters)
         {
-            newList = masterWordList;
-        }
-
-        return newList;
-    }
-
-    public List<Word> getPack(List<int> packs)
-    {
-        List<Word> newList = new List<Word>();
-
-        for (int i = 0; i < masterWordList.Count; i++)
-        {
-            int wordConextPackId = masterWordList[i].contextPackId;
-
-            for(int o = 0; o < packs.Count; o++)
+            foreach (Word word in masterWordList)
             {
-                if(wordConextPackId == packs[o])
+                if (word.word.Substring(0, 1) == letter)
                 {
-                    newList.Add(masterWordList[i]);
+                    letterResult.Add(word);
                 }
-            }  
-        }
-
-        if (packs.Count == 0)
-        {
-            newList = masterWordList;
-        }
-
-        return newList;
-    }
-
-    /*
-     * This is functional, just not implimented
-     * 
-    // Used to get nouns, verbs, adjectives, and/or misc from a list
-    public List<Word> getSpecific(int typeToGet)
-    {
-        List<Word> newList = new List<Word>();
-
-        for(int i = 0; i < masterWordList.Count; i++)
-        {
-            if(masterWordList[i].partOfSpeechId == typeToGet)
-            {
-                newList.Add(masterWordList[i]);
             }
         }
 
-        return newList;
+        foreach(Word word in packResult)
+        {
+            Debug.Log(word.word);
+        }
+        foreach (Word word in letterResult)
+        {
+            Debug.Log(word.word);
+        }
+
+        return packResult.Intersect(letterResult).ToList();
     }
-    */
 
     public void addWordToList(int contextPackId, int wordPackId, int partOfSpeechId, string word, List<string> forms)
     {

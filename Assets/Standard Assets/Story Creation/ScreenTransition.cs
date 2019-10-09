@@ -8,6 +8,8 @@ public class ScreenTransition : MonoBehaviour
     private Animator anim;
     private RectTransform image;
 
+    public GameObject StoryCreationHandler;
+
     private void Start()
     {
         anim = GetComponentInParent<Animator>();
@@ -20,5 +22,7 @@ public class ScreenTransition : MonoBehaviour
         anim.SetBool("open", !anim.GetBool("open"));
 
         image.localScale = new Vector3(image.localScale.x, -1 * image.localScale.y, image.localScale.z);
+
+        StoryCreationHandler.GetComponent<StoryCreationHandler>().inStoryMode = !StoryCreationHandler.GetComponent<StoryCreationHandler>().inStoryMode;
     }
 }

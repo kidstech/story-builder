@@ -40,7 +40,7 @@ public class LoadSavedSentences : MonoBehaviour
             Transform obj = (Transform)Instantiate(savedSentencePrefab);
 
             // Change that object's text field to be the sentence
-            obj.GetChild(1).GetComponent<Text>().text = allSavedSentences[i].sentence;
+            obj.FindChild("Text").GetComponent<Text>().text = allSavedSentences[i].sentence;
 
             // Add that sentence to the savedSentenceBox
             obj.transform.SetParent(savedSentenceBox, false);

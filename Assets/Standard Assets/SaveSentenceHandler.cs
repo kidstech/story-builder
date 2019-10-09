@@ -57,6 +57,8 @@ public class SaveSentenceHandler : MonoBehaviour
             // Convert to List
             List<SavedSentence> loadedList = tempLoadSaves.OfType<SavedSentence>().ToList();
 
+            // TODO make loading new saved sentences appear at the top of the list
+
             // Return our list
             return loadedList;
         }
