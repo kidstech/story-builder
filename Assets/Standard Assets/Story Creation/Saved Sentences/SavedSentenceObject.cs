@@ -8,67 +8,261 @@ using System;
 
 public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
-    public Transform canvas;
+    //
+    Transform canvas;
 
-    private bool inSentenceSlot = false;
-
+    //
     StoryCreationHandler storyCreationHandler;
 
-    private void Start()
+    //
+    Page AnyPage;
+
+    GameObject SentenceSlot;
+
+    //
+    GameObject placeholder = null;
+
+    //
+    private bool draggedFromSentenceList = true;
+    private bool draggedFromStory = false;
+    public bool heldOverStory = false;
+
+    //
+    public readonly int characterThreshhold = 40;
+
+    private void Awake()
     {
+        //
         canvas = GameObject.Find("Canvas").transform;
 
+        //
+        //
         storyCreationHandler = GameObject.Find("StoryCreationHandler").GetComponent<StoryCreationHandler>();
+
+        //
+        AnyPage = GameObject.Find("Page").GetComponent<Page>();
+
+        //
+        SentenceSlot = GameObject.Find("SentenceSlot");
+
     }
 
+    //
+    private void activatePlaceholder(int index)
+    {
+        //
+        placeholder.transform.SetParent(SentenceSlot.transform);
+
+        //
+        placeholder.transform.SetSiblingIndex(index);
+
+        //
+        placeholder.SetActive(true);
+
+        Debug.Log("Activated placeholder of size " + placeholder.GetComponent<RectTransform>().sizeDelta);
+    }
+
+    //
+    private void deactivatePlaceholder()
+    {
+        //
+        placeholder.transform.SetParent(null);
+
+        //
+        placeholder.SetActive(false);
+    }
+
+    private void setInSentence()
+    {
+        //
+        if (AnyPage.CheckFit(GetComponent<RectTransform>().sizeDelta.y))
+        {
+            AnyPage.UpdateFit(-1 * GetComponent<RectTransform>().sizeDelta.y);
+
+            //
+            transform.SetParent(SentenceSlot.transform);
+
+            //
+            transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+        }
+    }
+
+    //
+    private GameObject BuildPlaceholder()
+    {
+        Debug.Log("Building new..");
+
+        //
+        GameObject go = new GameObject();
+
+        //
+        Rect rect = go.AddComponent<RectTransform>().rect;
+        Rect draggedSentence = ((RectTransform)this.transform).rect;
+        rect.height = draggedSentence.height;
+        rect.width = draggedSentence.width;
+
+        Debug.Log("Building new placeholder with dimension: " + draggedSentence.width + " " + draggedSentence.height);
+
+        //
+        go.SetActive(false);
+
+        //
+        return go;
+    }
+
+    //
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //
         if(storyCreationHandler.inStoryMode)
         {
-            if (!inSentenceSlot)
+            //
+            if (draggedFromSentenceList)
             {
+                //
                 GameObject clonedSaveSentence = Instantiate(this.gameObject);
 
+                //
                 clonedSaveSentence.transform.SetParent(transform.parent, false);
+
+                //
+                int sizeMultiplier;
+
+                //
+                if (transform.Find("Text").GetComponent<Text>().text.Length < characterThreshhold)
+                {
+                    sizeMultiplier = 1;
+                }
+                else
+                {
+                    sizeMultiplier = 2 + transform.Find("Text").GetComponent<Text>().text.Length / characterThreshhold;
+                }
+
+                //
+                Vector2 outSize = new Vector2(400, 50 * sizeMultiplier);
+                Vector2 inSize = new Vector2(outSize.x - 10, outSize.y - 10);
+
+                // Change the sizes of the objects
+                gameObject.name = "Sentence";
+                GetComponent<RectTransform>().sizeDelta = outSize;
+                transform.Find("Background").GetComponent<RectTransform>().sizeDelta = outSize;
+                transform.Find("Edge").GetComponent<RectTransform>().sizeDelta = inSize;
+                transform.Find("Text").GetComponent<RectTransform>().sizeDelta = inSize;
+
+                //
+                placeholder = BuildPlaceholder();
             }
 
+            //
+            if(draggedFromStory)
+            {
+                //
+                AnyPage.UpdateFit(GetComponent<RectTransform>().sizeDelta.y);
+
+                //
+                activatePlaceholder(transform.GetSiblingIndex());
+            }
+
+            //
             transform.SetParent(canvas);
 
+            //
             GetComponent<CanvasGroup>().blocksRaycasts = false;
+        }
+        else
+        {
+            //
+            eventData.pointerDrag = null;
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        //
         this.transform.position = eventData.position;
+
+        //
+        if(heldOverStory && draggedFromSentenceList)
+        {
+            activatePlaceholder(SentenceSlot.transform.childCount);
+        }
+        else if(!heldOverStory && draggedFromSentenceList)
+        {
+            deactivatePlaceholder();
+        }
+
+        //
+        if(heldOverStory && SentenceSlot.transform.childCount >= 1)
+        {
+            //
+            int newSiblingIndex = SentenceSlot.transform.childCount;
+
+            //
+            for (int i = 0; i < SentenceSlot.transform.childCount; i++)
+            {
+                //
+                if(transform.position.y > SentenceSlot.transform.GetChild(i).position.y)
+                {
+                    //
+                    newSiblingIndex = i;
+
+                    //
+                    if(placeholder.transform.GetSiblingIndex() < newSiblingIndex)
+                    {
+                        //
+                        newSiblingIndex--;
+                    }
+
+                    //
+                    break;
+                }
+            }
+
+            //
+            placeholder.transform.SetSiblingIndex(newSiblingIndex);
+        }   
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        GameObject objectUnderneath = eventData.pointerCurrentRaycast.gameObject;
-
-        // Check if the place we want to drag it to is a valid slot
-        if (objectUnderneath != null)
+        //
+        if ((draggedFromSentenceList || draggedFromStory) && !heldOverStory)
         {
-            if (objectUnderneath.name == "SentenceSlot")
-            {
-                // If it is, set it as a child
-                transform.SetParent(objectUnderneath.transform);
-
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-
-                // Mark it is as nolong in the sentence slot
-                inSentenceSlot = true;
-            }
-            else
-            {
-                Destroy(this.gameObject);
-            }
-        }
-        else
-        {
+            //
             Destroy(this.gameObject);
         }
+        //
+        else if(draggedFromSentenceList && heldOverStory)
+        {
+            //
+            setInSentence();
+
+            //
+            draggedFromSentenceList = false;
+            draggedFromStory = true;
+        }
+        else if(draggedFromStory && heldOverStory)
+        {
+            //
+            setInSentence();
+
+            //
+            draggedFromSentenceList = false;
+            draggedFromStory = true;
+        }
+        else if(draggedFromSentenceList)
+        {
+            //
+            //setInSentence();
+
+            Debug.Log("Shouldn't get here!");
+        }
+
+        //
+        deactivatePlaceholder();
+
+        //
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void OnPointerClick(PointerEventData eventData)
