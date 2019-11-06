@@ -44,20 +44,24 @@ public class Page : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
 
     //
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if(eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<SavedSentenceObject>() != null)
-        {
-            eventData.pointerDrag.GetComponent<SavedSentenceObject>().heldOverStory = false;
-        }
-    }
-
-    //
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<SavedSentenceObject>() != null)
         {
             eventData.pointerDrag.GetComponent<SavedSentenceObject>().heldOverStory = true;
+
+            eventData.pointerDrag.GetComponent<SavedSentenceObject>().UpdatePage(this.gameObject);
         }
     }
+
+    //
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if(eventData.pointerDrag != null && eventData.pointerDrag.GetComponent<SavedSentenceObject>() != null)
+        {
+            eventData.pointerDrag.GetComponent<SavedSentenceObject>().heldOverStory = false;
+
+            eventData.pointerDrag.GetComponent<SavedSentenceObject>().UpdatePage(null);
+        }
+    }   
 }

@@ -15,8 +15,9 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
     StoryCreationHandler storyCreationHandler;
 
     //
-    Page AnyPage;
+    public Page AnyPage;
 
+    //
     GameObject SentenceSlot;
 
     //
@@ -30,36 +31,62 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
     //
     public readonly int characterThreshhold = 40;
 
+    //
     private void Awake()
     {
         //
         canvas = GameObject.Find("Canvas").transform;
 
         //
-        //
         storyCreationHandler = GameObject.Find("StoryCreationHandler").GetComponent<StoryCreationHandler>();
 
         //
-        AnyPage = GameObject.Find("Page").GetComponent<Page>();
-
-        //
         SentenceSlot = GameObject.Find("SentenceSlot");
-
     }
 
     //
     private void activatePlaceholder(int index)
     {
-        //
-        placeholder.transform.SetParent(SentenceSlot.transform);
+        if(AnyPage.CheckFit(GetComponent<RectTransform>().sizeDelta.y))
+        {
+            //
+            placeholder.transform.SetParent(SentenceSlot.transform);
 
-        //
-        placeholder.transform.SetSiblingIndex(index);
+            //
+            placeholder.transform.SetSiblingIndex(index);
 
-        //
-        placeholder.SetActive(true);
+            //
+            placeholder.SetActive(true);
+        }
+        else
+        {
+            //
+            return;
+        }
+    }
 
-        Debug.Log("Activated placeholder of size " + placeholder.GetComponent<RectTransform>().sizeDelta);
+    //
+    public void UpdatePage(GameObject newPage)
+    {
+        if(newPage != null)
+        {
+            //
+            AnyPage = newPage.GetComponent<Page>();
+
+            //
+            if (placeholder != null)
+            {
+                //
+                placeholder.transform.SetParent(newPage.transform);
+            }
+
+            //
+            SentenceSlot = AnyPage.gameObject.transform.Find("SentenceSlotScrollviewPrefab").Find("SentenceSlot").gameObject;
+        }
+        else
+        {
+            AnyPage = null;
+        }
     }
 
     //
@@ -77,6 +104,7 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
         //
         if (AnyPage.CheckFit(GetComponent<RectTransform>().sizeDelta.y))
         {
+            //
             AnyPage.UpdateFit(-1 * GetComponent<RectTransform>().sizeDelta.y);
 
             //
@@ -85,12 +113,16 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
             //
             transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
         }
+        else
+        {
+            //
+            Destroy(this.gameObject);
+        }
     }
 
     //
     private GameObject BuildPlaceholder()
     {
-        Debug.Log("Building new..");
 
         //
         GameObject go = new GameObject();
@@ -100,8 +132,6 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
         Rect draggedSentence = ((RectTransform)this.transform).rect;
         rect.height = draggedSentence.height;
         rect.width = draggedSentence.width;
-
-        Debug.Log("Building new placeholder with dimension: " + draggedSentence.width + " " + draggedSentence.height);
 
         //
         go.SetActive(false);
@@ -184,10 +214,12 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
         //
         if(heldOverStory && draggedFromSentenceList)
         {
+            //
             activatePlaceholder(SentenceSlot.transform.childCount);
         }
         else if(!heldOverStory && draggedFromSentenceList)
         {
+            //
             deactivatePlaceholder();
         }
 
