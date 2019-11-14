@@ -36,6 +36,9 @@ public class TextToSpeechHandler : MonoBehaviour
     // The object we are working with for getting word information from
     private GameObject source;
 
+    // The name of the object we are working with (if applicable)
+    private string sourceName;
+
     // The child number of the tile we are working with if SoundType is of type TILE
     /*
      * This ugliness is how we accomplish highlight tiles.
@@ -54,7 +57,8 @@ public class TextToSpeechHandler : MonoBehaviour
         TILE = 0,
         SENTENCE = 1,
         SENTENCE_SAVE = 2,
-        SAVED_SENTENCE = 3
+        SAVED_SENTENCE = 3,
+        STORY = 4
     }
 
     // ----------------- HIGHLIGHTING ---------------
@@ -106,6 +110,13 @@ public class TextToSpeechHandler : MonoBehaviour
             {
                 sourceObject.GetComponent<WordTile>().BeginHighlight(Speaker.ApproximateSpeechLength(sentence));
             }
+            else if(behaviorType == SoundType.STORY)
+            {
+                if(sourceObject != null)
+                {
+                    sourceName = sourceObject.name;
+                } 
+            }
             else
             {
                 source = sourceObject;
@@ -133,6 +144,9 @@ public class TextToSpeechHandler : MonoBehaviour
 
         // Reset our source object
         source = null;
+
+        // Reset our source object name
+        sourceName = "";
     }
 
 
@@ -150,6 +164,17 @@ public class TextToSpeechHandler : MonoBehaviour
 
                 // Allow user to stop speech
                 textToSpeechButton.showStopOption();
+
+                break;
+
+            case SoundType.STORY:
+
+                Page page = GameObject.Find(sourceName).GetComponent<Page>();
+
+                Image pageImage = GameObject.Find(sourceName).transform.Find("SentenceSlotScrollviewPrefab").Find("SentenceSlot").GetChild(page.currentSentence - 1).Find("Background").GetComponent<Image>();
+
+                previousColor = pageImage.color;
+                pageImage.color = highlightColor;
 
                 break;
         }
@@ -181,6 +206,29 @@ public class TextToSpeechHandler : MonoBehaviour
                 break;
 
             case SoundType.SAVED_SENTENCE:
+                break;
+
+            case SoundType.STORY:
+
+                //
+                Page page = GameObject.Find(sourceName).GetComponent<Page>();
+
+                //
+                Image pageImage = GameObject.Find(sourceName).transform.Find("SentenceSlotScrollviewPrefab").Find("SentenceSlot").GetChild(page.currentSentence - 1).Find("Background").GetComponent<Image>();
+
+                //
+                pageImage.color = previousColor;
+
+                //
+                string nextSentence = page.ContinueStory();
+
+                //
+                if (nextSentence != "")
+                {
+                    //
+                    startSpeaking(nextSentence, SoundType.STORY, null);
+                }
+
                 break;
         }
         

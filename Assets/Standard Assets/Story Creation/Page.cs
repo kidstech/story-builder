@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Crosstales.RTVoice;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,11 +11,20 @@ public class Page : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private float currentSize;
     private float maxSize;
 
+    public int currentSentence;
+    public int currentSentenceMax;
+
+    public string[] storyFragments;
+
     //
     private void Awake()
     {
         //
         currentSize = 0;
+
+        //
+        currentSentence = 0;
+        currentSentenceMax = 0;
 
         //
         maxSize = transform.Find("SentenceSlotScrollviewPrefab").Find("SentenceSlot").GetComponent<RectTransform>().sizeDelta.y;
@@ -64,4 +74,58 @@ public class Page : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             eventData.pointerDrag.GetComponent<SavedSentenceObject>().UpdatePage(null);
         }
     }   
+
+    public void ReadStory()
+    {
+        //
+        TextToSpeechHandler speak = GameObject.Find("TextToSpeechHandler").GetComponent<TextToSpeechHandler>();
+
+        //
+        Transform pageContext = transform.Find("SentenceSlotScrollviewPrefab").Find("SentenceSlot");
+
+        //
+        currentSentence = 0;
+        currentSentenceMax = pageContext.childCount;
+
+        if (pageContext.childCount > 0)
+        {
+            //
+            storyFragments = new string[pageContext.childCount];
+
+            //
+            for (int i = 0; i < pageContext.childCount; i++)
+            {
+                storyFragments[i] = pageContext.GetChild(i).Find("Text").GetComponent<Text>().text;
+            }
+
+            // HANDLE IF NOTHING IS IN THE STORY AND YOU TRY TO PLAY IT
+            speak.startSpeaking(storyFragments[0], TextToSpeechHandler.SoundType.STORY, this.gameObject);
+
+            //
+            currentSentence++;
+        }
+        else
+        {
+            Debug.Log("Nothing to speak");
+        }
+    }
+
+    //
+    public string ContinueStory()
+    {
+        string result = "";
+
+        //
+        if(currentSentence < currentSentenceMax)
+        {
+            //
+            result = storyFragments[currentSentence];
+
+            //
+            currentSentence++;
+        }
+
+        //
+        return result;
+    }
 }
