@@ -87,6 +87,9 @@ public class Page : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         currentSentence = 0;
         currentSentenceMax = pageContext.childCount;
 
+        //
+        string story = "";
+
         if (pageContext.childCount > 0)
         {
             //
@@ -95,10 +98,14 @@ public class Page : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             //
             for (int i = 0; i < pageContext.childCount; i++)
             {
+                //
                 storyFragments[i] = pageContext.GetChild(i).Find("Text").GetComponent<Text>().text;
+
+                //
+                story += pageContext.GetChild(i).Find("Text").GetComponent<Text>().text + ".";
             }
 
-            // HANDLE IF NOTHING IS IN THE STORY AND YOU TRY TO PLAY IT
+            //
             speak.startSpeaking(storyFragments[0], TextToSpeechHandler.SoundType.STORY, this.gameObject);
 
             //

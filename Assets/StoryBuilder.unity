@@ -3870,7 +3870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41175d977c86004ea456bfc404791a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToSpeechButton: {fileID: 0}
+  textToSpeechButton: {fileID: 2045317915}
 --- !u!1 &1649350089
 GameObject:
   m_ObjectHideFlags: 0
@@ -4154,12 +4154,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b849b94d5344cb4fac68b374b088a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  completedSentences: {fileID: 0}
-  completedSentenceScrollView: {fileID: 0}
-  sentence: {fileID: 0}
-  upLever: {fileID: 0}
-  downLever: {fileID: 0}
-  textToSpeechHandler: {fileID: 0}
+  completedSentences: {fileID: 1048382357}
+  completedSentenceScrollView: {fileID: 1304841694}
+  sentence: {fileID: 934462492}
+  upLever: {fileID: 114206764252685942, guid: d97ef5734336f5c4faad6f168dc1f6c5, type: 3}
+  downLever: {fileID: 114234592396033460, guid: a423a9c0285dcd74b9ab25e2001aed36,
+    type: 3}
+  textToSpeechHandler: {fileID: 1640720175}
 --- !u!1 &1844566990
 GameObject:
   m_ObjectHideFlags: 0
@@ -4521,11 +4522,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114152520156530852, guid: fa495e581d2321a489d018269f80be4f,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: textToSpeechButton
       value: 
-      objectReference: {fileID: 244709234}
+      objectReference: {fileID: 0}
     - target: {fileID: 4299834191283054, guid: fa495e581d2321a489d018269f80be4f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4558,8 +4558,7 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114152520156530852, guid: fa495e581d2321a489d018269f80be4f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa495e581d2321a489d018269f80be4f, type: 3}
 --- !u!1 &1927914321
 GameObject:
@@ -4728,11 +4727,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e9575ada581d649b268896a8f3cc50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playAudioImage: {fileID: 0}
-  stopAudioImage: {fileID: 0}
-  noVoicesImage: {fileID: 0}
-  sentence: {fileID: 0}
-  textToSpeechHandler: {fileID: 0}
+  playAudioImage: {fileID: 114197117017407606, guid: 7533f855a9a9ca74fad2c05b773d7b8c,
+    type: 3}
+  stopAudioImage: {fileID: 114325598138971464, guid: 3b3a83b22e1d1824bb3207dbd746eb70,
+    type: 3}
+  noVoicesImage: {fileID: 114823504137231898, guid: 8753ba4ff7dc7e64990506f776a32d00,
+    type: 3}
+  sentence: {fileID: 934462495}
+  textToSpeechHandler: {fileID: 1640720175}
 --- !u!1 &2070914968
 GameObject:
   m_ObjectHideFlags: 0
@@ -5120,6 +5122,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779539626893540892, guid: 0e530d4ca22e20b40b18eeaf993b9f75,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779539626893540892, guid: 0e530d4ca22e20b40b18eeaf993b9f75,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e530d4ca22e20b40b18eeaf993b9f75, type: 3}
