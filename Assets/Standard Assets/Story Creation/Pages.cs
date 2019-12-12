@@ -19,6 +19,6 @@ public class Pages : MonoBehaviour
     public void UpdatePageCount()
     {
         //
-        GetComponent<RectTransform>().sizeDelta = new Vector2(transform.childCount * pageWidth, pageHeight);
+        GetComponent<RectTransform>().sizeDelta = new Vector2(transform.childCount * (10 + pageWidth), pageHeight);
     }
 }

@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class SaveSentenceHandler : MonoBehaviour
 {
-    public static string path = Application.dataPath + "/saves/savedSentences.json";
+    //
+    public static string path = Path.Combine(Application.dataPath, "saves", "savedSentences.json");
 
+    //
     public static void SaveJson(string Sentence)
     {
         // Construct the current list of saved sentences

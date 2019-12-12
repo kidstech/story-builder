@@ -15,9 +15,9 @@ public class NewPageHandler : MonoBehaviour
 
         newPage.name = "Page" + pageCounter;
 
-        newPage.transform.SetParent(transform.parent, false);
+        newPage.transform.SetParent(transform.parent.Find("PagesScrollView").Find("Viewport").Find("Pages"), false);
 
-        transform.parent.GetComponent<Pages>().UpdatePageCount();
+        transform.parent.Find("PagesScrollView").Find("Viewport").Find("Pages").GetComponent<Pages>().UpdatePageCount();
 
         transform.SetAsLastSibling();
 
@@ -28,9 +28,9 @@ public class NewPageHandler : MonoBehaviour
     {
         GameObject newPage = Instantiate(picturePagePrefab);
 
-        newPage.transform.SetParent(transform.parent, false);
+        newPage.transform.SetParent(transform.parent.Find("PagesScrollView").Find("Viewport").Find("Pages"), false);
 
-        transform.parent.GetComponent<Pages>().UpdatePageCount();
+        transform.parent.Find("PagesScrollView").Find("Viewport").Find("Pages").GetComponent<Pages>().UpdatePageCount();
 
         transform.SetAsLastSibling();
     }

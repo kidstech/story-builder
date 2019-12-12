@@ -123,9 +123,11 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
     //
     private GameObject BuildPlaceholder()
     {
-
         //
         GameObject go = new GameObject();
+
+        //
+        go.name = "PlaceHolder";
 
         //
         Rect rect = go.AddComponent<RectTransform>().rect;
@@ -184,7 +186,7 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
             }
 
             //
-            if(draggedFromStory)
+            if (draggedFromStory)
             {
                 //
                 AnyPage.UpdateFit(GetComponent<RectTransform>().sizeDelta.y);
@@ -257,11 +259,15 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
 
     public void OnEndDrag(PointerEventData eventData)
     {
+
         //
         if ((draggedFromSentenceList || draggedFromStory) && !heldOverStory)
         {
             //
             Destroy(this.gameObject);
+
+            //
+            Destroy(placeholder.gameObject);
         }
         //
         else if(draggedFromSentenceList && heldOverStory)
@@ -281,6 +287,8 @@ public class SavedSentenceObject : MonoBehaviour, IBeginDragHandler, IDragHandle
             //
             draggedFromSentenceList = false;
             draggedFromStory = true;
+
+            Debug.Log("Oh uh...");
         }
         else if(draggedFromSentenceList)
         {
