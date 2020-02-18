@@ -118,6 +118,9 @@ public class WordTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
             // Set cloned tile's parent to the dragged tile's word bank slot
             clonedWordBankTile.transform.SetParent(transform.parent, false);
+
+            //
+            clonedWordBankTile.SetSiblingIndex(eventData.pointerDrag.transform.GetSiblingIndex());
         }
 
         // Word tile began drag from the sentence 

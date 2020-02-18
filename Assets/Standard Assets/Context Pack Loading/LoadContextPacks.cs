@@ -75,9 +75,6 @@ public class LoadContextPacks
             }
         }
 
-        // Sort the list
-        w.basicSort(MasterWordList.SORT.ALPHABETICAL);
-
         // Return the word list
         return w;
     }
