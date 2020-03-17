@@ -4,7 +4,7 @@ using UnityEngine;
 using Crosstales.RTVoice;
 using System.Linq;
 
-public class Sentence : MonoBehaviour
+public class SentenceBar : MonoBehaviour
 {
     //
     private readonly int tileSize = 125;

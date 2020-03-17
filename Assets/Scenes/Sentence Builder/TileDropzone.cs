@@ -44,7 +44,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if(d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
                 //
-                GetComponent<Sentence>().ResizeSentence(1);
+                GetComponent<SentenceBar>().ResizeSentence(1);
             }
         }
     }
@@ -79,7 +79,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if (d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
                 //
-                GetComponent<Sentence>().ResizeSentence(-1);
+                GetComponent<SentenceBar>().ResizeSentence(-1);
             }
         }
     }
@@ -118,7 +118,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     if(behavior == Behavior.Sentence)
                     {
                         //
-                        GetComponent<Sentence>().ResizeSentence(-1);
+                        GetComponent<SentenceBar>().ResizeSentence(-1);
                     }
 
                     //

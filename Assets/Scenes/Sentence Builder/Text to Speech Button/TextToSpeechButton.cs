@@ -30,7 +30,7 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     //
     [Header("Objects in Scene")]
-    public Sentence sentence;
+    public SentenceBar sentence;
     public TextToSpeechHandler tts;
 
     // Resize image on mouseover

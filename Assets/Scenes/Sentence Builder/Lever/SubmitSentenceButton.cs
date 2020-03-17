@@ -24,7 +24,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public Transform completedSentences;
 
     // Sentence at top of screen top pull sentence text from
-    public Sentence sentence;
+    public SentenceBar sentence;
 
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
