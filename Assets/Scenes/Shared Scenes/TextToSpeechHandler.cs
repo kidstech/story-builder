@@ -24,6 +24,9 @@ public class TextToSpeechHandler : MonoBehaviour
 
     // ----------------- HIGHLIGHTING ---------------
 
+    // Do we want to highlight?
+    private bool highlight = false;
+
     // Store all the word tile components we need for highlighting
     private List<WordTile> words;
 
@@ -60,31 +63,15 @@ public class TextToSpeechHandler : MonoBehaviour
         Speaker.OnSpeakComplete -= speakCompleteMethod;
     }
 
-    // Starts a speech
-    public float startSpeaking(string sentence)
-    {
-        // If we aren't currently speaking
-        if (!isSpeaking && voicesAvailable)
-        {
-            // Then start speaking
-            Speaker.SpeakNative(sentence, Speaker.VoiceForCulture("en"));
-
-            //
-            return Speaker.ApproximateSpeechLength(sentence);
-        }
-
-        //
-        return -1;
-    }
-
     //
-    public void startSpeakingSentence(List<WordTile> words)
+    public void startSpeakingSentence(List<WordTile> words, bool highlight)
     {
         //
         this.words = words;
+        this.highlight = highlight;
 
         //
-        this.speakingSentence = true;
+        speakingSentence = true;
 
         //
         string sentence = "";
@@ -127,13 +114,21 @@ public class TextToSpeechHandler : MonoBehaviour
             speakingSentence = false;
 
             //
-            words.Last().Highlight();
+            if(highlight)
+            {
+                //
+                words.Last().Highlight();
+            }
+            
         }
     }
 
     // Event hook fired each time a new word is spoken.
     private void SpeakNativeCurrentWord(SpeakEventArgs e)
     {
+        //
+        if (!highlight) return;
+
         //
         if(speakingSentence)
         {

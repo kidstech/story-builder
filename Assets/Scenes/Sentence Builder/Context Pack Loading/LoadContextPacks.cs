@@ -15,11 +15,11 @@ public class LoadContextPacks
     //
     public static List<Word> loadWords()
     {
-        // How many indexes we have to offset
+        // How many indexes before we start looking at wordpacks in the json context pack files
         int offset = 3;
 
         // Get all the json in the "packs" directory
-        string[] contextPacks = Directory.GetFiles(Application.dataPath + "/packs/", "*.json");
+        string[] contextPacks = Directory.GetFiles(Path.Combine(Application.dataPath, "packs"), "*.json");
 
         // For every .json we find in our context packs folder
         // (For every context pack)

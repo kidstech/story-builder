@@ -13,18 +13,19 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 {
     [Header("Images")]
     // Image is a lever which is pulled down while the sentence is being saved
-    public Image upLever;
-    public Image downLever;
+    public Sprite upLever;
+    public Sprite downLever;
 
-    [Header("Objects in the Scene")]
+    [Header("Text To Speech Handler")]
     // TTS Object
     public TextToSpeechHandler tts;
 
+    [Header("Scene Objects")]
     // Completed sentences list at bottom of screen
     public Transform completedSentences;
 
     // Sentence at top of screen top pull sentence text from
-    public Sentence sentence;
+    public SentenceBar sentence;
 
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
@@ -88,17 +89,32 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             List<Word> words = new List<Word>();
 
             //
+            string rawSentence = "";
+
+            //
             foreach(WordTile tile in tiles)
             {
                 //
                 words.Add(tile.word);
+
+                //
+                rawSentence = rawSentence + tile.word.word + " ";
             }
+
+            //
+            rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
 
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(words);
 
             //
-            tts.startSpeakingSentence(tiles);
+            tts.startSpeakingSentence(tiles, false);
+
+            //
+            sentence.GetComponent<SentenceBar>().ClearTiles();
+
+            //
+            completedSentences.GetComponentInChildren<Text>().text = rawSentence;
         }
 	}
 
@@ -107,9 +123,9 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     /// </summary>
     private IEnumerator pullLever()
     {
-        currentImage.sprite = downLever.sprite;
+        currentImage.sprite = downLever;
         yield return new WaitForSecondsRealtime(2);
-        currentImage.sprite = upLever.sprite;
+        currentImage.sprite = upLever;
     }
     
 }
