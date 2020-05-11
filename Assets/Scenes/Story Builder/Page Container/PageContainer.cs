@@ -160,6 +160,8 @@ public class PageContainer : MonoBehaviour
     //
     public void SpeakPage()
     {
+        if (transform.childCount == 0) return;
+
         //
         string fullPage = "";
 
