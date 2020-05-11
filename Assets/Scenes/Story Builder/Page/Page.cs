@@ -9,6 +9,9 @@ public class Page : MonoBehaviour
     public int pageNumber = -1;
 
     //
+    public PageContainer.PAGE type;
+
+    //
     public void UpdatePageNumber(int newPageNumber)
     {
         //

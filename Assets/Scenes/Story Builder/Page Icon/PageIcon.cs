@@ -33,16 +33,10 @@ public class PageIcon : MonoBehaviour
     //
     public void SetupPageIcon(int newPageNumber)
     {
-        UpdatePageNumber(newPageNumber);
-    }
-
-    //
-    public void UpdatePageNumber(int newPageNumber)
-    {
-        // 
+        // Since pages technically start at 0
         pageNumber = newPageNumber;
 
-        // Since pages technically start at 0
+        // 
         name = string.Concat("Page", (newPageNumber + 1));
         GetComponentInChildren<Text>().text = "Page\n" + (newPageNumber + 1);
     }

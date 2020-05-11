@@ -11,7 +11,7 @@ public class PageIconContainer : MonoBehaviour
     public GameObject pageIconPrefab;
 
     [Header("Scene References")]
-    public GameObject pageContainer;
+    public PageContainer pageContainer;
 
     [Header("Settings")]
     public int maxPageCount = 30;
@@ -33,7 +33,7 @@ public class PageIconContainer : MonoBehaviour
     }
 
     //
-    public void AddPageIcon()
+    public void AddPageIcon(PageContainer.PAGE pageType)
     {
         //
         if(currentPageCount >= maxPageCount)
@@ -41,11 +41,14 @@ public class PageIconContainer : MonoBehaviour
             return;
         }
 
-        // Set page number equal to the currentPageCount, then increase by one
-        int pageNumber = currentPageCount++;
+        //
+        int pageNumber = selectedPage + 1;
 
         //
-        pageContainer.GetComponent<PageContainer>().AddPage();
+        currentPageCount++;
+
+        //
+        pageContainer.AddPage(pageType);
 
         //
         GameObject newPageIcon = Instantiate(pageIconPrefab);
@@ -59,48 +62,89 @@ public class PageIconContainer : MonoBehaviour
         rt.sizeDelta = rt.sizeDelta + new Vector2(64, 0);
 
         //
+        AdjustOtherPages();
+
+        //
         UpdateSelectedPage(pageNumber);
+    }
+
+    //
+    public void AdjustOtherPages()
+    {
+        /*
+         *  Probably worth it to only update pages PAST the selected pages
+         */
+
+        if (selectedPage == -1) return;
+
+        //
+        for (int i = selectedPage; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<PageIcon>().SetupPageIcon(i);
+        }
     }
 
     //
     public void RemovePage()
     {
         //
-        Transform pageToDelete = transform.GetChild(1 + selectedPage);
+        if (currentPageCount <= 0) return;
 
         //
-        Destroy(pageToDelete);
+        currentPageCount--;
 
         //
-        for(int i = 1; i < transform.childCount - 1; i++)
-        {
-            //
-            transform.GetChild(i).GetComponent<PageIcon>().UpdatePageNumber(i);
-        }
+        Destroy(transform.GetChild(selectedPage).gameObject);
+
+        //
+        pageContainer.RemovePage(selectedPage);
+
+        //
+        StartCoroutine(RemovePageCoroutine());
+    }
+
+    // We need to wait until the end of the frame after the Destroy resolve (it stays on screen until end of frame)
+    private IEnumerator RemovePageCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+
+        AdjustOtherPages();
+
+        UpdateSelectedPage(selectedPage);
     }
 
     //
     public void UpdateSelectedPage(int pageNumber)
     {
-        // If the page is the same, do nothing.
-        if (pageNumber == selectedPage)
+        if (pageNumber == currentPageCount)
         {
-            return;
+            // If it's the last thing in the list, do nothing
+            if(transform.childCount != 0)
+            {
+                // Otherwise set the only thing in the list as focus
+                selectedPage = 0;
+                transform.GetChild(0).GetComponent<Image>().color = yellow;
+            }
         }
-
-        // Revert old icon color
-        if(selectedPage != -1)
+        else
         {
-            transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
+            // Revert old icon color
+            if (selectedPage != -1)
+            {
+                transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
+            }
 
-            pageContainer.transform.GetChild(selectedPage).gameObject.SetActive(false);
+            //
+            selectedPage = pageNumber;
+
+            // Set new icon
+            if (selectedPage != -1)
+            {
+                transform.GetChild(selectedPage).GetComponent<Image>().color = yellow;
+            }
+
+            //
+            pageContainer.UpdateSelectedPage(selectedPage);
         }
-
-        //
-        selectedPage = pageNumber;
-
-        // Set new icon
-        transform.GetChild(selectedPage).GetComponent<Image>().color = yellow;
-        pageContainer.transform.GetChild(selectedPage).gameObject.SetActive(true);
     }
 }

@@ -7,7 +7,11 @@ public class NewPageButton : MonoBehaviour
 {
     //
     [Header("Page Container Scene Object")]
-    public PageIconContainer pageContrainer;
+    public PageIconContainer pageIconContrainer;
+
+    //
+    [Header("Page Type")]
+    public PageContainer.PAGE pageType;
 
     //
     private Button button;
@@ -19,9 +23,12 @@ public class NewPageButton : MonoBehaviour
         button = GetComponent<Button>();
 
         //
-        button.onClick.AddListener(pageContrainer.AddPageIcon);
+        button.onClick.AddListener(WorkAround);
+    }
 
-        //
-        pageContrainer.AddPageIcon();
+    //
+    private void WorkAround()
+    {
+        pageIconContrainer.AddPageIcon(pageType);
     }
 }
