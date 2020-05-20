@@ -196,4 +196,38 @@ public class PageContainer : MonoBehaviour
         //
         Debug.Log(fullPage);
     }
+
+    //
+    public List<SavedSentence> GetAllSentencesInPages()
+    {
+        List<SavedSentence> list = new List<SavedSentence>();
+
+        // For every page
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            Page currentPage = transform.GetChild(i).GetComponent<Page>();
+
+            if(currentPage.type == PAGE.NO_PICTURE)
+            {
+                // For every sentence in the page
+                for(int o = 0; o < currentPage.transform.childCount; o++)
+                {
+                    // Add in the sentence
+                    list.Add(currentPage.transform.GetChild(o).GetComponent<SentenceObject>().savedSentence);
+                }
+            }
+            else
+            {
+                // For every sentence in the page
+                for(int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
+                {
+                    // Add in the sentence
+                    list.Add(currentPage.transform.GetChild(0).GetChild(o).GetComponent<SentenceObject>().savedSentence);
+                }
+            }
+        }
+
+        //
+        return list;
+    }
 }

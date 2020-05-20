@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageNumber: -1
+  maxSentencesInPage: 8
   type: 2
 --- !u!222 &6817511528840321719
 CanvasRenderer:

@@ -469,6 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageNumber: -1
+  maxSentencesInPage: 4
   type: 1
 --- !u!1 &6841452532057807385
 GameObject:

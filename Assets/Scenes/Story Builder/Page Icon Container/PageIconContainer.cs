@@ -71,10 +71,6 @@ public class PageIconContainer : MonoBehaviour
     //
     public void AdjustOtherPages()
     {
-        /*
-         *  Probably worth it to only update pages PAST the selected pages
-         */
-
         if (selectedPage == -1) return;
 
         //
@@ -145,6 +141,35 @@ public class PageIconContainer : MonoBehaviour
 
             //
             pageContainer.UpdateSelectedPage(selectedPage);
+        }
+
+        EnableIcons();
+    }
+
+    private void EnableIcons()
+    {
+        if (currentPageCount == 0) return;
+
+        if(currentPageCount < 4)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            for(int i = 0; i < transform.childCount; i++)
+            {
+                if(i >= selectedPage - 1 && i < selectedPage + 2)
+                {
+                    transform.GetChild(i).gameObject.SetActive(true);
+                }
+                else
+                {
+                    transform.GetChild(i).gameObject.SetActive(false);
+                } 
+            }
         }
     }
 }
