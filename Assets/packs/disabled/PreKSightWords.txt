@@ -7,11 +7,14 @@ can
 come
 down
 find
+for
 funny
 go
 help
 here
 I
+in
+is
 it
 jump
 little
@@ -31,6 +34,7 @@ three
 to
 two
 up
-We
+we
+where
 yellow
 you
