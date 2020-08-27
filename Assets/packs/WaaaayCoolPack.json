@@ -8,24 +8,24 @@
 		"enabled": true,
     	"nouns":
     	[
-    		{"word": "mora", "forms": ["mora"]},
-			{"word": "bella", "forms": ["bella"]},
-			{"word": "chiko", "forms": ["chiko"]}
+    		{"word": "Mora", "forms": ["Maura"]},
+			{"word": "Bella", "forms": ["Bella"]},
+			{"word": "Sven", "forms": ["Sven"]}
     	],
     	
     	"verbs":
     	[
     		{"word": "explode", "forms":["explode", "exploded", "exploding"]},
-			{"word": "jump", "forms":["explode", "exploded", "exploding"]},
-			{"word": "run", "forms":["explode", "exploded", "exploding"]},
-			{"word": "play", "forms":["explode", "exploded", "exploding"]},
-			{"word": "throw", "forms":["explode", "exploded", "exploding"]},
-			{"word": "catch", "forms":["explode", "exploded", "exploding"]},
-			{"word": "walk", "forms":["explode", "exploded", "exploding"]},
-			{"word": "explore", "forms":["explode", "exploded", "exploding"]},
-			{"word": "export", "forms":["explode", "exploded", "exploding"]},
-			{"word": "explain", "forms":["explode", "exploded", "exploding"]},
-			{"word": "plant", "forms":["explode", "exploded", "exploding"]},
+			{"word": "jump", "forms":["jump", "jumps", "jumped", "jumping"]},
+			{"word": "run", "forms":["run", "runs", "ran", "running"]},
+			{"word": "play", "forms":["play", "plays", "played", "playing"]},
+			{"word": "throw", "forms":["throw", "throws", "threw", "throwing"]},
+			{"word": "catch", "forms":["catch", "catches", "caught", "catching"]},
+			{"word": "walk", "forms":["walk", "walks", "walked", "walking"]},
+			{"word": "explore", "forms":["explore", "explores", "explored", "exploring"]},
+			{"word": "export", "forms":["export", "exports", "exported", "exporting"]},
+			{"word": "explain", "forms":["explain", "explains", "explained", "explaining"]},
+			{"word": "plant", "forms":["plant", "plants", "planted", "planting"]}
     	],
     	
     	"adjectives":
@@ -35,7 +35,6 @@
     	
     	"misc": 
     	[
-    		{"word": "9 Slice", "forms":["APPDATA"]}
     	]
     }
 }
