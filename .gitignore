@@ -28,6 +28,11 @@ ExportedObj/
 # Unity3D generated meta files
 *.pidb.meta
 
+#Ignore all .meta file
+*.meta
+#But not source file with postfix. which is everything but a folder
+!*.*.meta
+
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
