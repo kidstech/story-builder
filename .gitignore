@@ -34,6 +34,7 @@ ExportedObj/
 !*.*.meta
 # Except the sentence meta stuff, because we don't want those saves...
 *.sen.meta
+*.story.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
