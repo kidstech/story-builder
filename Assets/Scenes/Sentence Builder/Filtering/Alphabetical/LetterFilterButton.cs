@@ -7,10 +7,10 @@ public class LetterFilterButton : MonoBehaviour
 {
     //
     private FilterController fc;
-    private Image image;
+    public Image image;
 
     //
-    private bool state = false;
+    public bool state = false;
 
     [HideInInspector]
     public string letter;
