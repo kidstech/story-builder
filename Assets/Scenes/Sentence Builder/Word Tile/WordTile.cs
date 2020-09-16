@@ -7,7 +7,7 @@ using Crosstales.RTVoice;
 public class WordTile : MonoBehaviour, IPointerClickHandler
 {
     //
-    [HideInInspector]
+    //[HideInInspector]
     public Word word;
 
     //
@@ -20,10 +20,10 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         //
-        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(word.word)));
+        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(this.GetComponentInChildren<Text>().text)));
 
         //
-        Speaker.SpeakNative(word.word, Speaker.VoiceForCulture("en"));
+        Speaker.SpeakNative(this.GetComponentInChildren<Text>().text, Speaker.VoiceForCulture("en"));
     }
 
     //

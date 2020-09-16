@@ -89,10 +89,10 @@ public class WordHolderPopup : MonoBehaviour
     {
         //
         // TODO make sure to update the current tile again
-        word.word = transform.GetChild(midIndex).GetComponentInChildren<Text>().text;
+  //word.word = 
 
         //
-        GameObject.Find("WordHolderDrop").GetComponentInChildren<Text>().text = word.word;
+        GameObject.Find("WordHolderDrop").GetComponentInChildren<Text>().text = transform.GetChild(midIndex).GetComponentInChildren<Text>().text;
 
         //
         Destroy(this.gameObject);
