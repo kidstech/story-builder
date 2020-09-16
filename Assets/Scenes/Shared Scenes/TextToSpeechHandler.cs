@@ -9,6 +9,7 @@ using UnityEngine;
 using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model.Event;
 using System.Linq;
+using Crosstales.RTVoice.Model;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class TextToSpeechHandler : MonoBehaviour
     // Are there TTS voices available?
     [HideInInspector]
     public static bool voicesAvailable = true;
+
+    // Default voice
+    private Voice selectedVoice = Speaker.VoiceForCulture("en");
 
     // ----------------- HIGHLIGHTING ---------------
 
@@ -52,7 +56,31 @@ public class TextToSpeechHandler : MonoBehaviour
         {
             //
             voicesAvailable = false;
+            selectedVoice = null;
         }
+
+        //==================
+        // CONCEPT: Being able to change your selected voices
+        // THIS IS NOT IMPLEMENTED CURRENTLY
+        //==================
+
+        // Select a Random Voice from the available voices
+        // int voiceNum = Random.Range(0, Speaker.Voices.Count);
+
+        // Assign that random voice
+        // selectedVoice = Speaker.Voices[voiceNum];
+
+        // OR YOU CAN ASSIGN VOICES MANUALLY BY CREATING SOME SORT OF MENU DROPDOWN SOMEWHERE
+        // And give users the option to pick and choose -- probably best to allow for demo speaking
+        // Put this in options and or the sentence builder scene
+        /*
+        foreach(Voice voice in Speaker.Voices)
+        {
+            //Generate Menu Option
+                // Allow for demo of voice
+                // Set voice on selection
+        }
+        */
     }
 
     //
@@ -87,7 +115,7 @@ public class TextToSpeechHandler : MonoBehaviour
         sentence = sentence.Substring(0, sentence.Length - 1);
 
         //
-        Speaker.SpeakNative(sentence, Speaker.VoiceForCulture("en"));
+        Speaker.SpeakNative(sentence, selectedVoice);
     }
 
     // Event hook for the start of a speech
