@@ -12,14 +12,19 @@ public class FilterController : MonoBehaviour
     private List<string> lettersToFilter = new List<string>();
     private List<int> packsToFilter = new List<int>();
 
+    private LetterFilterButton[] letterButtons = new LetterFilterButton[23];
+
     //
     private void Start()
     {
         //
         wordBankContentNew = GameObject.Find("WordBankContentNew").transform;
+
+        // array of all the LetterFilterButton game objects so we can toggle their filter states without them being clicked on.
+        letterButtons = GameObject.FindObjectsOfType<LetterFilterButton>();
+
     }
 
-    //
     public void FilterWordBank()
     {
         //
@@ -108,9 +113,21 @@ public class FilterController : MonoBehaviour
             //
             lettersToFilter.Remove(letter);
         }
-        else
-        {
-            //
+        else 
+        {   
+            for (int i = 0; i < 26; i++)
+            {   
+                // if the image of the LetterFilterButton is green, and it's not the letter we actually want to add to the filter...
+                if (letterButtons[i].GetComponent<LetterFilterButton>().image.color == Color.green && letterButtons[i].GetComponent<LetterFilterButton>().letter != letter)
+                {   
+                    // change it back to white
+                    letterButtons[i].GetComponent<LetterFilterButton>().image.color = Color.white;
+                    // and invert its state (so we don't try and change it to white again when the button is clicked next time)
+                    letterButtons[i].GetComponent<LetterFilterButton>().state = !letterButtons[i].GetComponent<LetterFilterButton>();
+                }
+            }
+            // reflect the changes in our letter filter 
+            lettersToFilter.Clear();
             lettersToFilter.Add(letter);
         }
 
