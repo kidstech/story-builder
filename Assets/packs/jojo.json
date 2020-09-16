@@ -80,7 +80,8 @@
 		"misc": 
     	[
 			{"word": "most", "forms": ["most"]},
-			{"word": "with", "forms": ["with"]}
+			{"word": "with", "forms": ["with"]},
+			{"word": "her", "forms": ["her"]}
     	]
 	}
 }
