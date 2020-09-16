@@ -1,0 +1,72 @@
+{
+	"name": "Birthday Pack",
+	"icon": "C:\Users\Mora\Documents\GitHub\story-builder\Assets\packs\birthday.png",
+	"enabled": true,
+
+	"birthday": 
+	{
+		"enabled": true,
+		
+		"nouns":
+    	[
+    		{"word": "cake", "forms": ["cake", "cakes"]},
+			{"word": "candle", "forms": ["candle", "candles"]},
+			{"word": "present", "forms": ["present", "presents"]},
+			{"word": "food", "forms": ["food", "foods"]},
+			{"word": "piñata", "forms": ["piñata", "piñatas"]},
+			{"word": "game", "forms": ["game", "games"]},
+			{"word": "birthday", "forms": ["birthday"]},
+			{"word": "hat", "forms": ["hat", "hats"]},
+			{"word": "party", "forms": ["party", "parties"]},
+			{"word": "friend", "forms": ["friend", "friends"]},
+			{"word": "music", "forms": ["music"]},
+			{"word": "balloon", "forms": ["balloon", "balloons"]},
+			{"word": "card", "forms": ["card", "cards"]},
+			{"word": "cupcake", "forms": ["cupcake", "cupcakes"]},
+			{"word": "confetti", "forms": ["confetti"]},
+			{"word": "candy", "forms": ["candy", "candies"]},
+			{"word": "food", "forms": ["food", "foods"]},
+			{"word": "ice cream", "forms": ["ice cream"]},
+			{"word": "invitation", "forms": ["invitation", "invitations"]},
+			{"word": "pizza", "forms": ["pizza", "pizzas"]},
+			{"word": "ribbon", "forms": ["ribbon", "ribbons"]},
+			{"word": "year", "forms": ["year", "years"]},
+			{"word": "decoration", "forms": ["decoration", "decorations"]},
+			{"word": "laughter", "forms": ["laughter"]},
+			{"word": "parent", "forms": ["parent", "parents"]},
+    	],
+		
+		"verbs":
+    	[
+    		{"word": "blow", "forms": ["blow", "blows", "blew", "blown", "blowing"]},
+			{"word": "out", "forms": ["out"]},
+			{"word": "celebrate", "forms": ["celebrate", "celebrates", "celebrated", "celebrating"]},
+			{"word": "give", "forms": ["give", "gives", "gave", "given", "giving"]},
+			{"word": "invite", "forms": ["invite", "invites", "invited", "inviting"]},
+			{"word": "play", "forms": ["play", "plays", "played", "playing"]},
+			{"word": "receive", "forms": ["receive", "receives", "received", "receiving"]},
+			{"word": "thank", "forms": ["thank", "thanks", "thanked", "thanking"]},
+			{"word": "wish", "forms": ["wish", "wishes", "wished", "wishing"]},
+			{"word": "laugh", "forms": ["laugh", "laughs", "laughed", "laughing"]}
+    	],
+		
+    	"adjectives":
+    	[
+    		{"word": "fun", "forms": ["fun"]},
+			{"word": "exciting", "forms": ["exciting"]},
+			{"word": "happy", "forms": ["happy"]},
+			{"word": "thankful", "forms": ["thankful"]},
+			{"word": "colorful", "forms": ["colorful"]},
+			{"word": "dazzling", "forms": ["dazzling"]},
+			{"word": "delightful", "forms": ["delightful"]},
+			{"word": "joyful", "forms": ["joyful"]},
+			{"word": "important", "forms": ["important"]},
+			{"word": "impressive", "forms": ["impressive"]}
+    	],
+		
+		"misc": 
+    	[
+    		
+    	]
+	}
+}
