@@ -32,9 +32,9 @@ public class TextToSpeechHandler : MonoBehaviour
     private bool highlight = false;
 
     // Store all the word tile components we need for highlighting
-    private List<WordTile> words;
+    private List<WordTile> wordTiles;
 
-    //
+    // In general, we are not currently speaking the sentence
     private bool speakingSentence = false;
 
     // A tick variable represents the number of words inside a single tile
@@ -92,23 +92,19 @@ public class TextToSpeechHandler : MonoBehaviour
     }
 
     //
-    public void startSpeakingSentence(List<WordTile> words, bool highlight)
+    public void startSpeakingSentence(List<WordTile> wordTiles, bool highlight)
     {
-        //
-        this.words = words;
+        this.wordTiles = wordTiles;
         this.highlight = highlight;
 
-        //
         speakingSentence = true;
 
-        //
         string sentence = "";
 
-        //
-        foreach(WordTile word in words)
+        foreach(WordTile wordTile in wordTiles)
         {
             //
-            sentence += word.word.word + " ";
+            sentence += wordTile.textToDisplay + " ";
         }
 
         //
@@ -145,7 +141,7 @@ public class TextToSpeechHandler : MonoBehaviour
             if(highlight)
             {
                 //
-                words.Last().Highlight();
+                wordTiles.Last().Highlight();
             }
             
         }
@@ -160,24 +156,29 @@ public class TextToSpeechHandler : MonoBehaviour
         //
         if(speakingSentence)
         {
-            //
+            // The variable tick will be 0 when the previous tile is done
+            // When that is the case...
             if (tick == 0)
             {
-                //
+                // Progress to the next word tile (tracked by index)
                 index++;
 
-                //
-                tick = words[index].word.word.Split(' ').Length;
+                // The text on this tile
+                WordTile wt = wordTiles[index] as WordTile;
+                string textToRead =  wt.textToDisplay;
+
+                // Calculate the number of ticks this tile will get depending upon how many words are on the tile
+                tick = textToRead.Split(' ').Length;
 
                 //
                 if (index > 0)
                 {
                     //
-                    words[index - 1].Highlight();
+                    wordTiles[index - 1].Highlight(Speaker.ApproximateSpeechLength(textToRead));
                 }
 
                 //
-                words[index].Highlight();
+                wordTiles[index].Highlight();
             }
 
             //

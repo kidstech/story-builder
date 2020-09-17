@@ -98,7 +98,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 words.Add(tile.word);
 
                 //
-                rawSentence = rawSentence + tile.word.word + " ";
+                rawSentence = rawSentence + tile.textToDisplay + " ";
             }
 
             //
