@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -156,6 +156,12 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         //
         canvasGroup.blocksRaycasts = true;
+
+        // If we are dragging a word back into the wordbank, we don't want to duplicate it
+        if(draggedFrom == TileDropzone.Behavior.WordBank)
+        {
+            Destroy(this.gameObject);
+        }
 
         //
         Destroy(placeholder);

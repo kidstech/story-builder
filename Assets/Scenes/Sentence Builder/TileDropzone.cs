@@ -87,8 +87,10 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
     //
     public void OnDrop(PointerEventData eventData)
     {
+        GameObject droppedtile = null;
         //
         DraggableTile d = eventData.pointerDrag.GetComponent<DraggableTile>();
+        droppedtile = eventData.pointerDrag;
 
         //
         if(d != null)
@@ -98,22 +100,27 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             {
                 //
                 case Behavior.Default:
+                    //Debug.Log("You have place the tile in the default space.");
 
-                    //
-                    Destroy(eventData.pointerDrag);
+                    // pretty sure the eventData no longer knows what object it was dragging
+                    //Destroy(eventData.pointerDrag);
+                    Destroy(droppedtile);
+                    Destroy(d.placeholder);
 
                     break;
 
                 //
                 case Behavior.WordBank:
 
-                    //
-                    Destroy(eventData.pointerDrag);
+                    //Debug.Log("You have placed the tile in the wordbank.");
+                    Destroy(droppedtile);
+                    // fixes the New Game Objects that were being leftover when we dragged a tile from the wordbank to itself
+                    Destroy(d.placeholder);
 
                     break;
 
                 case Behavior.Trash:
-
+                    //Debug.Log("You have placed the tile in the trash.");
                     //
                     if(behavior == Behavior.Sentence)
                     {
@@ -128,6 +135,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.Sentence:
+                //Debug.Log("You have placed a tile in the sentence zone.");              
 
                     //
                     d.parentToReturnTo = this.transform;
@@ -136,18 +144,17 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.WordHolder:
+                //Debug.Log("You have placed a tile in the wordholder zone.");
 
                     //
                     d.parentToReturnTo = this.transform;
 
-                    //
                     if(this.transform.childCount > 0)
                     {
                         //
                         Destroy(this.transform.GetChild(0).gameObject);
                     }
-
-                    //
+                    
                     GetComponent<WordHolder>().OpenWordHolder(eventData.pointerDrag.GetComponent<WordTile>().word);
 
                     //
