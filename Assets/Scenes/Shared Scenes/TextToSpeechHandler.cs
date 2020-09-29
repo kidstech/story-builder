@@ -174,7 +174,7 @@ public class TextToSpeechHandler : MonoBehaviour
                 if (index > 0)
                 {
                     //
-                    wordTiles[index - 1].Highlight(Speaker.ApproximateSpeechLength(textToRead));
+                    wordTiles[index - 1].Highlight();
                 }
 
                 //
