@@ -6,66 +6,51 @@ using Crosstales.RTVoice;
 
 public class WordTile : MonoBehaviour, IPointerClickHandler
 {
-    //
     //[HideInInspector]
     public Word word;
-
-    //
+    public string textToDisplay;
     private Color originalColor;
-
-    //
     private bool highlighted = false;
 
-    //
+    // When someone clicks a tile, speak the text on the tile and highlight the tile
     public void OnPointerClick(PointerEventData eventData)
     {
-        //
-        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(this.GetComponentInChildren<Text>().text)));
+        string textToRead = this.textToDisplay;
+        
+        // Highlight the word tile for approximately as long as it will take to say the text on the tile
+        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
 
-        //
-        Speaker.SpeakNative(this.GetComponentInChildren<Text>().text, Speaker.VoiceForCulture("en"));
+        // Speak the text on the tile using the correct voice
+        Speaker.SpeakNative(textToRead, Speaker.VoiceForCulture("en"));
     }
 
     //
     public void Highlight()
     {
-        //
         Image image = GetComponent<Image>();
-
-        //
         highlighted = !highlighted;
 
-        //
         if (highlighted)
         {
-            //
             originalColor = image.color;
-
-            //
             image.color = Color.yellow;
         }
         else
         {
-            //
             image.color = originalColor;
         }
     }
 
-    //
     public void Highlight(float seconds)
     {
-        //
         StartCoroutine(HighlightCoroutine(seconds));
     }
 
-    //
     public void Highlight(float seconds, float delay)
     {
-        //
         StartCoroutine(HighlightCoroutine(seconds, delay));
     }
 
-    //
     private IEnumerator HighlightCoroutine(float seconds)
     {
         //
@@ -77,44 +62,32 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         //
         image.color = Color.yellow;
 
-        //
         yield return new WaitForSeconds(seconds);
-
-        //
         image.color = previous;
     }
 
     private IEnumerator HighlightCoroutine(float seconds, float delay)
     {
-        //
+        // The visual aspect of this word tile
         Image image = GetComponent<Image>();
 
-        //
+        // The usual color of this word tile
         Color previous = image.color;
-
-        //
         yield return new WaitForSeconds(delay);
 
-        //
+        // Set the color of the word tile to the highlight color (currently yellow)
         image.color = Color.yellow;
 
-        //
         yield return new WaitForSeconds(seconds);
-
-        //
         image.color = previous;
     }
 
     //
     public void SetUpTile(Word word)
     {
-        //
         this.word = word;
-
-        //
         this.name = word.word;
-
-        //
         this.transform.GetComponentInChildren<Text>().text = word.word;
+        this.textToDisplay = word.word;
     }
 }
