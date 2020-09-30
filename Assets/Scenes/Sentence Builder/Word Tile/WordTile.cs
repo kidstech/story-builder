@@ -51,7 +51,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         StartCoroutine(HighlightCoroutine(seconds, delay));
     }
 
-    private IEnumerator HighlightCoroutine(float seconds)
+    public IEnumerator HighlightCoroutine(float seconds)
     {
         //
         Image image = GetComponent<Image>();
