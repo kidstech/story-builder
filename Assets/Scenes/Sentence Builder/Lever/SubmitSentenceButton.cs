@@ -106,15 +106,17 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(words);
-
+            
             //
             tts.startSpeakingSentence(tiles, false);
 
             //
-            sentence.GetComponent<SentenceBar>().ClearTiles();
-
-            //
             completedSentences.GetComponentInChildren<Text>().text = rawSentence;
+
+            // remove the tiles slowly and (someday) play an animation
+            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
+            // sentence.GetComponent<SentenceBar>().ClearTiles();
+
         }
 	}
 
