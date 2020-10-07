@@ -108,7 +108,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             SaveSentenceHandler.SaveSentence(words);
             
             //
-            tts.startSpeakingSentence(tiles, false);
+            StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
             //
             completedSentences.GetComponentInChildren<Text>().text = rawSentence;
