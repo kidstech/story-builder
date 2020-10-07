@@ -80,6 +80,11 @@ public class SentenceBar : MonoBehaviour
         int animation_segments = 3;
         int length = this.transform.childCount;
         int updatingLength = length;
+        float left_move_distance = 0;
+        // finding the distance between any two tiles
+        if(length > 1){
+        left_move_distance = this.transform.GetChild(1).transform.position.x - this.transform.GetChild(0).transform.position.x;
+        }
         // this cannot be a for each loop. It turns out that destroying the game objects that the for each loop uses to
         // determine where it is in the loop causes very bad things to happen.
         for(int i = 0; i < length; i++)
@@ -102,11 +107,11 @@ public class SentenceBar : MonoBehaviour
             if(updatingLength > 1){
                 // animate all but the first object in the list to the left
                 for(int a = 1; a < updatingLength; a++){
-                    StartCoroutine(animateTileLeft(this.transform.GetChild(a), animation_time));
+                    StartCoroutine(animateTileLeft(this.transform.GetChild(a), animation_time, left_move_distance));
                 }
             }
             yield return new WaitForSeconds(animation_time);
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
 
             // By destroying the first child, we change the indices of the child array
             // So if we were to use i here, we would destroy every other game object and eventually find ourselves outside of the array.
@@ -121,11 +126,6 @@ public class SentenceBar : MonoBehaviour
         }
 
     }
-    // useful info about tile dimensions
-    // width of a tile is 125 units
-    // and height is 50 units
-    // word tiles seem to have ~10 units worth of padding around them
-
 
     // takes in a child of the sentence transform and moves it upward smoothly
     public IEnumerator animateTileUp(Transform child, float animation_time)
@@ -151,7 +151,7 @@ public class SentenceBar : MonoBehaviour
             }
     }
 
-        public IEnumerator animateTileLeft(Transform child, float animation_time)
+        public IEnumerator animateTileLeft(Transform child, float animation_time, float left_move_distance)
     {
             // You can't actually directly edit the position of the game object so we have to copy the
             // position info to a variable, change it, and then set the position equal to the value of that changed variable.
@@ -162,11 +162,11 @@ public class SentenceBar : MonoBehaviour
 
             // the time each frame will take
             float yield_time = animation_time/frame_count;
-            float tile_width = 136.7f; // we seem to also need to account for the padding on the tiles. 136.7 is not exactly the distance it needs to travel, but it's very close
+            float tile_width = left_move_distance; // we seem to also need to account for the padding on the tiles. 136.7 is not exactly the distance it needs to travel, but it's very close
 
             // the distance the tile will move each frame
             float move_per_frame = tile_width/frame_count;
-            // height of a tile is 50 units, and it completely disappears into the pipe after 60 units
+            
             for(int i = 0; i < frame_count; i++){
             tilePosition.x -= move_per_frame;
             child.gameObject.transform.position = tilePosition;
