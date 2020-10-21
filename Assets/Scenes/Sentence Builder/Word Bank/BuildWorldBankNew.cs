@@ -32,7 +32,10 @@ public class BuildWorldBankNew : MonoBehaviour
         RectTransform bank = (RectTransform)this.transform;
 
         // Calculate the number of rows
-        int numOfRows = Mathf.FloorToInt(words.Count / TILES_PER_ROW);
+        // words.Count needs to be stored as a float or else the following numOfRows computation is processed as an integer before it's ever rounded (effectively rounding down)
+        // this is why the scrollbar didn't reach the last row of tiles
+        float numTiles = words.Count; 
+        int numOfRows = Mathf.CeilToInt(numTiles / TILES_PER_ROW);
 
         // Reset Size of the wordbank
         bank.sizeDelta = new Vector2(bank.sizeDelta.x, TILE_HEIGHT * numOfRows);
