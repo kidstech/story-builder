@@ -139,7 +139,8 @@ public class SentenceBar : MonoBehaviour
 
             // the time each frame will take
             float yield_time = animation_time/frame_count;
-            float tile_height = 60; 
+            // we want to move the tile it's height + a bit for padding
+            float tile_height = child.GetComponent<RectTransform>().rect.height + 10;
 
             // the distance the tile will move each frame
             float move_per_frame = tile_height/frame_count;
