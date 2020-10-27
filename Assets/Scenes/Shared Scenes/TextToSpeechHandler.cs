@@ -225,4 +225,13 @@ public class TextToSpeechHandler : MonoBehaviour
         //
         isSpeaking = false;
     }
+    // returns an approximation of how long the speaker needs to read a sentence
+    public float getApproxSpeechTime(List<WordTile> wordTiles){
+
+        float speechDuration = 0;
+        foreach(WordTile tile in wordTiles){
+            speechDuration += Speaker.ApproximateSpeechLength(tile.word.word);
+        }
+        return speechDuration;
+    }
 }
