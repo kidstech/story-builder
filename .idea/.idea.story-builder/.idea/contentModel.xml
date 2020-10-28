@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Ben\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Ben\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_story-builder.-172085393.00" t="ExcludeRecursive" />
+    <e p="E:\StoryBuilder\story-builder" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="crosstales" t="Include">
+          <e p="RTVoice" t="Include">
+            <e p="3rd party" t="Include">
+              <e p="Assets.txt" t="Include" />
+            </e>
+            <e p="Demo" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="Dialog.cs" t="Include" />
+                <e p="GUIAudioFilter.cs" t="Include" />
+                <e p="GUIDialog.cs" t="Include" />
+                <e p="GUIMain.cs" t="Include" />
+                <e p="GUIMultiAudioFilter.cs" t="Include" />
+                <e p="GUIScenes.cs" t="Include" />
+                <e p="GUISpeech.cs" t="Include" />
+                <e p="NativeAudio.cs" t="Include" />
+                <e p="PreGeneratedAudio.cs" t="Include" />
+                <e p="SendMessage.cs" t="Include" />
+                <e p="SequenceCaller.cs" t="Include" />
+                <e p="Simple.cs" t="Include" />
+                <e p="SimpleNative.cs" t="Include" />
+                <e p="SpeakWrapper.cs" t="Include" />
+                <e p="Util" t="Include">
+                  <e p="AudioVisualizer.cs" t="Include" />
+                  <e p="FFTAnalyzer.cs" t="Include" />
+                  <e p="MaterialChanger.cs" t="Include" />
+                  <e p="NativeDisabler.cs" t="Include" />
+                  <e p="PlatformEnabler.cs" t="Include" />
+                  <e p="RandomColor.cs" t="Include" />
+                  <e p="RandomRotator.cs" t="Include" />
+                  <e p="RandomScaler.cs" t="Include" />
+                  <e p="ScrollRectHandler.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Documentation" t="Include">
+              <e p="VERSIONS.txt" t="Include" />
+            </e>
+            <e p="Plugins" t="Include">
+              <e p="Editor" t="Include">
+                <e p="AutoInitalize.cs" t="Include" />
+                <e p="BuildPostprocessor.cs" t="Include" />
+                <e p="ConfigBase.cs" t="Include" />
+                <e p="ConfigLoader.cs" t="Include" />
+                <e p="ConfigPreferences.cs" t="Include" />
+                <e p="ConfigWindow.cs" t="Include" />
+                <e p="EditorHelper.cs" t="Include" />
+                <e p="RTVoiceGameObject.cs" t="Include" />
+                <e p="RTVoiceMenu.cs" t="Include" />
+                <e p="SequencerEditor.cs" t="Include" />
+                <e p="SetupResources.cs" t="Include" />
+                <e p="SpeakerEditor.cs" t="Include" />
+                <e p="SpeechTextEditor.cs" t="Include" />
+                <e p="TextFileSpeakerEditor.cs" t="Include" />
+                <e p="UpdateCheck.cs" t="Include" />
+              </e>
+            </e>
+            <e p="README.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Packs" t="Include">
+          <e p="disabled" t="Include">
+            <e p="PreKSightWords.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Scenes" t="Include">
+          <e p="Sentence Builder" t="Include">
+            <e p="Context Pack Loading" t="Include">
+              <e p="ContextPack.cs" t="Include" />
+              <e p="LoadContextPacks.cs" t="Include" />
+              <e p="Word.cs" t="Include" />
+            </e>
+            <e p="DraggableTile.cs" t="Include" />
+            <e p="Filtering" t="Include">
+              <e p="Alphabetical" t="Include">
+                <e p="LetterFilterButton.cs" t="Include" />
+                <e p="SetupLetterFilter.cs" t="Include" />
+              </e>
+              <e p="FilterController.cs" t="Include" />
+              <e p="Packs" t="Include">
+                <e p="PackFilterButton.cs" t="Include" />
+                <e p="SetupPackFilter.cs" t="Include" />
+              </e>
+              <e p="ToggleFilterButtons.cs" t="Include" />
+            </e>
+            <e p="Lever" t="Include">
+              <e p="SubmitSentenceButton.cs" t="Include" />
+            </e>
+            <e p="SceneTransition.cs" t="Include" />
+            <e p="Sentence" t="Include">
+              <e p="SentenceBar.cs" t="Include" />
+            </e>
+            <e p="Sentence Saving" t="Include">
+              <e p="SaveSentenceHandler.cs" t="Include" />
+            </e>
+            <e p="Text to Speech Button" t="Include">
+              <e p="TextToSpeechButton.cs" t="Include" />
+            </e>
+            <e p="TileDropzone.cs" t="Include" />
+            <e p="Word Bank" t="Include">
+              <e p="BuildWorldBankNew.cs" t="Include" />
+              <e p="WordBank.cs" t="Include" />
+            </e>
+            <e p="Word Exposure" t="Include">
+              <e p="HeardWordHandler.cs" t="Include" />
+              <e p="ListenCounter.cs" t="Include" />
+            </e>
+            <e p="Word Holder" t="Include">
+              <e p="WordHolder.cs" t="Include" />
+              <e p="WordHolderPopup.cs" t="Include" />
+              <e p="WordHolderPopupButton.cs" t="Include" />
+            </e>
+            <e p="Word Tile" t="Include">
+              <e p="WordTile.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Shared Scenes" t="Include">
+            <e p="JsonHelper.cs" t="Include" />
+            <e p="JSONObject.cs" t="Include" />
+            <e p="SavedSentence.cs" t="Include" />
+            <e p="SavedStory.cs" t="Include" />
+            <e p="TextToSpeechHandler.cs" t="Include" />
+          </e>
+          <e p="Story Builder" t="Include">
+            <e p="DeletePageButton" t="Include">
+              <e p="DeletePageButton.cs" t="Include" />
+            </e>
+            <e p="DraggableSentence.cs" t="Include" />
+            <e p="LoadSentenceHandler.cs" t="Include" />
+            <e p="New Page" t="Include">
+              <e p="NewPageButton.cs" t="Include" />
+              <e p="NewPageMenuToggle.cs" t="Include" />
+            </e>
+            <e p="Page" t="Include">
+              <e p="Page.cs" t="Include" />
+              <e p="PageWithPicture.cs" t="Include" />
+              <e p="PageWithPictureButton.cs" t="Include" />
+            </e>
+            <e p="Page Container" t="Include">
+              <e p="PageContainer.cs" t="Include" />
+            </e>
+            <e p="Page Icon" t="Include">
+              <e p="PageIcon.cs" t="Include" />
+            </e>
+            <e p="Page Icon Container" t="Include">
+              <e p="PageIconContainer.cs" t="Include" />
+            </e>
+            <e p="Save Story Button" t="Include">
+              <e p="SaveStoryButton.cs" t="Include" />
+              <e p="SaveStoryHandler.cs" t="Include" />
+            </e>
+            <e p="Saved Sentence" t="Include">
+              <e p="SentenceObject.cs" t="Include" />
+            </e>
+            <e p="Sentence Bank" t="Include">
+              <e p="LoadSavedSentences.cs" t="Include" />
+              <e p="SavedSentenceBank.cs" t="Include" />
+            </e>
+            <e p="SentenceDropzone.cs" t="Include" />
+            <e p="SpeakPageButton" t="Include">
+              <e p="SpeakPageButton.cs" t="Include" />
+            </e>
+            <e p="StoryBuilderHandler.cs" t="Include" />
+          </e>
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="story-builder.sln" t="IncludeFlat" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
