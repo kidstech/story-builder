@@ -31,7 +31,7 @@ public class PageContainer : MonoBehaviour
     public int maxPageCount = 30;
 
     // Keep track of
-    private int selectedPage = -1;
+    public int selectedPage = -1;
     private int currentPageCount = 0;
 
     //

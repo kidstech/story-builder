@@ -17,8 +17,7 @@ public class PageIconContainer : MonoBehaviour
     public int maxPageCount = 30;
 
     // Keeps track of what page we are 'focused' on
-    private int selectedPage = -1;
-    private int currentPageCount = 0;
+    public int selectedPage = -1;
 
     //
     private RectTransform rt;
@@ -38,6 +37,7 @@ public class PageIconContainer : MonoBehaviour
         //
         if(currentPageCount >= maxPageCount)
         {
+            // this should probably notify the user that they have hit the max number of pages somehow
             return;
         }
 
@@ -80,6 +80,23 @@ public class PageIconContainer : MonoBehaviour
         }
     }
 
+    // shifts the 3 pages in focus left by one
+    public void movePageViewLeft(int selectedPage) {
+        int leftOfCurrentPage = selectedPage -1;
+        // change focused page to the page before it
+        UpdateSelectedPage(leftOfCurrentPage);
+        // update the active pages
+        EnableIcons();
+    }
+    // shifts the 3 pages in focus right by one
+    public void movePageViewRight(int selectedPage) {
+        int rightOfCurrentPage = selectedPage + 1;
+        // change focused page to the page after it
+        UpdateSelectedPage(rightOfCurrentPage);
+        // update active pages
+        EnableIcons();
+    }
+
     //
     public void RemovePage()
     {
@@ -117,6 +134,8 @@ public class PageIconContainer : MonoBehaviour
             // If it's the last thing in the list, do nothing
             if(transform.childCount != 0)
             {
+                // reset coloration of last page
+                transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
                 // Otherwise set the only thing in the list as focus
                 selectedPage = 0;
                 transform.GetChild(0).GetComponent<Image>().color = yellow;
@@ -130,7 +149,7 @@ public class PageIconContainer : MonoBehaviour
                 transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
             }
 
-            //
+            // change selected page to the newly added page
             selectedPage = pageNumber;
 
             // Set new icon
@@ -150,10 +169,17 @@ public class PageIconContainer : MonoBehaviour
     {
         if (currentPageCount == 0) return;
 
-        if(currentPageCount < 4)
+        // if we only have three pages or our focus is on the first page we want the first three pages displayed
+        if(currentPageCount < 4 || selectedPage == 0)
         {
             for (int i = 0; i < transform.childCount; i++)
             {
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+        // otherwise if we are focused on the last page and we have at least three pages, display the last three of them
+        else if (currentPageCount >= 3 && (selectedPage == currentPageCount - 1)){
+            for (int i = selectedPage - 1; i < currentPageCount; i++){
                 transform.GetChild(i).gameObject.SetActive(true);
             }
         }
@@ -161,12 +187,14 @@ public class PageIconContainer : MonoBehaviour
         {
             for(int i = 0; i < transform.childCount; i++)
             {
+                // keep only three active pages; one to the left of the focused page, the focused page,  and one to the right
                 if(i >= selectedPage - 1 && i < selectedPage + 2)
                 {
                     transform.GetChild(i).gameObject.SetActive(true);
                 }
                 else
                 {
+                    // all other page gameobjects will be inactive
                     transform.GetChild(i).gameObject.SetActive(false);
                 } 
             }
