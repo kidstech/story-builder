@@ -38,8 +38,10 @@ public class TextToSpeechHandler : MonoBehaviour
 
     public static float voicePitch = 1f;
 
+    public AudioSource audio;
+
     // Default voice
-    private Voice selectedVoice = Speaker.VoiceForCulture("en");
+    private Voice selectedVoice = Speaker.VoiceForCulture("en"); // pretty sure en-US exists... need to test though
 
     // ----------------- HIGHLIGHTING ---------------
 
@@ -65,6 +67,7 @@ public class TextToSpeechHandler : MonoBehaviour
         //Speaker.OnSpeakNativeCurrentWord += SpeakNativeCurrentWord; //An event triggered whenever a new word is spoken (native, Windows and iOS only)
         Speaker.OnSpeakStart += speakStartMethod;
         Speaker.OnSpeakComplete += speakCompleteMethod;
+        //Debug.Log("there are " + Speaker.Voices.Count + " voices on the system.");
         
         // Check if voices are available
         if (Speaker.Voices.Count <= 0)
@@ -107,19 +110,10 @@ public class TextToSpeechHandler : MonoBehaviour
     }
 
     // this will take the text stored in a button and set the speaker to that voice
+    // change speaker will be associated with several buttons that each know the name of their voices
     public void changeSpeaker() {
-        voiceName = this.gameObject.GetComponentInChildren<Text>().text; // text is stored in child of child... may need double get call
-        // demo the new voice so the user can know if they like it right away
-        // livespeaker takes an array of args
-        string[] args = new string[6];
-        args[0] = "Hello, my name is " + voiceName;
-        args[2] = voiceName;
-        args[3] = voiceRate.ToString();
-        args[5] = voicePitch.ToString();
-        LiveSpeaker LS = new LiveSpeaker();
-        Debug.Log("Voice pitch: " + args[5]);
-        //Speaker.Speak("Hello, my name is " + voiceName, null,  Speaker.VoiceForName(voiceName), true, voiceRate, voicePitch);
-        LS.Speak(args);
+        voiceName = this.gameObject.GetComponentInChildren<Text>().text;
+        Speaker.Speak("Hello, my name is " + voiceName, audio,  Speaker.VoiceForName(voiceName), true, voiceRate, voicePitch);
     }
 
     // keeping this because we want the sentence to be read more fluently once the sentence has been "built"
@@ -142,12 +136,12 @@ public class TextToSpeechHandler : MonoBehaviour
         sentence = sentence.Substring(0, sentence.Length - 1);
 
         //
-        Speaker.Speak(sentence, null, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
+        Speaker.Speak(sentence, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
         
     }
 
     public void startSpeakingWordTile(string word){
-        Speaker.Speak(word, null, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, "", voicePitch);
+        Speaker.Speak(word, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, "", voicePitch);
         Debug.Log(voicePitch);
     }
 
@@ -159,6 +153,7 @@ public class TextToSpeechHandler : MonoBehaviour
     // grabs the slider value of an attached slider game object and sets it as the voice pitch
     public void changeVoicePitch() {
         voicePitch = this.GetComponent<Slider>().value;
+        audio.pitch = voicePitch;
     }
 
     // Slowly here means that TTS acts on each tile individually, rather than combining the text from the tiles into a sentence and reading that.

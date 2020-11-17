@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0a6ae1a3def3fc44d94f3b24f55b31d7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - myText: {instanceID: 0}
+  - slider: {instanceID: 0}
+  - sliderText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
