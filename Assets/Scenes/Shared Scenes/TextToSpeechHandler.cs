@@ -40,9 +40,6 @@ public class TextToSpeechHandler : MonoBehaviour
 
     public AudioSource audio;
 
-    // Default voice
-    private Voice selectedVoice = Speaker.VoiceForCulture("en"); // pretty sure en-US exists... need to test though
-
     // ----------------- HIGHLIGHTING ---------------
 
     // Do we want to highlight?
@@ -74,7 +71,6 @@ public class TextToSpeechHandler : MonoBehaviour
         {
             //
             voicesAvailable = false;
-            selectedVoice = null;
         }
 
         //==================
@@ -113,7 +109,7 @@ public class TextToSpeechHandler : MonoBehaviour
     // change speaker will be associated with several buttons that each know the name of their voices
     public void changeSpeaker() {
         voiceName = this.gameObject.GetComponentInChildren<Text>().text;
-        Speaker.Speak("Hello, my name is " + voiceName, audio,  Speaker.VoiceForName(voiceName), true, voiceRate, voicePitch);
+        Speaker.Speak("Hello!", audio,  Speaker.VoiceForName(voiceName), true, voiceRate, voicePitch);
     }
 
     // keeping this because we want the sentence to be read more fluently once the sentence has been "built"
@@ -142,7 +138,7 @@ public class TextToSpeechHandler : MonoBehaviour
 
     public void startSpeakingWordTile(string word){
         Speaker.Speak(word, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, "", voicePitch);
-        Debug.Log(voicePitch);
+        //Debug.Log(voicePitch);
     }
 
     // grabs the slider value of an attached slider game object and sets it as the voice rate
@@ -174,12 +170,12 @@ public class TextToSpeechHandler : MonoBehaviour
             string tileText = wordTile.GetComponentInChildren<Text>().text;
 
             // approx how long it takes TTS to speak the word
-            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText);
+            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) * (1/voiceRate);
 
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
             //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
-            Speaker.Speak(tileText, null, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
-            Debug.Log(voiceName);
+            Speaker.Speak(tileText, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
+            //Debug.Log(voiceName);
 
             // Wait for TTS to go through the current word before saying the next.
             yield return new WaitForSeconds(timeToSpeak);

@@ -1731,8 +1731,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1841195917}
   m_HandleRect: {fileID: 470935015}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 3
+  m_MinValue: 0.5
+  m_MaxValue: 1.5
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -2951,8 +2951,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 406503548}
   m_HandleRect: {fileID: 2057322743}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 2
+  m_MinValue: 0.75
+  m_MaxValue: 1.5
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -3215,7 +3215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41175d977c86004ea456bfc404791a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 0}
+  audio: {fileID: 138376906}
 --- !u!1 &1645252449
 GameObject:
   m_ObjectHideFlags: 0
@@ -4036,7 +4036,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Microsoft Haruka Desktop
+  m_Text: Button
 --- !u!222 &1809614519
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4693,6 +4693,10 @@ PrefabInstance:
     - target: {fileID: 411916, guid: 966d2b798e0a0e044876ba6826f06a5b, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11493764, guid: 966d2b798e0a0e044876ba6826f06a5b, type: 3}
+      propertyPath: MaryTTSMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 966d2b798e0a0e044876ba6826f06a5b, type: 3}
