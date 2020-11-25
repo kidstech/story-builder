@@ -142,7 +142,7 @@ public class SentenceBar : MonoBehaviour
 
             // the time each frame will take
             float yield_time = animation_time/frame_count;
-            float tile_height = 60;
+            float tile_height = 100;
             //float tile_height = child.gameObject.GetComponent<RectTransform>().rect.height + 50; 
 
             // the distance the tile will move each frame
