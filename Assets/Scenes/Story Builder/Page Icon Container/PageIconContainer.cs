@@ -22,6 +22,7 @@ public class PageIconContainer : MonoBehaviour
     //
     private RectTransform rt;
     private Color yellow;
+    private int currentPageCount = 0;
 
     //
     private void Start()
