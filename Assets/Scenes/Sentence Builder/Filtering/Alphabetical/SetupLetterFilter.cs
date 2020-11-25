@@ -57,8 +57,8 @@ public class SetupLetterFilter : MonoBehaviour
             //
             sortButton.AddComponent<LetterFilterButton>().letter = filterByLetters[i];
 
-            //
-            sortButton.transform.SetParent(this.transform, false);
+            // parent is wordbanksortingalphabet
+            sortButton.transform.SetParent(this.transform, true);
         }
     }
 }

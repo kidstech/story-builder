@@ -17,8 +17,8 @@ public class WordBank : MonoBehaviour
     //
     public void ResizeWordBank(int numEnabledTiles)
     {
-        //
-        float newHeight = Mathf.CeilToInt(numEnabledTiles / tilesPerRow) * tileHeight;
+        // casting numEnabledTiles to float so that integer division doesn't break the rounding here
+        float newHeight = Mathf.CeilToInt((float)numEnabledTiles / tilesPerRow) * tileHeight;
 
         //
         GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<RectTransform>().sizeDelta.x, newHeight);
