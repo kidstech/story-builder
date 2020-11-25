@@ -83,7 +83,7 @@ public class PageIconContainer : MonoBehaviour
 
     // shifts the 3 pages in focus left by one
     public void movePageViewLeft(int selectedPage) {
-        int leftOfCurrentPage = selectedPage -1;
+        int leftOfCurrentPage = selectedPage - 1;
         // change focused page to the page before it
         UpdateSelectedPage(leftOfCurrentPage);
         // update the active pages
@@ -141,9 +141,13 @@ public class PageIconContainer : MonoBehaviour
                 selectedPage = 0;
                 transform.GetChild(0).GetComponent<Image>().color = yellow;
             }
-        }
-        else
-        {
+        } else if (pageNumber == -1) {
+            transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
+            selectedPage = currentPageCount - 1; // last page
+            transform.GetChild(selectedPage).GetComponent<Image>().color = yellow;
+
+        } else {
+            
             // Revert old icon color
             if (selectedPage != -1)
             {
@@ -160,7 +164,7 @@ public class PageIconContainer : MonoBehaviour
             }
 
             //
-            pageContainer.UpdateSelectedPage(selectedPage);
+            //pageContainer.UpdateSelectedPage(selectedPage);
         }
 
         EnableIcons();
@@ -180,7 +184,7 @@ public class PageIconContainer : MonoBehaviour
         }
         // otherwise if we are focused on the last page and we have at least three pages, display the last three of them
         else if (currentPageCount >= 3 && (selectedPage == currentPageCount - 1)){
-            for (int i = selectedPage - 1; i < currentPageCount; i++){
+            for (int i = selectedPage - 2; i < currentPageCount; i++){
                 transform.GetChild(i).gameObject.SetActive(true);
             }
         }
