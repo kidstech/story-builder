@@ -10,7 +10,8 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public Word word;
     public string textToDisplay;
     private Color originalColor;
-    private bool highlighted = false;
+    private bool highlighted = false; 
+    public TextToSpeechHandler TTS;
 
     // When someone clicks a tile, speak the text on the tile and highlight the tile
     public void OnPointerClick(PointerEventData eventData)
@@ -21,7 +22,8 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
 
         // Speak the text on the tile using the correct voice
-        Speaker.SpeakNative(textToRead, Speaker.VoiceForCulture("en"));
+        TTS = GetComponentInParent<TextToSpeechHandler>();
+        TTS.startSpeakingWordTile(textToRead);
     }
 
     //

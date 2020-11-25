@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model.Event;
-using System.Linq;
 using Crosstales.RTVoice.Model;
 using UnityEngine.UI;
+using Crosstales.RTVoice.Tool;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -25,8 +25,20 @@ public class TextToSpeechHandler : MonoBehaviour
     [HideInInspector]
     public static bool voicesAvailable = true;
 
-    // Default voice
-    private Voice selectedVoice = Speaker.VoiceForCulture("en");
+    // need to eventually swap to MaryTTS for MacOS, voices are currently dependent on OS
+    // variables are static so that they are globally changed. If this becomes an issue, an alternative to this is to create a game object with a global variables script
+    // as outlined by https://answers.unity.com/questions/212090/sharing-variables-value-between-game-objects.html
+
+    // To fix the OS dependency, it seems like there is a Speaker.Voices method that might just grab respective OS speakers and then we could just change though array indices?
+    [Header("Speaker info")]
+    public static string voiceName; // default voice dependent on OS
+
+    // can be 0-3 where 1 is normal speed
+    public static float voiceRate = 1f;
+
+    public static float voicePitch = 1f;
+
+    public AudioSource audio;
 
     // ----------------- HIGHLIGHTING ---------------
 
@@ -52,13 +64,13 @@ public class TextToSpeechHandler : MonoBehaviour
         //Speaker.OnSpeakNativeCurrentWord += SpeakNativeCurrentWord; //An event triggered whenever a new word is spoken (native, Windows and iOS only)
         Speaker.OnSpeakStart += speakStartMethod;
         Speaker.OnSpeakComplete += speakCompleteMethod;
+        //Debug.Log("there are " + Speaker.Voices.Count + " voices on the system.");
         
         // Check if voices are available
         if (Speaker.Voices.Count <= 0)
         {
             //
             voicesAvailable = false;
-            selectedVoice = null;
         }
 
         //==================
@@ -93,6 +105,13 @@ public class TextToSpeechHandler : MonoBehaviour
         Speaker.OnSpeakComplete -= speakCompleteMethod;
     }
 
+    // this will take the text stored in a button and set the speaker to that voice
+    // change speaker will be associated with several buttons that each know the name of their voices
+    public void changeSpeaker() {
+        voiceName = this.gameObject.GetComponentInChildren<Text>().text;
+        Speaker.Speak("Hello!", audio,  Speaker.VoiceForName(voiceName), true, voiceRate, voicePitch);
+    }
+
     // keeping this because we want the sentence to be read more fluently once the sentence has been "built"
     public void startSpeakingSentence(List<WordTile> wordTiles, bool highlight)
     {
@@ -113,8 +132,26 @@ public class TextToSpeechHandler : MonoBehaviour
         sentence = sentence.Substring(0, sentence.Length - 1);
 
         //
-        Speaker.SpeakNative(sentence, selectedVoice);
+        Speaker.Speak(sentence, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
+        
     }
+
+    public void startSpeakingWordTile(string word){
+        Speaker.Speak(word, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, "", voicePitch);
+        //Debug.Log(voicePitch);
+    }
+
+    // grabs the slider value of an attached slider game object and sets it as the voice rate
+    public void changeVoiceRate() {
+        voiceRate = this.GetComponent<Slider>().value;
+    }
+
+    // grabs the slider value of an attached slider game object and sets it as the voice pitch
+    public void changeVoicePitch() {
+        voicePitch = this.GetComponent<Slider>().value;
+        audio.pitch = voicePitch;
+    }
+
     // Slowly here means that TTS acts on each tile individually, rather than combining the text from the tiles into a sentence and reading that.
     // This will probably only be used on the TextToSpeech button so the kids can get more practice with identifying their soon to-be sentence.
     public IEnumerator startSpeakingSentenceSlowly(List<WordTile> wordTiles, bool highlight){
@@ -133,10 +170,12 @@ public class TextToSpeechHandler : MonoBehaviour
             string tileText = wordTile.GetComponentInChildren<Text>().text;
 
             // approx how long it takes TTS to speak the word
-            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText);
+            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) * (1/voiceRate);
 
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
-            Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
+            //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
+            Speaker.Speak(tileText, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
+            //Debug.Log(voiceName);
 
             // Wait for TTS to go through the current word before saying the next.
             yield return new WaitForSeconds(timeToSpeak);
