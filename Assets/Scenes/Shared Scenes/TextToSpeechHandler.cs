@@ -176,7 +176,7 @@ public class TextToSpeechHandler : MonoBehaviour
 
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
             //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
-            Speaker.Speak(tileText, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
+            Speaker.Speak(tileText.ToLower(), audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
             //Debug.Log(voiceName);
 
             // Wait for TTS to go through the current word before saying the next.

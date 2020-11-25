@@ -16,7 +16,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     // When someone clicks a tile, speak the text on the tile and highlight the tile
     public void OnPointerClick(PointerEventData eventData)
     {
-        string textToRead = this.textToDisplay;
+        string textToRead = this.textToDisplay.ToLower();
         
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
         StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
