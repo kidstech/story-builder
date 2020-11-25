@@ -117,9 +117,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             revealSentenceAnimation(tiles);
             
 
-            // remove the tiles slowly and (someday) play an animation
             StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
-            // sentence.GetComponent<SentenceBar>().ClearTiles();
 
         }
 	}
@@ -137,17 +135,18 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     // to use this method, comment out the two lines below it:
     // completedSentences.GetComponentInChildren<Text>().text = rawSentence;
     // revealSentenceAnimation(rawSentence, words);
-    private IEnumerator revealSentenceWordByWord(List<Word> words) {
-        // if a sentence is already in the box we need to clear it before showing a new one
-        if (completedSentences.GetComponentInChildren<Text>().text != null){
-            completedSentences.GetComponentInChildren<Text>().text = "";
-        }
-        foreach(Word word in words) {
-        completedSentences.GetComponentInChildren<Text>().text += word.word + " ";
-        yield return new WaitForSecondsRealtime(1);
-        }
+    // private IEnumerator revealSentenceWordByWord(List<Word> words) {
+    //     // if a sentence is already in the box we need to clear it before showing a new one
+    //     if (completedSentences.GetComponentInChildren<Text>().text != null){
+    //         completedSentences.GetComponentInChildren<Text>().text = "";
+    //     }
+    //     foreach(Word word in words) {
+    //     completedSentences.GetComponentInChildren<Text>().text += word.word + " ";
+    //     yield return new WaitForSecondsRealtime(1);
+    //     }
         
-    }
+    // }
+    
     // method to slowly reveal the already completed sentence
     // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
     private void revealSentenceAnimation(List<WordTile> wordTiles){

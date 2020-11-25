@@ -72,6 +72,7 @@ public class TextToSpeechHandler : MonoBehaviour
             //
             voicesAvailable = false;
         }
+        voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
 
         //==================
         // CONCEPT: Being able to change your selected voices
@@ -151,8 +152,9 @@ public class TextToSpeechHandler : MonoBehaviour
         voicePitch = this.GetComponent<Slider>().value;
         audio.pitch = voicePitch;
     }
-
-    // Slowly here means that TTS acts on each tile individually, rather than combining the text from the tiles into a sentence and reading that.
+    /// <summary>
+    /// Slowly here means that TTS acts on each tile individually, rather than combining the text from the tiles into a sentence and reading that.
+    /// </summary>
     // This will probably only be used on the TextToSpeech button so the kids can get more practice with identifying their soon to-be sentence.
     public IEnumerator startSpeakingSentenceSlowly(List<WordTile> wordTiles, bool highlight){
         this.wordTiles = wordTiles;
@@ -266,11 +268,15 @@ public class TextToSpeechHandler : MonoBehaviour
     }
     // returns an approximation of how long the speaker needs to read a sentence
     public float getApproxSpeechTime(List<WordTile> wordTiles){
-
         float speechDuration = 0;
         foreach(WordTile tile in wordTiles){
             speechDuration += Speaker.ApproximateSpeechLength(tile.word.word);
         }
+        speechDuration = speechDuration / voiceRate; // account for changing voice speed
         return speechDuration;
+    }
+
+    public float getVoiceRate() {
+        return voiceRate;
     }
 }

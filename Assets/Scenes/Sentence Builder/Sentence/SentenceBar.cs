@@ -18,6 +18,8 @@ public class SentenceBar : MonoBehaviour
 
     int animcount = 1;
 
+    public TextToSpeechHandler tts;
+
     //
     private void Start()
     {
@@ -92,8 +94,9 @@ public class SentenceBar : MonoBehaviour
             
             // estimate the time it will take to speak a tile
             // so we can run this in parallel with text to speech
-            string tileText = this.transform.GetChild(0).GetComponentInChildren<Text>().text;
-            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText);
+            
+            string tileText = this.transform.GetChild(0).GetComponentInChildren<Text>().text; // we destroy a tile every loop and that moves our indices by one, so using a constant here works
+            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) / tts.getVoiceRate(); // voice rate is a float that acts as a percentage so 1 = 100% and 1.5 = 150%
             // logic here is that if we have x animations, we want each of their times to add up to timeToSpeak, so each animation gets timeToSpeak/x time to animate
             animation_time = timeToSpeak/animation_segments;
 
