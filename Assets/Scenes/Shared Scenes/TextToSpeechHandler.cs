@@ -1,15 +1,17 @@
-﻿/// <summary>
+/// <summary>
 /// Handles the text to speech system defined by RTVoice.
 /// Can and should be extended upon in the future to account for different voices.
 /// 
 /// <author> antin006@morris.umn.edu </author>
 /// </summary>
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model.Event;
 using System.Linq;
 using Crosstales.RTVoice.Model;
+using UnityEngine.UI;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -47,7 +49,7 @@ public class TextToSpeechHandler : MonoBehaviour
     private void Start()
     {
         // Hook functions to run each time an event is triggered from Speaker, namely when we start and stop speaking, as well as while we are speaking.
-        Speaker.OnSpeakNativeCurrentWord += SpeakNativeCurrentWord;
+        //Speaker.OnSpeakNativeCurrentWord += SpeakNativeCurrentWord; //An event triggered whenever a new word is spoken (native, Windows and iOS only)
         Speaker.OnSpeakStart += speakStartMethod;
         Speaker.OnSpeakComplete += speakCompleteMethod;
         
@@ -86,12 +88,12 @@ public class TextToSpeechHandler : MonoBehaviour
     //
     private void OnDestroy()
     {
-        Speaker.OnSpeakNativeCurrentWord -= SpeakNativeCurrentWord;
+        //Speaker.OnSpeakNativeCurrentWord -= SpeakNativeCurrentWord;
         Speaker.OnSpeakStart -= speakStartMethod;
         Speaker.OnSpeakComplete -= speakCompleteMethod;
     }
 
-    //
+    // keeping this because we want the sentence to be read more fluently once the sentence has been "built"
     public void startSpeakingSentence(List<WordTile> wordTiles, bool highlight)
     {
         this.wordTiles = wordTiles;
@@ -112,6 +114,34 @@ public class TextToSpeechHandler : MonoBehaviour
 
         //
         Speaker.SpeakNative(sentence, selectedVoice);
+    }
+    // Slowly here means that TTS acts on each tile individually, rather than combining the text from the tiles into a sentence and reading that.
+    // This will probably only be used on the TextToSpeech button so the kids can get more practice with identifying their soon to-be sentence.
+    public IEnumerator startSpeakingSentenceSlowly(List<WordTile> wordTiles, bool highlight){
+        this.wordTiles = wordTiles;
+        this.highlight = highlight;
+        // if TTS is already going, we will stop it from saying something else
+        if(speakingSentence == true){
+            stopSpeaking();
+        }
+
+        speakingSentence = true;
+
+        // iterate through all the word tiles we have in the sentence and activate TTS and highlighting on each one individually
+        foreach(WordTile wordTile in wordTiles){
+            // store the text of the word tile
+            string tileText = wordTile.GetComponentInChildren<Text>().text;
+
+            // approx how long it takes TTS to speak the word
+            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText);
+
+            StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
+            Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
+
+            // Wait for TTS to go through the current word before saying the next.
+            yield return new WaitForSeconds(timeToSpeak);
+            
+        }
     }
 
     // Event hook for the start of a speech
@@ -137,12 +167,12 @@ public class TextToSpeechHandler : MonoBehaviour
             //
             speakingSentence = false;
 
-            //
-            if(highlight)
-            {
-                //
-                wordTiles.Last().Highlight();
-            }
+            // not sure what the intention was here, but this seems to have been causing the last tile to stay highlighted after pushing the button.
+            // if(highlight)
+            // {
+            //     //
+            //     wordTiles.Last().Highlight();
+            // }
             
         }
     }

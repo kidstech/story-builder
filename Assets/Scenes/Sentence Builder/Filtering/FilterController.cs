@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +12,7 @@ public class FilterController : MonoBehaviour
     private List<string> lettersToFilter = new List<string>();
     private List<int> packsToFilter = new List<int>();
 
-    private LetterFilterButton[] letterButtons = new LetterFilterButton[23];
+    private LetterFilterButton[] letterButtons = new LetterFilterButton[25];
 
     //
     private void Start()

@@ -57,8 +57,8 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     //
     public void OnPointerClick(PointerEventData eventData)
     {
-        //
-        tts.startSpeakingSentence(sentence.GatherWordTiles(), true);
+        // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
+        StartCoroutine(tts.startSpeakingSentenceSlowly(sentence.GatherWordTiles(), true));
     }
 
     //
