@@ -106,15 +106,21 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(words);
+            
+            //
+            StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
             //
-            tts.startSpeakingSentence(tiles, false);
-
-            //
-            sentence.GetComponent<SentenceBar>().ClearTiles();
-
-            //
+            //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence;
+            // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
+            revealSentenceAnimation(tiles);
+            
+
+            // remove the tiles slowly and (someday) play an animation
+            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
+            // sentence.GetComponent<SentenceBar>().ClearTiles();
+
         }
 	}
 
@@ -126,6 +132,31 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         currentImage.sprite = downLever;
         yield return new WaitForSecondsRealtime(2);
         currentImage.sprite = upLever;
+    }
+    // currently just pops in one word at a time without an animation
+    // to use this method, comment out the two lines below it:
+    // completedSentences.GetComponentInChildren<Text>().text = rawSentence;
+    // revealSentenceAnimation(rawSentence, words);
+    private IEnumerator revealSentenceWordByWord(List<Word> words) {
+        // if a sentence is already in the box we need to clear it before showing a new one
+        if (completedSentences.GetComponentInChildren<Text>().text != null){
+            completedSentences.GetComponentInChildren<Text>().text = "";
+        }
+        foreach(Word word in words) {
+        completedSentences.GetComponentInChildren<Text>().text += word.word + " ";
+        yield return new WaitForSecondsRealtime(1);
+        }
+        
+    }
+    // method to slowly reveal the already completed sentence
+    // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
+    private void revealSentenceAnimation(List<WordTile> wordTiles){
+        // set position to right so animation actually moves from somewhere
+        completedSentences.GetComponentInChildren<Text>().rectTransform.position += new Vector3(350f,0f,0f);
+        // moving the entire group of words to the center over a total time of 1 second per word (which should change to the approx of tts later)
+        LeanTween.moveX(completedSentences.GetComponentInChildren<Text>().rectTransform, 0f, tts.getApproxSpeechTime(wordTiles));
+        // make sure the animation starts at 350 pixels to the right
+        completedSentences.GetComponentInChildren<Text>().rectTransform.position += new Vector3(350f,0f,0f);
     }
     
 }
