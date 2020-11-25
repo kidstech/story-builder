@@ -29,21 +29,24 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
     public void AssignVoices() {
         int i = 0;
         int numEnVoices = 0; // tracking index of next voice insertion point
-        int numVoiceButtons = Speaker.Voices.Count;
+        int numVoiceButtons = 3;
+        int totalNumberOfVoices = Speaker.Voices.Count;
         // iterate through available voices to find english cultures
-        for(i = 0; i < Speaker.Voices.Count; i++) {
+        for(i = 0; i < totalNumberOfVoices; i++) {
 
-            // if we've found enough voices to fill all our buttons, we break from the loop (we only have three buttons max)
-            if (numEnVoices == numVoiceButtons) {
-                break;
-            }
             // we only want english voices for pronunciation learning purposes
             if (Speaker.Voices[i].Culture == "en-US") {
                 // assign the voice name to the text box of the buttons in VoiceSelectionHub
                 voiceButtons[numEnVoices].gameObject.GetComponentInChildren<Text>().text = Speaker.Voices[i].Name;
                 numEnVoices++; // track which voice button we will add text to next
             }
+
+            // if we've found enough voices to fill all our buttons, we break from the loop (we only have three buttons max)
+            if (numEnVoices == numVoiceButtons) {
+                break;
+            }
         }
+
         // if we end up having less than 3 english voices, delete any empty voice change buttons
         if (numEnVoices < numVoiceButtons) {
             for(int c = numVoiceButtons; c > numEnVoices; c--) {
