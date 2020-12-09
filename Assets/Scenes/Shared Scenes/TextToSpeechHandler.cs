@@ -57,6 +57,12 @@ public class TextToSpeechHandler : MonoBehaviour
     // The index is which tile we are on in the sentence
     private int index = -1;
 
+    private Scrollbar sentenceScrollbar;
+
+    private float scrollbarValueIncrement = 0;
+    
+    // max number of word tiles that can be in view at once, needs to be changed if the size of the sentence bar or its tiles change
+    private int maxTilesPerSentence = 6;
     //
     private void Start()
     {
@@ -73,6 +79,8 @@ public class TextToSpeechHandler : MonoBehaviour
             voicesAvailable = false;
         }
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
+
+        sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
 
         //==================
         // CONCEPT: Being able to change your selected voices
@@ -154,9 +162,11 @@ public class TextToSpeechHandler : MonoBehaviour
     }
     /// <summary>
     /// Slowly here means that TTS acts on each tile individually, rather than combining the text from the tiles into a sentence and reading that.
+    /// This makes each word more emphasized, with more time between each word.
     /// </summary>
     // This will probably only be used on the TextToSpeech button so the kids can get more practice with identifying their soon to-be sentence.
     public IEnumerator startSpeakingSentenceSlowly(List<WordTile> wordTiles, bool highlight){
+
         this.wordTiles = wordTiles;
         this.highlight = highlight;
         // if TTS is already going, we will stop it from saying something else
@@ -166,13 +176,39 @@ public class TextToSpeechHandler : MonoBehaviour
 
         speakingSentence = true;
 
+        // 6 tiles fit in the sentence bar, so if we have more than that, we need to consider moving the scrollbar alongside the highlighting/TTS
+        if(wordTiles.Count > 6) {
+            // making sure the first tile is in view when TTS begins speaking
+            // seems to be working, but gives the slider a weird initial value. Not sure why that is
+            sentenceScrollbar.value = 0;
+            
+            // formula to calculate the value change needed to move the scrollbar one tile over is: (n) / (n)^2
+            // where n = numTiles - 6 and comes from our knowledge that only 6 tiles will fit in the viewport at a time, 
+            // so we only care about moving the scrollbar after things start getting out of view
+            float n = wordTiles.Count - 6; 
+
+            scrollbarValueIncrement = n/(n * n);
+        }
+
+        int loopCounter = 0;
+        int incrementCounter = 0;
+
         // iterate through all the word tiles we have in the sentence and activate TTS and highlighting on each one individually
         foreach(WordTile wordTile in wordTiles){
+
+            loopCounter++; // tracking when we need to move the scrollbar
             // store the text of the word tile
             string tileText = wordTile.GetComponentInChildren<Text>().text;
 
             // approx how long it takes TTS to speak the word
             float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) * (1/voiceRate);
+
+            // if we've gone past the 6 tiles in view and we aren't on the last six tiles
+            if (loopCounter > 6) {
+                // move the scrollbar one tile over so they stay in view
+                sentenceScrollbar.value += scrollbarValueIncrement;
+                incrementCounter++;
+            }
 
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
             //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));

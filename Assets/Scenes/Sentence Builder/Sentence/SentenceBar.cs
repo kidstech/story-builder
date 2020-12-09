@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Crosstales.RTVoice;
@@ -8,17 +8,19 @@ using UnityEngine.UI;
 public class SentenceBar : MonoBehaviour
 {
     //
-    private readonly int tileSize = 125;
+    private float tileSize = 130f;
 
     //
     private Vector2 originalSize;
 
-    //
+    // 
     private RectTransform r;
 
     int animcount = 1;
 
     public TextToSpeechHandler tts;
+
+    float futureWidth = 0;
 
     //
     private void Start()
@@ -50,17 +52,16 @@ public class SentenceBar : MonoBehaviour
     //
     public void ResizeSentence(int amountOfTileSpaceToAdd)
     {
-        //
+
+        // if the word tiles haven't taken up more space than can be displayed...
         if(GatherWordTiles().Count * tileSize < originalSize.x)
         {
-            //
+            // do nothing
             return;
         }
 
-        //
-        float futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
-
-        //
+        futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
+        
         if(futureWidth > originalSize.x)
         {
             //
@@ -142,7 +143,7 @@ public class SentenceBar : MonoBehaviour
 
             // the time each frame will take
             float yield_time = animation_time/frame_count;
-            float tile_height = 100;
+            float tile_height = 105;
             //float tile_height = child.gameObject.GetComponent<RectTransform>().rect.height + 50; 
 
             // the distance the tile will move each frame
