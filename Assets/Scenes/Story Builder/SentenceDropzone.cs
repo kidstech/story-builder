@@ -11,7 +11,7 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
         Default,
         SentenceBank,
         Page,
-        Trash
+        Trash,
     }
 
     //

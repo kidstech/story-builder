@@ -81,8 +81,9 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         //
         List<WordTile> tiles = sentence.GatherWordTiles();
+        completedSentences.GetComponentInChildren<SaveSentenceTiles>().savedSentence = copyTiles(tiles); // store all the tiles from our completed sentence in a new list
 
-        // If there is words in sentence
+        // If there are words in the sentence
         if (tiles.Count > 0)
         {
             //
@@ -112,7 +113,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
             //
             //StartCoroutine(revealSentenceWordByWord(words));
-            completedSentences.GetComponentInChildren<Text>().text = rawSentence;
+            completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
             revealSentenceAnimation(tiles);
             
@@ -121,6 +122,33 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         }
 	}
+
+    // copies all the wordtiles in the list so that when the original word tiles are deleted for the animation, we still have copies
+    // in case the user wants to drag their submitted sentence back into the sentence bar
+    // While this may seem weird, but just copying the list doesn't work because the actual word tile objects themselves are being destroyed, so the list references break otherwise
+    private List<WordTile> copyTiles(List<WordTile> wordTiles)
+    {
+        GameObject temp = GameObject.Find("SentenceInTiles");
+
+        // if we already have copies from previous sentence submissions, destroy them
+        if(temp.transform.childCount > 0) 
+        {
+            foreach(Transform child in temp.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        List<WordTile> copiedTiles = new List<WordTile>();
+        WordTile copyTile = null;
+        
+        foreach(WordTile wordtile in wordTiles)
+        {
+            copyTile = Instantiate(wordtile, temp.transform); // copy the wordtile and make it a child of the SentenceInTiles game object
+            copiedTiles.Add(copyTile);
+        }
+        return copiedTiles;
+    }
 
     /// <summary>
     /// Changes the lever image to the down position for 2 seconds, then reset it
