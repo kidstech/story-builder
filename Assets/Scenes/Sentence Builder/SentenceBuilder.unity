@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1321135474}
   m_HandleRect: {fileID: 1321135473}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2080,6 +2080,7 @@ GameObject:
   - component: {fileID: 934462498}
   - component: {fileID: 934462496}
   - component: {fileID: 934462495}
+  - component: {fileID: 934462497}
   m_Layer: 5
   m_Name: Sentence
   m_TagString: Untagged
@@ -2173,6 +2174,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behavior: 2
+--- !u!114 &934462497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934462491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41175d977c86004ea456bfc404791a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audio: {fileID: 138376906}
 --- !u!114 &934462498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2739,7 +2753,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 786042619}
   m_HandleRect: {fileID: 786042618}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4192,6 +4206,7 @@ GameObject:
   - component: {fileID: 1844566992}
   - component: {fileID: 1844566993}
   - component: {fileID: 1844566994}
+  - component: {fileID: 1844566995}
   m_Layer: 5
   m_Name: WordHolderDrop
   m_TagString: Untagged
@@ -4269,6 +4284,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WordHolderPopupPrefab: {fileID: 7750693819245514385, guid: b09922eedca48954098599ceb74aeab6,
     type: 3}
+--- !u!114 &1844566995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844566990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41175d977c86004ea456bfc404791a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audio: {fileID: 138376906}
 --- !u!114 &1844566996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5058,8 +5086,9 @@ GameObject:
   - component: {fileID: 2092331156}
   - component: {fileID: 2092331158}
   - component: {fileID: 2092331157}
+  - component: {fileID: 2092331159}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SentenceInTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5128,3 +5157,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092331155}
   m_CullTransparentMesh: 0
+--- !u!114 &2092331159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092331155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16871521c83a9fd4d9e1d8e8b3e5bce2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  savedSentence: []

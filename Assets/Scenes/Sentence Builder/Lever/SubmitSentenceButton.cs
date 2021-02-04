@@ -125,7 +125,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     // copies all the wordtiles in the list so that when the original word tiles are deleted for the animation, we still have copies
     // in case the user wants to drag their submitted sentence back into the sentence bar
-    // While this may seem weird, but just copying the list doesn't work because the actual word tile objects themselves are being destroyed, so the list references break otherwise
+    // While this may seem weird, just copying the list doesn't work because the actual word tile objects themselves are being destroyed, so the list references break otherwise
     private List<WordTile> copyTiles(List<WordTile> wordTiles)
     {
         GameObject temp = GameObject.Find("SentenceInTiles");
