@@ -185,7 +185,7 @@ public class TextToSpeechHandler : MonoBehaviour
             // formula to calculate the value change needed to move the scrollbar one tile over is: (n) / (n)^2
             // where n = numTiles - 6 and comes from our knowledge that only 6 tiles will fit in the viewport at a time, 
             // so we only care about moving the scrollbar after things start getting out of view
-            float n = wordTiles.Count - 6; 
+            float n = wordTiles.Count - 6; // move scrollbar before reaching final word in viewport for context
 
             scrollbarValueIncrement = n/(n * n);
         }
@@ -202,9 +202,9 @@ public class TextToSpeechHandler : MonoBehaviour
 
             // approx how long it takes TTS to speak the word
             float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) * (1/voiceRate);
+            int numberTilesReadBeforeScrolling = 4; // change this if you want begin scrolling earlier or later. (so if this were 6, the max number of tiles in view, scrolling wouldn't begin until TTS reached the last tile in the sentence bar)
 
-            // if we've gone past the 6 tiles in view and we aren't on the last six tiles
-            if (loopCounter > 6) {
+            if (loopCounter > numberTilesReadBeforeScrolling) {  
                 // move the scrollbar one tile over so they stay in view
                 sentenceScrollbar.value += scrollbarValueIncrement;
                 incrementCounter++;
