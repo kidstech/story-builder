@@ -179,11 +179,8 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
     private void revealSentenceAnimation(List<WordTile> wordTiles){
         // set position to right so animation actually moves from somewhere
-        completedSentences.GetComponentInChildren<Text>().rectTransform.position += new Vector3(300f,0f,0f);
-        // moving the entire group of words to the center over a total time of 1 second per word (which should change to the approx of tts later)
-        LeanTween.moveX(completedSentences.GetComponentInChildren<Text>().rectTransform, 0f, tts.getApproxSpeechTime(wordTiles));
-        // make sure the animation starts at 350 pixels to the right
-        completedSentences.GetComponentInChildren<Text>().rectTransform.position += new Vector3(300f,0f,0f);
+        completedSentences.position += new Vector3(800f,0f,0f); // sentence game object
+        LeanTween.moveX(completedSentences.gameObject, 600f, tts.getApproxSpeechTime(wordTiles));
     }
     
 }
