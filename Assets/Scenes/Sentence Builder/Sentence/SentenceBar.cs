@@ -130,6 +130,64 @@ public class SentenceBar : MonoBehaviour
         }
 
     }
+    // leantween version
+    public IEnumerator ClearTiles2()
+    {
+        // animation time will be used to tell each part of the animation how long it gets to play.
+        // we need this in order to keep our animations in sync with TTS.
+        float animation_time =  0;
+        int animation_segments = 3;
+        int length = this.transform.childCount;
+        int updatingLength = length;
+        float left_move_distance = 0;
+        float endPosX;
+        // finding the distance between any two tiles
+        if(length > 1){
+        left_move_distance = this.transform.GetChild(1).transform.position.x - this.transform.GetChild(0).transform.position.x;
+        }
+
+        // this cannot be a for each loop. It turns out that destroying the game objects that the for each loop uses to
+        // determine where it is in the loop causes very bad things to happen.
+        for(int i = 0; i < length; i++)
+        {
+            Transform child = this.transform.GetChild(0);
+            
+            // estimate the time it will take to speak a tile
+            // so we can run this in parallel with text to speech
+            
+            string tileText = child.GetComponentInChildren<Text>().text; // we destroy a tile every loop and that moves our indices by one, so using a constant here works
+            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) / tts.getVoiceRate(); // voice rate is a float that acts as a percentage so 1 = 100% and 1.5 = 150%
+            // logic here is that if we have x animations, we want each of their times to add up to timeToSpeak, so each animation gets timeToSpeak/x time to animate
+            animation_time = timeToSpeak/animation_segments;
+
+            // this initial wait time is here so we can see the word highlight and speak before it starts moving all over the place.
+            yield return new WaitForSeconds(animation_time);
+
+            LeanTween.moveY(child.gameObject, child.position.y + 105, animation_time); // move tile up 105 units
+            yield return new WaitForSeconds(animation_time);
+
+            // if we have multiple objects left in the list
+            if(updatingLength > 1){
+                // animate all but the first object in the list to the left
+                for(int a = 1; a < updatingLength; a++){
+                    Transform childA = this.transform.GetChild(a);
+                    LeanTween.moveX(childA.gameObject, childA.position.x - left_move_distance , animation_time);
+                }
+            }
+            yield return new WaitForSeconds(animation_time);
+
+            // By destroying the first child, we change the indices of the child array
+            // So if we were to use i here, we would destroy every other game object and eventually find ourselves outside of the array.
+            Destroy(this.transform.GetChild(0).gameObject);
+
+            // we need the sentence bar length to match our changed number of game objects
+            ResizeSentence(-1);
+            updatingLength--;
+            
+            // the re-size of our hierarchy of gameObjects needs a frame to properly update
+            yield return null;
+        }
+    }
 
     // takes in a child of the sentence transform and moves it upward smoothly
     public IEnumerator animateTileUp(Transform child, float animation_time)

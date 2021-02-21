@@ -123,7 +123,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             StartCoroutine(revealSentenceAnimation(tiles));
             
 
-            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
+            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles2());
 
         }
 	}
