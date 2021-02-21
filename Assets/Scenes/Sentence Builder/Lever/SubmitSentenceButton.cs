@@ -137,32 +137,19 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         yield return new WaitForSecondsRealtime(2);
         currentImage.sprite = upLever;
     }
-    // currently just pops in one word at a time without an animation
-    // to use this method, comment out the two lines below it:
-    // completedSentences.GetComponentInChildren<Text>().text = rawSentence;
-    // revealSentenceAnimation(rawSentence, words);
-    // private IEnumerator revealSentenceWordByWord(List<Word> words) {
-    //     // if a sentence is already in the box we need to clear it before showing a new one
-    //     if (completedSentences.GetComponentInChildren<Text>().text != null){
-    //         completedSentences.GetComponentInChildren<Text>().text = "";
-    //     }
-    //     foreach(Word word in words) {
-    //     completedSentences.GetComponentInChildren<Text>().text += word.word + " ";
-    //     yield return new WaitForSecondsRealtime(1);
-    //     }
-        
-    // }
 
     // method to slowly reveal the already completed sentence
     // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
     private IEnumerator revealSentenceAnimation(List<WordTile> wordTiles){
+        float approxSpeechTime;
+        approxSpeechTime = tts.getApproxSpeechTime(wordTiles);
         // set position to right so animation actually moves from somewhere
         completedSentences.GetComponentInChildren<Text>().rectTransform.position += new Vector3(760f,0f,0f);
         // wait for TTS to go for a bit before revealing
         // having an animation here eventually would be nice
-        yield return new WaitForSeconds(tts.getApproxSpeechTime(wordTiles) / 3);
+        yield return new WaitForSeconds(approxSpeechTime / 3);
         // moving the entire group of words to the center over a total time of 1 second per word (which should change to the approx of tts later)
-        LeanTween.moveX(completedSentences.GetComponentInChildren<Text>().rectTransform, 0f, tts.getApproxSpeechTime(wordTiles));
+        LeanTween.moveX(completedSentences.GetComponentInChildren<Text>().rectTransform, 0f, approxSpeechTime);
         // make sure the animation starts at 350 pixels to the right
         completedSentences.GetComponentInChildren<Text>().rectTransform.position += new Vector3(300f,0f,0f);
     }
