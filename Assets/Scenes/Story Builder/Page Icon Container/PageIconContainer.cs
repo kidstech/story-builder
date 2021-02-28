@@ -86,12 +86,14 @@ public class PageIconContainer : MonoBehaviour
         int leftOfCurrentPage = selectedPage - 1;
         // change focused page to the page before it
         UpdateSelectedPage(leftOfCurrentPage);
+        pageContainer.UpdateSelectedPage(leftOfCurrentPage);
     }
     // shifts the 3 pages in focus right by one
     public void movePageViewRight(int selectedPage) {
         int rightOfCurrentPage = selectedPage + 1;
         // change focused page to the page after it
         UpdateSelectedPage(rightOfCurrentPage);
+        pageContainer.UpdateSelectedPage(rightOfCurrentPage);
     }
 
     //

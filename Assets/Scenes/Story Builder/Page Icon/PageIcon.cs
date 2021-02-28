@@ -10,12 +10,14 @@ public class PageIcon : MonoBehaviour
 
     //
     private PageIconContainer pageIconContainer;
+    public GameObject pageContainer;
     private Button button;
 
     //
     private void Start()
     {
         //
+        pageContainer = GameObject.Find("PageContainer");
         pageIconContainer = transform.parent.GetComponent<PageIconContainer>();
         button = GetComponent<Button>();
 
@@ -28,6 +30,7 @@ public class PageIcon : MonoBehaviour
     {
         //
         pageIconContainer.UpdateSelectedPage(pageNumber);
+        pageContainer.transform.GetComponent<PageContainer>().UpdateSelectedPage(pageNumber);
     }
 
     //
