@@ -180,7 +180,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     private void revealSentenceAnimation(List<WordTile> wordTiles){
         // set position to right so animation actually moves from somewhere
         completedSentences.position += new Vector3(800f,0f,0f); // sentence game object
-        LeanTween.moveX(completedSentences.gameObject, 600f, tts.getApproxSpeechTime(wordTiles));
+        LeanTween.moveLocalX(completedSentences.gameObject, 0f, tts.getApproxSpeechTime(wordTiles));
     }
     
 }
