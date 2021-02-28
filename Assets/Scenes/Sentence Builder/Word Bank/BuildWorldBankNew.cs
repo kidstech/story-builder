@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BuildWorldBankNew : MonoBehaviour
 {
     //
-    private readonly int TILE_HEIGHT = 75;
+    private readonly int TILE_HEIGHT = 50;
     private readonly int TILES_PER_ROW = 6;
 
     // Class that holds all of the words
