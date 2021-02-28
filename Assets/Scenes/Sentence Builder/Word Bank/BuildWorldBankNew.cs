@@ -7,7 +7,7 @@ public class BuildWorldBankNew : MonoBehaviour
 {
     //
     private readonly int TILE_HEIGHT = 75;
-    private readonly int TILES_PER_ROW = 5;
+    private readonly int TILES_PER_ROW = 6;
 
     // Class that holds all of the words
     private List<Word> words;
