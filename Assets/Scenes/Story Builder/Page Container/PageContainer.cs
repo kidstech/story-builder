@@ -31,7 +31,7 @@ public class PageContainer : MonoBehaviour
     public int maxPageCount = 30;
 
     // Keep track of
-    public int selectedPage = -1;
+    public int selectedPageGlobal = -1;
     private int currentPageCount = 0;
 
     //
@@ -70,7 +70,7 @@ public class PageContainer : MonoBehaviour
         }
 
         //
-        int pageNumber = selectedPage + 1;
+        int pageNumber = selectedPageGlobal + 1;
 
         //
         currentPageCount++;
@@ -92,7 +92,6 @@ public class PageContainer : MonoBehaviour
     {
         //
         currentPageCount--;
-
         //
         Destroy(transform.GetChild(selectedPage).gameObject);
 
@@ -107,7 +106,11 @@ public class PageContainer : MonoBehaviour
 
         AdjustOtherPages();
 
+        // decrement to account for deleted index, unless we've deleted the first object
+        if(selectedPageGlobal != 0) selectedPageGlobal--;
+
         UpdateSelectedPage(selectedPage);
+
     }
 
     //
@@ -117,10 +120,10 @@ public class PageContainer : MonoBehaviour
          *  Probably worth it to only update pages PAST the selected pages
          */
 
-        if (selectedPage == -1) return;
+        if (selectedPageGlobal == -1) return;
 
         //
-        for (int i = selectedPage; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Page>().pageNumber = i;
         }
@@ -135,21 +138,21 @@ public class PageContainer : MonoBehaviour
             if (transform.childCount != 0)
             {
                 // Otherwise set the only thing in the list as focus
-                selectedPage = 0;
+                selectedPageGlobal = 0;
                 transform.GetChild(0).gameObject.SetActive(true);
             }
         }
         else
         {
             //
-            if (selectedPage != -1)
+            if (selectedPageGlobal != -1)
             {
-                transform.GetChild(selectedPage).gameObject.SetActive(false);
+                transform.GetChild(selectedPageGlobal).gameObject.SetActive(false);
             }
 
-            selectedPage = pageNumber;
+            selectedPageGlobal = pageNumber;
 
-            if (selectedPage != -1)
+            if (selectedPageGlobal != -1)
             {
                 //
                 transform.GetChild(pageNumber).gameObject.SetActive(true);
@@ -194,7 +197,7 @@ public class PageContainer : MonoBehaviour
         fullPage = fullPage.Remove(fullPage.Length - 1, 1);
 
         //
-        Debug.Log(fullPage);
+        //Debug.Log(fullPage);
     }
 
     //

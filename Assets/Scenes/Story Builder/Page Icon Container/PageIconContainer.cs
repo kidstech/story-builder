@@ -86,16 +86,12 @@ public class PageIconContainer : MonoBehaviour
         int leftOfCurrentPage = selectedPage - 1;
         // change focused page to the page before it
         UpdateSelectedPage(leftOfCurrentPage);
-        // update the active pages
-        EnableIcons();
     }
     // shifts the 3 pages in focus right by one
     public void movePageViewRight(int selectedPage) {
         int rightOfCurrentPage = selectedPage + 1;
         // change focused page to the page after it
         UpdateSelectedPage(rightOfCurrentPage);
-        // update active pages
-        EnableIcons();
     }
 
     //
@@ -103,18 +99,18 @@ public class PageIconContainer : MonoBehaviour
     {
         //
         if (currentPageCount <= 0) return;
-
-        //
-        currentPageCount--;
-
+        
         //
         Destroy(transform.GetChild(selectedPage).gameObject);
-
+        
         //
         pageContainer.RemovePage(selectedPage);
 
         //
         StartCoroutine(RemovePageCoroutine());
+
+        //
+        currentPageCount--;
     }
 
     // We need to wait until the end of the frame after the Destroy resolve (it stays on screen until end of frame)
@@ -124,26 +120,30 @@ public class PageIconContainer : MonoBehaviour
 
         AdjustOtherPages();
 
+        if (selectedPage != 0) selectedPage--; // decrement index to account for page deletion, if we haven't deleted the first page
+
         UpdateSelectedPage(selectedPage);
     }
 
     //
     public void UpdateSelectedPage(int pageNumber)
     {
+        // if last page in list...
         if (pageNumber == currentPageCount)
         {
-            // If it's the last thing in the list, do nothing
-            if(transform.childCount != 0)
+            // last page in populated list...
+            if(transform.childCount > 1)
             {
                 // reset coloration of last page
                 transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
-                // Otherwise set the only thing in the list as focus
+                // change selected view to first page (roll over from end to beginning)
                 selectedPage = 0;
                 transform.GetChild(0).GetComponent<Image>().color = yellow;
             }
+            // if we have gone left of start, roll over to end
         } else if (pageNumber == -1) {
             transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
-            selectedPage = currentPageCount - 1; // last page
+            selectedPage = currentPageCount - 1; // set selected page to last in list
             transform.GetChild(selectedPage).GetComponent<Image>().color = yellow;
 
         } else {
@@ -174,25 +174,52 @@ public class PageIconContainer : MonoBehaviour
     {
         if (currentPageCount == 0) return;
 
-        // if we only have three pages or our focus is on the first page we want the first three pages displayed
-        if(currentPageCount < 4 || selectedPage == 0)
+        // if first page...
+        if(selectedPage == 0)
         {
-            for (int i = 0; i < transform.childCount; i++)
+            // and we have 3+ pages...
+            if (currentPageCount >= 3) 
             {
-                transform.GetChild(i).gameObject.SetActive(true);
+                // we have enough pages, show the first three
+                for (int i = 0; i <= 2; i++) transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else 
+            {
+                // we don't have enough pages to simply show the first three, so we show all the pages we have
+                ShowAllPages();
+            }
+
+        }
+        // if last page...
+        else if (selectedPage == currentPageCount - 1){
+
+            // and we don't have enough pages to get two pages behind the last...
+            if(currentPageCount < 3)
+            {
+                ShowAllPages();
+            }
+            else
+            {
+                // if we've rolled over from page 1 to the last page, deactivate the first three pages
+                if(transform.GetChild(0).gameObject.activeSelf == true)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        transform.GetChild(i).gameObject.SetActive(false);
+                    }
+                }
+                // show last 3 pages
+                for (int i = selectedPage - 2; i < currentPageCount; i++)
+                {
+                    transform.GetChild(i).gameObject.SetActive(true);
+                }
             }
         }
-        // otherwise if we are focused on the last page and we have at least three pages, display the last three of them
-        else if (currentPageCount >= 3 && (selectedPage == currentPageCount - 1)){
-            for (int i = selectedPage - 2; i < currentPageCount; i++){
-                transform.GetChild(i).gameObject.SetActive(true);
-            }
-        }
-        else
+        else // show 3 pages, centered on selected page
         {
             for(int i = 0; i < transform.childCount; i++)
             {
-                // keep only three active pages; one to the left of the focused page, the focused page,  and one to the right
+                // keep only three active pages; one to the left of the focused page, the focused page, and one to the right
                 if(i >= selectedPage - 1 && i < selectedPage + 2)
                 {
                     transform.GetChild(i).gameObject.SetActive(true);
@@ -204,5 +231,8 @@ public class PageIconContainer : MonoBehaviour
                 } 
             }
         }
+    }
+    private void ShowAllPages() {
+        for (int i = 0; i < transform.childCount; i++) transform.GetChild(i).gameObject.SetActive(true);
     }
 }
