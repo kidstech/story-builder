@@ -51,7 +51,7 @@ public class PageContainer : MonoBehaviour
     {
         GameObject newPage;
 
-        switch(pageType)
+        switch (pageType)
         {
             case PAGE.PICTURE_TOP:
                 newPage = Instantiate(pagePrefabPictureTop);
@@ -166,28 +166,24 @@ public class PageContainer : MonoBehaviour
         //
         string fullPage = "";
 
-        // For every page
-        for(int i = 0; i < transform.childCount; i++)
+        //
+        PAGE type = transform.GetChild(selectedPage).GetComponent<Page>().type;
+
+        //
+        if (type == PAGE.NO_PICTURE)
         {
             //
-            PAGE type = transform.GetChild(i).GetComponent<Page>().type;
-
-            //
-            if(type == PAGE.NO_PICTURE)
+            for (int o = 0; o < transform.GetChild(0).childCount; o++)
             {
-                //
-                for (int o = 0; o < transform.GetChild(0).childCount; o++)
-                {
-                    fullPage += transform.GetChild(i).GetChild(o).GetComponentInChildren<Text>().text + ". ";
-                }
+                fullPage += transform.GetChild(selectedPage).GetChild(o).GetComponentInChildren<Text>().text + ". ";
             }
-            else
+        }
+        else
+        {
+            //
+            for (int o = 0; o < transform.GetChild(0).GetChild(0).childCount; o++)
             {
-                //
-                for (int o = 0; o < transform.GetChild(0).GetChild(0).childCount; o++)
-                {
-                    fullPage += transform.GetChild(i).GetChild(0).GetChild(o).GetComponentInChildren<Text>().text + ". ";
-                }
+                fullPage += transform.GetChild(selectedPage).GetChild(0).GetChild(o).GetComponentInChildren<Text>().text + ". ";
             }
         }
 
@@ -206,14 +202,14 @@ public class PageContainer : MonoBehaviour
         List<SavedSentence> list = new List<SavedSentence>();
 
         // For every page
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             Page currentPage = transform.GetChild(i).GetComponent<Page>();
 
-            if(currentPage.type == PAGE.NO_PICTURE)
+            if (currentPage.type == PAGE.NO_PICTURE)
             {
                 // For every sentence in the page
-                for(int o = 0; o < currentPage.transform.childCount; o++)
+                for (int o = 0; o < currentPage.transform.childCount; o++)
                 {
                     // Add in the sentence
                     list.Add(currentPage.transform.GetChild(o).GetComponent<SentenceObject>().savedSentence);
@@ -222,7 +218,7 @@ public class PageContainer : MonoBehaviour
             else
             {
                 // For every sentence in the page
-                for(int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
+                for (int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
                 {
                     // Add in the sentence
                     list.Add(currentPage.transform.GetChild(0).GetChild(o).GetComponent<SentenceObject>().savedSentence);
