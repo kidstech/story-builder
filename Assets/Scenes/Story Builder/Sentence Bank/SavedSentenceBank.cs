@@ -38,6 +38,8 @@ public class SavedSentenceBank : MonoBehaviour
 
             //
             newSentence.transform.SetParent(this.transform, false);
+
+            newSentence.AddComponent<SpeakSentence>();
         }
     }
 

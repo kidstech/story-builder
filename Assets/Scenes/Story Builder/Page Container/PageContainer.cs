@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Crosstales.RTVoice;
 
 public class PageContainer : MonoBehaviour
 {
@@ -192,6 +193,8 @@ public class PageContainer : MonoBehaviour
 
         //
         fullPage = fullPage.Remove(fullPage.Length - 1, 1);
+
+        Speaker.Speak(fullPage);
 
         //
         Debug.Log(fullPage);
