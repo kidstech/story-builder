@@ -14,6 +14,11 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
         WordHolder,
         WordBank
     }
+    private GameObject sentenceBar;
+
+    public void start() {
+        sentenceBar = GameObject.Find("Sentence");
+    }
 
     //
     public Behavior behavior = Behavior.Default;
@@ -44,6 +49,10 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if(d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
                 //
+                GetComponent<SentenceBar>().ResizeSentence(1);
+            }
+            if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
+            {
                 GetComponent<SentenceBar>().ResizeSentence(1);
             }
         }
@@ -81,6 +90,11 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                 //
                 GetComponent<SentenceBar>().ResizeSentence(-1);
             }
+
+            if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
+            {
+                GetComponent<SentenceBar>().ResizeSentence(-1);
+            }
         }
     }
 
@@ -111,7 +125,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.WordBank:
-
                     //Debug.Log("You have placed the tile in the wordbank.");
                     Destroy(droppedtile);
                     // fixes the New Game Objects that were being leftover when we dragged a tile from the wordbank to itself

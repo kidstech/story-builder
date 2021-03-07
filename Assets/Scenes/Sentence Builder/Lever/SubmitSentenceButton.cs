@@ -33,6 +33,8 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     //
     private Image currentImage;
 
+    GameObject sentenceScrollBar;
+
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
@@ -43,6 +45,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
 		defaultSize = this.transform.GetComponent<Image>().rectTransform.sizeDelta;
 		highlightSize = new Vector2 (defaultSize.x + 10, defaultSize.y + 10);
+        sentenceScrollBar = GameObject.FindGameObjectWithTag("SentenceBar");
 	}
 		
 	/// <summary>
@@ -78,6 +81,9 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         // Pull the lever kronk!
         StartCoroutine(pullLever());
+
+        // reset the scrollbar when the submit sentence animation begins
+        sentenceScrollBar.GetComponent<Scrollbar>().value = 0;
 
         //
         List<WordTile> tiles = sentence.GatherWordTiles();
@@ -115,10 +121,10 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
-            revealSentenceAnimation(tiles);
+            StartCoroutine(revealSentenceAnimation(tiles));
             
 
-            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
+            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles2());
 
         }
 	}
@@ -159,25 +165,12 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         yield return new WaitForSecondsRealtime(2);
         currentImage.sprite = upLever;
     }
-    // currently just pops in one word at a time without an animation
-    // to use this method, comment out the two lines below it:
-    // completedSentences.GetComponentInChildren<Text>().text = rawSentence;
-    // revealSentenceAnimation(rawSentence, words);
-    // private IEnumerator revealSentenceWordByWord(List<Word> words) {
-    //     // if a sentence is already in the box we need to clear it before showing a new one
-    //     if (completedSentences.GetComponentInChildren<Text>().text != null){
-    //         completedSentences.GetComponentInChildren<Text>().text = "";
-    //     }
-    //     foreach(Word word in words) {
-    //     completedSentences.GetComponentInChildren<Text>().text += word.word + " ";
-    //     yield return new WaitForSecondsRealtime(1);
-    //     }
-        
-    // }
 
     // method to slowly reveal the already completed sentence
     // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
-    private void revealSentenceAnimation(List<WordTile> wordTiles){
+    private IEnumerator revealSentenceAnimation(List<WordTile> wordTiles){
+        float approxSpeechTime;
+        approxSpeechTime = tts.getApproxSpeechTime(wordTiles);
         // set position to right so animation actually moves from somewhere
         completedSentences.position += new Vector3(800f,0f,0f); // sentence game object
         LeanTween.moveLocalX(completedSentences.gameObject, 0f, tts.getApproxSpeechTime(wordTiles));
