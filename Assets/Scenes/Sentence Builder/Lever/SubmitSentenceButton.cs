@@ -121,7 +121,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
-            StartCoroutine(revealSentenceAnimation(tiles));
+            revealSentenceAnimation(tiles);
             
 
             StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles2());
@@ -168,7 +168,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     // method to slowly reveal the already completed sentence
     // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
-    private IEnumerator revealSentenceAnimation(List<WordTile> wordTiles){
+    private void revealSentenceAnimation(List<WordTile> wordTiles){
         float approxSpeechTime;
         approxSpeechTime = tts.getApproxSpeechTime(wordTiles);
         // set position to right so animation actually moves from somewhere
