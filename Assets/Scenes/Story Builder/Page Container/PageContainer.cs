@@ -76,7 +76,8 @@ public class PageContainer : MonoBehaviour
         //
         currentPageCount++;
 
-        //
+        // You might be able to make a VoiceSelectionHub prefab and then be able to associate that prefab with all newPage prefabs, and avoid using GameObject.Find here
+        newPage.GetComponent<TextToSpeechHandler>().audio = GameObject.Find("VoiceSelectionHub").GetComponent<AudioSource>();
         newPage.GetComponent<Page>().pageNumber = pageNumber;
         newPage.transform.SetParent(this.transform);
         newPage.transform.SetSiblingIndex(pageNumber);
@@ -158,13 +159,15 @@ public class PageContainer : MonoBehaviour
         }
     }
 
-    //
-    public void SpeakPage()
+    public IEnumerator SpeakPage()
     {
-        if (transform.childCount == 0) return;
+        if (transform.childCount == 0) yield return null;
 
         //
-        string fullPage = "";
+        //string fullPage = "";
+        Transform iteratedPagePrefab = null;
+        string textToRead = null;
+        float speechDuration = 0;
 
         //
         PAGE type = transform.GetChild(selectedPage).GetComponent<Page>().type;
@@ -173,27 +176,37 @@ public class PageContainer : MonoBehaviour
         if (type == PAGE.NO_PICTURE)
         {
             //
-            for (int o = 0; o < transform.GetChild(0).childCount; o++)
+            for (int o = 0; o < transform.GetChild(selectedPage).childCount; o++)
             {
-                fullPage += transform.GetChild(selectedPage).GetChild(o).GetComponentInChildren<Text>().text + ". ";
+                // example:          PageContainer => PagePrefab => SentencePrefab
+                iteratedPagePrefab = transform.GetChild(selectedPage).GetChild(o);
+                textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
+                yield return new WaitForSeconds(speechDuration);
             }
         }
         else
         {
             //
-            for (int o = 0; o < transform.GetChild(0).GetChild(0).childCount; o++)
+            for (int o = 0; o < transform.GetChild(selectedPage).GetChild(0).childCount; o++)
             {
-                fullPage += transform.GetChild(selectedPage).GetChild(0).GetChild(o).GetComponentInChildren<Text>().text + ". ";
+                // example:          PageContainer => PagePrefab => SentenceDropzone => SentencePrefab
+                iteratedPagePrefab = transform.GetChild(selectedPage).GetChild(0).GetChild(o);
+                textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
+                yield return new WaitForSeconds(speechDuration);
             }
         }
 
         //
-        fullPage = fullPage.Remove(fullPage.Length - 1, 1);
+        //fullPage = fullPage.Remove(fullPage.Length - 1, 1);
 
-        Speaker.Speak(fullPage);
+        //Speaker.Speak(fullPage);
 
         //
-        Debug.Log(fullPage);
+        //Debug.Log(fullPage);
     }
 
     //

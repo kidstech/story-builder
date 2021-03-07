@@ -18,6 +18,6 @@ public class SpeakPageButton : MonoBehaviour
 
     private void SpeakPage()
     {
-        pageContainer.SpeakPage();
+        StartCoroutine(pageContainer.SpeakPage());
     }
 }

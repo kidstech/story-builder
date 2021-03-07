@@ -4,10 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
 
-public class WordTile : MonoBehaviour, IPointerClickHandler
+public class SentenceTile : MonoBehaviour, IPointerClickHandler
 {
     //[HideInInspector]
-    public Word word;
     public string textToDisplay;
     private Color originalColor;
     private bool highlighted = false; 
@@ -19,13 +18,27 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         string textToRead = this.textToDisplay.ToLower();
         
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
-        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
+        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead) * 1/TextToSpeechHandler.voiceRate));
 
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
         TTS.startSpeakingWordTile(textToRead);
     }
-    
+
+    // This is used for the story construction side of things, to make speak page highlight the words as it goes
+    // The method is a copy of OnPointerClick that exists so we don't have to pass eventData when we want to read a tile without it being clicked on
+    public void ReadSentence()
+    {
+        string textToRead = this.textToDisplay.ToLower();
+        
+        // Highlight the word tile for approximately as long as it will take to say the text on the tile
+        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead) * 1/TextToSpeechHandler.voiceRate));
+
+        // Speak the text on the tile using the correct voice
+        TTS = GetComponentInParent<TextToSpeechHandler>();
+        TTS.startSpeakingWordTile(textToRead);
+    }
+
     //
     public void Highlight()
     {
@@ -82,14 +95,5 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
 
         yield return new WaitForSeconds(seconds);
         image.color = previous;
-    }
-
-    //
-    public void SetUpTile(Word word)
-    {
-        this.word = word;
-        this.name = word.word;
-        this.transform.GetComponentInChildren<Text>().text = word.word;
-        this.textToDisplay = word.word;
     }
 }
