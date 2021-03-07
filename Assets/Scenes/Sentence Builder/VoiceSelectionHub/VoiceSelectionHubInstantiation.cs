@@ -22,10 +22,7 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
     }
 
     // method that assigns voices to the three different change voice buttons
-    // currently just nabs first 3 voices in system
-
-    // TODO: implement logic checks for when there aren't enough voices in the system
-    // Grab only from english cultures
+    // currently just nabs first 3 en-US voices in system
     public void AssignVoices() {
         int i = 0;
         int numEnVoices = 0; // tracking index of next voice insertion point
