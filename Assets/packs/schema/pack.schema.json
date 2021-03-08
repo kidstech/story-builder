@@ -41,7 +41,11 @@
           "additionalProperties": false,
           "required": [
             "name",
-            "enabled"
+            "enabled",
+            "nouns",
+            "verbs",
+            "adjectives",
+            "misc"
           ]
         },
         "additionalItems": false,
