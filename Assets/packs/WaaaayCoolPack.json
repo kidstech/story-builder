@@ -1,10 +1,12 @@
 {
+	"$schema": "./schema/pack.schema.json",
 	"name": "Extra Cool Pack That Makes The Text Tiny",
     "icon": "c:/path",
     "enabled": true,
     
-    "default":
+    "wordpacks": [
     {
+		"id": "default",
 		"enabled": true,
     	"nouns":
     	[
@@ -37,4 +39,5 @@
     	[
     	]
     }
+]
 }
