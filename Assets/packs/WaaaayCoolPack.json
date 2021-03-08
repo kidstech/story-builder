@@ -1,43 +1,48 @@
 {
-	"$schema": "./schema/pack.schema.json",
-	"name": "Extra Cool Pack That Makes The Text Tiny",
-    "icon": "c:/path",
-    "enabled": true,
-    
-    "wordpacks": [
+  "$schema": "./schema/pack.schema.json",
+  "name": "Extra Cool Pack That Makes The Text Tiny",
+  "icon": "c:/path",
+  "enabled": true,
+
+  "wordpacks": [
     {
-		"id": "default",
-		"enabled": true,
-    	"nouns":
-    	[
-    		{"word": "Mora", "forms": ["Maura"]},
-			{"word": "Bella", "forms": ["Bella"]},
-			{"word": "Sven", "forms": ["Sven"]}
-    	],
-    	
-    	"verbs":
-    	[
-    		{"word": "explode", "forms":["explode", "exploded", "exploding"]},
-			{"word": "jump", "forms":["jump", "jumps", "jumped", "jumping"]},
-			{"word": "run", "forms":["run", "runs", "ran", "running"]},
-			{"word": "play", "forms":["play", "plays", "played", "playing"]},
-			{"word": "throw", "forms":["throw", "throws", "threw", "throwing"]},
-			{"word": "catch", "forms":["catch", "catches", "caught", "catching"]},
-			{"word": "walk", "forms":["walk", "walks", "walked", "walking"]},
-			{"word": "explore", "forms":["explore", "explores", "explored", "exploring"]},
-			{"word": "export", "forms":["export", "exports", "exported", "exporting"]},
-			{"word": "explain", "forms":["explain", "explains", "explained", "explaining"]},
-			{"word": "plant", "forms":["plant", "plants", "planted", "planting"]}
-    	],
-    	
-    	"adjectives":
-    	[
-			{"word": "hypnotic", "forms":["hypnotic"]}
-    	],
-    	
-    	"misc": 
-    	[
-    	]
+      "name": "default",
+      "enabled": true,
+      "nouns": [
+        { "word": "Mora", "forms": ["Maura"] },
+        { "word": "Bella", "forms": ["Bella"] },
+        { "word": "Sven", "forms": ["Sven"] }
+      ],
+
+      "verbs": [
+        { "word": "explode", "forms": ["explode", "exploded", "exploding"] },
+        { "word": "jump", "forms": ["jump", "jumps", "jumped", "jumping"] },
+        { "word": "run", "forms": ["run", "runs", "ran", "running"] },
+        { "word": "play", "forms": ["play", "plays", "played", "playing"] },
+        { "word": "throw", "forms": ["throw", "throws", "threw", "throwing"] },
+        {
+          "word": "catch",
+          "forms": ["catch", "catches", "caught", "catching"]
+        },
+        { "word": "walk", "forms": ["walk", "walks", "walked", "walking"] },
+        {
+          "word": "explore",
+          "forms": ["explore", "explores", "explored", "exploring"]
+        },
+        {
+          "word": "export",
+          "forms": ["export", "exports", "exported", "exporting"]
+        },
+        {
+          "word": "explain",
+          "forms": ["explain", "explains", "explained", "explaining"]
+        },
+        { "word": "plant", "forms": ["plant", "plants", "planted", "planting"] }
+      ],
+
+      "adjectives": [{ "word": "hypnotic", "forms": ["hypnotic"] }],
+
+      "misc": []
     }
-]
+  ]
 }
