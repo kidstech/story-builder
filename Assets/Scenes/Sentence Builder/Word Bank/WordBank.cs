@@ -9,10 +9,10 @@ public class WordBank : MonoBehaviour
     public List<WordTile> words;
 
     // The number of tiles that can fit inside of one row of the word bank
-    private readonly int tilesPerRow = 5;
+    private readonly int tilesPerRow = 6;
 
     //
-    private readonly int tileHeight = 75;
+    private readonly int tileHeight = 50;
 
     //
     public void ResizeWordBank(int numEnabledTiles)
