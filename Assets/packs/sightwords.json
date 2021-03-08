@@ -1,4 +1,5 @@
 {
+	"$schema": "./schema/pack.schema.json",
 	"name": "sight words",
 	"icon": "eye.png",
 	"enabled": true,

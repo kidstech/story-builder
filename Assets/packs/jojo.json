@@ -1,10 +1,12 @@
 {
+	"$schema": "./schema/pack.schema.json",
 	"name": "Jojo Siwa",
 	"icon": "jojo.png",
 	"enabled": true,
-
-	"jojo": 
+	"wordpacks":[
+	 
 	{
+		"id": "jojo",
 		"enabled": true,
 		
 		"nouns":
@@ -84,4 +86,5 @@
 			{"word": "her", "forms": ["her"]}
     	]
 	}
+]
 }
