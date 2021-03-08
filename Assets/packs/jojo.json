@@ -6,7 +6,7 @@
 	"wordpacks":[
 	 
 	{
-		"id": "jojo",
+		"name": "jojo",
 		"enabled": true,
 		
 		"nouns":

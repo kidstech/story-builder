@@ -6,7 +6,7 @@
 
 	"wordpacks": [
 	{
-		"id": "birthday",
+		"name": "birthday",
 		"enabled": true,
 		
 		"nouns":
