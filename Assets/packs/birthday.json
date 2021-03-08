@@ -1,10 +1,12 @@
 {
+	"$schema": "./schema/pack.schema.json",
 	"name": "Birthday Pack",
-	"icon": "C:\Users\Mora\Documents\GitHub\story-builder\Assets\packs\birthday.png",
+	"icon": "birthday.png",
 	"enabled": true,
 
-	"birthday": 
+	"wordpacks": [
 	{
+		"name": "birthday",
 		"enabled": true,
 		
 		"nouns":
@@ -33,7 +35,7 @@
 			{"word": "year", "forms": ["year", "years"]},
 			{"word": "decoration", "forms": ["decoration", "decorations"]},
 			{"word": "laughter", "forms": ["laughter"]},
-			{"word": "parent", "forms": ["parent", "parents"]},
+			{"word": "parent", "forms": ["parent", "parents"]}
     	],
 		
 		"verbs":
@@ -69,4 +71,5 @@
     		
     	]
 	}
+]
 }

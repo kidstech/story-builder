@@ -1,0 +1,89 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "$schema": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "icon": {
+        "type": "string"
+      },
+      "enabled": {
+        "type": "boolean"
+      },
+      "wordpacks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "nouns": {
+              "$ref": "#/definitions/words"
+            },
+            "verbs": {
+              "$ref": "#/definitions/words"
+            },
+            "adjectives": {
+              "$ref": "#/definitions/words"
+            },
+            "misc": {
+              "$ref": "#/definitions/words"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "enabled"
+          ]
+        },
+        "additionalItems": false,
+        "minItems": 1,
+        "uniqueItems": true
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "name",
+      "icon",
+      "enabled",
+      "wordpacks"
+    ],
+    "definitions": {
+      "words": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "word": {
+              "type": "string"
+            },
+            "forms": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "additionalItems": false,
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "word",
+            "forms"
+          ]
+        },
+        "additionalItems": false,
+        "minItems": 0,
+        "uniqueItems": true
+      }
+    }
+  }
+  
