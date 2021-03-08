@@ -64,6 +64,8 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
                 d.placeholderParent = d.parentToReturnTo;
             }
 
+
+
             //
             d.heldOver = Behavior.Default;
         }
@@ -72,31 +74,31 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
     //
     public void OnDrop(PointerEventData eventData)
     {
+        GameObject droppedSentence = null;
         //
         DraggableSentence d = eventData.pointerDrag.GetComponent<DraggableSentence>();
+        droppedSentence = eventData.pointerDrag;
 
-        //
         if(d != null)
         {
-            //
-            switch (behavior)
-            {
-                //
-                case Behavior.Default:
-                case Behavior.Trash:
+            switch (behavior) {
                 case Behavior.SentenceBank:
-
-                    //
-                    Destroy(eventData.pointerDrag);
-
+                    Destroy(droppedSentence);
+                    Destroy(d.placeholder);
                     break;
 
-                //
+                case Behavior.Trash:
+                    Destroy(eventData.pointerDrag);
+                    break;
+
                 case Behavior.Page:
-
-                    //
                     d.parentToReturnTo = this.transform;
+                    break;
 
+                default:
+                    Destroy(droppedSentence);
+                    Destroy(d.placeholder);
+                    Destroy(eventData.pointerDrag);
                     break;
             }
         }
