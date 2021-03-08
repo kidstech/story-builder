@@ -133,6 +133,15 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
             //
             placeholder.transform.SetSiblingIndex(newSiblingIndex);
         }
+        else
+        {
+            // Remove the placeholder from the sentencebank
+            if (placeholder.transform.parent != placeholderParent)
+            {
+                //
+                placeholder.transform.SetParent(placeholderParent, false);
+            }
+        }
     }
 
     //

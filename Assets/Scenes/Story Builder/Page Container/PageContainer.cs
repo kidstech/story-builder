@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Crosstales.RTVoice;
 
 public class PageContainer : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class PageContainer : MonoBehaviour
     {
         GameObject newPage;
 
-        switch(pageType)
+        switch (pageType)
         {
             case PAGE.PICTURE_TOP:
                 newPage = Instantiate(pagePrefabPictureTop);
@@ -75,7 +76,8 @@ public class PageContainer : MonoBehaviour
         //
         currentPageCount++;
 
-        //
+        // You might be able to make a VoiceSelectionHub prefab and then be able to associate that prefab with all newPage prefabs, and avoid using GameObject.Find here
+        newPage.GetComponent<TextToSpeechHandler>().audio = GameObject.Find("VoiceSelectionHub").GetComponent<AudioSource>();
         newPage.GetComponent<Page>().pageNumber = pageNumber;
         newPage.transform.SetParent(this.transform);
         newPage.transform.SetSiblingIndex(pageNumber);
@@ -157,44 +159,54 @@ public class PageContainer : MonoBehaviour
         }
     }
 
-    //
-    public void SpeakPage()
+    public IEnumerator SpeakPage()
     {
-        if (transform.childCount == 0) return;
+        if (transform.childCount == 0) yield return null;
 
         //
-        string fullPage = "";
+        //string fullPage = "";
+        Transform iteratedPagePrefab = null;
+        string textToRead = null;
+        float speechDuration = 0;
 
-        // For every page
-        for(int i = 0; i < transform.childCount; i++)
+        //
+        PAGE type = transform.GetChild(selectedPage).GetComponent<Page>().type;
+
+        //
+        if (type == PAGE.NO_PICTURE)
         {
             //
-            PAGE type = transform.GetChild(i).GetComponent<Page>().type;
-
-            //
-            if(type == PAGE.NO_PICTURE)
+            for (int o = 0; o < transform.GetChild(selectedPage).childCount; o++)
             {
-                //
-                for (int o = 0; o < transform.GetChild(0).childCount; o++)
-                {
-                    fullPage += transform.GetChild(i).GetChild(o).GetComponentInChildren<Text>().text + ". ";
-                }
+                // example:          PageContainer => PagePrefab => SentencePrefab
+                iteratedPagePrefab = transform.GetChild(selectedPage).GetChild(o);
+                textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
+                yield return new WaitForSeconds(speechDuration);
             }
-            else
+        }
+        else
+        {
+            //
+            for (int o = 0; o < transform.GetChild(selectedPage).GetChild(0).childCount; o++)
             {
-                //
-                for (int o = 0; o < transform.GetChild(0).GetChild(0).childCount; o++)
-                {
-                    fullPage += transform.GetChild(i).GetChild(0).GetChild(o).GetComponentInChildren<Text>().text + ". ";
-                }
+                // example:          PageContainer => PagePrefab => SentenceDropzone => SentencePrefab
+                iteratedPagePrefab = transform.GetChild(selectedPage).GetChild(0).GetChild(o);
+                textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
+                yield return new WaitForSeconds(speechDuration);
             }
         }
 
         //
-        fullPage = fullPage.Remove(fullPage.Length - 1, 1);
+        //fullPage = fullPage.Remove(fullPage.Length - 1, 1);
+
+        //Speaker.Speak(fullPage);
 
         //
-        Debug.Log(fullPage);
+        //Debug.Log(fullPage);
     }
 
     //
@@ -203,14 +215,14 @@ public class PageContainer : MonoBehaviour
         List<SavedSentence> list = new List<SavedSentence>();
 
         // For every page
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             Page currentPage = transform.GetChild(i).GetComponent<Page>();
 
-            if(currentPage.type == PAGE.NO_PICTURE)
+            if (currentPage.type == PAGE.NO_PICTURE)
             {
                 // For every sentence in the page
-                for(int o = 0; o < currentPage.transform.childCount; o++)
+                for (int o = 0; o < currentPage.transform.childCount; o++)
                 {
                     // Add in the sentence
                     list.Add(currentPage.transform.GetChild(o).GetComponent<SentenceObject>().savedSentence);
@@ -219,7 +231,7 @@ public class PageContainer : MonoBehaviour
             else
             {
                 // For every sentence in the page
-                for(int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
+                for (int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
                 {
                     // Add in the sentence
                     list.Add(currentPage.transform.GetChild(0).GetChild(o).GetComponent<SentenceObject>().savedSentence);

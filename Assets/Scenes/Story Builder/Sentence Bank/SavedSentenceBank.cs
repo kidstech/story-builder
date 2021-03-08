@@ -11,6 +11,7 @@ public class SavedSentenceBank : MonoBehaviour
 
     //
     private Vector2 sentencePrefabSize;
+    private string sentenceText;
 
     //
     private void Start()
@@ -33,11 +34,16 @@ public class SavedSentenceBank : MonoBehaviour
             //
             newSentence.GetComponent<SentenceObject>().savedSentence = sentences[i];
 
+            sentenceText = CompileSentence(sentences[i].words);
             //
-            newSentence.GetComponentInChildren<Text>().text = CompileSentence(sentences[i].words);
+            newSentence.GetComponentInChildren<Text>().text = sentenceText;
 
             //
             newSentence.transform.SetParent(this.transform, false);
+
+            newSentence.GetComponent<SentenceTile>().textToDisplay = sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
+
+            //newSentence.AddComponent<SpeakSentence>();
         }
     }
 
