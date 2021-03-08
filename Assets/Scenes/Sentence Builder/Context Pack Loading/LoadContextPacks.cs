@@ -15,9 +15,6 @@ public class LoadContextPacks
     //
     public static List<Word> loadWords()
     {
-        // How many indexes before we start looking at wordpacks in the json context pack files
-        int offset = 3;
-
         // Get all the json in the "packs" directory
         string[] contextPacks = Directory.GetFiles(Path.Combine(Application.dataPath, "packs"), "*.json");
 
@@ -31,16 +28,12 @@ public class LoadContextPacks
             string raw_json = File.ReadAllText(contextPacks[contextPackId]);
             JSONObject cp = new JSONObject(raw_json);
 
-            //If the context pack is enabled
-            if (cp.list[2] == true)
+            // If the context pack is enabled
+            if (cp["enabled"] == true)
             {
-                //Get the number of word packs
-                int numWordPacks = cp.list.Count - offset;
-
-                //Loop through each word pack
-                for (int wordPackId = 0; wordPackId < numWordPacks; wordPackId++)
+                // Loop through each word pack
+                foreach (JSONObject wordpack in cp["wordpacks"]) 
                 {
-                    JSONObject wordpack = cp.list[offset + wordPackId];
                     //Check if word pack is enabled
                     if (wordpack["enabled"] == true)
                     {
@@ -58,7 +51,7 @@ public class LoadContextPacks
                                 }
 
                                 // Add that word (and all its forms) into our list
-                                AddWord(contextPackId, wordPackId, whichWordTypeIndex, baseWord, forms);
+                                AddWord(contextPackId, whichWordTypeIndex, baseWord, forms);
                             }
                             whichWordTypeIndex++;
                         }
@@ -88,7 +81,7 @@ public class LoadContextPacks
             {
 
                 // Add this to our list of context packs
-                AddContextPack(contextPackId, cp.list[0].str, contextPacks[contextPackId].Substring(0, contextPacks[contextPackId].Length - 5));
+                AddContextPack(contextPackId, cp["name"].str, contextPacks[contextPackId].Substring(0, contextPacks[contextPackId].Length - 5));
             }
         }
 
@@ -112,7 +105,7 @@ public class LoadContextPacks
     }
 
     //
-    private static void AddWord(int contextPackId, int wordPackId, int partOfSpeechId, string word, List<string> forms)
+    private static void AddWord(int contextPackId, int partOfSpeechId, string word, List<string> forms)
     {
         // Only add one instance of a word
         for (int i = 0; i < wordList.Count; i++)
@@ -130,7 +123,6 @@ public class LoadContextPacks
 
         // Populate the information we need
         w.contextPackId = contextPackId;
-        w.wordPackId = wordPackId;
         w.partOfSpeechId = partOfSpeechId;
         w.word = word;
         w.forms = forms;
