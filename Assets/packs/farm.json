@@ -7,7 +7,7 @@
 
     
     {
-      "id": "farm_animals",
+      "name": "farm_animals",
       "enabled": true,
       "nouns": [
         {"word": "goat", "forms": ["goat", "goats"]},
@@ -43,7 +43,7 @@
 
    
     {
-      "id":  "farm_equipment",
+      "name":  "farm_equipment",
       "enabled": true,
       "nouns":
       [

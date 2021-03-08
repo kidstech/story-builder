@@ -6,7 +6,7 @@
 	"wordpacks":
 	[ 
 		{
-			"id": "pre-k",
+			"name": "pre-k",
 			"enabled": true,
 			
 			"nouns":
@@ -68,7 +68,7 @@
 		},
 
 		{
-			"id": "k",
+			"name": "k",
 			"enabled": true,
 			
 			"nouns":
