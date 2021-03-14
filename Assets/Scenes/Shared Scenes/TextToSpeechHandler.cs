@@ -12,6 +12,7 @@ using Crosstales.RTVoice.Model.Event;
 using Crosstales.RTVoice.Model;
 using UnityEngine.UI;
 using Crosstales.RTVoice.Tool;
+using UnityEngine.SceneManagement;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -80,7 +81,11 @@ public class TextToSpeechHandler : MonoBehaviour
         }
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
 
-        sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
+        // prevents TTS Handler from throwing nullreference exceptions in the storybuilder scene by trying to look for the SentenceScrollbar
+        if (SceneManager.GetActiveScene().name == "SentenceBuilder")
+        {
+            sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
+        }
 
         //==================
         // CONCEPT: Being able to change your selected voices
