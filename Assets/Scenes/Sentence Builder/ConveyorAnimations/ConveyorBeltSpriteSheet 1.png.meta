@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: 0f63436dfa110ea449a292b92e8474b0
+guid: 0851a2069968a8f4d9ab4b464fee30e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4518501898342533689
-    second: ConveyorBeltSpriteSheet_0
+      213: 203089174276928284
+    second: ConveyorBeltSpriteSheet 1_0
   - first:
-      213: 4852929136320131680
-    second: ConveyorBeltSpriteSheet_1
+      213: -9030888140204009160
+    second: ConveyorBeltSpriteSheet 1_1
+  - first:
+      213: -7859224680920751345
+    second: ConveyorBeltSpriteSheet 1_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -53,7 +56,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 1438, z: 0, w: 0}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -95,7 +98,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ConveyorBeltSpriteSheet_0
+      name: ConveyorBeltSpriteSheet 1_0
       rect:
         serializedVersion: 2
         x: 357
@@ -109,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93a82a75981f4be30800000000000000
-      internalID: 4518501898342533689
+      spriteID: c13f08a278481d200800000000000000
+      internalID: 203089174276928284
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ConveyorBeltSpriteSheet_1
+      name: ConveyorBeltSpriteSheet 1_1
       rect:
         serializedVersion: 2
         x: 358
@@ -130,8 +133,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 062318a6651195340800000000000000
-      internalID: 4852929136320131680
+      spriteID: 8391adc8517dba280800000000000000
+      internalID: -9030888140204009160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ConveyorBeltSpriteSheet 1_2
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 1343
+        width: 1230
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f036cbbeacc6ee290800000000000000
+      internalID: -7859224680920751345
       vertices: []
       indices: 
       edges: []
