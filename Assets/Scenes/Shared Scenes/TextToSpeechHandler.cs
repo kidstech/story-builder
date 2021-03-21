@@ -63,6 +63,9 @@ public class TextToSpeechHandler : MonoBehaviour
     
     // max number of word tiles that can be in view at once, needs to be changed if the size of the sentence bar or its tiles change
     private int maxTilesPerSentence = 6;
+
+    // uncomment the line below to use animatePipes
+    //private SubmitSentenceButton submitSentenceButton;
     //
     private void Start()
     {
@@ -81,6 +84,8 @@ public class TextToSpeechHandler : MonoBehaviour
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
 
         sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
+        // uncomment the line below to use animatePipes
+        //submitSentenceButton = GameObject.Find("SubmitSentenceButton").GetComponent<SubmitSentenceButton>();
 
         //==================
         // CONCEPT: Being able to change your selected voices
@@ -210,7 +215,8 @@ public class TextToSpeechHandler : MonoBehaviour
                 sentenceScrollbar.value += scrollbarValueIncrement;
                 incrementCounter++;
             }
-
+            // uncomment the line below to use animatePipes
+            //StartCoroutine(animatePipes(timeToSpeak));
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
             //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
             Speaker.Speak(tileText.ToLower(), audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
@@ -294,6 +300,15 @@ public class TextToSpeechHandler : MonoBehaviour
             tick--;
         }
     }
+    // experimenting with basing animation duration/speed to match each word tile
+    // still need to figure out how to modify animation speed to coincide with TTS modulation.
+    // currently the animation speed is static, so while how long the animation plays changes, it will end on different frames, depending on TTS speed.
+    // public IEnumerator animatePipes(float duration)
+    // {
+    //     submitSentenceButton.pipesAnimator.SetBool("ProcessingTile", true);
+    //     yield return new WaitForSeconds(duration);
+    //     submitSentenceButton.pipesAnimator.SetBool("ProcessingTile", false);
+    // }
 
     // Stops an existing speech
     public void stopSpeaking()

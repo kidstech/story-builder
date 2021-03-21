@@ -35,7 +35,8 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     GameObject sentenceScrollBar;
 
-    public Animator animator;
+    public Animator conveyorAnimator;
+    public Animator pipesAnimator;
 
 	/// <summary>
 	/// Start this instance.
@@ -115,10 +116,13 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(words);
+
+            float speakDuration = tts.getApproxSpeechTime(tiles);
             
-            //
+            StartCoroutine(animateConveyorBelt(speakDuration));
+            StartCoroutine(animatePipes(speakDuration));
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
-            StartCoroutine(animateConveyorBelt(tts.getApproxSpeechTime(tiles)));
+            
             //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
@@ -180,9 +184,16 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public IEnumerator animateConveyorBelt(float duration)
     {
-        animator.SetBool("SubmittingSentence", true);
+        conveyorAnimator.SetBool("SubmittingSentence", true);
         yield return new WaitForSeconds(duration);
-        animator.SetBool("SubmittingSentence", false);
+        conveyorAnimator.SetBool("SubmittingSentence", false);
+    }
+
+    public IEnumerator animatePipes(float duration)
+    {
+        pipesAnimator.SetBool("ProcessingTile", true);
+        yield return new WaitForSeconds(duration + 1f);
+        pipesAnimator.SetBool("ProcessingTile", false);
     }
     
 }
