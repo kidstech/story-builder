@@ -139,7 +139,17 @@ public class PageContainer : MonoBehaviour
             {
                 // Otherwise set the only thing in the list as focus
                 selectedPageGlobal = 0;
+                transform.GetChild(pageNumber - 1).gameObject.SetActive(false);
                 transform.GetChild(0).gameObject.SetActive(true);
+            }
+        }
+        else if (pageNumber == currentPageCount + 1) // different conditional to distinguish between clicking left arrow to cycle to last page vs right arrow
+        {
+            if(transform.childCount != 0)
+            {
+                transform.GetChild(0).gameObject.SetActive(false); // deactivate first page
+                selectedPageGlobal = currentPageCount -1; // get index of last page
+                transform.GetChild(selectedPageGlobal).gameObject.SetActive(true); // activate last page
             }
         }
         else

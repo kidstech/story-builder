@@ -86,7 +86,11 @@ public class PageIconContainer : MonoBehaviour
         int leftOfCurrentPage = selectedPage - 1;
         // change focused page to the page before it
         UpdateSelectedPage(leftOfCurrentPage);
-        pageContainer.UpdateSelectedPage(leftOfCurrentPage);
+        if (leftOfCurrentPage == -1)
+        {
+            pageContainer.UpdateSelectedPage(currentPageCount + 1);
+        }
+        else pageContainer.UpdateSelectedPage(leftOfCurrentPage);
     }
     // shifts the 3 pages in focus right by one
     public void movePageViewRight(int selectedPage) {
@@ -145,8 +149,8 @@ public class PageIconContainer : MonoBehaviour
             // if we have gone left of start, roll over to end
         } else if (pageNumber == -1) {
             transform.GetChild(selectedPage).GetComponent<Image>().color = Color.white;
-            selectedPage = currentPageCount - 1; // set selected page to last in list
-            transform.GetChild(selectedPage).GetComponent<Image>().color = yellow;
+            selectedPage = currentPageCount + 1; // set selected page to one after last in list
+            transform.GetChild(currentPageCount - 1).GetComponent<Image>().color = yellow;
 
         } else {
             
@@ -192,7 +196,7 @@ public class PageIconContainer : MonoBehaviour
             }
 
         }
-        // if last page...
+        // logic for reaching last page from cycling right (CR)
         else if (selectedPage == currentPageCount - 1){
 
             // and we don't have enough pages to get two pages behind the last...
@@ -202,21 +206,34 @@ public class PageIconContainer : MonoBehaviour
             }
             else
             {
-                // if we've rolled over from page 1 to the last page, deactivate the first three pages
-                if(transform.GetChild(0).gameObject.activeSelf == true)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        transform.GetChild(i).gameObject.SetActive(false);
-                    }
-                }
-                // show last 3 pages
                 for (int i = selectedPage - 2; i < currentPageCount; i++)
                 {
                     transform.GetChild(i).gameObject.SetActive(true);
                 }
             }
         }
+        // end CR
+        
+        // logic for cycling left from first to last page (CL)
+        else if (selectedPage == currentPageCount + 1)
+        {
+            selectedPage = currentPageCount - 1; // reset to usable last page value
+            if (currentPageCount >= 3) //enough pages to show three
+            {
+                for (int i = 0; i < 3; i++)
+                    {
+                        transform.GetChild(i).gameObject.SetActive(false);
+                    }
+                Debug.Log("enableicons has reached the setactive logic");
+                for (int i = selectedPage - 2; i < currentPageCount; i++)
+                {
+                    transform.GetChild(i).gameObject.SetActive(true);
+                }
+            }
+            else ShowAllPages();
+        }
+        //end CL
+
         else // show 3 pages, centered on selected page
         {
             for(int i = 0; i < transform.childCount; i++)

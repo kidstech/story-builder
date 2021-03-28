@@ -25,7 +25,7 @@ public class DeletePageButton : MonoBehaviour
     // pop up confirmation window to confirm deletion
     private void ShowDialog() 
     {
-        if (EditorUtility.DisplayDialog("Confirm Deletion", "Are you sure you want to delete this?", "Delete", "Cancel") == true)
+        if (EditorUtility.DisplayDialog("Confirm Deletion", "Are you sure you want to delete this page?", "Delete", "Cancel") == true)
         {
             DeletePage();
         }
