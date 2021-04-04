@@ -10,21 +10,21 @@ public class SceneTransition : MonoBehaviour
 
     [Header("Game Objects in Scene")]
     public Transform canvas;
-    public Transform canvasttt;
-    public Transform canvassss;
 
-    [Header("Stuff")]
-    public int i;
-
-    private void Start()
-    {
-        // This is supposed to be the Text component
-        this.transform.GetChild(0).GetComponent<Text>().text = "";
+    // private void Start()
+    // {
+    //     // This is supposed to be the Text component
+    //     this.transform.GetChild(0).GetComponent<Text>().text = "";
         
+    // }
+
+    public void GoToStorybuilder()
+    {
+        SceneManager.LoadScene("StoryBuilder");
     }
 
-    public void ChangeScreen()
+    public void GoToSentenceBuilder()
     {
-        SceneManager.LoadScene("StoryBuilder", LoadSceneMode.Single);
+        SceneManager.LoadScene("SentenceBuilder");
     }
 }

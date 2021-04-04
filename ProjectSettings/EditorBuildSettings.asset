@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Story Viewer/StoryViewer.unity
     guid: bdce6d040266d03479c8228f4c57a637
+  - enabled: 1
+    path: Assets/Scenes/Story Builder/StoryBuilder.unity
+    guid: 1815d6417a7a6ad45bddafc9913db696
   m_configObjects: {}
