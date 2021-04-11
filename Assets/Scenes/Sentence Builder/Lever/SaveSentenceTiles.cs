@@ -10,13 +10,8 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private Vector3 startPosition;
     public List<WordTile> savedSentence; // storage for the latest submitted word tiles in case the user wishes to modify their sentence
     private bool dragging;
-    private GameObject sentence = null;
-    private bool drop = false;
-    
-    public void Start()
-    {
-        sentence = GameObject.Find("Sentence");
-    }    
+    public GameObject sentence;
+    private bool drop = false;  
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -29,7 +24,9 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = Camera.main.nearClipPlane;
+        transform.position = Camera.main.ScreenToWorldPoint(mousePos); // scene view is now using world position rather than 
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -37,6 +34,8 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
         // if we drag and release our sentence over the sentence bar, resubmit it
         if (eventData.hovered.Contains(sentence))
         {
+            Transform sentenceInTiles = transform.GetChild(0);
+            foreach(Transform child in sentenceInTiles) child.position = new Vector3(child.position.x, child.position.y, 0); // resetting z value of word tiles to 0 to make sure they are actually in frame/not behind the canvas
             resubmitSentence(draggedObject.GetComponentInChildren<SaveSentenceTiles>().savedSentence);
         }
         draggedObject = null;
@@ -49,7 +48,6 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     // Not sure if we want to be able to stuff the resubmitted sentence between words that have already been placed or not.
     public void resubmitSentence(List<WordTile> sentenceTiles)
     {
-        GameObject sentence = GameObject.Find("Sentence");
         foreach(WordTile wordtile in sentenceTiles)
         {
             // copy the word tile object and make it a child of SentenceInTiles 

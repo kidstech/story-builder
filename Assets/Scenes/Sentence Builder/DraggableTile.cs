@@ -32,7 +32,7 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void Start()
     {
         //
-        canvas = GameObject.Find("Canvas").transform;
+        canvas = GameObject.Find("SentenceBuilderCanvas").transform;
 
         //
         canvasGroup = GetComponent<CanvasGroup>();

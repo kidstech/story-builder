@@ -20,7 +20,7 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public SentenceDropzone.Behavior draggedFrom = SentenceDropzone.Behavior.SentenceBank;
 
     //
-    private Transform canvas = null;
+    public Transform canvas;
 
     //
     private Vector2 offset = Vector2.zero;
@@ -31,8 +31,6 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
     //
     private void Start()
     {
-        //
-        canvas = GameObject.Find("Canvas").transform;
 
         //
         canvasGroup = GetComponent<CanvasGroup>();

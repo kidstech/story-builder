@@ -77,7 +77,7 @@ public class PageContainer : MonoBehaviour
         currentPageCount++;
 
         // You might be able to make a VoiceSelectionHub prefab and then be able to associate that prefab with all newPage prefabs, and avoid using GameObject.Find here
-        newPage.GetComponent<TextToSpeechHandler>().audio = GameObject.Find("VoiceSelectionHub").GetComponent<AudioSource>();
+        newPage.GetComponent<TextToSpeechHandler>().audio = GameObject.Find("StoryBuilderVoiceSelectionHub").GetComponent<AudioSource>();
         newPage.GetComponent<Page>().pageNumber = pageNumber;
         newPage.transform.SetParent(this.transform);
         newPage.transform.SetSiblingIndex(pageNumber);

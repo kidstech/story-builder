@@ -12,6 +12,7 @@ using Crosstales.RTVoice.Model.Event;
 using Crosstales.RTVoice.Model;
 using UnityEngine.UI;
 using Crosstales.RTVoice.Tool;
+using UnityEngine.SceneManagement;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class TextToSpeechHandler : MonoBehaviour
     // The index is which tile we are on in the sentence
     private int index = -1;
 
-    private Scrollbar sentenceScrollbar;
+    public Scrollbar sentenceScrollbar;
 
     private float scrollbarValueIncrement = 0;
     
@@ -79,8 +80,6 @@ public class TextToSpeechHandler : MonoBehaviour
             voicesAvailable = false;
         }
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
-
-        sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
 
         //==================
         // CONCEPT: Being able to change your selected voices
