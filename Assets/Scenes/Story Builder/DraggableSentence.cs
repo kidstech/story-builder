@@ -92,7 +92,7 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public void OnDrag(PointerEventData eventData)
     {
         //
-        this.transform.position = eventData.position + offset;
+        this.transform.position = (eventData.position + offset);
 
         //
         if (heldOver == SentenceDropzone.Behavior.Page)
