@@ -183,16 +183,16 @@ public class PageContainer : MonoBehaviour
         float speechDuration = 0;
 
         //
-        PAGE type = transform.GetChild(selectedPage).GetComponent<Page>().type;
+        PAGE type = transform.GetChild(selectedPageGlobal).GetComponent<Page>().type;
 
         //
         if (type == PAGE.NO_PICTURE)
         {
             //
-            for (int o = 0; o < transform.GetChild(selectedPage).childCount; o++)
+            for (int o = 0; o < transform.GetChild(selectedPageGlobal).childCount; o++)
             {
                 // example:          PageContainer => PagePrefab => SentencePrefab
-                iteratedPagePrefab = transform.GetChild(selectedPage).GetChild(o);
+                iteratedPagePrefab = transform.GetChild(selectedPageGlobal).GetChild(o);
                 textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
                 speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
                 iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
@@ -202,10 +202,10 @@ public class PageContainer : MonoBehaviour
         else
         {
             //
-            for (int o = 0; o < transform.GetChild(selectedPage).GetChild(0).childCount; o++)
+            for (int o = 0; o < transform.GetChild(selectedPageGlobal).GetChild(0).childCount; o++)
             {
                 // example:          PageContainer => PagePrefab => SentenceDropzone => SentencePrefab
-                iteratedPagePrefab = transform.GetChild(selectedPage).GetChild(0).GetChild(o);
+                iteratedPagePrefab = transform.GetChild(selectedPageGlobal).GetChild(0).GetChild(o);
                 textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
                 speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
                 iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
