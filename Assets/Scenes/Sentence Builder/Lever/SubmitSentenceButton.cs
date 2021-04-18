@@ -124,7 +124,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             revealSentenceAnimation(tiles);
             
 
-            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles2());
+            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
 
         }
 	}
