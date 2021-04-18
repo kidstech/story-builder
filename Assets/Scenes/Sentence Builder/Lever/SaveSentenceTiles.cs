@@ -25,8 +25,7 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 mousePos = Input.mousePosition;
-        mousePos.z = Camera.main.nearClipPlane;
-        transform.position = Camera.main.ScreenToWorldPoint(mousePos); // scene view is now using world position rather than screen view - overlay. This converts our positional data into world space for us.
+        transform.position = mousePos;
     }
 
     public void OnEndDrag(PointerEventData eventData)
