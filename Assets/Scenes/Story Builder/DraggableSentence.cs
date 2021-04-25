@@ -92,8 +92,10 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public void OnDrag(PointerEventData eventData)
     {
         //
-        this.transform.position = (eventData.position + offset);
-
+        //this.transform.position = (eventData.position + offset);
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = Camera.main.nearClipPlane;
+        this.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
         //
         if (heldOver == SentenceDropzone.Behavior.Page)
         {
@@ -148,6 +150,9 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
         //
         this.transform.SetParent(parentToReturnTo, false);
         this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+        RectTransform sentenceTileCoords = this.transform.GetComponent<RectTransform>();
+        // give the sentence tile a draggable z position
+        this.transform.GetComponent<RectTransform>().position = new Vector3(sentenceTileCoords.position.x, sentenceTileCoords.position.y, 0);
 
         //
         draggedFrom = parentToReturnTo.GetComponent<SentenceDropzone>().behavior;

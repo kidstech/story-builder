@@ -25,7 +25,9 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 mousePos = Input.mousePosition;
-        transform.position = mousePos;
+        mousePos.z = Camera.main.nearClipPlane;
+        transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+
     }
 
     public void OnEndDrag(PointerEventData eventData)
