@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
+using DatabaseEntry; // namespace containing UserData class
+
+
 
 public class WordTile : MonoBehaviour, IPointerClickHandler
 {
@@ -19,7 +22,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     {
         image = GetComponent<Image>();
         originalColor = image.color;
-        
+        UserData userData = new UserData();
     }
 
     // When someone clicks a tile, speak the text on the tile and highlight the tile
@@ -33,8 +36,11 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
         TTS.startSpeakingWordTile(textToRead);
+
+        // call method to check if word exists in database and create/increment entries
+        UserData.UpdateWordCount(textToRead);
     }
-    
+
     //
     public void Highlight()
     {
