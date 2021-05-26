@@ -6,7 +6,6 @@ using Crosstales.RTVoice;
 using DatabaseEntry; // namespace containing UserData class
 
 
-
 public class WordTile : MonoBehaviour, IPointerClickHandler
 {
     //[HideInInspector]
@@ -39,6 +38,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
 
         // call method to check if word exists in database and create/increment entries
         UserData.UpdateWordCount(textToRead);
+        UserData.Stringify();
     }
 
     //

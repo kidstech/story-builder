@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 // based heavily off of this tutorial https://developer.mongodb.com/how-to/sending-requesting-data-mongodb-unity-game/
 // tldr => public fields are database fields
@@ -17,8 +18,8 @@ namespace DatabaseEntry
         public static string Stringify() // very much WIP
         {
             UserData userData = new UserData();
-            Debug.Log(JsonUtility.ToJson(userData));
-            return JsonUtility.ToJson(userData); // convert these public fields to a JSON string   
+            Debug.Log(JsonConvert.SerializeObject(wordCounts, Formatting.Indented));
+            return JsonConvert.SerializeObject(wordCounts, Formatting.Indented);
         }
 
         public static UserData Parse(string json) // WIP
