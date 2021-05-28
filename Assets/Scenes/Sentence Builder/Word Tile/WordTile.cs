@@ -21,7 +21,6 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     {
         image = GetComponent<Image>();
         originalColor = image.color;
-        UserData userData = new UserData();
     }
 
     // When someone clicks a tile, speak the text on the tile and highlight the tile
@@ -38,7 +37,10 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
 
         // call method to check if word exists in database and create/increment entries
         UserData.UpdateWordCount(textToRead);
-        UserData.Stringify();
+        if (UserData.userName != null) // user logged in
+        {
+            UserData.Stringify(UserData.userName); // update user file
+        }
     }
 
     //
