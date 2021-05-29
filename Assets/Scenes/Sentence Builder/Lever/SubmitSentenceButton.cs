@@ -55,7 +55,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 	/// <param name="eventData">Event data.</param>
 	public void OnPointerEnter (PointerEventData eventData)
     {
-        //
         currentImage.rectTransform.sizeDelta = highlightSize;
 	}
 
@@ -66,7 +65,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 	/// <param name="eventData">Event data.</param>
 	public void OnPointerExit (PointerEventData eventData)
     {
-        //
         currentImage.rectTransform.sizeDelta = defaultSize;
 	}
 
@@ -87,37 +85,29 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         //
         List<WordTile> tiles = sentence.GatherWordTiles();
+        tts.TrackWordCounts(tiles);
         completedSentences.GetComponentInChildren<SaveSentenceTiles>().savedSentence = copyTiles(tiles); // store all the tiles from our completed sentence in a new list
 
         // If there are words in the sentence
         if (tiles.Count > 0)
         {
-            //
             List<Word> words = new List<Word>();
-
-            //
             string rawSentence = "";
 
-            //
             foreach(WordTile tile in tiles)
             {
-                //
                 words.Add(tile.word);
 
-                //
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
 
-            //
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
 
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(words);
             
-            //
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
-            //
             //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it

@@ -28,7 +28,6 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 	// Play/stop image must be changed accordingly
 	private Image buttonImage;
 
-    //
     [Header("Objects in Scene")]
     public SentenceBar sentence;
     public TextToSpeechHandler tts;
@@ -36,7 +35,6 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
 
-    //
 	void Start()
     {
 		// Get a reference to the button image to swap play/stop images
@@ -54,24 +52,20 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 		highlightSize = new Vector2 (defaultSize.x + 10, defaultSize.y + 10);
 	}
 
-    //
     public void OnPointerClick(PointerEventData eventData)
     {
         // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
         StartCoroutine(tts.startSpeakingSentenceSlowly(sentence.GatherWordTiles(), true));
+        tts.TrackWordCounts(sentence.GatherWordTiles());
     }
 
-    //
     public void OnPointerEnter (PointerEventData eventData)
     {
-        //
 		buttonImage.rectTransform.sizeDelta = highlightSize;
 	}
 		
-    //
 	public void OnPointerExit (PointerEventData eventData)
     {
-        //
         buttonImage.rectTransform.sizeDelta = defaultSize;
 	}
 }

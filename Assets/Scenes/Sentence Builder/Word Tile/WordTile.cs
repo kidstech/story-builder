@@ -39,7 +39,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         UserData.UpdateWordCount(textToRead);
         if (UserData.userName != null) // user logged in
         {
-            UserData.Stringify(UserData.userName); // update user file
+            UserData.StoreUserData(UserData.userName); // update user file
         }
     }
 

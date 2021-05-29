@@ -3,8 +3,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
 
-// based heavily off of this tutorial https://developer.mongodb.com/how-to/sending-requesting-data-mongodb-unity-game/
-// tldr => public fields are database fields
+// originally based on this tutorial https://developer.mongodb.com/how-to/sending-requesting-data-mongodb-unity-game/
 namespace DatabaseEntry
 {
     public class UserData
@@ -13,18 +12,21 @@ namespace DatabaseEntry
         // Database fields
         public static string userName;
         public static Dictionary<string, int> wordCounts = new Dictionary<string, int>();
+        // there are two variables with the same path because the filePath will be changed around as users log in and out
+        // dirPath exists to check that the directory still exists even if filePath changes
         public static string dirPath = Path.Combine(Application.dataPath + "/", "Saves/", "UserData/");
         public static string filePath = Path.Combine(Application.dataPath + "/", "Saves/", "UserData/");
 
 
         // UserData Methods
-        public static string Stringify(string user) // very much WIP https://stackoverflow.com/a/43036691
+        public static void StoreUserData(string user)
         {
             string jsonWordCounts;
             UserData userData = new UserData();
+            // Remove this Debug in production
             Debug.Log("Username: " + user);
             // if there isn't already a filepath made for this user...
-            if (!File.Exists(filePath))
+            if (!FileExistsIsTrue())
             {
                 resetFilePath();
                 userName = user; // update userName
@@ -32,7 +34,7 @@ namespace DatabaseEntry
                 // and clear the dictionary
                 wordCounts.Clear();
                 jsonWordCounts = null;
-                
+
             }
             // otherwise if we are logging into another user from a previous one
             else if (!string.Equals(userName, user)) // userName would be previous user until overwritten
@@ -48,21 +50,24 @@ namespace DatabaseEntry
                 if (File.Exists(filePath))
                 {
                     // load up their info
-                    wordCounts = JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(filePath));
+                    wordCounts = LoadUserData();
                 }
-                
+
             }
-                // convert the dictionary to Json for file creation
-                jsonWordCounts = JsonConvert.SerializeObject(wordCounts, Formatting.Indented); 
-
-            userData.CreateJsonFile(jsonWordCounts, user);// testing file output
-            return jsonWordCounts;
+            // convert the dictionary to Json for file creation
+            jsonWordCounts = JsonConvert.SerializeObject(wordCounts, Formatting.Indented);
+            // make the file
+            CreateJsonFile(jsonWordCounts, user);
         }
 
-        public static UserData Parse(string json) // WIP
+        ///<summary>
+        /// Returns a dictionary of type string, int. Assumes that a user has already been selected
+        ///</summary>
+        public static Dictionary<string, int> LoadUserData()
         {
-            return JsonUtility.FromJson<UserData>(json); // convert a JSON string into UserData form
+            return JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(filePath)); // convert a JSON string into Dictionary form
         }
+
         public static void UpdateWordCount(string word)
         {
             // if the word isn't in the dictionary... (haven't heard it yet)
@@ -74,15 +79,8 @@ namespace DatabaseEntry
             {
                 wordCounts[word]++; // increment word counter
             }
-
-            // remove below in production
-            // foreach (var entry in wordCounts)
-            // {
-            //     Debug.Log($"Word {entry.Key}: TimesWordHeard={entry.Value}"); // print all key value pairs to console
-            // }
-            // remove above in production
         }
-        public void CreateJsonFile(string jsonUserData, string user)
+        public static void CreateJsonFile(string jsonUserData, string user)
         {
             CheckDirPath();
             File.WriteAllText(filePath, jsonUserData);
@@ -96,18 +94,23 @@ namespace DatabaseEntry
             }
             else return;
         }
-        
-        // not yet integrated
-        public bool FileExistsIsTrue(string user)
+
+        ///<summary> 
+        /// Simple clarifying helper function that returns true if a file already exists for an inputted user
+        ///</summary>
+        public static bool FileExistsIsTrue()
         {
-            if (File.Exists(filePath + user + ".json"))
+            if (File.Exists(filePath))
             {
                 return true;
             }
             else return false;
         }
 
-        public static void resetFilePath()
+        ///<summary>
+        /// resets the static filePath variable to its original instatiation. (.../Saves/UserData/)
+        ///</summary>
+        public static void resetFilePath()// please update function summary if original filePath is changed
         {
             filePath = Path.Combine(Application.dataPath + "/", "Saves/", "UserData/");
         }

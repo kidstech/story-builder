@@ -13,6 +13,7 @@ using Crosstales.RTVoice.Model;
 using UnityEngine.UI;
 using Crosstales.RTVoice.Tool;
 using UnityEngine.SceneManagement;
+using DatabaseEntry;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -64,7 +65,6 @@ public class TextToSpeechHandler : MonoBehaviour
     
     // max number of word tiles that can be in view at once, needs to be changed if the size of the sentence bar or its tiles change
     private int maxTilesPerSentence = 6;
-    //
     private void Start()
     {
         // Hook functions to run each time an event is triggered from Speaker, namely when we start and stop speaking, as well as while we are speaking.
@@ -76,7 +76,6 @@ public class TextToSpeechHandler : MonoBehaviour
         // Check if voices are available
         if (Speaker.Voices.Count <= 0)
         {
-            //
             voicesAvailable = false;
         }
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
@@ -111,7 +110,6 @@ public class TextToSpeechHandler : MonoBehaviour
         */
     }
 
-    //
     private void OnDestroy()
     {
         //Speaker.OnSpeakNativeCurrentWord -= SpeakNativeCurrentWord;
@@ -138,16 +136,27 @@ public class TextToSpeechHandler : MonoBehaviour
 
         foreach(WordTile wordTile in wordTiles)
         {
-            //
             sentence += wordTile.textToDisplay + " ";
         }
 
-        //
         sentence = sentence.Substring(0, sentence.Length - 1);
 
-        //
         Speaker.Speak(sentence, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
         
+    }
+
+    ///<summary>
+    /// Updates UserData and associated local file with word counts from a given sentence
+    ///</summary>
+    public void TrackWordCounts(List<WordTile> sentence)
+    {
+        // track each word spoken in the sentence
+        foreach (WordTile word in sentence)
+        {
+            UserData.UpdateWordCount(word.textToDisplay.ToLower());
+        }
+        // and store that data to a local file
+        UserData.StoreUserData(UserData.userName);
     }
 
     public void startSpeakingWordTile(string word){
@@ -242,29 +251,17 @@ public class TextToSpeechHandler : MonoBehaviour
         index = -1;
         tick = 0;
 
-        //
         if(speakingSentence)
         {
-            //
             speakingSentence = false;
-
-            // not sure what the intention was here, but this seems to have been causing the last tile to stay highlighted after pushing the button.
-            // if(highlight)
-            // {
-            //     //
-            //     wordTiles.Last().Highlight();
-            // }
-            
         }
     }
 
     // Event hook fired each time a new word is spoken.
     private void SpeakNativeCurrentWord(SpeakEventArgs e)
     {
-        //
         if (!highlight) return;
 
-        //
         if(speakingSentence)
         {
             // The variable tick will be 0 when the previous tile is done
@@ -281,18 +278,13 @@ public class TextToSpeechHandler : MonoBehaviour
                 // Calculate the number of ticks this tile will get depending upon how many words are on the tile
                 tick = textToRead.Split(' ').Length;
 
-                //
                 if (index > 0)
                 {
-                    //
                     wordTiles[index - 1].Highlight();
                 }
 
-                //
                 wordTiles[index].Highlight();
             }
-
-            //
             tick--;
         }
     }
@@ -302,8 +294,6 @@ public class TextToSpeechHandler : MonoBehaviour
     {
         // Stop speaking
         Speaker.Silence();
-
-        //
         isSpeaking = false;
     }
     // returns an approximation of how long the speaker needs to read a sentence
