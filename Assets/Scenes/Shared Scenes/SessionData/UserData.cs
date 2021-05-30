@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+using System.Text;
+using System.Collections;
+using UnityEngine.Networking;
 
 // originally based on this tutorial https://developer.mongodb.com/how-to/sending-requesting-data-mongodb-unity-game/
 namespace DatabaseEntry
@@ -16,6 +19,7 @@ namespace DatabaseEntry
         // static fields
         public static string staticUsername;
         public static Dictionary<string, int> staticWordCounts = new Dictionary<string, int>();
+        public static string jsonUserData;
         // there are two variables with the same path because the filePath will be changed around as users log in and out
         // dirPath exists to check that the directory still exists even if filePath changes
         private static string dirPath = Path.Combine(Application.dataPath + "/", "Saves/", "UserData/");
@@ -25,9 +29,6 @@ namespace DatabaseEntry
         // UserData Methods
         public static void StoreUserData(string user)
         {
-            string jsonUserData;
-            UserData userData = new UserData();
-            // Remove this Debug in production
             Debug.Log("Current user: " + user);
             // if there isn't already a filepath made for this user...
             if (!FileExistsIsTrue())
@@ -58,23 +59,27 @@ namespace DatabaseEntry
                 }
 
             }
+            SerializeUserData();
+            // make the file
+            CreateJsonFile(jsonUserData, user);
+        }
+
+        public static void SerializeUserData()
+        {
+            UserData userData = new UserData();
             // populate temporary instance of userData (JsonConvert.SerializeObject doesn't work on static fields)
             userData.wordCounts = staticWordCounts;
             userData.username = staticUsername;
             // convert UserData to Json for file creation
             jsonUserData = JsonConvert.SerializeObject(userData);
-            Debug.Log(jsonUserData);
-            
-            // make the file
-            CreateJsonFile(jsonUserData, user);
         }
 
         ///<summary>
-        /// Returns a dictionary of type string, int. Assumes that a user has already been selected
+        /// Returns UserData from a json object. Assumes that a user has already been selected
         ///</summary>
         public static UserData LoadUserData()
         {
-            return JsonConvert.DeserializeObject<UserData>(File.ReadAllText(filePath)); // convert a JSON string into Dictionary form
+            return JsonConvert.DeserializeObject<UserData>(File.ReadAllText(filePath)); // convert a JSON string into UserData
         }
 
         public static void UpdateWordCount(string word)
@@ -93,6 +98,67 @@ namespace DatabaseEntry
         {
             CheckDirPath();
             File.WriteAllText(filePath, jsonUserData);
+        }
+
+        public static IEnumerator Upload(string userData, System.Action<bool> callback = null)
+        {
+            using (UnityWebRequest request = new UnityWebRequest("https://webhooks.mongodb-realm.com/api/client/v2.0/app/storybuilder-exhtp/service/StoryBuilderRealm/incoming_webhook/addUserData", "POST"))
+            {
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(userData);
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                yield return request.SendWebRequest();
+
+                if (request.isNetworkError || request.isHttpError)
+                {
+                    Debug.Log(request.error);
+                    if (callback != null)
+                    {
+                        callback.Invoke(false);
+                    }
+                }
+                else
+                {
+                    if (callback != null)
+                    {
+                        callback.Invoke(request.downloadHandler.text != "{}");
+                    }
+                }
+            }
+        }
+
+        public static IEnumerator Replace(string userData, System.Action<bool> callback = null)
+        {
+                byte[] bodyRaw = Encoding.UTF8.GetBytes(userData);
+                UnityWebRequest uwr = UnityWebRequest.Put("https://webhooks.mongodb-realm.com/api/client/v2.0/app/storybuilder-exhtp/service/StoryBuilderRealm/incoming_webhook/updateUserData?username=" + staticUsername, bodyRaw);
+                uwr.SetRequestHeader("Content-Type", "application/json");
+                yield return uwr.SendWebRequest();
+        }
+
+        public static IEnumerator Download(System.Action<UserData> callback = null)
+        {
+            using (UnityWebRequest request = UnityWebRequest.Get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/storybuilder-exhtp/service/StoryBuilderRealm/incoming_webhook/getUsers"))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.isNetworkError || request.isHttpError)
+                {
+                    Debug.Log(request.error);
+                    if (callback != null)
+                    {
+                        callback.Invoke(null);
+                    }
+                }
+                else
+                {
+                    jsonUserData = request.downloadHandler.text;
+                    if (callback != null)
+                    {
+                        callback.Invoke(JsonConvert.DeserializeObject<UserData>(request.downloadHandler.text));
+                    }
+                    
+                }
+            }
         }
 
         public static void CheckDirPath()
