@@ -37,9 +37,9 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
 
         // call method to check if word exists in database and create/increment entries
         UserData.UpdateWordCount(textToRead);
-        if (UserData.userName != null) // user logged in
+        if (UserData.staticUsername != null) // user logged in
         {
-            UserData.StoreUserData(UserData.userName); // update user file
+            UserData.StoreUserData(UserData.staticUsername); // update user file
         }
     }
 

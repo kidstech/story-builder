@@ -156,7 +156,7 @@ public class TextToSpeechHandler : MonoBehaviour
             UserData.UpdateWordCount(word.textToDisplay.ToLower());
         }
         // and store that data to a local file
-        UserData.StoreUserData(UserData.userName);
+        UserData.StoreUserData(UserData.staticUsername);
     }
 
     public void startSpeakingWordTile(string word){
