@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model.Event;
+using DatabaseEntry;
 
 public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler  {
 	
@@ -57,6 +58,8 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
         StartCoroutine(tts.startSpeakingSentenceSlowly(sentence.GatherWordTiles(), true));
         tts.TrackWordCounts(sentence.GatherWordTiles());
+		StartCoroutine(UserData.getUserFromServer());
+		
     }
 
     public void OnPointerEnter (PointerEventData eventData)

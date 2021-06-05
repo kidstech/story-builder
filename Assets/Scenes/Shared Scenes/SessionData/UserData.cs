@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using UnityEngine.Networking;
+using ServerTypes;
 
 // originally based on this tutorial https://developer.mongodb.com/how-to/sending-requesting-data-mongodb-unity-game/
 namespace DatabaseEntry
@@ -159,6 +160,23 @@ namespace DatabaseEntry
                     
                 }
             }
+        }
+
+        // initial server get request testing for our actual server setup rather than a test DB
+        public static IEnumerator getUserFromServer()
+        {
+            // authID for user: Biruk
+            string testAuthID = "BqswmmJd2VXBrVqEs9lQxVIZNmj2";
+            // server get request (test) API
+            string testUrl = "http://localhost:4200/api/users/" + testAuthID;
+            UnityWebRequest getRequest = UnityWebRequest.Get(testUrl);
+            // send result of server call to debug console in unity
+            yield return getRequest.SendWebRequest();
+            // assuming success here, but errors should definitely eventually be caught...
+            string response = getRequest.downloadHandler.text;
+            User user = JsonConvert.DeserializeObject<User>(response);
+            Debug.Log(response);
+            Debug.Log(user.name);
         }
 
         public static void CheckDirPath()
