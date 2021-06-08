@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "631848148168",
+    "project_id": "word-river",
+    "storage_bucket": "word-river.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631848148168:android:f4857cbef05c62711159fd",
+        "android_client_info": {
+          "package_name": "edu.umn.morris.StoryBuilder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "631848148168-2ppoto2qt8lbhclgpmtpooh7s8fo8pef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6AI5EW9LtpAve04HnxhKCX-gYUCLyoqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631848148168-2ppoto2qt8lbhclgpmtpooh7s8fo8pef.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

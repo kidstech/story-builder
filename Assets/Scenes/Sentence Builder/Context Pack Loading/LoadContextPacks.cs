@@ -32,7 +32,7 @@ public class LoadContextPacks
             if (cp["enabled"] == true)
             {
                 // Loop through each word pack
-                foreach (JSONObject wordpack in cp["wordpacks"]) 
+                foreach (JSONObject wordpack in cp["wordlists"]) 
                 {
                     //Check if word pack is enabled
                     if (wordpack["enabled"] == true)
