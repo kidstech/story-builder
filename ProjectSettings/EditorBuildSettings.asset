@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu/MainMenu.unity
+    path: Assets/Scenes/Main Menu/UserLogin.unity
     guid: a309be0b6d43988409864a403e33e2e5
   - enabled: 1
     path: Assets/Scenes/Sentence Builder/SentenceBuilder.unity
@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Story Viewer/StoryViewer.unity
     guid: bdce6d040266d03479c8228f4c57a637
+  - enabled: 1
+    path: Assets/Scenes/Main Menu/LearnerLogin.unity
+    guid: 13f6df2e89de2054ca36ba4f7fe123dc
   m_configObjects: {}

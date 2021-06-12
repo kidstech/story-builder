@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Firebase.Auth;
 
-public class Login : MonoBehaviour
+public class UserLogin : MonoBehaviour
 {
     public Scene sentenceBuilderScene;
     // Need to look up how to properly protect passwords eventually.
     public string email;
     public string password;
     Firebase.Auth.FirebaseAuth firebaseAuth;
-    Firebase.Auth.FirebaseUser user;
+    public static Firebase.Auth.FirebaseUser user = null;
     GameObject emailGO;
     GameObject passwordGO;
 
@@ -23,30 +23,30 @@ public class Login : MonoBehaviour
         emailGO = GameObject.Find("EmailInput");
         passwordGO = GameObject.Find("PasswordInput");
         InitializeFirebase();
-        
-    }
 
-    ///<summary>
-    /// Stores the sentence builder scene in the variable of the same name after waiting a frame and allowing the scene to be loaded beforehand
-    ///</summary>
-    IEnumerator getSentenceBuilderScene()
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
-        while(!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-        Debug.Log("scene name: " + sentenceBuilderScene.name);
     }
 
     void InitializeFirebase()
     {
-        Debug.Log("Setting up Firebase Auth");
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync();
+        Debug.Log("Initializing Firebase...");
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("Initialization canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Initialization failed");
+                return;
+            }
+            Debug.Log(task.Result);
+
+        });
         firebaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         firebaseAuth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
-        
     }
 
     // Track state changes of the auth object.
@@ -109,20 +109,26 @@ public class Login : MonoBehaviour
                     Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                     return;
                 }
-                Firebase.Auth.FirebaseUser newUser = task.Result;
-                Debug.Log("User signed in successfully: email: " + newUser.Email + " userId: " + newUser.UserId);
-
-                // login successful, swap scenes
-                swapToSentenceBuilder();
+                user = task.Result;
             });
+            // change scenes if user successfully logged in
+            // note: user login is retained between sessions so the user is inherently not null if they've logged in previously...
+            if (user != null)
+            {
+                StartCoroutine(GoToLearnerLoginScene());
+            }
         }
     }
 
-    public void swapToSentenceBuilder()
+    ///<summary>
+    /// Stores the sentence builder scene in the variable of the same name after waiting a frame and allowing the scene to be loaded beforehand
+    ///</summary>
+    public IEnumerator GoToLearnerLoginScene()
     {
-        // loads the sentence builder scene while also unloading the current main menu scene
-        Debug.Log("Loading sentence builder...");
-        getSentenceBuilderScene();
-        SceneManager.UnloadSceneAsync("MainMenu");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(3, LoadSceneMode.Single);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 }
