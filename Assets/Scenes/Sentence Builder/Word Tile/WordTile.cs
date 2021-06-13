@@ -20,6 +20,9 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
         StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
+        // update word counts for the learner
+        WordCountHandler.UpdateWordCount(textToRead);
+        WordCountHandler.StoreLearnerData();
 
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
