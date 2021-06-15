@@ -41,7 +41,7 @@ public class WordCountHandler : MonoBehaviour
         }
         // populate non-static serializable fields
         learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.learnerObjectId = LearnerData.staticLearnerObjectId;
+        learnerData.learnerId = LearnerData.staticLearnerObjectId;
         learnerData.wordCounts = LearnerData.staticWordCounts;
         // convert Learnerdata to json
         jsonWordCounts = JsonConvert.SerializeObject(learnerData, Formatting.Indented);

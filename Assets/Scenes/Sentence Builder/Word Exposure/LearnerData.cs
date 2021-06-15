@@ -13,8 +13,8 @@ namespace DatabaseEntry
     {
 
         // Database fields (serializable)
-
-        public string learnerObjectId; // mongo object Id of the learner
+        public string _id; // mongo object id
+        public string learnerId; // mongo object Id of the learner
         public string learnerName;
         public Dictionary<string, int> wordCounts = new Dictionary<string, int>();
 
