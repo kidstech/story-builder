@@ -110,6 +110,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
             WordCountHandler.StoreLearnerData();
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
             //
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);

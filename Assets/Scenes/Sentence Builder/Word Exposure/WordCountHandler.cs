@@ -15,11 +15,9 @@ public class WordCountHandler : MonoBehaviour
     {
         dirPath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
         filePath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
-        // store name and object ic in static LearnerData fields
+        // store name and object id in static LearnerData fields
         LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
-        LearnerData.staticLearnerObjectId = LearnerLogin.staticLearner._id;
-        StoreLearnerData();
-
+        LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
     }
 
     // definitely need to refactor this at some point...
@@ -28,20 +26,18 @@ public class WordCountHandler : MonoBehaviour
         // create learnerdata object for serialization later
         LearnerData learnerData = new LearnerData();
         string jsonWordCounts;
-        // Remove this Debug in production
-        Debug.Log("LearnerName: " + LearnerData.staticLearnerName);
         // if there isn't already a filepath made for this learner...
         if (!FileExists())
         {
             ResetFilePath();
             filePath = Path.Combine(filePath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
-            // and clear the dictionary
-            LearnerData.staticWordCounts.Clear();
+            // if there wasn't a dicitonary, make one
+            if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
             jsonWordCounts = null;
         }
         // populate non-static serializable fields
         learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.learnerId = LearnerData.staticLearnerObjectId;
+        learnerData.learnerId = LearnerData.staticLearnerId;
         learnerData.wordCounts = LearnerData.staticWordCounts;
         // convert Learnerdata to json
         jsonWordCounts = JsonConvert.SerializeObject(learnerData, Formatting.Indented);

@@ -19,7 +19,8 @@ namespace DatabaseEntry
         public Dictionary<string, int> wordCounts = new Dictionary<string, int>();
 
         // static fields (not serializable)
-        public static string staticLearnerObjectId; // mongo object Id of the learner
+        public static string static_id;
+        public static string staticLearnerId; // mongo object Id of the learner
         public static string staticLearnerName;
         public static Dictionary<string, int> staticWordCounts = new Dictionary<string, int>();
 

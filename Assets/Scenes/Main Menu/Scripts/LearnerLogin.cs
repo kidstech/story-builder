@@ -10,7 +10,6 @@ public class LearnerLogin : MonoBehaviour
     public Learner selectedLearner;
     // static learner so we have a way to access the current learner without passing around the LearnerLogin object
     public static Learner staticLearner;
-    public ServerRequestHandler serverRequestHandler = new ServerRequestHandler();
 
     ///<summary>
     /// Buttons aren't able to directly call IEnumerator functions, so this serves as an intermediary by starting the GoToSentenceBuilderScene coroutine.
@@ -23,13 +22,17 @@ public class LearnerLogin : MonoBehaviour
     public IEnumerator GoToSentenceBuilderScene()
     {
         staticLearner = selectedLearner;
-        StartCoroutine(serverRequestHandler.GetLearnerDataFromServer());
+        StartCoroutine(ServerRequestHandler.GetLearnerDataFromServer());
         Debug.Log("Current learner: " + selectedLearner.name);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+        // store the learnerdata we just finished getting from the server
+        // this function call has to take place after the scene change has taken place because it is dependent on fields initialized in the start()
+        // method of WordCountHandler, which is only called once the scene has switched
+        WordCountHandler.StoreLearnerData();
     }
 
     

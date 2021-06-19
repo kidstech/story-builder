@@ -67,6 +67,7 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
             WordCountHandler.UpdateWordCount(wordTile.word.word);
         }
         WordCountHandler.StoreLearnerData();
+        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
         
     }
 

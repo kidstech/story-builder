@@ -10,13 +10,11 @@ public class LearnerSelectPopup : MonoBehaviour
     public GameObject learnerButtonPrefab;
     // LearnerSelect game object this script is attached to
     public GameObject learnerSelect;
-    private ServerRequestHandler serverRequestHandler;
 
     void Start()
     {
-        serverRequestHandler = new ServerRequestHandler();
         // get user from the server and then create learner buttons to choose from
-        StartCoroutine(serverRequestHandler.GetUserFromServer(SetUpLearnerButtons));
+        StartCoroutine(ServerRequestHandler.GetUserFromServer(SetUpLearnerButtons));
     }
 
     public void SetUpLearnerButtons(User user)
