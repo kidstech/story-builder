@@ -31,10 +31,10 @@ public class ServerRequestHandler : MonoBehaviour
             switch (getRequest.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
-                Debug.LogError("unable to connect to server... Error: " + getRequest.error);
-                break;
+                    Debug.LogError("Unable to connect to server... Error: " + getRequest.error);
+                    break;
                 case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("error processing data received from server... Error: " + getRequest.error);
+                    Debug.LogError("Error processing data received from server... Error: " + getRequest.error);
                     break;
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError("Communication successful, but received HTTP Error: " + getRequest.error);
@@ -60,7 +60,6 @@ public class ServerRequestHandler : MonoBehaviour
     {
         string requestURL = "http://localhost:4200/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
-        UnityWebRequest postLearnerData = new UnityWebRequest(requestURL, "POST");
         // make learnerData object
         LearnerData learnerData = new LearnerData();
         // populate non-static fields
@@ -70,12 +69,29 @@ public class ServerRequestHandler : MonoBehaviour
         learnerData.wordCounts = LearnerData.staticWordCounts;
         // convert learnerDataobject to json
         jsonLearnerData = JsonConvert.SerializeObject(learnerData);
-        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonLearnerData);
-        postLearnerData.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
-        postLearnerData.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-        postLearnerData.SetRequestHeader("Content-Type", "application/json");
-        // pass the learnerData json to the server
-        yield return postLearnerData.SendWebRequest();
-        string response = postLearnerData.downloadHandler.text;
+        using (UnityWebRequest postRequest = UnityWebRequest.Post(requestURL, jsonLearnerData))
+        {
+            // prep json for sending
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonLearnerData);
+            postRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            postRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            postRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return postRequest.SendWebRequest();
+            switch (postRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    Debug.Log("LearnerData successfully posted!");
+                    break;
+            }
+        }
     }
 }
