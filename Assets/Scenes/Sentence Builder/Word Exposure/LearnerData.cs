@@ -17,12 +17,14 @@ namespace DatabaseEntry
         public string learnerId; // mongo object Id of the learner
         public string learnerName;
         public Dictionary<string, int> wordCounts = new Dictionary<string, int>();
+        public Dictionary<string, float> sessionTimes = new Dictionary<string, float>();
 
         // static fields (not serializable)
         public static string static_id;
         public static string staticLearnerId; // mongo object Id of the learner
         public static string staticLearnerName;
         public static Dictionary<string, int> staticWordCounts = new Dictionary<string, int>();
+        public static Dictionary<string, float> staticSessionTimes = new Dictionary<string, float>();
 
         ///<summary>
         /// convert LearnerData object to json string

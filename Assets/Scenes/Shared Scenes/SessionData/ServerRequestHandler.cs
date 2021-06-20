@@ -50,6 +50,7 @@ public class ServerRequestHandler : MonoBehaviour
                     LearnerData.staticLearnerName = learnerData.learnerName;
                     LearnerData.staticLearnerId = learnerData.learnerId;
                     LearnerData.staticWordCounts = learnerData.wordCounts;
+                    LearnerData.staticSessionTimes = learnerData.sessionTimes;
                     break;
             }
         }
@@ -67,6 +68,7 @@ public class ServerRequestHandler : MonoBehaviour
         learnerData.learnerId = LearnerData.staticLearnerId;
         learnerData.learnerName = LearnerData.staticLearnerName;
         learnerData.wordCounts = LearnerData.staticWordCounts;
+        learnerData.sessionTimes = LearnerData.staticSessionTimes;
         // convert learnerDataobject to json
         jsonLearnerData = JsonConvert.SerializeObject(learnerData);
         using (UnityWebRequest postRequest = UnityWebRequest.Post(requestURL, jsonLearnerData))
@@ -77,6 +79,52 @@ public class ServerRequestHandler : MonoBehaviour
             postRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
             postRequest.SetRequestHeader("Content-Type", "application/json");
             yield return postRequest.SendWebRequest();
+            switch (postRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    Debug.Log("LearnerData successfully posted!");
+                    break;
+            }
+        }
+    }
+    // a non-IEnumerator version of the post method for the OnApplicationExit() post request that logs learner session times
+    public static void BlockingPostLearnerDataToServer()
+    {
+        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerData.static_id;
+        string jsonLearnerData;
+        // make learnerData object
+        LearnerData learnerData = new LearnerData();
+        // populate non-static fields
+        learnerData._id = LearnerData.static_id;
+        learnerData.learnerId = LearnerData.staticLearnerId;
+        learnerData.learnerName = LearnerData.staticLearnerName;
+        learnerData.wordCounts = LearnerData.staticWordCounts;
+        learnerData.sessionTimes = LearnerData.staticSessionTimes;
+        // convert learnerDataobject to json
+        jsonLearnerData = JsonConvert.SerializeObject(learnerData);
+
+        UnityWebRequest postRequest = UnityWebRequest.Post(requestURL, jsonLearnerData);
+        {
+            // prep json for sending
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonLearnerData);
+            postRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            postRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            postRequest.SetRequestHeader("Content-Type", "application/json");
+            postRequest.SendWebRequest();
+            // while the request is still being processed without error...
+            while(!postRequest.isDone && !postRequest.isHttpError && !postRequest.isNetworkError)
+            {
+                // relax and wait for it to finish
+            }
             switch (postRequest.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
