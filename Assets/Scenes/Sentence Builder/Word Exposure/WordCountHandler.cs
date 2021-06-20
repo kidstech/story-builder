@@ -58,12 +58,12 @@ public class WordCountHandler : MonoBehaviour
         // if the word isn't in the dictionary... (haven't heard it yet)
         if (!LearnerData.staticWordCounts.ContainsKey(word))
         {
-            Debug.Log("new word heard!");
+            //Debug.Log("new word heard!");
             LearnerData.staticWordCounts.Add(word, 1); // create entry for newly heard word
         }
         else // we've heard the word again
         {
-            Debug.Log("repeat word heard.");
+           //Debug.Log("repeat word heard.");
             LearnerData.staticWordCounts[word]++; // increment word counter
         }
     }
