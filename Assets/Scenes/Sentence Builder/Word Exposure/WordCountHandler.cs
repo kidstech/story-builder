@@ -22,18 +22,31 @@ public class WordCountHandler : MonoBehaviour
         LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
         LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
         // add the start time of the new session
-        LearnerData.staticSessionTimes.Add(sessionDate, 100f);
+        LearnerData.staticSessionTimes.Add(sessionDate, "");
     }
     void OnApplicationQuit()
     {
         // when we the learner quits the game, store the time they ran the application for in the DateTime logged at the start of the session
-        LearnerData.staticSessionTimes[sessionDate] = Time.time;
+        LearnerData.staticSessionTimes[sessionDate] = FormatSeconds();
         // update local logs
         WordCountHandler.StoreLearnerData();
         // send logs to server using non-coroutine method so it can actually finish
         ServerRequestHandler.BlockingPostLearnerDataToServer();
         // give the program time to talk to the server before closing
         Debug.Log("Quitting Storybuilder...");
+    }
+    ///<summary>
+    /// returns a string formatted to display the time returned from Time.time in hour/min/sec format
+    ///</summary>
+    private string FormatSeconds()
+    {
+        string formattedTime = null;
+        if (Time.time < TimeSpan.MaxValue.TotalSeconds)
+        {
+        TimeSpan time = TimeSpan.FromSeconds(Time.time);
+        formattedTime = time.ToString(@"hh\:mm\:ss");
+        }
+        return formattedTime;
     }
 
     // definitely need to refactor this at some point...
@@ -42,14 +55,13 @@ public class WordCountHandler : MonoBehaviour
         // create learnerdata object for serialization later
         LearnerData learnerData = new LearnerData();
         string jsonLearnerData;
+        if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
+        if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
         // if there isn't already a filepath made for this learner...
         if (!FileExists())
         {
             ResetFilePath();
             filePath = Path.Combine(filePath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
-            // if there wasn't a dicitonary, make one
-            if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
-            if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, float>();
             jsonLearnerData = null;
         }
         // populate non-static serializable fields
