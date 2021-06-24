@@ -14,20 +14,22 @@ public class BuildWorldBankNew : MonoBehaviour
 
     // Prefab for word tile to be stored in word bank columns
     public Transform wordTile;
+    // game object storing the SetupPackFilter script
+    public GameObject ContextPackFilter;
 
     //
-    private void Start()
+    private void Awake()
     {
-        // Load all words into our holder class
-        words = LoadContextPacks.loadWords();
-
-        // Begin setting up the word bank
-        setupWordBank();
+        // get the user from the server and then set up the packs
+        StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBank));
     }
 
-    //
     private void setupWordBank()
     {
+        LoadContextPacks.StoreContextPacks();
+        words = LoadContextPacks.loadWords();
+        // activate the contextpackfilter game object now that we've downloaded the learnercontextpacks
+        ContextPackFilter.SetActive(true);
         // Get the word bank's transform object
         RectTransform bank = (RectTransform)this.transform;
 

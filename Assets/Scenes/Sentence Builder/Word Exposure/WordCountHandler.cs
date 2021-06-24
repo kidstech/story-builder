@@ -21,6 +21,8 @@ public class WordCountHandler : MonoBehaviour
         // store name and object id in static LearnerData fields
         LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
         LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
+        if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
+        if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
         // add the start time of the new session
         LearnerData.staticSessionTimes.Add(sessionDate, "");
     }
@@ -55,8 +57,6 @@ public class WordCountHandler : MonoBehaviour
         // create learnerdata object for serialization later
         LearnerData learnerData = new LearnerData();
         string jsonLearnerData;
-        if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
-        if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
         // if there isn't already a filepath made for this learner...
         if (!FileExists())
         {

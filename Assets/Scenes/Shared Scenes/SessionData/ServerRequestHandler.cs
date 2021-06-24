@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using ServerTypes;
 using System;
@@ -19,6 +20,31 @@ public class ServerRequestHandler : MonoBehaviour
         user = JsonConvert.DeserializeObject<User>(response);
         // run whatever function call we passed as a parameter to GetUserFromServer
         action(user);
+    }
+
+    public static IEnumerator GetLearnerContextPacks(string learnerId, Action action)
+    {
+        string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId + "/" + LearnerLogin.staticLearner._id + "/learnerPacks";
+        UnityWebRequest getLearnerPacks = UnityWebRequest.Get(testURL);
+        yield return getLearnerPacks.SendWebRequest();
+        switch (getLearnerPacks.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getLearnerPacks.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getLearnerPacks.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getLearnerPacks.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                string response = getLearnerPacks.downloadHandler.text;
+                LoadContextPacks.serverPacks = JsonConvert.DeserializeObject<List<ServerContextPack>>(response);
+                Debug.Log("learnercontextpacks grabbed successfully!");
+                action();
+                break;
+        }
     }
 
     public static IEnumerator GetLearnerDataFromServer()
@@ -121,7 +147,7 @@ public class ServerRequestHandler : MonoBehaviour
             postRequest.SetRequestHeader("Content-Type", "application/json");
             postRequest.SendWebRequest();
             // while the request is still being processed without error...
-            while(!postRequest.isDone && !postRequest.isHttpError && !postRequest.isNetworkError)
+            while (!postRequest.isDone && !postRequest.isHttpError && !postRequest.isNetworkError)
             {
                 // relax and wait for it to finish
             }
