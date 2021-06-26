@@ -3,7 +3,12 @@ guid: 0fc37c3ebfa75bc479de39c4e8ed8ef3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - sentenceBuilderCanvas: {instanceID: 0}
+  - storyBuilderCanvas: {instanceID: 0}
+  - mainCamera: {instanceID: 0}
+  - logoutButton: {fileID: 8324573905323022127, guid: 51adaa54dbcb5ff46bb1174e0f3b56e9,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -18,6 +18,8 @@ public class LoadContextPacks
     //
     public static List<Word> loadWords()
     {
+        // clear any existing words from previous learners
+        wordList.Clear();
         // Get all the json in the "packs" directory
         string[] contextPacks = Directory.GetFiles(Path.Combine(Application.dataPath, "packs"), "*.json");
 
@@ -83,6 +85,8 @@ public class LoadContextPacks
     //
     public static List<ContextPack> loadContextPacks()
     {
+        // clear list before loading to prevent pack duplication
+        contextPackList.Clear();
         // Get all the json in the "packs" directory
         string[] contextPacks = Directory.GetFiles(Application.dataPath + "/packs/", "*.json");
 

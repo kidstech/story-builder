@@ -9,8 +9,8 @@ public class UserLogin : MonoBehaviour
 {
     public Scene sentenceBuilderScene;
     // Need to look up how to properly protect passwords eventually.
-    public string email;
-    public string password;
+    private protected string email;
+    private protected string password;
     Firebase.Auth.FirebaseAuth firebaseAuth;
     public static Firebase.Auth.FirebaseUser user = null;
     GameObject emailGO;
@@ -42,11 +42,11 @@ public class UserLogin : MonoBehaviour
                 return;
             }
             Debug.Log(task.Result);
+            firebaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+            firebaseAuth.StateChanged += AuthStateChanged;
+            AuthStateChanged(this, null);
 
         });
-        firebaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        firebaseAuth.StateChanged += AuthStateChanged;
-        AuthStateChanged(this, null);
     }
 
     // Track state changes of the auth object.
