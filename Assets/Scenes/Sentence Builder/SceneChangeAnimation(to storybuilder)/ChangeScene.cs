@@ -10,7 +10,7 @@ public class ChangeScene : MonoBehaviour
     public Transform sentenceBuilderCanvas;
     public Transform storyBuilderCanvas;
     public GameObject mainCamera;
-    public GameObject logoutButton;
+    public GameObject openMenuButton;
     private Vector3 newCameraPosition = new Vector3(0,0,-10); // initialized as default camera position
     private float sceneHeight = 0;
     private float transitionTime = 2f; // used to keep the wait function in line with animation time easily
@@ -32,8 +32,8 @@ public class ChangeScene : MonoBehaviour
             sceneState = SceneType.StoryBuilder;
             buttonText = "Build Sentence";
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
-            logoutButton.transform.SetParent(storyBuilderCanvas);
-            logoutButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-413,347,0); // roughly top left of the storybuilder
+            openMenuButton.transform.SetParent(storyBuilderCanvas);
+            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
             this.transform.SetParent(storyBuilderCanvas); // changescene button is moved over to the active canvas, so if/when we shut it down the previous canvas, it will remain
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
             
@@ -47,8 +47,8 @@ public class ChangeScene : MonoBehaviour
             sceneState = SceneType.SentenceBuilder;
             buttonText = "Build Story";
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
-            logoutButton.transform.SetParent(sentenceBuilderCanvas);
-            logoutButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-412,377,0);
+            openMenuButton.transform.SetParent(sentenceBuilderCanvas);
+            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-479,350,0);
             this.transform.SetParent(sentenceBuilderCanvas);
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
         }
