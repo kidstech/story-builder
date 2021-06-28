@@ -1014,8 +1014,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sentenceBuilderScene:
     m_Handle: 0
-  email: 
-  password: 
 --- !u!1 &1741931908
 GameObject:
   m_ObjectHideFlags: 0

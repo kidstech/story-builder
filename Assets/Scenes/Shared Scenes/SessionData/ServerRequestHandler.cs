@@ -8,6 +8,36 @@ using System;
 using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
+    public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
+    {
+        UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);
+        yield return getIcon.SendWebRequest();
+        switch (getIcon.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                try
+                {
+                    LearnerSelectPopup.learnerIcon = getIcon.downloadHandler.data;
+                    LearnerSelectPopup.learnerIconArrayIsEmpty = false;
+                }
+                // make sure we account for images that may be larger than 1MB attempting to be written to our array of bytes
+                catch (IndexOutOfRangeException e)
+                {
+                    Debug.Log("Error, tried to write outside the length of the array. Details: " + e);
+                }
+                action(learner);
+                break;
+        }
+    }
     // assumes user is logged in firebase
     public static IEnumerator GetUserFromServer(Action<User> action) // action here allows the coroutine to call another function upon completion of the coroutine
     {

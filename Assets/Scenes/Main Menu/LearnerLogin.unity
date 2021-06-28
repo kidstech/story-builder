@@ -181,11 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a88fde1bf7e1c4987f77b1fd40ee30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  learnerButtonPrefab: {fileID: 6749403533564722342, guid: c8aeaa4886419454f8cbf95e88d5f6fd,
+  learnerButtonPrefab: {fileID: 7716928836417605933, guid: b7d05d8b38480224d9de4dfed91c55d9,
     type: 3}
   learnerSelect: {fileID: 14897887}
-  serverRequestHandler: {fileID: 3325908760400360605, guid: 8435f72d52d4c3549adad66bf18dfdd5,
-    type: 3}
 --- !u!114 &14897892
 MonoBehaviour:
   m_ObjectHideFlags: 0
