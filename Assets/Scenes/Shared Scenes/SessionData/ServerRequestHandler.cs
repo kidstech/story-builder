@@ -39,17 +39,30 @@ public class ServerRequestHandler : MonoBehaviour
         }
     }
     // assumes user is logged in firebase
-    public static IEnumerator GetUserFromServer(Action<User> action) // action here allows the coroutine to call another function upon completion of the coroutine
+    public static IEnumerator GetUserFromServer(Action action) // action here allows the coroutine to call another function upon completion of the coroutine
     {
         // API call to locally hosted testing server, change in production
         string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId;
         UnityWebRequest getUser = UnityWebRequest.Get(testURL);
         yield return getUser.SendWebRequest();
-        string response = getUser.downloadHandler.text;
-        User user = new User();
-        user = JsonConvert.DeserializeObject<User>(response);
-        // run whatever function call we passed as a parameter to GetUserFromServer
-        action(user);
+        switch (getUser.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getUser.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getUser.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getUser.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                string response = getUser.downloadHandler.text;
+                LearnerSelectPopup.currentUser = JsonConvert.DeserializeObject<User>(response);
+                Debug.Log("user grabbed successfully! " + LearnerSelectPopup.currentUser.name);
+                action();
+                break;
+        }
     }
 
     public static IEnumerator GetLearnerContextPacks(string learnerId, Action action)

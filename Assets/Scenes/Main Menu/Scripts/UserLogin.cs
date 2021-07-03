@@ -45,7 +45,6 @@ public class UserLogin : MonoBehaviour
             firebaseAuth = Firebase.Auth.FirebaseAuth.DefaultInstance;
             firebaseAuth.StateChanged += AuthStateChanged;
             AuthStateChanged(this, null);
-
         });
     }
 
@@ -91,13 +90,12 @@ public class UserLogin : MonoBehaviour
         }
     }
 
-    public void login()
+    public async void login()
     {
         if (userInputIsValid())
         {
-            Debug.Log("email: " + email + " password: " + password);
-            // send login request to firebase
-            firebaseAuth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            // send login request to firebase and wait for response
+            await firebaseAuth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsCanceled)
                 {
@@ -109,14 +107,14 @@ public class UserLogin : MonoBehaviour
                     Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                     return;
                 }
-                user = task.Result;
+                if (task.IsCompleted)
+                {
+                    user = task.Result;
+                    Debug.Log("user after firebase login: " + user.Email);
+                }
             });
-            // change scenes if user successfully logged in
-            // note: user login is retained between sessions so the user is inherently not null if they've logged in previously...
-            if (user != null)
-            {
-                StartCoroutine(GoToLearnerLoginScene());
-            }
+            // change scenes after we've logged in
+            StartCoroutine(GoToLearnerLoginScene());
         }
     }
 
