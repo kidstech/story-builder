@@ -29,14 +29,14 @@ namespace DatabaseEntry
         ///<summary>
         /// convert LearnerData object to json string
         ///</summary>
-        public string serializeLearnerData()
+        public string SerializeLearnerData()
         {
             return JsonConvert.SerializeObject(this);
         }
         ///<summary>
         /// convert json string to LearnerData object
         ///</summary>
-        public LearnerData deserializeLearnerData(string jsonLearnerData)
+        public LearnerData DeserializeLearnerData(string jsonLearnerData)
         {
             return JsonConvert.DeserializeObject<LearnerData>(jsonLearnerData);
         }

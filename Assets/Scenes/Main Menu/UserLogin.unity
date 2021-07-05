@@ -951,8 +951,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1715957357}
-        m_TargetAssemblyTypeName: Login, Assembly-CSharp
-        m_MethodName: login
+        m_TargetAssemblyTypeName: UserLogin, Assembly-CSharp
+        m_MethodName: Login
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1012,8 +1012,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bea0023ab75ce04281f89bdbe15f4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sentenceBuilderScene:
-    m_Handle: 0
 --- !u!1 &1741931908
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using ServerTypes;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 public class LearnerSelectPopup : MonoBehaviour
 {
@@ -15,24 +17,24 @@ public class LearnerSelectPopup : MonoBehaviour
     public static bool learnerIconArrayIsEmpty = true;
     // current wordriver user logged in
     public static User currentUser;
-    // map associating a learner's id with their learnerButton's sprite grabbed from firebase
-    public static Dictionary<string, Sprite> learnerSprites;
+    // array of files that contain previously stored learner icons
+    private string[] filePaths;
     void Start()
     {
-        if (learnerSprites == null) learnerSprites = new Dictionary<string, Sprite>();
-        Debug.Log("getting new user from server...");
+        filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath, "*.png");
         // get user from the server and then create learner buttons to choose from
         StartCoroutine(ServerRequestHandler.GetUserFromServer(SetUpLearnerButtons));
     }
     public void RefreshLearnerIcons()
     {
-        // clear the old sprites
-        LearnerSelectPopup.learnerSprites.Clear();
+        Debug.Log("refreshing learner buttons");
         // clear the old buttons
-        foreach(Transform child in learnerSelect.transform)
+        foreach (Transform child in learnerSelect.transform)
         {
             Destroy(child.gameObject);
         }
+        // clear local file storage so we forcibly get updated sprites
+        filePaths = null;
         // and go through setup again
         SetUpLearnerButtons();
     }
@@ -40,9 +42,9 @@ public class LearnerSelectPopup : MonoBehaviour
     public void SetUpLearnerButtons()
     {
         Debug.Log("making buttons for user: " + currentUser?.name);
-        Debug.Log("User doesn't have the appropriate sprites: " + DontHaveAppropriateLearnerSprites());
+        Debug.Log("User doesn't have the appropriate sprites: " + !AlreadyHaveAppropriateLearnerSprites());
         // if we don't have the learner sprites we need already, go get them
-        if (DontHaveAppropriateLearnerSprites())
+        if (!AlreadyHaveAppropriateLearnerSprites())
         {
             foreach (Learner learner in currentUser.learners)
             {
@@ -60,6 +62,7 @@ public class LearnerSelectPopup : MonoBehaviour
         // otherwise, if we already have the sprites, just make the buttons without talking to firebase
         else
         {
+            Debug.Log("making buttons with local files...");
             foreach (Learner learner in currentUser.learners)
             {
                 CreateLearnerButton(learner);
@@ -67,14 +70,10 @@ public class LearnerSelectPopup : MonoBehaviour
         }
 
     }
-
-    // currently calls firebase once for EACH learner... with limitations on server calls this should probably be refactored in the future.
-    // seems likely that we'll have to create directories for a user's learners so we can just grab all the icons for a user in one call
     public void GetLearnerIconAndMakeButton(Learner learner)
     {
         // get the learner icon from firebase and THEN create the learner button
         StartCoroutine(ServerRequestHandler.GetLearnerIconFromFirebase(learner, CreateLearnerButton));
-
     }
 
     public void CreateLearnerButton(Learner learner)
@@ -88,30 +87,17 @@ public class LearnerSelectPopup : MonoBehaviour
         // fix weird issue where z coord is instantiated at -300 or so
         Vector3 correctedZPosition = button.transform.GetComponent<RectTransform>().localPosition;
         correctedZPosition.z = 0;
-        // if we already have a profile sprite stored for this learner...
-        if (learnerSprites.ContainsKey(learner._id) && learnerSprites[learner._id] != null)
+        // make sure we grab any local icons that may have been added from most recent server call
+        filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath, "*.png");
+        // check and see if we have an image file for the learner
+        foreach (string fileName in filePaths)
         {
-            // use that instead of making another get request to firebase
-            button.transform.GetComponentInChildren<Image>().sprite = learnerSprites[learner._id];
-        }
-        // if we DO have learner icons and DON'T have any sprites already...
-        else if (!learnerIconArrayIsEmpty && !learnerSprites.ContainsKey(learner._id))
-        {
-            // turn it into a sprite and use it for their button 
-            button.transform.GetComponentInChildren<Image>().sprite = GetSprite(learnerIcon);
-            // store the sprite to save on firebase image requests
-            if (!learnerSprites.ContainsKey(learner._id))
+            if (learner._id == Path.GetFileNameWithoutExtension(fileName))
             {
-                learnerSprites.Add(learner._id, GetSprite(learnerIcon));
+                Debug.Log("adding learner sprite to button from local file...");
+                byte[] icon = File.ReadAllBytes(fileName);
+                button.transform.GetComponentInChildren<Image>().sprite = GetSprite(icon);
             }
-            // clear the icon data so we don't duplicate it
-            Array.Clear(learnerIcon, 0, learnerIcon.Length);
-            learnerIconArrayIsEmpty = true;
-        }
-        // if we don't even have a learner icon, add the learner to the dictionary with a null sprite so we know it had the chance to get a sprite
-        else if (!learnerSprites.ContainsKey(learner._id))
-        {
-            learnerSprites.Add(learner._id, null);
         }
         button.transform.GetComponent<RectTransform>().localPosition = correctedZPosition;
         // add learner name to their button
@@ -132,15 +118,26 @@ public class LearnerSelectPopup : MonoBehaviour
         return sp;
     }
 
-    public bool DontHaveAppropriateLearnerSprites()
+    // see if ANY learners have locally stored images
+    public bool AlreadyHaveAppropriateLearnerSprites()
     {
+        if (filePaths == null) 
+        {
+            Debug.Log("filepaths was null... User doesn't have appropriate learner sprites");
+            return false;
+        }
         foreach (Learner learner in currentUser.learners)
         {
-            if (!learnerSprites.ContainsKey(learner._id))
+            foreach(string fileName in filePaths)
             {
-                return true;
+                if (Path.GetFileNameWithoutExtension(fileName) == learner._id)
+                {
+                    Debug.Log("matching file name found! We have the appropriate learner sprites!");
+                    return true;
+                }
             }
         }
+        Debug.Log("no learnername matches locally stored image names...");
         return false;
     }
 }

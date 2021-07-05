@@ -7,7 +7,6 @@ using Firebase.Auth;
 
 public class UserLogin : MonoBehaviour
 {
-    public Scene sentenceBuilderScene;
     // Need to look up how to properly protect passwords eventually.
     private protected string email;
     private protected string password;
@@ -15,6 +14,7 @@ public class UserLogin : MonoBehaviour
     public static Firebase.Auth.FirebaseUser user = null;
     GameObject emailGO;
     GameObject passwordGO;
+    System.Threading.Tasks.Task<FirebaseUser> getUserTask;
 
     // Start is called before the first frame update
     void Start()
@@ -89,33 +89,33 @@ public class UserLogin : MonoBehaviour
             return false;
         }
     }
-
-    public async void login()
+    public async void Login()
     {
+        Debug.Log("login called");
         if (userInputIsValid())
         {
-            // send login request to firebase and wait for response
-            await firebaseAuth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            Debug.Log("starting firebase sign-in task...");
+            // waiting for this task to finish kinda kills the point of having an async function, but (as far as I know) a syncronous version doesn't exist
+            // and this is just a login button anyway
+            await firebaseAuth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(getUser =>
             {
-                if (task.IsCanceled)
+                if (getUser.IsCanceled)
                 {
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
-                    return;
                 }
-                if (task.IsFaulted)
+                if (getUser.IsFaulted)
                 {
-                    Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-                    return;
+                    Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + getUser.Exception);
                 }
-                if (task.IsCompleted)
+                if (getUser.IsCompleted)
                 {
-                    user = task.Result;
-                    Debug.Log("user after firebase login: " + user.Email);
+                    user = getUser.Result;
+                    Debug.Log(user.Email + " has signed in.");
                 }
             });
-            // change scenes after we've logged in
             StartCoroutine(GoToLearnerLoginScene());
         }
+        else Debug.Log("Invalid email or password, try again.");
     }
 
     ///<summary>
@@ -123,6 +123,7 @@ public class UserLogin : MonoBehaviour
     ///</summary>
     public IEnumerator GoToLearnerLoginScene()
     {
+        Debug.Log("changing scenes");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(3, LoadSceneMode.Single);
         while (!asyncLoad.isDone)
         {

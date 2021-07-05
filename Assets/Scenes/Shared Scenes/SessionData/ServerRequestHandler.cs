@@ -28,12 +28,14 @@ public class ServerRequestHandler : MonoBehaviour
                 {
                     LearnerSelectPopup.learnerIcon = getIcon.downloadHandler.data;
                     LearnerSelectPopup.learnerIconArrayIsEmpty = false;
+                    Debug.Log("storing sprite locally...");
+                    LearnerIconStorageHandler.StoreLearnerSprite(learner._id, LearnerSelectPopup.learnerIcon);
                 }
                 // make sure we account for images that may be larger than 1MB attempting to be written to our array of bytes
                 catch (IndexOutOfRangeException e)
                 {
                     Debug.Log("Error, tried to write outside the length of the array. Details: " + e);
-                }
+                }                
                 action(learner);
                 break;
         }
