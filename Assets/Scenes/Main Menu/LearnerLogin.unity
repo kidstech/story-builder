@@ -174,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b977ca07014d0194782a9e7d33309d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: 
 --- !u!222 &14897890
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -662,7 +661,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 37543c271391eba479d41b64114e906f, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
