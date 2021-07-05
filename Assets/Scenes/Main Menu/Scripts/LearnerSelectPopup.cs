@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using ServerTypes;
 using UnityEngine.UI;
 using System;
@@ -80,7 +80,6 @@ public class LearnerSelectPopup : MonoBehaviour
     {
         // make a button for that learner using the LearnerButtonPrefab in the MainMenu folder
         GameObject button = Instantiate(learnerButtonPrefab);
-        DontDestroyOnLoad(button);
         // set object this script is attached to as its parent (LearnerSelect)
         // these buttons will be grouped simply by having LearnerSelect as their parent because of the layout group component attached to said parent
         button.transform.SetParent(learnerSelect.transform);
@@ -96,7 +95,8 @@ public class LearnerSelectPopup : MonoBehaviour
             {
                 Debug.Log("adding learner sprite to button from local file...");
                 byte[] icon = File.ReadAllBytes(fileName);
-                button.transform.GetComponentInChildren<Image>().sprite = GetSprite(icon);
+                // LearnerImage component of learner button prefab
+                button.transform.GetChild(1).GetComponent<Image>().sprite = GetSprite(icon);
             }
         }
         button.transform.GetComponent<RectTransform>().localPosition = correctedZPosition;
