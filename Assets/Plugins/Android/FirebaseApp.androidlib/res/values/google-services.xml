@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="gcm_defaultSenderId" translatable="false">631848148168</string>
+  <string name="google_storage_bucket" translatable="false">word-river.appspot.com</string>
+  <string name="project_id" translatable="false">word-river</string>
+  <string name="google_api_key" translatable="false">AIzaSyB6AI5EW9LtpAve04HnxhKCX-gYUCLyoqc</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB6AI5EW9LtpAve04HnxhKCX-gYUCLyoqc</string>
+  <string name="google_app_id" translatable="false">1:631848148168:android:f4857cbef05c62711159fd</string>
+  <string name="default_web_client_id" translatable="false">631848148168-2ppoto2qt8lbhclgpmtpooh7s8fo8pef.apps.googleusercontent.com</string>
+</resources>

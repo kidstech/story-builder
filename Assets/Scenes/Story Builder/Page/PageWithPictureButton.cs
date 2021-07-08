@@ -37,10 +37,11 @@ public class PageWithPictureButton : MonoBehaviour
         switch (mode)
         {
             case MODE.OPEN_PICTURE:
+                // can't use EditorUtility in build... need to replace with custom function
+                // seems like this functionality will be quite complicated with multiplatform support... see Aurimas-Cernius' comment in https://forum.unity.com/threads/openfiledialog-in-runtime.459474/
+                //string path = EditorUtility.OpenFilePanel("Select Picture", "", "png");
 
-                string path = EditorUtility.OpenFilePanel("Select Picture", "", "png");
-
-                pageWithPicture.LoadImage(path);
+                //pageWithPicture.LoadImage(path);
 
                 break;
 

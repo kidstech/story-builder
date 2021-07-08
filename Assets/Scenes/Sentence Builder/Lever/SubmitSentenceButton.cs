@@ -110,13 +110,13 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
             WordCountHandler.StoreLearnerData();
-            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            //StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
             //
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
 
             // Save to json. This is temporary and is taking the place of a database;
-            SaveSentenceHandler.SaveSentence(words);
+            //SaveSentenceHandler.SaveSentence(words);
             
             //
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));

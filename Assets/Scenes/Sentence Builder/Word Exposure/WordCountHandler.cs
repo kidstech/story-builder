@@ -19,12 +19,12 @@ public class WordCountHandler : MonoBehaviour
         dirPath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
         filePath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
         // store name and object id in static LearnerData fields
-        LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
-        LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
-        if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
-        if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
-        // add the start time of the new session
-        LearnerData.staticSessionTimes.Add(sessionDate, "");
+        // LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
+        // LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
+        // if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
+        // if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
+        // // add the start time of the new session
+        // LearnerData.staticSessionTimes.Add(sessionDate, "");
     }
     void OnApplicationQuit()
     {
@@ -54,25 +54,25 @@ public class WordCountHandler : MonoBehaviour
     // definitely need to refactor this at some point...
     public static void StoreLearnerData()
     {
-        // create learnerdata object for serialization later
-        LearnerData learnerData = new LearnerData();
-        string jsonLearnerData;
-        // if there isn't already a filepath made for this learner...
-        if (!FileExists())
-        {
-            ResetFilePath();
-            filePath = Path.Combine(filePath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
-            jsonLearnerData = null;
-        }
-        // populate non-static serializable fields
-        learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.learnerId = LearnerData.staticLearnerId;
-        learnerData.wordCounts = LearnerData.staticWordCounts;
-        learnerData.sessionTimes = LearnerData.staticSessionTimes;
-        // convert Learnerdata to json
-        jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
-        // make the file
-        CreateJsonFile(jsonLearnerData);
+        // // create learnerdata object for serialization later
+        // LearnerData learnerData = new LearnerData();
+        // string jsonLearnerData;
+        // // if there isn't already a filepath made for this learner...
+        // if (!FileExists())
+        // {
+        //     ResetFilePath();
+        //     filePath = Path.Combine(filePath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
+        //     jsonLearnerData = null;
+        // }
+        // // populate non-static serializable fields
+        // learnerData.learnerName = LearnerData.staticLearnerName;
+        // learnerData.learnerId = LearnerData.staticLearnerId;
+        // learnerData.wordCounts = LearnerData.staticWordCounts;
+        // learnerData.sessionTimes = LearnerData.staticSessionTimes;
+        // // convert Learnerdata to json
+        // jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
+        // // make the file
+        // CreateJsonFile(jsonLearnerData);
     }
 
     ///<summary>
@@ -85,17 +85,17 @@ public class WordCountHandler : MonoBehaviour
 
     public static void UpdateWordCount(string word)
     {
-        // if the word isn't in the dictionary... (haven't heard it yet)
-        if (!LearnerData.staticWordCounts.ContainsKey(word))
-        {
-            //Debug.Log("new word heard!");
-            LearnerData.staticWordCounts.Add(word, 1); // create entry for newly heard word
-        }
-        else // we've heard the word again
-        {
-           //Debug.Log("repeat word heard.");
-            LearnerData.staticWordCounts[word]++; // increment word counter
-        }
+        // // if the word isn't in the dictionary... (haven't heard it yet)
+        // if (!LearnerData.staticWordCounts.ContainsKey(word))
+        // {
+        //     //Debug.Log("new word heard!");
+        //     LearnerData.staticWordCounts.Add(word, 1); // create entry for newly heard word
+        // }
+        // else // we've heard the word again
+        // {
+        //    //Debug.Log("repeat word heard.");
+        //     LearnerData.staticWordCounts[word]++; // increment word counter
+        // }
     }
     public static void CreateJsonFile(string jsonLearnerData)
     {

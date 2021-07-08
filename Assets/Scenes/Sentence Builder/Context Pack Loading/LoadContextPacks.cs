@@ -21,7 +21,8 @@ public class LoadContextPacks
         // clear any existing words from previous learners
         wordList.Clear();
         // Get all the json in the "packs" directory
-        string[] contextPacks = Directory.GetFiles(Path.Combine(Application.dataPath, "packs"), "*.json");
+        //string[] contextPacks = Directory.GetFiles(Path.Combine(Application.dataPath, "packs"), "*.json");
+        TextAsset[] contextPacks = Resources.LoadAll<TextAsset>("ContextPacks");
 
         // What are the categories of words we know will be in the JSON? (nouns, verbs, adjectives, misc)
         List<string> wordTypes = new List<string>() { "nouns", "verbs", "adjectives", "misc" };
@@ -30,10 +31,10 @@ public class LoadContextPacks
         // (For every context pack)
         for (int contextPackId = 0; contextPackId < contextPacks.Length; contextPackId++)
         {
-            string raw_json = File.ReadAllText(contextPacks[contextPackId]);
+            string raw_json = contextPacks[contextPackId].text;
             JSONObject cp = new JSONObject(raw_json);
                 // If the context pack is enabled and in the current learner's context packs...
-                if (cp["enabled"] == true && ServerPacksContainsContextPack(cp))
+                if (cp["enabled"])// == true && ServerPacksContainsContextPack(cp))
                 {
                     // Loop through each word pack
                     foreach (JSONObject wordpack in cp["wordlists"])
@@ -88,31 +89,61 @@ public class LoadContextPacks
         // clear list before loading to prevent pack duplication
         contextPackList.Clear();
         // Get all the json in the "packs" directory
-        string[] contextPacks = Directory.GetFiles(Application.dataPath + "/packs/", "*.json");
-
+        //string[] contextPacks = Directory.GetFiles(Application.dataPath + "/packs/", "*.json");
+        TextAsset[] files = Resources.LoadAll<TextAsset>("ContextPacks");
+        Debug.Log("number of files: " + files.Length);
         // For every .json we find in our context packs folder
         // (For every context pack)
-        for (int contextPackId = 0; contextPackId < contextPacks.Length; contextPackId++)
+        for (int contextPackId = 0; contextPackId < files.Length; contextPackId++)
         {
-            string raw_json = File.ReadAllText(contextPacks[contextPackId]);
+            string raw_json = files[contextPackId].text;
+            Debug.Log(raw_json);
             JSONObject cp = new JSONObject(raw_json);
 
             //If the context pack is enabled
             if (cp["enabled"] == true)
             {
+                Debug.Log("adding context pack...");
                 // iterate through the context packs associated with the current learner
-                foreach (ServerContextPack contextPack in serverPacks)
-                {
-                    // if the learner has this context pack in their list of enabled context packs
-                    if (contextPack.name.Equals(cp["name"].str))
-                    {
-                        //Debug.Log(cp["name"].str + " added");
-                        // Add this to our list of context packs
-                        AddContextPack(contextPackId, cp["name"].str, contextPacks[contextPackId].Substring(0, contextPacks[contextPackId].Length - 5));
-                    }
-                }
+                // foreach (ServerContextPack contextPack in serverPacks)
+                // {
+                //     // if the learner has this context pack in their list of enabled context packs
+                //     if (contextPack.name.Equals(cp["name"].str))
+                //     {
+                //         //Debug.Log(cp["name"].str + " added");
+                //         // Add this to our list of context packs
+                Debug.Log(cp["name"]);
+                         AddContextPack(contextPackId, cp["name"].str, raw_json.Substring(0, raw_json.Length - 5));
+                //     }
+                // }
             }
         }
+
+
+
+        // // For every .json we find in our context packs folder
+        // // (For every context pack)
+        // for (int contextPackId = 0; contextPackId < contextPacks.Length; contextPackId++)
+        // {
+        //     string raw_json = File.ReadAllText(contextPacks[contextPackId]);
+        //     JSONObject cp = new JSONObject(raw_json);
+
+        //     //If the context pack is enabled
+        //     if (cp["enabled"] == true)
+        //     {
+        //         // iterate through the context packs associated with the current learner
+        //         // foreach (ServerContextPack contextPack in serverPacks)
+        //         // {
+        //         //     // if the learner has this context pack in their list of enabled context packs
+        //         //     if (contextPack.name.Equals(cp["name"].str))
+        //         //     {
+        //         //         //Debug.Log(cp["name"].str + " added");
+        //         //         // Add this to our list of context packs
+        //                  AddContextPack(contextPackId, cp["name"].str, contextPacks[contextPackId].Substring(0, contextPacks[contextPackId].Length - 5));
+        //         //     }
+        //         // }
+        //     }
+        // }
 
         //
         return contextPackList;
