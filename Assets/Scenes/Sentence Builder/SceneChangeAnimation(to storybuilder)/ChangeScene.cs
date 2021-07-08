@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,9 +25,8 @@ public class ChangeScene : MonoBehaviour
     {
         if (sceneState == SceneType.SentenceBuilder) // sentencebuilder -> storybuilder
         {
-            sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .9f; // .72 multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
-            storyBuilderCanvas.gameObject.SetActive(true); // activate story builder
-            sentenceBuilderCanvas.gameObject.GetComponent<RectTransform>().position = new Vector3(0, 0, 90);
+            sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .9f; // multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
+            //storyBuilderCanvas.gameObject.SetActive(true); // activate story builder
             LeanTween.moveY(mainCamera, -sceneHeight, transitionTime);
             sceneState = SceneType.StoryBuilder;
             buttonText = "Build Sentence";
@@ -42,7 +41,7 @@ public class ChangeScene : MonoBehaviour
         }
         else if (sceneState == SceneType.StoryBuilder) // storybuilder -> sentencebuilder
         {
-            sentenceBuilderCanvas.gameObject.SetActive(true); // activate sentence builder
+            //sentenceBuilderCanvas.gameObject.SetActive(true); // activate sentence builder
             LeanTween.moveY(mainCamera, 0, 2f); 
             sceneState = SceneType.SentenceBuilder;
             buttonText = "Build Story";
@@ -52,6 +51,7 @@ public class ChangeScene : MonoBehaviour
             this.transform.SetParent(sentenceBuilderCanvas);
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
         }
+        Debug.Log(sceneState);
     }
 
     private IEnumerator WaitForTransition(float waitTime, string text)
