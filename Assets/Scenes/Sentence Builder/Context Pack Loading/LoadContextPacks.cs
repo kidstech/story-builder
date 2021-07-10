@@ -35,7 +35,7 @@ public class LoadContextPacks
             string raw_json = File.ReadAllText(contextPacks[contextPackId]);
             JSONObject cp = new JSONObject(raw_json);
             // If the context pack is enabled and in the current learner's context packs...
-            if (cp["enabled"])// == true && ServerPacksContainsContextPack(cp))
+            if (cp["enabled"] == true && ServerPacksContainsContextPack(cp))
             {
                 // Loop through each word pack
                 foreach (JSONObject wordpack in cp["wordlists"])

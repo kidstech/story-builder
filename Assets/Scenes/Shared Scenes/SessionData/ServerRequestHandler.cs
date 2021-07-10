@@ -8,7 +8,7 @@ using System;
 using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
-    private static readonly string serverIp = "localhost:4567"; // change localhost to ip of target machine if using separate device
+    private static readonly string serverIp = "http://localhost:4567"; // change localhost to ip of target machine if using separate device
     public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
     {
         UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);

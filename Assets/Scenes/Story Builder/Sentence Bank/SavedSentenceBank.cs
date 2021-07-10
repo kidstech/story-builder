@@ -11,8 +11,10 @@ public class SavedSentenceBank : MonoBehaviour
     private Vector2 sentencePrefabSize;
     private string sentenceText;
 
-    private void Start()
+    // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
+    void OnEnable()
     {
+        Debug.Log(this.transform.name + " has been enabled");
         List<SavedSentence> sentences = LoadSavedSentences.LoadSentences();
 
         sentencePrefabSize = sentencePrefab.GetComponent<RectTransform>().sizeDelta;
@@ -30,11 +32,20 @@ public class SavedSentenceBank : MonoBehaviour
             newSentence.transform.SetParent(this.transform, false);
 
             newSentence.GetComponent<SentenceTile>().textToDisplay = sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
-
+        }
+    }
+    void OnDisable()
+    {
+        Debug.Log(this.transform.name + " has been disabled");
+        // empty the bank each time so we don't create duplicates
+        foreach (Transform child in this.transform)
+        {
+            Debug.Log("destroying: " + child.gameObject.name);
+            GameObject.Destroy(child.gameObject);
         }
     }
 
-    private string CompileSentence(List<Word> words)
+    public static string CompileSentence(List<Word> words)
     {
         string compiledSentence = "";
 

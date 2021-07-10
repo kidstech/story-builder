@@ -1639,7 +1639,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &396208985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1656,7 +1656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00052}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00018}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -5347,6 +5347,7 @@ MonoBehaviour:
   storyBuilderCanvas: {fileID: 1122934824}
   mainCamera: {fileID: 1630840805}
   openMenuButton: {fileID: 2061723867}
+  sentenceBank: {fileID: 396208984}
 --- !u!114 &1109885700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5996,7 +5997,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9727613
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

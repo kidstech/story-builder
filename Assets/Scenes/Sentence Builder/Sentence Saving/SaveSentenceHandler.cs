@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class SaveSentenceHandler
 {
     //
-    public static string path = Path.Combine(Application.dataPath, "Saves", "Sentences");
+    public static string path = Path.Combine(Application.persistentDataPath, "Resources", "Sentences");
 
     //
     public static void SaveSentence(List<Word> words)
@@ -28,6 +28,7 @@ public class SaveSentenceHandler
 
         // Create a new file at the desired location with the UUID being the name and the extension .sen
         FileStream file = File.Create(Path.Combine(path, id.ToString() + ".sen"));
+        Debug.Log("saving sentence... at " + Path.Combine(path, id.ToString() + ".sen"));
 
         // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
         bf.Serialize(file, s);
@@ -63,13 +64,14 @@ public class SaveSentenceHandler
     }
 
     //
-    private static void CheckPath()
+    public static void CheckPath()
     {
         //
         if(!Directory.Exists(path))
         {
-            //
+            Debug.Log(path + " directory has been created");
             Directory.CreateDirectory(path);
         }
+        Debug.Log("directory already exists " + path);
     }
 }

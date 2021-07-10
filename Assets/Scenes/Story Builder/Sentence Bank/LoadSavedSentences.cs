@@ -10,8 +10,8 @@ public static class LoadSavedSentences
     //
     public static List<SavedSentence> LoadSentences()
     {
-        //
-        string[] savedSentences = Directory.GetFiles(Path.Combine(Application.dataPath, "Saves", "Sentences"), "*.sen");
+        SaveSentenceHandler.CheckPath();
+        string[] savedSentences = Directory.GetFiles(Path.Combine(Application.persistentDataPath, "Resources", "Sentences"), "*.sen");
 
         //
         List<SavedSentence> sentencesToReturn = new List<SavedSentence>();
