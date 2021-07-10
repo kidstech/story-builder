@@ -21,7 +21,7 @@ public class BuildWorldBankNew : MonoBehaviour
     private void Awake()
     {
         // get the user from the server and then set up the packs
-        //StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
+        StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
         setupWordBankAndPackFilterButtons();
     }
     // same as awake, but callable elsewhere
@@ -44,7 +44,7 @@ public class BuildWorldBankNew : MonoBehaviour
         LoadContextPacks.StoreContextPacks();
         words = LoadContextPacks.loadWords();
         // activate the contextpackfilter game object now that we've downloaded the learnercontextpacks
-        ContextPackFilter.SetActive(true);
+        //ContextPackFilter.SetActive(true);
         // Get the word bank's transform object
         RectTransform bank = (RectTransform)this.transform;
 

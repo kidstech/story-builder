@@ -14,15 +14,16 @@ public class LoadContextPacks
     public static List<ContextPack> contextPackList = new List<ContextPack>();
     // learner specific context packs grabbed from the server
     public static List<ServerContextPack> serverPacks = new List<ServerContextPack>();
+    public static string dirPath = Path.Combine(Application.persistentDataPath, "Resources", "Packs");
 
     //
     public static List<Word> loadWords()
     {
+        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
         // clear any existing words from previous learners
         wordList.Clear();
-        // Get all the json in the "packs" directory
-        //string[] contextPacks = Directory.GetFiles(Path.Combine(Application.dataPath, "packs"), "*.json");
-        TextAsset[] contextPacks = Resources.LoadAll<TextAsset>("ContextPacks");
+        // Get all the json in the "Packs" directory
+        string[] contextPacks = Directory.GetFiles(dirPath, "*.json");
 
         // What are the categories of words we know will be in the JSON? (nouns, verbs, adjectives, misc)
         List<string> wordTypes = new List<string>() { "nouns", "verbs", "adjectives", "misc" };
@@ -31,40 +32,40 @@ public class LoadContextPacks
         // (For every context pack)
         for (int contextPackId = 0; contextPackId < contextPacks.Length; contextPackId++)
         {
-            string raw_json = contextPacks[contextPackId].text;
+            string raw_json = File.ReadAllText(contextPacks[contextPackId]);
             JSONObject cp = new JSONObject(raw_json);
-                // If the context pack is enabled and in the current learner's context packs...
-                if (cp["enabled"])// == true && ServerPacksContainsContextPack(cp))
+            // If the context pack is enabled and in the current learner's context packs...
+            if (cp["enabled"])// == true && ServerPacksContainsContextPack(cp))
+            {
+                // Loop through each word pack
+                foreach (JSONObject wordpack in cp["wordlists"])
                 {
-                    // Loop through each word pack
-                    foreach (JSONObject wordpack in cp["wordlists"])
+                    //Check if word pack is enabled
+                    if (wordpack["enabled"] == true)
                     {
-                        //Check if word pack is enabled
-                        if (wordpack["enabled"] == true)
+                        int whichWordTypeIndex = 0;
+                        foreach (string wordType in wordTypes)
                         {
-                            int whichWordTypeIndex = 0;
-                            foreach (string wordType in wordTypes)
+                            JSONObject words = wordpack[wordType];
+                            foreach (var word in words)
                             {
-                                JSONObject words = wordpack[wordType];
-                                foreach (var word in words)
-                                {
-                                    // Get the base word
-                                    string baseWord = word["word"].str;
+                                // Get the base word
+                                string baseWord = word["word"].str;
 
-                                    //Put all the forms into a list of strings
-                                    List<string> forms = new List<string>();
-                                    foreach (JSONObject form in word["forms"])
-                                    {
-                                        forms.Add(form.str);
-                                    }
-                                    // Add that word (and all its forms) into our list
-                                    AddWord(contextPackId, whichWordTypeIndex, baseWord, forms);
+                                //Put all the forms into a list of strings
+                                List<string> forms = new List<string>();
+                                foreach (JSONObject form in word["forms"])
+                                {
+                                    forms.Add(form.str);
                                 }
-                                whichWordTypeIndex++;
+                                // Add that word (and all its forms) into our list
+                                AddWord(contextPackId, whichWordTypeIndex, baseWord, forms);
                             }
+                            whichWordTypeIndex++;
                         }
                     }
                 }
+            }
         }
         return wordList;
     }
@@ -72,7 +73,7 @@ public class LoadContextPacks
     public static bool ServerPacksContainsContextPack(JSONObject jSONObject)
     {
         // check through all the learners contextpacks...
-        foreach(ServerContextPack contextPack in serverPacks)
+        foreach (ServerContextPack contextPack in serverPacks)
         {
             // if the "name" field of the json object matches the context pack name...
             if (contextPack.name.Equals(jSONObject["name"].str))
@@ -86,17 +87,19 @@ public class LoadContextPacks
     //
     public static List<ContextPack> loadContextPacks()
     {
+        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+        Debug.Log(dirPath);
         // clear list before loading to prevent pack duplication
         contextPackList.Clear();
         // Get all the json in the "packs" directory
         //string[] contextPacks = Directory.GetFiles(Application.dataPath + "/packs/", "*.json");
-        TextAsset[] files = Resources.LoadAll<TextAsset>("ContextPacks");
-        Debug.Log("number of files: " + files.Length);
+        string[] contextPacks = Directory.GetFiles(dirPath, "*.json");
+        Debug.Log("number of files: " + contextPacks.Length);
         // For every .json we find in our context packs folder
         // (For every context pack)
-        for (int contextPackId = 0; contextPackId < files.Length; contextPackId++)
+        for (int contextPackId = 0; contextPackId < contextPacks.Length; contextPackId++)
         {
-            string raw_json = files[contextPackId].text;
+            string raw_json = File.ReadAllText(contextPacks[contextPackId]);
             Debug.Log(raw_json);
             JSONObject cp = new JSONObject(raw_json);
 
@@ -104,18 +107,18 @@ public class LoadContextPacks
             if (cp["enabled"] == true)
             {
                 Debug.Log("adding context pack...");
-                // iterate through the context packs associated with the current learner
-                // foreach (ServerContextPack contextPack in serverPacks)
-                // {
-                //     // if the learner has this context pack in their list of enabled context packs
-                //     if (contextPack.name.Equals(cp["name"].str))
-                //     {
-                //         //Debug.Log(cp["name"].str + " added");
-                //         // Add this to our list of context packs
-                Debug.Log(cp["name"]);
-                         AddContextPack(contextPackId, cp["name"].str, raw_json.Substring(0, raw_json.Length - 5));
-                //     }
-                // }
+                //iterate through the context packs associated with the current learner
+                foreach (ServerContextPack contextPack in serverPacks)
+                {
+                    // if the learner has this context pack in their list of enabled context packs
+                    if (contextPack.name.Equals(cp["name"].str))
+                    {
+                        //Debug.Log(cp["name"].str + " added");
+                        // Add this to our list of context packs
+                        Debug.Log(cp["name"]);
+                        AddContextPack(contextPackId, cp["name"].str, raw_json.Substring(0, raw_json.Length - 5));
+                    }
+                }
             }
         }
 
@@ -151,13 +154,14 @@ public class LoadContextPacks
 
     public static void StoreContextPacks()
     {
-        string basePath = Application.dataPath + "/packs/";
-        string filePath = Application.dataPath + "/packs/";
+        Debug.Log("storing context packs in: " + dirPath);
+        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+        string filePath = "";
         string jsonContextPack = "";
-        foreach(ServerContextPack contextPack in serverPacks)
+        foreach (ServerContextPack contextPack in serverPacks)
         {
             jsonContextPack = JsonConvert.SerializeObject(contextPack);
-            filePath = basePath + contextPack.name + ".json";
+            filePath = Path.Combine(dirPath, contextPack.name) + ".json";
             Debug.Log("storing context pack: " + contextPack.name);
             File.WriteAllText(filePath, jsonContextPack);
         }

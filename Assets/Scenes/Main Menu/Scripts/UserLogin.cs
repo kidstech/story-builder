@@ -113,7 +113,7 @@ public class UserLogin : MonoBehaviour
                     Debug.Log(user.Email + " has signed in.");
                 }
             });
-            StartCoroutine(GoToLearnerLoginScene());
+            if (user != null) StartCoroutine(GoToLearnerLoginScene());
         }
         else Debug.Log("Invalid email or password, try again.");
     }

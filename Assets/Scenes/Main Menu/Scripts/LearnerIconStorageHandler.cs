@@ -11,14 +11,16 @@ public class LearnerIconStorageHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dirPath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerIcons/");
+        dirPath = Path.Combine(Application.persistentDataPath + "/Resources/LearnerIcons/");
         filePath = "";
         CheckDirPath();
     }
     // store the learner icon byte array to a file named after the learnerId
     public static void StoreLearnerSprite(string learnerId, byte[] learnerIcon)
     {
-        filePath = Path.Combine(dirPath, learnerId + ".png");
+        Debug.Log("storing sprite: " + learnerId + " at path = " + dirPath);
+        filePath = Path.Combine(dirPath, learnerId + ".bytes");
+        Debug.Log("filepath: " + filePath);
         File.WriteAllBytes(filePath, learnerIcon);
         filePath = "";
     }

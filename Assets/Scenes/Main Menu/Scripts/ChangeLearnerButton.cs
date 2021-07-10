@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DatabaseEntry;
 
 public class ChangeLearnerButton : MonoBehaviour
 {
@@ -11,6 +11,13 @@ public class ChangeLearnerButton : MonoBehaviour
     }
     public IEnumerator LearnerSelect()
     {
+        // changing learner means their session is over
+        LearnerData.staticSessionTimes[WordCountHandler.sessionDate] = WordCountHandler.FormatSeconds();
+        // update local logs
+        WordCountHandler.StoreLearnerData();
+        // send logs to server
+        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+        // change scene
         AsyncOperation sceneChange = SceneManager.LoadSceneAsync(3, LoadSceneMode.Single);
         while (!sceneChange.isDone)
         {

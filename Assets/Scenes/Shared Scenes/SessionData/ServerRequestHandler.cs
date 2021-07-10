@@ -8,6 +8,7 @@ using System;
 using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
+    private static readonly string serverIp = "localhost:4567"; // change localhost to ip of target machine if using separate device
     public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
     {
         UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);
@@ -34,7 +35,7 @@ public class ServerRequestHandler : MonoBehaviour
                 // make sure we account for images that may be larger than 1MB attempting to be written to our array of bytes
                 catch (IndexOutOfRangeException e)
                 {
-                    Debug.Log("Error, tried to write outside the length of the array. Details: " + e);
+                    Debug.Log("Error, tried to write outside the length of the array. (Image size greater than 1MB) Details: " + e);
                 }                
                 action(learner);
                 break;
@@ -44,8 +45,9 @@ public class ServerRequestHandler : MonoBehaviour
     public static IEnumerator GetUserFromServer(Action action) // action here allows the coroutine to call another function upon completion of the coroutine
     {
         // API call to locally hosted testing server, change in production
-        string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId;
-        UnityWebRequest getUser = UnityWebRequest.Get(testURL);
+        string requestURL = serverIp + "/api/users/" + UserLogin.user.UserId;
+        Debug.Log(requestURL);
+        UnityWebRequest getUser = UnityWebRequest.Get(requestURL);
         yield return getUser.SendWebRequest();
         switch (getUser.result)
         {
@@ -69,8 +71,8 @@ public class ServerRequestHandler : MonoBehaviour
 
     public static IEnumerator GetLearnerContextPacks(string learnerId, Action action)
     {
-        string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId + "/" + LearnerLogin.staticLearner._id + "/learnerPacks";
-        UnityWebRequest getLearnerPacks = UnityWebRequest.Get(testURL);
+        string requestURL = serverIp + "/api/users/" + UserLogin.user.UserId + "/" + LearnerLogin.staticLearner._id + "/learnerPacks";
+        UnityWebRequest getLearnerPacks = UnityWebRequest.Get(requestURL);
         yield return getLearnerPacks.SendWebRequest();
         switch (getLearnerPacks.result)
         {
@@ -94,7 +96,7 @@ public class ServerRequestHandler : MonoBehaviour
 
     public static IEnumerator GetLearnerDataFromServer()
     {
-        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerLogin.staticLearner._id;
+        string requestURL = serverIp + "/api/learnerData/" + LearnerLogin.staticLearner._id;
         using (UnityWebRequest getRequest = UnityWebRequest.Get(requestURL))
         {
             yield return getRequest.SendWebRequest();
@@ -130,7 +132,7 @@ public class ServerRequestHandler : MonoBehaviour
     // upsert operation server side
     public static IEnumerator PostLearnerDataToServer()
     {
-        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerData.static_id;
+        string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
         LearnerData learnerData = new LearnerData();
@@ -170,7 +172,7 @@ public class ServerRequestHandler : MonoBehaviour
     // a non-IEnumerator version of the post method for the OnApplicationExit() post request that logs learner session times
     public static void BlockingPostLearnerDataToServer()
     {
-        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerData.static_id;
+        string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
         LearnerData learnerData = new LearnerData();

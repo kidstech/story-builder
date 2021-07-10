@@ -11,20 +11,22 @@ public class WordCountHandler : MonoBehaviour
 {
     public static string dirPath;
     public static string filePath;
-    public string sessionDate;
+    public static string sessionDate;
 
     void Start()
     {
         sessionDate = DateTime.Now.ToString();
-        dirPath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
-        filePath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
-        // store name and object id in static LearnerData fields
-        // LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
-        // LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
-        // if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
-        // if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
-        // // add the start time of the new session
-        // LearnerData.staticSessionTimes.Add(sessionDate, "");
+        dirPath = Path.Combine(Application.persistentDataPath + "Resources/LearnerData");
+        // make our persistent directory if it doesn't already exist
+        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+        filePath = "";
+        //store name and object id in static LearnerData fields
+        LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
+        LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
+        if (LearnerData.staticWordCounts == null) LearnerData.staticWordCounts = new Dictionary<string, int>();
+        if (LearnerData.staticSessionTimes == null) LearnerData.staticSessionTimes = new Dictionary<string, string>();
+        // add the start time of the new session
+        LearnerData.staticSessionTimes.Add(sessionDate, "");
     }
     void OnApplicationQuit()
     {
@@ -37,10 +39,11 @@ public class WordCountHandler : MonoBehaviour
         // give the program time to talk to the server before closing
         Debug.Log("Quitting Storybuilder...");
     }
+
     ///<summary>
     /// returns a string formatted to display the time returned from Time.time in hour/min/sec format
     ///</summary>
-    private string FormatSeconds()
+    public static string FormatSeconds()
     {
         string formattedTime = null;
         if (Time.time < TimeSpan.MaxValue.TotalSeconds)
@@ -54,25 +57,24 @@ public class WordCountHandler : MonoBehaviour
     // definitely need to refactor this at some point...
     public static void StoreLearnerData()
     {
-        // // create learnerdata object for serialization later
-        // LearnerData learnerData = new LearnerData();
-        // string jsonLearnerData;
-        // // if there isn't already a filepath made for this learner...
-        // if (!FileExists())
-        // {
-        //     ResetFilePath();
-        //     filePath = Path.Combine(filePath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
-        //     jsonLearnerData = null;
-        // }
-        // // populate non-static serializable fields
-        // learnerData.learnerName = LearnerData.staticLearnerName;
-        // learnerData.learnerId = LearnerData.staticLearnerId;
-        // learnerData.wordCounts = LearnerData.staticWordCounts;
-        // learnerData.sessionTimes = LearnerData.staticSessionTimes;
-        // // convert Learnerdata to json
-        // jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
-        // // make the file
-        // CreateJsonFile(jsonLearnerData);
+        // create learnerdata object for serialization later
+        LearnerData learnerData = new LearnerData();
+        string jsonLearnerData;
+        // if there isn't already a filepath made for this learner...
+        if (!FileExists())
+        {
+            filePath = Path.Combine(dirPath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
+            jsonLearnerData = null;
+        }
+        // populate non-static serializable fields
+        learnerData.learnerName = LearnerData.staticLearnerName;
+        learnerData.learnerId = LearnerData.staticLearnerId;
+        learnerData.wordCounts = LearnerData.staticWordCounts;
+        learnerData.sessionTimes = LearnerData.staticSessionTimes;
+        // convert Learnerdata to json
+        jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
+        // make the file
+        CreateJsonFile(jsonLearnerData);
     }
 
     ///<summary>
@@ -85,17 +87,17 @@ public class WordCountHandler : MonoBehaviour
 
     public static void UpdateWordCount(string word)
     {
-        // // if the word isn't in the dictionary... (haven't heard it yet)
-        // if (!LearnerData.staticWordCounts.ContainsKey(word))
-        // {
-        //     //Debug.Log("new word heard!");
-        //     LearnerData.staticWordCounts.Add(word, 1); // create entry for newly heard word
-        // }
-        // else // we've heard the word again
-        // {
-        //    //Debug.Log("repeat word heard.");
-        //     LearnerData.staticWordCounts[word]++; // increment word counter
-        // }
+        // if the word isn't in the dictionary... (haven't heard it yet)
+        if (!LearnerData.staticWordCounts.ContainsKey(word))
+        {
+            //Debug.Log("new word heard!");
+            LearnerData.staticWordCounts.Add(word, 1); // create entry for newly heard word
+        }
+        else // we've heard the word again
+        {
+           //Debug.Log("repeat word heard.");
+            LearnerData.staticWordCounts[word]++; // increment word counter
+        }
     }
     public static void CreateJsonFile(string jsonLearnerData)
     {
@@ -123,14 +125,6 @@ public class WordCountHandler : MonoBehaviour
             return true;
         }
         else return false;
-    }
-
-    ///<summary>
-    /// resets the static filePath variable to its original instatiation. (.../Saves/LearnerData/)
-    ///</summary>
-    public static void ResetFilePath()// please update function summary if original filePath is changed
-    {
-        filePath = Path.Combine(Application.dataPath + "/", "Saves/", "LearnerData/");
     }
 
 }

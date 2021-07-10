@@ -2,9 +2,7 @@
 using ServerTypes;
 using UnityEngine.UI;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 
 public class LearnerSelectPopup : MonoBehaviour
 {
@@ -21,7 +19,7 @@ public class LearnerSelectPopup : MonoBehaviour
     private string[] filePaths;
     void Start()
     {
-        filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath, "*.png");
+        filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath);
         // get user from the server and then create learner buttons to choose from
         StartCoroutine(ServerRequestHandler.GetUserFromServer(SetUpLearnerButtons));
     }
@@ -43,23 +41,23 @@ public class LearnerSelectPopup : MonoBehaviour
     {
         Debug.Log("making buttons for user: " + currentUser?.name);
         Debug.Log("User doesn't have the appropriate sprites: " + !AlreadyHaveAppropriateLearnerSprites());
-        // if we don't have the learner sprites we need already, go get them
+        //if we don't have the learner sprites we need already, go get them
         if (!AlreadyHaveAppropriateLearnerSprites())
         {
             foreach (Learner learner in currentUser.learners)
             {
-                // for every learner that actually has an icon...
+                //for every learner that actually has an icon...
                 if (learner.icon != null)
                 {
                     Debug.Log("grabbing learner icon for: " + learner.name);
-                    // grabs the firebase image URI => sends server request => updates image component field in the button
+                    //grabs the firebase image URI => sends server request => updates image component field in the button
                     GetLearnerIconAndMakeButton(learner);
                 }
-                // for learners that don't have an icon, just make the button without trying to get an image from firebase
+                //for learners that don't have an icon, just make the button without trying to get an image from firebase
                 else CreateLearnerButton(learner);
             }
         }
-        // otherwise, if we already have the sprites, just make the buttons without talking to firebase
+        //otherwise, if we already have the sprites, just make the buttons without talking to firebase
         else
         {
             Debug.Log("making buttons with local files...");
@@ -87,15 +85,15 @@ public class LearnerSelectPopup : MonoBehaviour
         Vector3 correctedZPosition = button.transform.GetComponent<RectTransform>().localPosition;
         correctedZPosition.z = 0;
         // make sure we grab any local icons that may have been added from most recent server call
-        filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath, "*.png");
-        // check and see if we have an image file for the learner
+        filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath);
+        //check and see if we have an image file for the learner
         foreach (string fileName in filePaths)
         {
             if (learner._id == Path.GetFileNameWithoutExtension(fileName))
             {
                 Debug.Log("adding learner sprite to button from local file...");
                 byte[] icon = File.ReadAllBytes(fileName);
-                // LearnerImage component of learner button prefab
+                //LearnerImage component of learner button prefab
                 button.transform.GetChild(1).GetComponent<Image>().sprite = GetSprite(icon);
             }
         }
