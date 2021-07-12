@@ -84,11 +84,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         // reset the scrollbar when the submit sentence animation begins
         sentenceScrollBar.GetComponent<Scrollbar>().value = 0;
-
-        //
         List<WordTile> tiles = sentence.GatherWordTiles();
-        completedSentences.GetComponentInChildren<SaveSentenceTiles>().savedSentence = copyTiles(tiles); // store all the tiles from our completed sentence in a new list
-
         // If there are words in the sentence
         if (tiles.Count > 0)
         {
@@ -105,30 +101,24 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 words.Add(tile.word);
                 // track the submitted word
                 WordCountHandler.UpdateWordCount(tile.word.word);
-
-                //
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
             WordCountHandler.StoreLearnerData();
-            //StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
-            //
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
 
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(words);
             
-            //
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
-            //
             //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
             revealSentenceAnimation(tiles);
             
-
-            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles2());
+            StartCoroutine(sentence.GetComponent<SentenceBar>().AnimateAndTransferTiles());
 
         }
 	}
