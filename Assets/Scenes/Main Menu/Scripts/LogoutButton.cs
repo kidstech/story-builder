@@ -7,9 +7,9 @@ public class LogoutButton : MonoBehaviour
     public void Logout()
     {
         // changing learner means their session is over
-        LearnerData.staticSessionTimes[WordCountHandler.sessionDate] = WordCountHandler.FormatSeconds();
+        LearnerData.staticSessionTimes[LearnerDataHandler.sessionDate] = LearnerDataHandler.FormatSeconds();
         // update local logs
-        WordCountHandler.StoreLearnerData();
+        LearnerDataHandler.StoreLearnerData();
         // send logs to server
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
         // swap to user login screen

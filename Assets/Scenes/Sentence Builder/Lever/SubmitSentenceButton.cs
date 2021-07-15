@@ -100,10 +100,10 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 //
                 words.Add(tile.word);
                 // track the submitted word
-                WordCountHandler.UpdateWordCount(tile.word.word);
+                LearnerDataHandler.UpdateWordCount(tile.word.word);
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
-            WordCountHandler.StoreLearnerData();
+            LearnerDataHandler.StoreLearnerData();
             StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
@@ -122,33 +122,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         }
 	}
-
-    // copies all the wordtiles in the list so that when the original word tiles are deleted for the animation, we still have copies
-    // in case the user wants to drag their submitted sentence back into the sentence bar
-    // While this may seem weird, just copying the list doesn't work because the actual word tile objects themselves are being destroyed, so the list references break otherwise
-    private List<WordTile> copyTiles(List<WordTile> wordTiles)
-    {
-        GameObject temp = GameObject.Find("SentenceInTiles");
-
-        // if we already have copies from previous sentence submissions, destroy them
-        if(temp.transform.childCount > 0) 
-        {
-            foreach(Transform child in temp.transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-
-        List<WordTile> copiedTiles = new List<WordTile>();
-        WordTile copyTile = null;
-        
-        foreach(WordTile wordtile in wordTiles)
-        {
-            copyTile = Instantiate(wordtile, temp.transform); // copy the wordtile and make it a child of the SentenceInTiles game object
-            copiedTiles.Add(copyTile);
-        }
-        return copiedTiles;
-    }
 
     /// <summary>
     /// Changes the lever image to the down position for 2 seconds, then reset it

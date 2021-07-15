@@ -7,19 +7,19 @@ using System;
 
 // originally based on this tutorial https://developer.mongodb.com/how-to/sending-requesting-data-mongodb-unity-game/
 
-public class WordCountHandler : MonoBehaviour
+public class LearnerDataHandler : MonoBehaviour
 {
-    public static string dirPath;
-    public static string filePath;
+    //public static string dirPath;
+    //public static string filePath;
     public static string sessionDate;
 
     void Start()
     {
         sessionDate = DateTime.Now.ToString();
-        dirPath = Path.Combine(Application.persistentDataPath + "Resources/LearnerData");
+        //dirPath = Path.Combine(Application.persistentDataPath + "Resources/LearnerData");
         // make our persistent directory if it doesn't already exist
-        if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
-        filePath = "";
+        //if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+        //filePath = "";
         //store name and object id in static LearnerData fields
         LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
         LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
@@ -33,7 +33,7 @@ public class WordCountHandler : MonoBehaviour
         // when we the learner quits the game, store the time they ran the application for in the DateTime logged at the start of the session
         LearnerData.staticSessionTimes[sessionDate] = FormatSeconds();
         // update local logs
-        WordCountHandler.StoreLearnerData();
+        StoreLearnerData();
         // send logs to server using non-coroutine method so it can actually finish
         ServerRequestHandler.BlockingPostLearnerDataToServer();
         // give the program time to talk to the server before closing
@@ -59,31 +59,31 @@ public class WordCountHandler : MonoBehaviour
     {
         // create learnerdata object for serialization later
         LearnerData learnerData = new LearnerData();
-        string jsonLearnerData;
+        //string jsonLearnerData;
         // if there isn't already a filepath made for this learner...
-        if (!FileExists())
-        {
-            filePath = Path.Combine(dirPath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
-            jsonLearnerData = null;
-        }
+        // if (!FileExists())
+        // {
+        //     filePath = Path.Combine(dirPath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
+        //     jsonLearnerData = null;
+        // }
         // populate non-static serializable fields
         learnerData.learnerName = LearnerData.staticLearnerName;
         learnerData.learnerId = LearnerData.staticLearnerId;
         learnerData.wordCounts = LearnerData.staticWordCounts;
         learnerData.sessionTimes = LearnerData.staticSessionTimes;
         // convert Learnerdata to json
-        jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
+        //jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
         // make the file
-        CreateJsonFile(jsonLearnerData);
+        //CreateJsonFile(jsonLearnerData);
     }
 
-    ///<summary>
-    /// Returns a dictionary of type string, int. Assumes that a learner has already been selected
-    ///</summary>
-    public static Dictionary<string, int> LoadUserData()
-    {
-        return JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(filePath)); // convert a JSON string into Dictionary form
-    }
+    // ///<summary>
+    // /// Returns a dictionary of type string, int. Assumes that a learner has already been selected
+    // ///</summary>
+    // public static Dictionary<string, int> LoadUserData()
+    // {
+    //     return JsonConvert.DeserializeObject<Dictionary<string, int>>(File.ReadAllText(filePath)); // convert a JSON string into Dictionary form
+    // }
 
     public static void UpdateWordCount(string word)
     {
@@ -99,32 +99,20 @@ public class WordCountHandler : MonoBehaviour
             LearnerData.staticWordCounts[word]++; // increment word counter
         }
     }
-    public static void CreateJsonFile(string jsonLearnerData)
-    {
-        CheckDirPath();
-        Debug.Log("writing learnerdata to a local file...");
-        File.WriteAllText(filePath, jsonLearnerData);
-    }
+    // public static void CreateJsonFile(string jsonLearnerData)
+    // {
+    //     CheckDirPath();
+    //     Debug.Log("writing learnerdata to a local file...");
+    //     File.WriteAllText(filePath, jsonLearnerData);
+    // }
 
-    public static void CheckDirPath()
-    {
-        if (!Directory.Exists(dirPath))
-        {
-            Directory.CreateDirectory(dirPath);
-        }
-        else return;
-    }
-
-    ///<summary> 
-    /// Simple clarifying helper function that returns true if a file already exists for an inputted learner
-    ///</summary>
-    public static bool FileExists()
-    {
-        if (File.Exists(filePath))
-        {
-            return true;
-        }
-        else return false;
-    }
+    // public static void CheckDirPath()
+    // {
+    //     if (!Directory.Exists(dirPath))
+    //     {
+    //         Directory.CreateDirectory(dirPath);
+    //     }
+    //     else return;
+    // }
 
 }

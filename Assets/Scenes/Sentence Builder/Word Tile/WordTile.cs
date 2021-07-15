@@ -22,9 +22,9 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
         StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
         // update word counts for the learner
-        WordCountHandler.UpdateWordCount(textToRead);
+        LearnerDataHandler.UpdateWordCount(textToRead);
         // store it locally
-        WordCountHandler.StoreLearnerData();
+        LearnerDataHandler.StoreLearnerData();
         // update the server's copy
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
         // Speak the text on the tile using the correct voice

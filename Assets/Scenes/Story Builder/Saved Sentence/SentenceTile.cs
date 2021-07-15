@@ -35,10 +35,10 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         foreach(Word word in words)
         {
             // update wordcounts for every word in the sentence
-            WordCountHandler.UpdateWordCount(word.word);
+            LearnerDataHandler.UpdateWordCount(word.word);
         }
         // store the updated learnerdata
-        WordCountHandler.StoreLearnerData();
+        LearnerDataHandler.StoreLearnerData();
         // send off the updated data to the server
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 

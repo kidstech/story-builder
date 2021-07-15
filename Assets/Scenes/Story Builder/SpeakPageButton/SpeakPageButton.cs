@@ -28,11 +28,11 @@ public class SpeakPageButton : MonoBehaviour
             foreach(Word word in sentence.words)
             {
                 // update the word counts for each word
-                WordCountHandler.UpdateWordCount(word.word);
+                LearnerDataHandler.UpdateWordCount(word.word);
             }
         }
         // store updated wordcounts locally
-        WordCountHandler.StoreLearnerData();
+        LearnerDataHandler.StoreLearnerData();
         // update server with new word counts from speaking the page
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
     }
