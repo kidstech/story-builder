@@ -34,6 +34,4 @@ public class LearnerLogin : MonoBehaviour
         // method of WordCountHandler, which is only called once the scene has switched
         WordCountHandler.StoreLearnerData();
     }
-
-    
 }

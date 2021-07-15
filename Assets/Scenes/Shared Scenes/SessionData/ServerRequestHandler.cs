@@ -8,18 +8,63 @@ using System;
 using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
+    public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
+    {
+        UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);
+        yield return getIcon.SendWebRequest();
+        switch (getIcon.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                try
+                {
+                    LearnerSelectPopup.learnerIcon = getIcon.downloadHandler.data;
+                    LearnerSelectPopup.learnerIconArrayIsEmpty = false;
+                    Debug.Log("storing sprite locally...");
+                    LearnerIconStorageHandler.StoreLearnerSprite(learner._id, LearnerSelectPopup.learnerIcon);
+                }
+                // make sure we account for images that may be larger than 1MB attempting to be written to our array of bytes
+                catch (IndexOutOfRangeException e)
+                {
+                    Debug.Log("Error, tried to write outside the length of the array. Details: " + e);
+                }                
+                action(learner);
+                break;
+        }
+    }
     // assumes user is logged in firebase
-    public static IEnumerator GetUserFromServer(Action<User> action) // action here allows the coroutine to call another function upon completion of the coroutine
+    public static IEnumerator GetUserFromServer(Action action) // action here allows the coroutine to call another function upon completion of the coroutine
     {
         // API call to locally hosted testing server, change in production
         string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId;
         UnityWebRequest getUser = UnityWebRequest.Get(testURL);
         yield return getUser.SendWebRequest();
-        string response = getUser.downloadHandler.text;
-        User user = new User();
-        user = JsonConvert.DeserializeObject<User>(response);
-        // run whatever function call we passed as a parameter to GetUserFromServer
-        action(user);
+        switch (getUser.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getUser.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getUser.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getUser.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                string response = getUser.downloadHandler.text;
+                LearnerSelectPopup.currentUser = JsonConvert.DeserializeObject<User>(response);
+                Debug.Log("user grabbed successfully! " + LearnerSelectPopup.currentUser.name);
+                action();
+                break;
+        }
     }
 
     public static IEnumerator GetLearnerContextPacks(string learnerId, Action action)

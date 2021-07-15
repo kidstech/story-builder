@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using ServerTypes;
-using Newtonsoft.Json;
-using System.IO;
 
 public class SetupPackFilter : MonoBehaviour
 {
@@ -13,14 +9,17 @@ public class SetupPackFilter : MonoBehaviour
     //
     private List<ContextPack> filterByPacks;
 
-    //
-    private void Start()
-    {
-        SetUpPacks();
-    }
-
     public void SetUpPacks()
     {
+        // clear old filter buttons if they exist
+        if (filterByPacks!= null)
+        {
+            filterByPacks.Clear();
+            foreach(Transform child in this.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
         // load the packs
         filterByPacks = LoadContextPacks.loadContextPacks();
         // make the sorting buttons for the context packs
