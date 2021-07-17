@@ -29,8 +29,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
-
-    //
     private Image currentImage;
 
     GameObject sentenceScrollBar;
@@ -88,19 +86,11 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         // If there are words in the sentence
         if (tiles.Count > 0)
         {
-            //
-            List<Word> words = new List<Word>();
-
-            //
             string rawSentence = "";
-
-            //
             foreach(WordTile tile in tiles)
             {
-                //
-                words.Add(tile.word);
                 // track the submitted word
-                LearnerDataHandler.UpdateWordCount(tile.word.word);
+                LearnerDataHandler.UpdateWordCount(tile.textToDisplay);
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
             LearnerDataHandler.StoreLearnerData();
@@ -109,7 +99,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
 
             // Save to json. This is temporary and is taking the place of a database;
-            SaveSentenceHandler.SaveSentence(words);
+            SaveSentenceHandler.SaveSentence(tiles);
             
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
-using DatabaseEntry;
+using System;
 
 public class WordTile : MonoBehaviour, IPointerClickHandler
 {
@@ -32,7 +32,6 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         TTS.startSpeakingWordTile(textToRead);
     }
 
-    //
     public void Highlight()
     {
         Image image = GetComponent<Image>();
@@ -61,13 +60,8 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
 
     public IEnumerator HighlightCoroutine(float seconds)
     {
-        //
         Image image = GetComponent<Image>();
-
-        //
         Color previous = image.color;
-
-        //
         image.color = Color.yellow;
 
         yield return new WaitForSeconds(seconds);
@@ -90,7 +84,6 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         image.color = previous;
     }
 
-    //
     public void SetUpTile(Word word)
     {
         this.word = word;

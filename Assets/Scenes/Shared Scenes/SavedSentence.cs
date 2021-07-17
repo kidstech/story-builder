@@ -5,21 +5,20 @@ using System;
 [Serializable]
 public class SavedSentence
 {
-    // Story id;
-    public Guid id;
-
-    // Author
+    public string id;
     public string user;
-
-    // List of tiles
     public List<Word> words;
+    // need this extra list because we don't actually ever update the "word" using the wordholder (we update the text component instead) , so we need to capture that elsewhere
+    public List<string> selectedWordForms;
+    public string sentenceText;
 
     //
-    public SavedSentence(Guid id, string user, List<Word> words)
+    public SavedSentence(string id, string user, List<Word> words, string sentenceText, List<string> selectedWordForms)
     {
-        //
         this.id = id;
         this.user = user;
         this.words = words;
+        this.sentenceText = sentenceText;
+        this.selectedWordForms = selectedWordForms;
     }
 }

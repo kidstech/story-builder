@@ -9,7 +9,6 @@ public class SpeakPageButton : MonoBehaviour
     public PageContainer pageContainer;
     private Button button;
 
-    //
     private void Start()
     {
         button = GetComponent<Button>();
@@ -25,10 +24,10 @@ public class SpeakPageButton : MonoBehaviour
         foreach(SavedSentence sentence in savedSentences)
         {
             // iterate through all the words in a sentence
-            foreach(Word word in sentence.words)
+            foreach(string selectedWord in sentence.selectedWordForms)
             {
                 // update the word counts for each word
-                LearnerDataHandler.UpdateWordCount(word.word);
+                LearnerDataHandler.UpdateWordCount(selectedWord);
             }
         }
         // store updated wordcounts locally

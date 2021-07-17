@@ -31,6 +31,8 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        // clear old sentence tiles
+        savedSentence.Clear();
         // if we drag and release our sentence over the sentence bar, resubmit it
         if (eventData.hovered.Contains(sentence))
         {

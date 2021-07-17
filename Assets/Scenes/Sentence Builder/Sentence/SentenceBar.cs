@@ -116,6 +116,14 @@ public class SentenceBar : MonoBehaviour
     ///</summary>
     private void TransferTiles()
     {
+        // delete any old word tiles we may have submitted previously
+        if (sentenceInTiles.transform.childCount > 0)
+        {
+            foreach (Transform child in sentenceInTiles.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
         List<Transform> children = new List<Transform>();
         // store all the sentence objects in a list (so indexes don't get messed up when we change their parents around)
         foreach(Transform child in this.transform)

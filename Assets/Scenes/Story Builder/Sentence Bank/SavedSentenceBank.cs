@@ -20,18 +20,15 @@ public class SavedSentenceBank : MonoBehaviour
         sentencePrefabSize = sentencePrefab.GetComponent<RectTransform>().sizeDelta;
         GetComponent<RectTransform>().sizeDelta = new Vector2(sentencePrefabSize.x, sentencePrefabSize.y * sentences.Count);
 
+        // create sentence game object for each sentence we have and populate its components
         for (int i = 0; i < sentences.Count; i++)
         {
             GameObject newSentence = Instantiate(sentencePrefab);
 
             newSentence.GetComponent<SentenceObject>().savedSentence = sentences[i];
-
-            sentenceText = CompileSentence(sentences[i].words);
-            newSentence.GetComponentInChildren<Text>().text = sentenceText;
-
+            newSentence.GetComponentInChildren<Text>().text = sentences[i].sentenceText;
             newSentence.transform.SetParent(this.transform, false);
-
-            newSentence.GetComponent<SentenceTile>().textToDisplay = sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
+            newSentence.GetComponent<SentenceTile>().textToDisplay = sentences[i].sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
         }
     }
     void OnDisable()
@@ -45,13 +42,14 @@ public class SavedSentenceBank : MonoBehaviour
         }
     }
 
-    public static string CompileSentence(List<Word> words)
+    public static string CompileSentence(List<WordTile> tiles)
     {
         string compiledSentence = "";
 
-        for(int i = 0; i < words.Count; i++)
+        for(int i = 0; i < tiles.Count; i++)
         {
-            compiledSentence += words[i].word + " ";
+            // using textToDisplay here because that's what gets changed in the wordholder
+            compiledSentence += tiles[i].textToDisplay + " ";
         }
 
         compiledSentence = compiledSentence.Remove(compiledSentence.Length - 1, 1);

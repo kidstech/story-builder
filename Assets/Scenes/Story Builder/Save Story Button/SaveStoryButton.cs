@@ -9,31 +9,31 @@ public class SaveStoryButton : MonoBehaviour
     public PageContainer pageContainer;
     private Button button;
 
-    //
     private void Start()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(SaveStory);
     }
 
+    // no real story saving implemented just yet
     private void SaveStory()
     {
         List<SavedSentence> toSave = pageContainer.GetAllSentencesInPages();
 
         SaveStoryHandler.SaveStory(toSave);
 
-        for(int i = 0; i < toSave.Count; i++)
-        {
-            string blah = "";
+        // for(int i = 0; i < toSave.Count; i++)
+        // {
+        //     string blah = "";
 
-            for (int o = 0; o < toSave[i].words.Count; o++)
-            {
+        //     for (int o = 0; o < toSave[i].wordTiles.Count; o++)
+        //     {
                 
 
-                blah += toSave[i].words[o].word;
-            }
+        //         blah += toSave[i].wordTiles[o].textToDisplay;
+        //     }
 
-            Debug.Log(blah);
-        }
+        //     Debug.Log(blah);
+        // }
     }
 }
