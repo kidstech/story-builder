@@ -10,12 +10,13 @@ public class SavedSentenceBank : MonoBehaviour
 
     private Vector2 sentencePrefabSize;
     private string sentenceText;
+    private List<SavedSentence> sentences = new List<SavedSentence>();
 
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
     {
-        Debug.Log(this.transform.name + " has been enabled");
-        List<SavedSentence> sentences = LoadSavedSentences.LoadSentences();
+        //Debug.Log(this.transform.name + " has been enabled");
+        sentences = LoadSavedSentences.LoadSentences();
 
         sentencePrefabSize = sentencePrefab.GetComponent<RectTransform>().sizeDelta;
         GetComponent<RectTransform>().sizeDelta = new Vector2(sentencePrefabSize.x, sentencePrefabSize.y * sentences.Count);
@@ -33,7 +34,7 @@ public class SavedSentenceBank : MonoBehaviour
     }
     void OnDisable()
     {
-        Debug.Log(this.transform.name + " has been disabled");
+        //Debug.Log(this.transform.name + " has been disabled");
         // empty the bank each time so we don't create duplicates
         foreach (Transform child in this.transform)
         {

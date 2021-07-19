@@ -5,20 +5,25 @@ using System;
 [Serializable]
 public class SavedSentence
 {
-    public string id;
-    public string user;
+    public string mongoObjectId;
+    public string sentenceId;
+    public string sentenceText;
+    public string timeSubmitted;
+    public string learnerId;
     public List<Word> words;
     // need this extra list because we don't actually ever update the "word" using the wordholder (we update the text component instead) , so we need to capture that elsewhere
     public List<string> selectedWordForms;
-    public string sentenceText;
+    public string userId;
 
     //
-    public SavedSentence(string id, string user, List<Word> words, string sentenceText, List<string> selectedWordForms)
+    public SavedSentence(string sentenceId, string sentenceText, String timeSubmitted, string learnerId, List<Word> words, List<string> selectedWordForms, string userId)
     {
-        this.id = id;
-        this.user = user;
-        this.words = words;
+        this.sentenceId = sentenceId;
         this.sentenceText = sentenceText;
+        this.timeSubmitted = timeSubmitted;
+        this.learnerId = learnerId;
+        this.words = words;
         this.selectedWordForms = selectedWordForms;
+        this.userId = userId;
     }
 }

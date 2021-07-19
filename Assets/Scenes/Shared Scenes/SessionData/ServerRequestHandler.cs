@@ -36,7 +36,7 @@ public class ServerRequestHandler : MonoBehaviour
                 catch (IndexOutOfRangeException e)
                 {
                     Debug.Log("Error, tried to write outside the length of the array. (Image size greater than 1MB) Details: " + e);
-                }                
+                }
                 action(learner);
                 break;
         }
@@ -211,6 +211,67 @@ public class ServerRequestHandler : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log("LearnerData successfully posted!");
+                    break;
+            }
+        }
+    }
+    public static IEnumerator PostSentence(SavedSentence sentence)
+    {
+        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
+        Debug.Log("posting sentence: " + sentence.sentenceText + " at requestURL: " + requestUrl);
+        string jsonSentence = "";
+        jsonSentence = JsonConvert.SerializeObject(sentence);
+
+        using (UnityWebRequest postRequest = UnityWebRequest.Post(requestUrl, jsonSentence))
+        {
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonSentence);
+            postRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            postRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            postRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return postRequest.SendWebRequest();
+            switch (postRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    Debug.Log("Sentence successfully posted!");
+                    break;
+            }
+        }
+    }
+
+    public static IEnumerator GetSentences(Action<List<SavedSentence>> action)
+    {
+        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
+        Debug.Log("gettting sentences at requestURL: " + requestUrl);
+        using (UnityWebRequest getRequest = UnityWebRequest.Get(requestUrl))
+        {
+            yield return getRequest.SendWebRequest();
+            switch (getRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + getRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + getRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + getRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    // server sends json of list of sentences (server's "sentence" type equivalent to SavedSentence here)
+                    string response = getRequest.downloadHandler.text;
+                    Debug.Log("sentences grabbed! : " + response);
+                    List<SavedSentence> sentences = JsonConvert.DeserializeObject<List<SavedSentence>>(response);
+                    action(sentences);
+                    yield return null;
                     break;
             }
         }

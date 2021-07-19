@@ -22,6 +22,14 @@ public class ChangeScene : MonoBehaviour
     }
     private SceneType sceneState = SceneType.SentenceBuilder;
 
+    // ideally this would be attached to the SavedSentenceBank script, but that game object starts disabled which means the start function isn't actually triggered until scene change (which is too late)
+    void Start()
+    {
+        // get the learner's previously submitted sentences from the server and store them as local json files
+        // potential race condition? immediately (faster than humanly possible?) after reaching sentence builder scene => press change scenes before coroutine completes => simultaneous write/read error as sentences are being loaded and stored at the same time?
+        StartCoroutine(ServerRequestHandler.GetSentences(SaveSentenceHandler.StoreSentences));
+    }
+
     public void ToggleScene()
     {
         if (sceneState == SceneType.SentenceBuilder) // sentencebuilder -> storybuilder

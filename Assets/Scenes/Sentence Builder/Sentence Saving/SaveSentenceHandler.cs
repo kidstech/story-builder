@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 public class SaveSentenceHandler
 {
     public static string path = Path.Combine(Application.persistentDataPath, "Resources", "Sentences");
+    // static reference to the most recent saved sentence for posting the sentence to the server
+    public static SavedSentence mostRecentSentence;
 
     public static void SaveSentence(List<WordTile> tiles)
     {
@@ -19,11 +21,13 @@ public class SaveSentenceHandler
             // only add the word if we don't already have it
             if (!words.Contains(tile.word))
             {
-            words.Add(tile.word);
+                words.Add(tile.word);
             }
             selectedWords.Add(tile.textToDisplay);
             sentenceText = sentenceText + tile.textToDisplay + " ";
         }
+        // trim off any extra white space at the end
+        sentenceText = sentenceText.TrimEnd();
         // Make sure the path where we are saving exists (if directory doesn't exist, create it).
         CheckPath();
 
@@ -31,12 +35,27 @@ public class SaveSentenceHandler
         Guid id = Guid.NewGuid();
 
         // create new SavedSentence object
-        SavedSentence sentence = new SavedSentence(id.ToString(), "testUser", words, sentenceText, selectedWords);
+        SavedSentence sentence = new SavedSentence(id.ToString(), sentenceText, DateTime.Now.ToString(), LearnerLogin.staticLearner._id, words, selectedWords, LearnerSelectPopup.currentUser._id);
         Debug.Log("saving sentence: ... at " + Path.Combine(path, id.ToString() + ".json"));
-
+        // store the sentence in static variable for server call (can't call coroutine from static method)
+        mostRecentSentence = sentence;
         string jsonSentence = JsonConvert.SerializeObject(sentence);
         // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
         File.WriteAllText(Path.Combine(path, id.ToString() + ".json"), jsonSentence);
+    }
+
+    public static void StoreSentences(List<SavedSentence> sentences)
+    {
+        foreach (SavedSentence sentence in sentences)
+        {
+            string jsonSentence = JsonConvert.SerializeObject(sentence);
+            // make sure we don't overwrite any existing files
+            if (!File.Exists(Path.Combine(path, sentence.sentenceId)))
+            {
+                // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
+                File.WriteAllText(Path.Combine(path, sentence.sentenceId.ToString() + ".json"), jsonSentence);
+            }
+        }
     }
 
     // currently unused
@@ -65,7 +84,7 @@ public class SaveSentenceHandler
 
     public static void CheckPath()
     {
-        if(!Directory.Exists(path))
+        if (!Directory.Exists(path))
         {
             Debug.Log(path + " directory has been created");
             Directory.CreateDirectory(path);

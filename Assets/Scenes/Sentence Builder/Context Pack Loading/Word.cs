@@ -16,7 +16,9 @@ public class Word
      */
 
     // Identifiers for our words
+    [NonSerialized]
     public int contextPackId = -1;
+    [NonSerialized]
     public int partOfSpeechId = -1;
 
     // The actual information about the word itself
