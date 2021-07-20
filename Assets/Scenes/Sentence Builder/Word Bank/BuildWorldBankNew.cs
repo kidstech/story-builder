@@ -14,27 +14,43 @@ public class BuildWorldBankNew : MonoBehaviour
 
     // Prefab for word tile to be stored in word bank columns
     public Transform wordTile;
+    // game object storing the SetupPackFilter script
+    public GameObject ContextPackFilter;
 
     //
-    private void Start()
+    private void Awake()
     {
-        // Load all words into our holder class
-        words = LoadContextPacks.loadWords();
-
-        // Begin setting up the word bank
-        setupWordBank();
+        // get the user from the server and then set up the packs
+        StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
+    }
+    // same as awake, but callable elsewhere
+    public void UpdateWordBank()
+    {
+        StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
     }
 
-    //
-    private void setupWordBank()
+    private void setupWordBankAndPackFilterButtons()
     {
+        // clear old words tiles (game objects)
+        if (words != null)
+        {
+            words.Clear();
+            foreach (Transform child in this.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        LoadContextPacks.StoreContextPacks();
+        words = LoadContextPacks.loadWords();
+        // activate the contextpackfilter game object now that we've downloaded the learnercontextpacks
+        ContextPackFilter.SetActive(true);
         // Get the word bank's transform object
         RectTransform bank = (RectTransform)this.transform;
 
         // Calculate the number of rows
         // words.Count needs to be stored as a float or else the following numOfRows computation is processed as an integer before it's ever rounded (effectively rounding down)
         // this is why the scrollbar didn't reach the last row of tiles
-        float numTiles = words.Count; 
+        float numTiles = words.Count;
         int numOfRows = Mathf.CeilToInt(numTiles / TILES_PER_ROW);
 
         // Reset Size of the wordbank
@@ -60,5 +76,7 @@ public class BuildWorldBankNew : MonoBehaviour
 
         //
         GetComponent<WordBank>().SortWordBank();
+        // set up pack filter buttons now that words and context packs have been grabbed from the server
+        ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
     }
 }

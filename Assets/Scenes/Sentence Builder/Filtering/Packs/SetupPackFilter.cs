@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,17 +6,23 @@ public class SetupPackFilter : MonoBehaviour
 {
     // The prefab button for filtering
     public GameObject packFilterButton;
-
     //
     private List<ContextPack> filterByPacks;
 
-    //
-    private void Start()
+    public void SetUpPacks()
     {
-        //
+        // clear old filter buttons if they exist
+        if (filterByPacks!= null)
+        {
+            filterByPacks.Clear();
+            foreach(Transform child in this.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        // load the packs
         filterByPacks = LoadContextPacks.loadContextPacks();
-
-        //
+        // make the sorting buttons for the context packs
         for (int i = 0; i < filterByPacks.Count; i++)
         {
             //

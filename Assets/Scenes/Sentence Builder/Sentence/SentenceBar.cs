@@ -84,7 +84,6 @@ public class SentenceBar : MonoBehaviour
         int length = this.transform.childCount;
         int updatingLength = length;
         float left_move_distance = 0;
-        float endPosX;
         // finding the distance between any two tiles
         if(length > 1){
         left_move_distance = this.transform.GetChild(1).transform.position.x - this.transform.GetChild(0).transform.position.x;

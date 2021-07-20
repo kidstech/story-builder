@@ -78,7 +78,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 	/// </summary>
 	/// <param name="eventData">Event data.</param>
 	public void OnPointerClick (PointerEventData eventData)
-    {
+    {;
         // Pull the lever kronk!
         StartCoroutine(pullLever());
 
@@ -103,10 +103,14 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             {
                 //
                 words.Add(tile.word);
+                // track the submitted word
+                WordCountHandler.UpdateWordCount(tile.word.word);
 
                 //
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
+            WordCountHandler.StoreLearnerData();
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
             //
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);

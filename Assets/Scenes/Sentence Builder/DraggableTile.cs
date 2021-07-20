@@ -32,7 +32,7 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void Start()
     {
         //
-        canvas = GameObject.Find("Canvas").transform;
+        canvas = GameObject.Find("SentenceBuilderCanvas").transform;
 
         //
         canvasGroup = GetComponent<CanvasGroup>();
@@ -42,7 +42,7 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     { 
         //
-        offset = this.transform.position - Input.mousePosition;
+        //offset = this.transform.position - Input.mousePosition;
 
         //
         placeholder = new GameObject();
@@ -94,7 +94,10 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnDrag(PointerEventData eventData)
     {
         //
-        this.transform.position = eventData.position + offset;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = Camera.main.nearClipPlane;
+        this.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+        //this.transform.position = eventData.position + offset;
 
         //
         if(heldOver == TileDropzone.Behavior.Sentence)
@@ -150,6 +153,9 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         //
         this.transform.SetParent(parentToReturnTo, false);
         this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+        RectTransform wordTileCoords = this.transform.GetComponent<RectTransform>();
+        // give the word tile a draggable z position
+        this.transform.GetComponent<RectTransform>().position = new Vector3(wordTileCoords.position.x, wordTileCoords.position.y, 0);// z position of word tiles were getting -z values when plopped in the sentence bar, making them unable to be dragged
 
         //
         draggedFrom = parentToReturnTo.GetComponent<TileDropzone>().behavior;

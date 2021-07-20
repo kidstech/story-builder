@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
+using DatabaseEntry;
 
 public class WordTile : MonoBehaviour, IPointerClickHandler
 {
@@ -10,7 +11,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public Word word;
     public string textToDisplay;
     private Color originalColor;
-    private bool highlighted = false; 
+    private bool highlighted = false;
     public TextToSpeechHandler TTS;
     private Image image = null;
 
@@ -26,15 +27,20 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         string textToRead = this.textToDisplay.ToLower();
-        
+
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
         StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
-
+        // update word counts for the learner
+        WordCountHandler.UpdateWordCount(textToRead);
+        // store it locally
+        WordCountHandler.StoreLearnerData();
+        // update the server's copy
+        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
         TTS.startSpeakingWordTile(textToRead);
     }
-    
+
     //
     public void Highlight()
     {
