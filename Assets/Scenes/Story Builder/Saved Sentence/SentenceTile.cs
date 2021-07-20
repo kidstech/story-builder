@@ -14,9 +14,12 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
     public TextToSpeechHandler TTS;
     // wordtiles associated with sentence
     public List<Word> words;
+    Image image = null;
 
     void Start()
     {
+        image = GetComponent<Image>();
+        originalColor = image.color;
         // grab the actual word objects of the sentence for wordcount tracking
         words = this.GetComponent<SentenceObject>().savedSentence.words;
     }
