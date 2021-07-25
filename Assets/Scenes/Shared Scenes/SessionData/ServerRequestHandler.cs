@@ -29,7 +29,6 @@ public class ServerRequestHandler : MonoBehaviour
                 {
                     LearnerSelectPopup.learnerIcon = getIcon.downloadHandler.data;
                     LearnerSelectPopup.learnerIconArrayIsEmpty = false;
-                    Debug.Log("storing sprite locally...");
                     LearnerIconStorageHandler.StoreLearnerSprite(learner._id, LearnerSelectPopup.learnerIcon);
                 }
                 // make sure we account for images that may be larger than 1MB attempting to be written to our array of bytes
@@ -46,7 +45,6 @@ public class ServerRequestHandler : MonoBehaviour
     {
         // API call to locally hosted testing server, change in production
         string requestURL = serverIp + "/api/users/" + UserLogin.user.UserId;
-        Debug.Log(requestURL);
         UnityWebRequest getUser = UnityWebRequest.Get(requestURL);
         yield return getUser.SendWebRequest();
         switch (getUser.result)
@@ -87,7 +85,7 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
             case UnityWebRequest.Result.Success:
                 string response = getLearnerPacks.downloadHandler.text;
-                LoadContextPacks.serverPacks = JsonConvert.DeserializeObject<List<ServerContextPack>>(response);
+                LoadContextPacks.contextPackList = JsonConvert.DeserializeObject<List<ContextPack>>(response);
                 Debug.Log("learnercontextpacks grabbed successfully!");
                 action();
                 break;
@@ -218,7 +216,6 @@ public class ServerRequestHandler : MonoBehaviour
     public static IEnumerator PostSentence(SavedSentence sentence)
     {
         string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
-        Debug.Log("posting sentence: " + sentence.sentenceText + " at requestURL: " + requestUrl);
         string jsonSentence = "";
         jsonSentence = JsonConvert.SerializeObject(sentence);
 
@@ -250,7 +247,6 @@ public class ServerRequestHandler : MonoBehaviour
     public static IEnumerator GetSentences(Action<List<SavedSentence>> action)
     {
         string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
-        Debug.Log("gettting sentences at requestURL: " + requestUrl);
         using (UnityWebRequest getRequest = UnityWebRequest.Get(requestUrl))
         {
             yield return getRequest.SendWebRequest();
@@ -268,7 +264,7 @@ public class ServerRequestHandler : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     // server sends json of list of sentences (server's "sentence" type equivalent to SavedSentence here)
                     string response = getRequest.downloadHandler.text;
-                    Debug.Log("sentences grabbed! : " + response);
+                    Debug.Log("sentences grabbed!");
                     List<SavedSentence> sentences = JsonConvert.DeserializeObject<List<SavedSentence>>(response);
                     action(sentences);
                     yield return null;

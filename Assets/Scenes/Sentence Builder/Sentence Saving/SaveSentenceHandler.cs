@@ -10,11 +10,14 @@ public class SaveSentenceHandler
     public static string path = Path.Combine(Application.persistentDataPath, "Resources", "Sentences");
     // static reference to the most recent saved sentence for posting the sentence to the server
     public static SavedSentence mostRecentSentence;
+    // static reference to the list of words that make up the most recent sentence
+    // this is needed to preserve the contextPackId of the submitted
+    public static List<Word> words;
 
     public static void SaveSentence(List<WordTile> tiles)
     {
         string sentenceText = "";
-        List<Word> words = new List<Word>();
+        words = new List<Word>();
         List<string> selectedWords = new List<string>();
         foreach (WordTile tile in tiles)
         {
@@ -36,7 +39,7 @@ public class SaveSentenceHandler
 
         // create new SavedSentence object
         SavedSentence sentence = new SavedSentence(id.ToString(), sentenceText, DateTime.Now.ToString(), LearnerLogin.staticLearner._id, words, selectedWords, LearnerSelectPopup.currentUser._id);
-        Debug.Log("saving sentence: ... at " + Path.Combine(path, id.ToString() + ".json"));
+        //Debug.Log("saving sentence: ... at " + Path.Combine(path, id.ToString() + ".json"));
         // store the sentence in static variable for server call (can't call coroutine from static method)
         mostRecentSentence = sentence;
         string jsonSentence = JsonConvert.SerializeObject(sentence);
