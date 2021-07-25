@@ -101,7 +101,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             // Save to json. This is temporary and is taking the place of a database;
             SaveSentenceHandler.SaveSentence(tiles);
             StartCoroutine(ServerRequestHandler.PostSentence(SaveSentenceHandler.mostRecentSentence));
-            
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
             //StartCoroutine(revealSentenceWordByWord(words));

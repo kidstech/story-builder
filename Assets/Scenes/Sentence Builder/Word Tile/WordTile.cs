@@ -89,6 +89,6 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         this.word = word;
         this.name = word.word;
         this.transform.GetComponentInChildren<Text>().text = word.word;
-        this.textToDisplay = word.word;
+        this.textToDisplay = word.word; 
     }
 }

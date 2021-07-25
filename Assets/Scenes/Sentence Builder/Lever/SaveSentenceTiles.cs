@@ -58,6 +58,8 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
         {
             // copy the word tile object and make it a child of SentenceInTiles 
             GameObject wordTileCopy = Instantiate(wordtile.gameObject, sentence.transform);
+            // repopulate word.contextPackId field as it doesn't carry over from instantiation (the field isn't serializable)
+            wordTileCopy.GetComponent<WordTile>().word.contextPackId = wordtile.word.contextPackId;
             // wordtile game objects are deactivated originally so we need to activate the copies after instantiation
             wordTileCopy.gameObject.SetActive(true);
             sentence.GetComponent<SentenceBar>().ResizeSentence(1);

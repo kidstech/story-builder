@@ -44,7 +44,7 @@ public class PackFilterButton : MonoBehaviour
         }
 
         //
-        fc.UpdatePackFilter(pack.contextPackId, state);
+        fc.UpdatePackFilter(pack._id, state);
 
         //
         state = !state;
