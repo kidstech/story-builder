@@ -210,7 +210,6 @@ public class TextToSpeechHandler : MonoBehaviour
             }
 
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
-            //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
             Speaker.Speak(tileText.ToLower(), audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
             //Debug.Log(voiceName);
 

@@ -13,9 +13,12 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
     private bool highlighted = false; 
     public TextToSpeechHandler TTS;
     public List<string> words;
+    Image image = null;
 
     void Start()
     {
+        image = GetComponent<Image>();
+        originalColor = image.color;
         // grab the actual word objects of the sentence for wordcount tracking
         words = this.GetComponent<SentenceObject>().savedSentence.selectedWordForms;
     }
@@ -88,24 +91,8 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         Image image = GetComponent<Image>();
         Color previous = image.color;
         image.color = Color.yellow;
-
         yield return new WaitForSeconds(seconds);
-        image.color = previous;
+        image.color = originalColor;
     }
 
-    private IEnumerator HighlightCoroutine(float seconds, float delay)
-    {
-        // The visual aspect of this word tile
-        Image image = GetComponent<Image>();
-
-        // The usual color of this word tile
-        Color previous = image.color;
-        yield return new WaitForSeconds(delay);
-
-        // Set the color of the word tile to the highlight color (currently yellow)
-        image.color = Color.yellow;
-
-        yield return new WaitForSeconds(seconds);
-        image.color = previous;
-    }
 }
