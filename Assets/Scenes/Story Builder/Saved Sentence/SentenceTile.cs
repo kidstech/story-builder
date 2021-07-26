@@ -81,11 +81,6 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         StartCoroutine(HighlightCoroutine(seconds));
     }
 
-    public void Highlight(float seconds, float delay)
-    {
-        StartCoroutine(HighlightCoroutine(seconds, delay));
-    }
-
     public IEnumerator HighlightCoroutine(float seconds)
     {
         Image image = GetComponent<Image>();
