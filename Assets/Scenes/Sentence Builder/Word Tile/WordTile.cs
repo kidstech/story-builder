@@ -10,6 +10,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     //[HideInInspector]
     public Word word;
     public string textToDisplay;
+    public string contextPackId;
     private Color originalColor;
     private bool highlighted = false;
     public TextToSpeechHandler TTS;
@@ -91,6 +92,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         this.word = word;
         this.name = word.word;
         this.transform.GetComponentInChildren<Text>().text = word.word;
-        this.textToDisplay = word.word; 
+        this.textToDisplay = word.word;
+        this.contextPackId = word.contextPackId; 
     }
 }
