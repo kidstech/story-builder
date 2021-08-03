@@ -10,7 +10,7 @@ public class FilterController : MonoBehaviour
 
     // The current letters to filter the search by
     private List<string> lettersToFilter = new List<string>();
-    private List<int> packsToFilter = new List<int>();
+    private List<string> packsToFilter = new List<string>();
 
     private LetterFilterButton[] letterButtons = new LetterFilterButton[25];
 
@@ -76,7 +76,6 @@ public class FilterController : MonoBehaviour
                 }
             }
 
-            //
             if (totalLetters == 0) matchesLetter = true;
             if (totalPacks == 0) matchesPack = true;
 
@@ -136,7 +135,7 @@ public class FilterController : MonoBehaviour
     }
 
     //
-    public void UpdatePackFilter(int packId, bool remove)
+    public void UpdatePackFilter(string packId, bool remove)
     {
         //
         if (remove)

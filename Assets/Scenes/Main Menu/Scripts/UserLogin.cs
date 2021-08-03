@@ -15,6 +15,11 @@ public class UserLogin : MonoBehaviour
     GameObject emailGO;
     GameObject passwordGO;
     System.Threading.Tasks.Task<FirebaseUser> getUserTask;
+    private bool loginFailed = false;
+    // text box used for showing login errors to user
+    public GameObject loginErrorGO;
+    private string loginErrorMessage = "Incorrect username/password. Please ensure details are correct and try again.";
+    
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +29,27 @@ public class UserLogin : MonoBehaviour
         passwordGO = GameObject.Find("PasswordInput");
         InitializeFirebase();
 
+    }
+
+    void Update()
+    {
+        // ideally we would just call this from login() when it fails, but seeing as that method takes place off the main thread, we can't use the Unity API
+        // so instead we just store the login result in a bool and check each frame to see if a login has failed and then do the usual function call
+        if (loginFailed)
+        {
+            StartCoroutine(ShowErrorMessage());
+        }
+    }
+
+    private IEnumerator ShowErrorMessage()
+    {
+        // pass the appropriate error message to our text LoginError game object
+        loginErrorGO.GetComponent<Text>().text = loginErrorMessage;
+        loginErrorGO.SetActive(true);
+        // prevent update from calling ShowErrorMessage() again
+        loginFailed = false;
+        yield return new WaitForSeconds(5f);
+        loginErrorGO.SetActive(false);
     }
 
     void InitializeFirebase()
@@ -102,10 +128,12 @@ public class UserLogin : MonoBehaviour
                 if (getUser.IsCanceled)
                 {
                     Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                    loginFailed = true;
                 }
                 if (getUser.IsFaulted)
                 {
                     Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + getUser.Exception);
+                    loginFailed = true;
                 }
                 if (getUser.IsCompleted)
                 {
@@ -115,7 +143,6 @@ public class UserLogin : MonoBehaviour
             });
             StartCoroutine(GoToLearnerLoginScene());
         }
-        else Debug.Log("Invalid email or password, try again.");
     }
 
     ///<summary>

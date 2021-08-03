@@ -22,6 +22,7 @@ public class LearnerLogin : MonoBehaviour
     public IEnumerator GoToSentenceBuilderScene()
     {
         staticLearner = selectedLearner;
+        // get and store learnerdata in static fields of LearnerDataHandler class
         StartCoroutine(ServerRequestHandler.GetLearnerDataFromServer());
         Debug.Log("Current learner: " + selectedLearner.name);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
@@ -32,6 +33,6 @@ public class LearnerLogin : MonoBehaviour
         // store the learnerdata we just finished getting from the server
         // this function call has to take place after the scene change has taken place because it is dependent on fields initialized in the start()
         // method of WordCountHandler, which is only called once the scene has switched
-        WordCountHandler.StoreLearnerData();
+        LearnerDataHandler.StoreLearnerData();
     }
 }

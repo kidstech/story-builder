@@ -12,8 +12,7 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
     private Color originalColor;
     private bool highlighted = false; 
     public TextToSpeechHandler TTS;
-    // wordtiles associated with sentence
-    public List<Word> words;
+    public List<string> words;
     Image image = null;
 
     void Start()
@@ -21,7 +20,7 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         image = GetComponent<Image>();
         originalColor = image.color;
         // grab the actual word objects of the sentence for wordcount tracking
-        words = this.GetComponent<SentenceObject>().savedSentence.words;
+        words = this.GetComponent<SentenceObject>().savedSentence.selectedWordForms;
     }
 
     // When someone clicks a tile, speak the text on the tile and highlight the tile
@@ -35,13 +34,13 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
         TTS.startSpeakingWordTile(textToRead);
-        foreach(Word word in words)
+        foreach(string selectedWord in words)
         {
             // update wordcounts for every word in the sentence
-            WordCountHandler.UpdateWordCount(word.word);
+            LearnerDataHandler.UpdateWordCount(selectedWord);
         }
         // store the updated learnerdata
-        WordCountHandler.StoreLearnerData();
+        LearnerDataHandler.StoreLearnerData();
         // send off the updated data to the server
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
@@ -61,8 +60,31 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         TTS.startSpeakingWordTile(textToRead);
     }
 
+    public void Highlight()
+    {
+        Image image = GetComponent<Image>();
+        highlighted = !highlighted;
+
+        if (highlighted)
+        {
+            originalColor = image.color;
+            image.color = Color.yellow;
+        }
+        else
+        {
+            image.color = originalColor;
+        }
+    }
+
+    public void Highlight(float seconds)
+    {
+        StartCoroutine(HighlightCoroutine(seconds));
+    }
+
     public IEnumerator HighlightCoroutine(float seconds)
     {
+        Image image = GetComponent<Image>();
+        Color previous = image.color;
         image.color = Color.yellow;
         yield return new WaitForSeconds(seconds);
         image.color = originalColor;

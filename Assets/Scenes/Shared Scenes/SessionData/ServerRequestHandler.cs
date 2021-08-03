@@ -8,6 +8,7 @@ using System;
 using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
+    private static readonly string serverIp = "http://localhost:4567"; // change localhost to ip of target machine if using separate device
     public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
     {
         UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);
@@ -28,14 +29,13 @@ public class ServerRequestHandler : MonoBehaviour
                 {
                     LearnerSelectPopup.learnerIcon = getIcon.downloadHandler.data;
                     LearnerSelectPopup.learnerIconArrayIsEmpty = false;
-                    Debug.Log("storing sprite locally...");
                     LearnerIconStorageHandler.StoreLearnerSprite(learner._id, LearnerSelectPopup.learnerIcon);
                 }
                 // make sure we account for images that may be larger than 1MB attempting to be written to our array of bytes
                 catch (IndexOutOfRangeException e)
                 {
-                    Debug.Log("Error, tried to write outside the length of the array. Details: " + e);
-                }                
+                    Debug.Log("Error, tried to write outside the length of the array. (Image size greater than 1MB) Details: " + e);
+                }
                 action(learner);
                 break;
         }
@@ -44,8 +44,8 @@ public class ServerRequestHandler : MonoBehaviour
     public static IEnumerator GetUserFromServer(Action action) // action here allows the coroutine to call another function upon completion of the coroutine
     {
         // API call to locally hosted testing server, change in production
-        string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId;
-        UnityWebRequest getUser = UnityWebRequest.Get(testURL);
+        string requestURL = serverIp + "/api/users/" + UserLogin.user.UserId;
+        UnityWebRequest getUser = UnityWebRequest.Get(requestURL);
         yield return getUser.SendWebRequest();
         switch (getUser.result)
         {
@@ -69,8 +69,8 @@ public class ServerRequestHandler : MonoBehaviour
 
     public static IEnumerator GetLearnerContextPacks(string learnerId, Action action)
     {
-        string testURL = "http://localhost:4200/api/users/" + UserLogin.user.UserId + "/" + LearnerLogin.staticLearner._id + "/learnerPacks";
-        UnityWebRequest getLearnerPacks = UnityWebRequest.Get(testURL);
+        string requestURL = serverIp + "/api/users/" + UserLogin.user.UserId + "/" + LearnerLogin.staticLearner._id + "/learnerPacks";
+        UnityWebRequest getLearnerPacks = UnityWebRequest.Get(requestURL);
         yield return getLearnerPacks.SendWebRequest();
         switch (getLearnerPacks.result)
         {
@@ -85,7 +85,7 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
             case UnityWebRequest.Result.Success:
                 string response = getLearnerPacks.downloadHandler.text;
-                LoadContextPacks.serverPacks = JsonConvert.DeserializeObject<List<ServerContextPack>>(response);
+                LoadContextPacks.contextPackList = JsonConvert.DeserializeObject<List<ContextPack>>(response);
                 Debug.Log("learnercontextpacks grabbed successfully!");
                 action();
                 break;
@@ -94,7 +94,7 @@ public class ServerRequestHandler : MonoBehaviour
 
     public static IEnumerator GetLearnerDataFromServer()
     {
-        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerLogin.staticLearner._id;
+        string requestURL = serverIp + "/api/learnerData/" + LearnerLogin.staticLearner._id;
         using (UnityWebRequest getRequest = UnityWebRequest.Get(requestURL))
         {
             yield return getRequest.SendWebRequest();
@@ -130,7 +130,7 @@ public class ServerRequestHandler : MonoBehaviour
     // upsert operation server side
     public static IEnumerator PostLearnerDataToServer()
     {
-        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerData.static_id;
+        string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
         LearnerData learnerData = new LearnerData();
@@ -170,7 +170,7 @@ public class ServerRequestHandler : MonoBehaviour
     // a non-IEnumerator version of the post method for the OnApplicationExit() post request that logs learner session times
     public static void BlockingPostLearnerDataToServer()
     {
-        string requestURL = "http://localhost:4200/api/learnerData/" + LearnerData.static_id;
+        string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
         LearnerData learnerData = new LearnerData();
@@ -209,6 +209,65 @@ public class ServerRequestHandler : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log("LearnerData successfully posted!");
+                    break;
+            }
+        }
+    }
+    public static IEnumerator PostSentence(SavedSentence sentence)
+    {
+        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
+        string jsonSentence = "";
+        jsonSentence = JsonConvert.SerializeObject(sentence);
+
+        using (UnityWebRequest postRequest = UnityWebRequest.Post(requestUrl, jsonSentence))
+        {
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonSentence);
+            postRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            postRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            postRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return postRequest.SendWebRequest();
+            switch (postRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    Debug.Log("Sentence successfully posted!");
+                    break;
+            }
+        }
+    }
+
+    public static IEnumerator GetSentences(Action<List<SavedSentence>> action)
+    {
+        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
+        using (UnityWebRequest getRequest = UnityWebRequest.Get(requestUrl))
+        {
+            yield return getRequest.SendWebRequest();
+            switch (getRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + getRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + getRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + getRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    // server sends json of list of sentences (server's "sentence" type equivalent to SavedSentence here)
+                    string response = getRequest.downloadHandler.text;
+                    Debug.Log("sentences grabbed!");
+                    List<SavedSentence> sentences = JsonConvert.DeserializeObject<List<SavedSentence>>(response);
+                    action(sentences);
+                    yield return null;
                     break;
             }
         }

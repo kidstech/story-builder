@@ -29,8 +29,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
-
-    //
     private Image currentImage;
 
     GameObject sentenceScrollBar;
@@ -84,81 +82,36 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         // reset the scrollbar when the submit sentence animation begins
         sentenceScrollBar.GetComponent<Scrollbar>().value = 0;
-
-        //
         List<WordTile> tiles = sentence.GatherWordTiles();
-        completedSentences.GetComponentInChildren<SaveSentenceTiles>().savedSentence = copyTiles(tiles); // store all the tiles from our completed sentence in a new list
-
         // If there are words in the sentence
         if (tiles.Count > 0)
         {
-            //
-            List<Word> words = new List<Word>();
-
-            //
             string rawSentence = "";
-
-            //
             foreach(WordTile tile in tiles)
             {
-                //
-                words.Add(tile.word);
                 // track the submitted word
-                WordCountHandler.UpdateWordCount(tile.word.word);
-
-                //
+                LearnerDataHandler.UpdateWordCount(tile.textToDisplay);
                 rawSentence = rawSentence + tile.textToDisplay + " ";
             }
-            WordCountHandler.StoreLearnerData();
+            LearnerDataHandler.StoreLearnerData();
             StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
 
-            //
             rawSentence = rawSentence.Remove(rawSentence.Length - 1, 1);
 
             // Save to json. This is temporary and is taking the place of a database;
-            SaveSentenceHandler.SaveSentence(words);
-            
-            //
+            SaveSentenceHandler.SaveSentence(tiles);
+            StartCoroutine(ServerRequestHandler.PostSentence(SaveSentenceHandler.mostRecentSentence));
             StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
-            //
             //StartCoroutine(revealSentenceWordByWord(words));
             completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
             // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
             revealSentenceAnimation(tiles);
             
-
-            StartCoroutine(sentence.GetComponent<SentenceBar>().ClearTiles());
+            StartCoroutine(sentence.GetComponent<SentenceBar>().AnimateAndTransferTiles());
 
         }
 	}
-
-    // copies all the wordtiles in the list so that when the original word tiles are deleted for the animation, we still have copies
-    // in case the user wants to drag their submitted sentence back into the sentence bar
-    // While this may seem weird, just copying the list doesn't work because the actual word tile objects themselves are being destroyed, so the list references break otherwise
-    private List<WordTile> copyTiles(List<WordTile> wordTiles)
-    {
-        GameObject temp = GameObject.Find("SentenceInTiles");
-
-        // if we already have copies from previous sentence submissions, destroy them
-        if(temp.transform.childCount > 0) 
-        {
-            foreach(Transform child in temp.transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-
-        List<WordTile> copiedTiles = new List<WordTile>();
-        WordTile copyTile = null;
-        
-        foreach(WordTile wordtile in wordTiles)
-        {
-            copyTile = Instantiate(wordtile, temp.transform); // copy the wordtile and make it a child of the SentenceInTiles game object
-            copiedTiles.Add(copyTile);
-        }
-        return copiedTiles;
-    }
 
     /// <summary>
     /// Changes the lever image to the down position for 2 seconds, then reset it

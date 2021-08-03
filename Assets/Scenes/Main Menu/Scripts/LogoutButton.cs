@@ -1,15 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using DatabaseEntry;
 
 public class LogoutButton : MonoBehaviour
 {
-    public GameObject ContextPackFilter;
     public void Logout()
     {
-        // deactivate the contextpack filter buttons so that they are only active after server calls have completed
-        ContextPackFilter.SetActive(false);
+        // changing learner means their session is over
+        LearnerData.staticSessionTimes[LearnerDataHandler.sessionDate] = LearnerDataHandler.FormatSeconds();
+        // update local logs
+        LearnerDataHandler.StoreLearnerData();
+        // send logs to server
+        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
         // swap to user login screen
         SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
     }

@@ -29,10 +29,10 @@ public class SetupPackFilter : MonoBehaviour
             GameObject sortButton = Instantiate(packFilterButton);
 
             //
-            sortButton.name = filterByPacks[i].contextPackName;
+            sortButton.name = filterByPacks[i].name;
 
             //
-            sortButton.GetComponentInChildren<Text>().text = filterByPacks[i].contextPackName;
+            sortButton.GetComponentInChildren<Text>().text = filterByPacks[i].name;
 
             /*
              * Need to try to load an image from the path above ^ 
