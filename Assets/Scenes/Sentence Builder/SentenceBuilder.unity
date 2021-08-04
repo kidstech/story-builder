@@ -1675,7 +1675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00069}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00006}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -2652,6 +2652,7 @@ MonoBehaviour:
     type: 3}
   pageIconContainer: {fileID: 1145678817}
   maxPageCount: 30
+  selectedPageGlobal: -1
 --- !u!114 &526344201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2844,6 +2845,7 @@ GameObject:
   - component: {fileID: 565473098}
   - component: {fileID: 565473097}
   - component: {fileID: 565473100}
+  - component: {fileID: 565473101}
   m_Layer: 5
   m_Name: DeletePageButton
   m_TagString: Untagged
@@ -2964,6 +2966,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageIconContainer: {fileID: 1145678820}
+--- !u!114 &565473101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565473095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd53734b2f2c1a4e843dcc2236caa1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavior: 3
 --- !u!1 &571375896
 GameObject:
   m_ObjectHideFlags: 0
@@ -5644,6 +5659,7 @@ MonoBehaviour:
     type: 3}
   pageContainer: {fileID: 526344200}
   maxPageCount: 30
+  selectedPage: -1
 --- !u!1 &1162990579
 GameObject:
   m_ObjectHideFlags: 0
@@ -6017,7 +6033,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999873
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
