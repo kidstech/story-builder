@@ -13,18 +13,18 @@ public class BuildWorldBankNew : MonoBehaviour
     private List<Word> words;
 
     // Prefab for word tile to be stored in word bank columns
-    public Transform wordTile;
+    public GameObject wordTile;
     // game object storing the SetupPackFilter script
     public GameObject ContextPackFilter;
 
     //
-    private void Awake()
+    private void Start()
     {
         // get the user from the server and then set up the packs
         StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
         setupWordBankAndPackFilterButtons();
     }
-    // same as awake, but callable elsewhere
+    // same as Start, but callable elsewhere
     public void UpdateWordBank()
     {
         StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
@@ -38,7 +38,8 @@ public class BuildWorldBankNew : MonoBehaviour
             words.Clear();
             foreach (Transform child in this.transform)
             {
-                Destroy(child.gameObject);
+                // return objects to pool
+                child.gameObject.SetActive(false);
             }
         }
         LoadContextPacks.StoreContextPacks();
@@ -63,7 +64,8 @@ public class BuildWorldBankNew : MonoBehaviour
         for (int word = 0; word < words.Count; word++)
         {
             // Add a new tile in
-            Transform wordBankTile = Instantiate(this.wordTile);
+            GameObject wordBankTile = WordTileObjectPool.SharedInstance.GetPooledTile();
+            wordBankTile.SetActive(true);
 
             // Change its color based on what type of word it is.
             wordBankTile.GetComponent<Image>().color = colors[words[word].partOfSpeechId];
@@ -72,7 +74,7 @@ public class BuildWorldBankNew : MonoBehaviour
             wordBankTile.GetComponent<WordTile>().SetUpTile(words[word]);
 
             // Set it as a child of the word slot
-            wordBankTile.SetParent(this.transform, false);
+            wordBankTile.transform.SetParent(this.transform, false);
         }
 
         //

@@ -14,7 +14,7 @@ public class DeletePageButton : MonoBehaviour
     private void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(ShowDialog);
+        //button.onClick.AddListener(ShowDialog);
     }
 
     private void DeletePage()
@@ -23,11 +23,11 @@ public class DeletePageButton : MonoBehaviour
     }
 
     // pop up confirmation window to confirm deletion
-    private void ShowDialog() 
-    {
-        if (EditorUtility.DisplayDialog("Confirm Deletion", "Are you sure you want to delete this page?", "Delete", "Cancel") == true)
-        {
-            DeletePage();
-        }
-    }
+    // private void ShowDialog() 
+    // {
+    //     if (EditorUtility.DisplayDialog("Confirm Deletion", "Are you sure you want to delete this page?", "Delete", "Cancel") == true)
+    //     {
+    //         DeletePage();
+    //     }
+    // }
 }

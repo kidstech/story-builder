@@ -1675,7 +1675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00069}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00006}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -2652,6 +2652,7 @@ MonoBehaviour:
     type: 3}
   pageIconContainer: {fileID: 1145678817}
   maxPageCount: 30
+  selectedPageGlobal: -1
 --- !u!114 &526344201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5644,6 +5645,7 @@ MonoBehaviour:
     type: 3}
   pageContainer: {fileID: 526344200}
   maxPageCount: 30
+  selectedPage: -1
 --- !u!1 &1162990579
 GameObject:
   m_ObjectHideFlags: 0
@@ -6017,7 +6019,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9691716
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10120,6 +10122,7 @@ GameObject:
   - component: {fileID: 1900388513}
   - component: {fileID: 1900388514}
   - component: {fileID: 1900388515}
+  - component: {fileID: 1900388516}
   m_Layer: 5
   m_Name: WordBankContentNew
   m_TagString: Untagged
@@ -10224,6 +10227,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
   sentenceScrollbar: {fileID: 0}
+--- !u!114 &1900388516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900388509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fe6ea934d7b9140b573b4659378ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledWordTiles: []
+  wordTile: {fileID: 1971088261698918, guid: 0d28d71833b7d6e48807feacf3b2c05e, type: 3}
+  numPoolTiles: 0
 --- !u!1 &1927914321
 GameObject:
   m_ObjectHideFlags: 0
