@@ -11,6 +11,7 @@ public class ChangeScene : MonoBehaviour
     public Transform storyBuilderCanvas;
     public GameObject mainCamera;
     public GameObject openMenuButton;
+    public GameObject updateWordBankButton;
     public GameObject sentenceBank;
     private Vector3 newCameraPosition = new Vector3(0,0,-10); // initialized as default camera position
     private float sceneHeight = 0;
@@ -46,6 +47,8 @@ public class ChangeScene : MonoBehaviour
             openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
             openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0, -721, 0);
             openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(475,-375,0);
+            // don't need to update word bank in storybuilder scene
+            updateWordBankButton.SetActive(false);
 
             this.transform.SetParent(storyBuilderCanvas); // changescene button is moved over to the active canvas, so if/when we shut it down the previous canvas, it will remain
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
@@ -66,6 +69,8 @@ public class ChangeScene : MonoBehaviour
             openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-479,350,0);
             openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
             openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
+            // enable word bank updating for sentencebuilder scene
+            updateWordBankButton.SetActive(true);
 
             this.transform.SetParent(sentenceBuilderCanvas);
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
