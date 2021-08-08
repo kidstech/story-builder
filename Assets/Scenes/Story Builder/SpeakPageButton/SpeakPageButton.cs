@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +9,6 @@ public class SpeakPageButton : MonoBehaviour
     public PageContainer pageContainer;
     private Button button;
 
-    //
     private void Start()
     {
         button = GetComponent<Button>();
@@ -19,5 +18,21 @@ public class SpeakPageButton : MonoBehaviour
     private void SpeakPage()
     {
         StartCoroutine(pageContainer.SpeakPage());
+        // get all the sentences in the container
+        List<SavedSentence> savedSentences = pageContainer.GetAllSentencesInPages();
+        // iterate through the sentences in the container
+        foreach(SavedSentence sentence in savedSentences)
+        {
+            // iterate through all the words in a sentence
+            foreach(string selectedWord in sentence.selectedWordForms)
+            {
+                // update the word counts for each word
+                LearnerDataHandler.UpdateWordCount(selectedWord);
+            }
+        }
+        // store updated wordcounts locally
+        LearnerDataHandler.StoreLearnerData();
+        // update server with new word counts from speaking the page
+        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
     }
 }

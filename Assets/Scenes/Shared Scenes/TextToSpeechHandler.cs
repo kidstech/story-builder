@@ -12,6 +12,7 @@ using Crosstales.RTVoice.Model.Event;
 using Crosstales.RTVoice.Model;
 using UnityEngine.UI;
 using Crosstales.RTVoice.Tool;
+using UnityEngine.SceneManagement;
 
 public class TextToSpeechHandler : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class TextToSpeechHandler : MonoBehaviour
     // The index is which tile we are on in the sentence
     private int index = -1;
 
-    private Scrollbar sentenceScrollbar;
+    public Scrollbar sentenceScrollbar;
 
     private float scrollbarValueIncrement = 0;
     
@@ -218,7 +219,6 @@ public class TextToSpeechHandler : MonoBehaviour
             // uncomment the line below to use animatePipes
             //StartCoroutine(animatePipes(timeToSpeak));
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
-            //Speaker.SpeakNative(tileText, Speaker.VoiceForCulture("en"));
             Speaker.Speak(tileText.ToLower(), audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
             //Debug.Log(voiceName);
 

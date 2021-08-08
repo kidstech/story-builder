@@ -16,8 +16,10 @@ public class Word
      */
 
     // Identifiers for our words
-    public int contextPackId = -1;
-    public int partOfSpeechId = -1;
+    [NonSerialized]
+    public string contextPackId;
+    [NonSerialized]
+    public int partOfSpeechId;
 
     // The actual information about the word itself
     public string word;

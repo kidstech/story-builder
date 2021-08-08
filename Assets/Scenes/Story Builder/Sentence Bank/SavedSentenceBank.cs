@@ -5,65 +5,56 @@ using UnityEngine.UI;
 
 public class SavedSentenceBank : MonoBehaviour
 {
-    //
     [Header("Prefabs")]
     public GameObject sentencePrefab;
 
-    //
     private Vector2 sentencePrefabSize;
     private string sentenceText;
+    private List<SavedSentence> sentences = new List<SavedSentence>();
 
-    //
-    private void Start()
+    // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
+    void OnEnable()
     {
-        //
-        List<SavedSentence> sentences = LoadSavedSentences.LoadSentences();
+        //Debug.Log(this.transform.name + " has been enabled");
+        sentences = LoadSavedSentences.LoadSentences();
 
-        //
         sentencePrefabSize = sentencePrefab.GetComponent<RectTransform>().sizeDelta;
-
-        //
         GetComponent<RectTransform>().sizeDelta = new Vector2(sentencePrefabSize.x, sentencePrefabSize.y * sentences.Count);
 
-        //
+        // create sentence game object for each sentence we have and populate its components
         for (int i = 0; i < sentences.Count; i++)
         {
-            //
             GameObject newSentence = Instantiate(sentencePrefab);
 
-            //
             newSentence.GetComponent<SentenceObject>().savedSentence = sentences[i];
-
-            sentenceText = CompileSentence(sentences[i].words);
-            //
-            newSentence.GetComponentInChildren<Text>().text = sentenceText;
-
-            //
+            newSentence.GetComponentInChildren<Text>().text = sentences[i].sentenceText;
             newSentence.transform.SetParent(this.transform, false);
-
-            newSentence.GetComponent<SentenceTile>().textToDisplay = sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
-
-            //newSentence.AddComponent<SpeakSentence>();
+            newSentence.GetComponent<SentenceTile>().textToDisplay = sentences[i].sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
+        }
+    }
+    void OnDisable()
+    {
+        //Debug.Log(this.transform.name + " has been disabled");
+        // empty the bank each time so we don't create duplicates
+        foreach (Transform child in this.transform)
+        {
+            Debug.Log("destroying: " + child.gameObject.name);
+            GameObject.Destroy(child.gameObject);
         }
     }
 
-    //
-    private string CompileSentence(List<Word> words)
+    public static string CompileSentence(List<WordTile> tiles)
     {
-        //
         string compiledSentence = "";
 
-        //
-        for(int i = 0; i < words.Count; i++)
+        for(int i = 0; i < tiles.Count; i++)
         {
-            //
-            compiledSentence += words[i].word + " ";
+            // using textToDisplay here because that's what gets changed in the wordholder
+            compiledSentence += tiles[i].textToDisplay + " ";
         }
 
-        //
         compiledSentence = compiledSentence.Remove(compiledSentence.Length - 1, 1);
 
-        //
         return compiledSentence;
     }
 }
