@@ -494,6 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &47135233
 GameObject:
@@ -630,7 +631,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47135233}
   m_CullTransparentMesh: 0
-  speakingSentence: 0
 --- !u!1 &107012079
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,7 +793,7 @@ RectTransform:
   - {fileID: 455542563}
   - {fileID: 1999367032}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1385,7 +1385,6 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -444.9, y: -261}
-  m_AnchoredPosition: {x: -437.5, y: -212.5}
   m_SizeDelta: {x: 95, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &268673459
@@ -1677,7 +1676,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00069}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00003}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -1744,6 +1743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &406503547
 GameObject:
@@ -2486,6 +2486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &500401014
 MonoBehaviour:
@@ -2654,6 +2655,7 @@ MonoBehaviour:
     type: 3}
   pageIconContainer: {fileID: 1145678817}
   maxPageCount: 30
+  selectedPageGlobal: -1
 --- !u!114 &526344201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2667,6 +2669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &531332699
 GameObject:
@@ -3507,8 +3510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  sentenceScrollbar: {fileID: 0}
   speakingSentence: 0
+  sentenceScrollbar: {fileID: 0}
 --- !u!114 &690792490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4183,7 +4186,6 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000030517578, y: 0}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 780, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &934462493
@@ -4266,8 +4268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  sentenceScrollbar: {fileID: 455542564}
   speakingSentence: 0
+  sentenceScrollbar: {fileID: 455542564}
 --- !u!114 &934462498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4860,6 +4862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1100041177
 MonoBehaviour:
@@ -5317,6 +5320,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108083713}
   m_CullTransparentMesh: 0
+--- !u!95 &1108083717
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108083713}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1910cdf55a682a046ae551fb54b837be, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1109885697
 GameObject:
   m_ObjectHideFlags: 0
@@ -5566,7 +5588,7 @@ RectTransform:
   - {fileID: 1962836666}
   - {fileID: 1458278302}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5650,6 +5672,7 @@ MonoBehaviour:
     type: 3}
   pageContainer: {fileID: 526344200}
   maxPageCount: 30
+  selectedPage: -1
 --- !u!1 &1162990579
 GameObject:
   m_ObjectHideFlags: 0
@@ -5940,6 +5963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 455542564}
 --- !u!1 &1218507556
 GameObject:
@@ -6023,7 +6047,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.997352
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6217,25 +6241,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1108083717
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1108083713}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1910cdf55a682a046ae551fb54b837be, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1321135472
 GameObject:
   m_ObjectHideFlags: 0
@@ -6368,6 +6373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1354707513
 MonoBehaviour:
@@ -6794,7 +6800,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 786042618}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7187,8 +7193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  sentenceScrollbar: {fileID: 0}
   speakingSentence: 0
+  sentenceScrollbar: {fileID: 0}
 --- !u!114 &1494685789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7304,6 +7310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1566122288
 MonoBehaviour:
@@ -8026,6 +8033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
   speakingSentence: 0
+  sentenceScrollbar: {fileID: 0}
 --- !u!1 &1645252449
 GameObject:
   m_ObjectHideFlags: 0
@@ -8370,7 +8378,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1676329769
 GameObject:
@@ -8676,6 +8684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &1696695519
 GameObject:
@@ -10009,8 +10018,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869069358}
-  - component: {fileID: 1869069360}
   - component: {fileID: 1869069359}
+  - component: {fileID: 1869069360}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -10049,73 +10058,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 3
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 135, y: 60}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 2
-  m_ConstraintCount: 1
---- !u!114 &1844566993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844566990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a05895d77bb1f4eac53821ae4f2799, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behavior: 3
---- !u!114 &1844566994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844566990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36fe772d2660664d927d7e1561aa176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordHolderPopupPrefab: {fileID: 7750693819245514385, guid: b09922eedca48954098599ceb74aeab6,
-    type: 3}
---- !u!114 &1844566995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844566990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41175d977c86004ea456bfc404791a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audio: {fileID: 138376906}
-  speakingSentence: 0
---- !u!114 &1844566996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1844566990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10336,8 +10280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  sentenceScrollbar: {fileID: 0}
   speakingSentence: 0
+  sentenceScrollbar: {fileID: 0}
 --- !u!1001 &1923395645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10572,6 +10516,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1944421429}
   m_CullTransparentMesh: 0
+--- !u!95 &1944421433
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944421429}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a2d8e7b17e0183047a11b0ea5437462c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1962836665
 GameObject:
   m_ObjectHideFlags: 0
@@ -10626,6 +10589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
+  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1962836668
 MonoBehaviour:
@@ -10914,25 +10878,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!95 &1944421433
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1944421429}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a2d8e7b17e0183047a11b0ea5437462c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &2009711328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11124,8 +11069,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  sentenceScrollbar: {fileID: 0}
   speakingSentence: 0
+  sentenceScrollbar: {fileID: 0}
 --- !u!114 &2045317915
 MonoBehaviour:
   m_ObjectHideFlags: 0

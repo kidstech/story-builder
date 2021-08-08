@@ -84,32 +84,12 @@ public class TextToSpeechHandler : MonoBehaviour
         }
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
 
-        sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
+        if (ChangeScene.sceneState == ChangeScene.SceneType.SentenceBuilder)
+        {
+            sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
+        }
         // uncomment the line below to use animatePipes
         //submitSentenceButton = GameObject.Find("SubmitSentenceButton").GetComponent<SubmitSentenceButton>();
-
-        //==================
-        // CONCEPT: Being able to change your selected voices
-        // THIS IS NOT IMPLEMENTED CURRENTLY
-        //==================
-
-        // Select a Random Voice from the available voices
-        // int voiceNum = Random.Range(0, Speaker.Voices.Count);
-
-        // Assign that random voice
-        // selectedVoice = Speaker.Voices[voiceNum];
-
-        // OR YOU CAN ASSIGN VOICES MANUALLY BY CREATING SOME SORT OF MENU DROPDOWN SOMEWHERE
-        // And give users the option to pick and choose -- probably best to allow for demo speaking
-        // Put this in options and or the sentence builder scene
-        /*
-        foreach(Voice voice in Speaker.Voices)
-        {
-            //Generate Menu Option
-                // Allow for demo of voice
-                // Set voice on selection
-        }
-        */
     }
 
     //
