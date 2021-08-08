@@ -40,8 +40,13 @@ public class ChangeScene : MonoBehaviour
             sceneState = SceneType.StoryBuilder;
             buttonText = "Build Sentence";
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
+
+            // move the options menu button/overlay over to storybuilder canvas
             openMenuButton.transform.SetParent(storyBuilderCanvas);
             openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
+            openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0, -721, 0);
+            openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(475,-375,0);
+
             this.transform.SetParent(storyBuilderCanvas); // changescene button is moved over to the active canvas, so if/when we shut it down the previous canvas, it will remain
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
             // enable/refresh the sentence bank
@@ -55,8 +60,13 @@ public class ChangeScene : MonoBehaviour
             sceneState = SceneType.SentenceBuilder;
             buttonText = "Build Story";
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
+
+            // move options menu stuff back
             openMenuButton.transform.SetParent(sentenceBuilderCanvas);
             openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-479,350,0);
+            openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
+            openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
+
             this.transform.SetParent(sentenceBuilderCanvas);
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
             // deactivate sentence bank to ensure it gets refreshed again when changing scenes
