@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class Word
@@ -22,6 +20,6 @@ public class Word
     public int partOfSpeechId;
 
     // The actual information about the word itself
-    public string word;
+    public string baseWord;
     public List<string> forms;
 }

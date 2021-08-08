@@ -138,7 +138,7 @@ public class LoadContextPacks
         for (int i = 0; i < wordList.Count; i++)
         {
             //
-            if (wordList[i].word == word)
+            if (wordList[i].baseWord == word)
             {
                 //
                 return;
@@ -151,7 +151,7 @@ public class LoadContextPacks
         // Populate the information we need
         w.contextPackId = contextPackId;
         w.partOfSpeechId = partOfSpeechId;
-        w.word = word;
+        w.baseWord = word;
         w.forms = forms;
 
         // Add the word into the word list

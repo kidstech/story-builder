@@ -304,7 +304,7 @@ public class TextToSpeechHandler : MonoBehaviour
     public float getApproxSpeechTime(List<WordTile> wordTiles){
         float speechDuration = 0;
         foreach(WordTile tile in wordTiles){
-            speechDuration += Speaker.ApproximateSpeechLength(tile.word.word);
+            speechDuration += Speaker.ApproximateSpeechLength(tile.word.baseWord);
         }
         speechDuration = speechDuration / voiceRate; // account for changing voice speed
         return speechDuration;
