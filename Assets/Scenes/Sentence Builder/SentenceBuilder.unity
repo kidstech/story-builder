@@ -1899,7 +1899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00089}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00026}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -2133,6 +2133,7 @@ GameObject:
   - component: {fileID: 448193115}
   - component: {fileID: 448193114}
   - component: {fileID: 448193113}
+  - component: {fileID: 448193112}
   m_Layer: 5
   m_Name: RightButton
   m_TagString: Untagged
@@ -2160,6 +2161,19 @@ RectTransform:
   m_AnchoredPosition: {x: 262.13, y: -32}
   m_SizeDelta: {x: 46.75, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &448193112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448193110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8868cc5af1f5fab44a7fbe30d76d69df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageIconContainer: {fileID: 1145678820}
 --- !u!114 &448193113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3138,7 +3152,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 565473098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 565473100}
+        m_TargetAssemblyTypeName: DeletePageButton, Assembly-CSharp
+        m_MethodName: DeletePage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &565473098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6259,7 +6285,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.97029114
+  m_Size: 0.9999973
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8472,6 +8498,7 @@ GameObject:
   - component: {fileID: 1648978023}
   - component: {fileID: 1648978022}
   - component: {fileID: 1648978021}
+  - component: {fileID: 1648978020}
   m_Layer: 5
   m_Name: LeftButton
   m_TagString: Untagged
@@ -8499,6 +8526,19 @@ RectTransform:
   m_AnchoredPosition: {x: 23.375, y: -32}
   m_SizeDelta: {x: 46.75, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1648978020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648978018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81620d5fa21e5d14d9e1f15a6e8f3efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pageIconContainer: {fileID: 1145678820}
 --- !u!114 &1648978021
 MonoBehaviour:
   m_ObjectHideFlags: 0
