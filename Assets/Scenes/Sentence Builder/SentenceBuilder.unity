@@ -3069,6 +3069,7 @@ GameObject:
   - component: {fileID: 565473098}
   - component: {fileID: 565473097}
   - component: {fileID: 565473100}
+  - component: {fileID: 565473101}
   m_Layer: 5
   m_Name: DeletePageButton
   m_TagString: Untagged
@@ -3189,6 +3190,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pageIconContainer: {fileID: 1145678820}
+--- !u!114 &565473101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565473095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd53734b2f2c1a4e843dcc2236caa1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavior: 3
 --- !u!1 &571375896
 GameObject:
   m_ObjectHideFlags: 0
@@ -9047,6 +9061,7 @@ GameObject:
   - component: {fileID: 1697865873}
   - component: {fileID: 1697865872}
   - component: {fileID: 1697865871}
+  - component: {fileID: 1697865874}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -9125,6 +9140,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697865869}
   m_CullTransparentMesh: 0
+--- !u!114 &1697865874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697865869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a05895d77bb1f4eac53821ae4f2799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavior: 4
 --- !u!1 &1706009897
 GameObject:
   m_ObjectHideFlags: 0
@@ -10423,9 +10451,9 @@ GameObject:
   - component: {fileID: 1900388510}
   - component: {fileID: 1900388512}
   - component: {fileID: 1900388511}
-  - component: {fileID: 1900388513}
   - component: {fileID: 1900388514}
   - component: {fileID: 1900388515}
+  - component: {fileID: 1900388517}
   m_Layer: 5
   m_Name: WordBankContentNew
   m_TagString: Untagged
@@ -10490,19 +10518,6 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &1900388513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900388509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a05895d77bb1f4eac53821ae4f2799, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behavior: 4
 --- !u!114 &1900388514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10530,6 +10545,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
   sentenceScrollbar: {fileID: 0}
+--- !u!222 &1900388517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900388509}
+  m_CullTransparentMesh: 0
 --- !u!1 &1927914321
 GameObject:
   m_ObjectHideFlags: 0
