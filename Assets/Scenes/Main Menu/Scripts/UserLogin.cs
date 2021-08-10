@@ -12,44 +12,60 @@ public class UserLogin : MonoBehaviour
     private protected string password;
     Firebase.Auth.FirebaseAuth firebaseAuth;
     public static Firebase.Auth.FirebaseUser user = null;
-    GameObject emailGO;
-    GameObject passwordGO;
+    public GameObject emailGO;
+    public GameObject passwordGO;
     System.Threading.Tasks.Task<FirebaseUser> getUserTask;
     private bool loginFailed = false;
     // text box used for showing login errors to user
     public GameObject loginErrorGO;
+    private ColorBlock errorColors = new ColorBlock();
+    private ColorBlock defaultColors = new ColorBlock();
     private string loginErrorMessage = "Incorrect username/password. Please ensure details are correct and try again.";
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
-        // grab email and password from the text boxes
-        emailGO = GameObject.Find("EmailInput");
-        passwordGO = GameObject.Find("PasswordInput");
         InitializeFirebase();
-
+        // change the physics update interval to once every 1 second to reduce number of update calls (if we end up using physics change this back)
+        Time.fixedDeltaTime = 1f;
+        // track original email/pass input field colors (assuming email field = pass field)
+        defaultColors = emailGO.GetComponent<InputField>().colors;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // ideally we would just call this from login() when it fails, but seeing as that method takes place off the main thread, we can't use the Unity API
-        // so instead we just store the login result in a bool and check each frame to see if a login has failed and then do the usual function call
+        // so instead we just store the login result in a bool and check each second to see if a login has failed and then do the usual function call
         if (loginFailed)
         {
-            StartCoroutine(ShowErrorMessage());
+            ShowErrorMessage();
         }
     }
 
-    private IEnumerator ShowErrorMessage()
+    private void ShowErrorMessage()
     {
+        loginErrorGO.SetActive(true);
+        // store colorblock in error colors
+        errorColors = emailGO.GetComponent<InputField>().colors;
+        // modify normal color to red
+        errorColors.normalColor = new Color(231f / 255f, 186f / 255f, 187f / 255f, 1f);
+        // change input fields' normal color to red
+        emailGO.GetComponent<InputField>().colors = errorColors;
+        passwordGO.GetComponent<InputField>().colors = errorColors;
+        // start timer to reset input field colors after a delay
+        StartCoroutine(ResetInputFieldColors(5f));
         // pass the appropriate error message to our text LoginError game object
         loginErrorGO.GetComponent<Text>().text = loginErrorMessage;
-        loginErrorGO.SetActive(true);
-        // prevent update from calling ShowErrorMessage() again
+        // prevent FixedUpdate from calling ShowErrorMessage() again
         loginFailed = false;
-        yield return new WaitForSeconds(5f);
-        loginErrorGO.SetActive(false);
+    }
+
+    private IEnumerator ResetInputFieldColors(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        emailGO.GetComponent<InputField>().colors = defaultColors;
+        passwordGO.GetComponent<InputField>().colors = defaultColors;
     }
 
     void InitializeFirebase()
@@ -106,8 +122,8 @@ public class UserLogin : MonoBehaviour
     ///</summary>
     private bool userInputIsValid()
     {
-        email = emailGO.GetComponent<Text>().text;
-        password = passwordGO.GetComponent<Text>().text;
+        email = emailGO.GetComponentInChildren<Text>().text;
+        password = passwordGO.GetComponent<InputField>().text;
         if (email != null && password != null) return true;
         else
         {
