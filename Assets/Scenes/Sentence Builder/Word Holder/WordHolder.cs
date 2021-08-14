@@ -6,6 +6,8 @@ public class WordHolder : MonoBehaviour
 {
     [Header("Prefabs")]
     public GameObject WordHolderPopupPrefab;
+    [SerializeField]
+    private Transform SentenceBuilderCanvas;
 
     //
     public void OpenWordHolder(Word word)
@@ -17,6 +19,6 @@ public class WordHolder : MonoBehaviour
         popup.GetComponent<WordHolderPopup>().SetupWordHolderPopup(word);
 
         // Set as a child of the canvas (WordHolderDrop -> WordHolder -> Canvas)
-        popup.transform.SetParent(this.transform.parent.parent.transform, false);
+        popup.transform.SetParent(SentenceBuilderCanvas, false);
     }
 }
