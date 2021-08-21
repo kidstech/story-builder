@@ -31,15 +31,15 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
 
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
         StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
+        // Speak the text on the tile using the correct voice
+        TTS = GetComponentInParent<TextToSpeechHandler>();
+        TTS.startSpeakingWordTile(textToRead);
         // update word counts for the learner
         LearnerDataHandler.UpdateWordCount(textToRead);
         // store it locally
         LearnerDataHandler.StoreLearnerData();
         // update the server's copy
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
-        // Speak the text on the tile using the correct voice
-        TTS = GetComponentInParent<TextToSpeechHandler>();
-        TTS.startSpeakingWordTile(textToRead);
     }
 
     public void Highlight()
