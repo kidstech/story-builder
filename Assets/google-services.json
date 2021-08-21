@@ -1,7 +1,6 @@
 {
   "project_info": {
     "project_number": "631848148168",
-    "firebase_url": "https://word-river-default-rtdb.firebaseio.com",
     "project_id": "word-river",
     "storage_bucket": "word-river.appspot.com"
   },
@@ -30,13 +29,6 @@
             {
               "client_id": "631848148168-2ppoto2qt8lbhclgpmtpooh7s8fo8pef.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "631848148168-vs3o59t1mivnubdi09ik0ugreh8bj9pt.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "edu.umn.morris.StoryBuilderIOS"
-              }
             }
           ]
         }

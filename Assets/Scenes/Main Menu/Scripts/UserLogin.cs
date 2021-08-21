@@ -28,7 +28,7 @@ public class UserLogin : MonoBehaviour
     {
         InitializeFirebase();
         // change the physics update interval to once every 1 second to reduce number of update calls (if we end up using physics change this back)
-        //Time.fixedDeltaTime = 1f; // might be breaking Speaker.speak() ? running really slowly on IOS at times... about a second delay
+        Time.fixedDeltaTime = 1f;
         // track original email/pass input field colors (assuming email field = pass field)
         defaultColors = emailGO.GetComponent<InputField>().colors;
     }

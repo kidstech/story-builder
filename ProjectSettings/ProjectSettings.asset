@@ -175,7 +175,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: edu.umn.morris.StoryBuilder
     Standalone: unity.DefaultCompany.MultiPlatformStoryBuilder
-    iPhone: edu.umn.morris.StoryBuilderIOS
+    iPhone: edu.umn.morris.StoryBuilder
     tvOS: edu.umn.morris.StoryBuilder
   buildNumber:
     iPhone: 0
