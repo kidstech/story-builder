@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 402189216}
   - component: {fileID: 402189218}
   - component: {fileID: 402189219}
+  - component: {fileID: 402189220}
   m_Layer: 5
   m_Name: ShowPasswordButton
   m_TagString: Untagged
@@ -453,6 +454,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &402189220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402189214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610b21f78942b3a46ab12d8c64f05fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &622509665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,6 +1044,7 @@ GameObject:
   - component: {fileID: 1715957355}
   - component: {fileID: 1715957354}
   - component: {fileID: 1715957357}
+  - component: {fileID: 1715957358}
   m_Layer: 5
   m_Name: LoginButton
   m_TagString: Untagged
@@ -1166,6 +1180,18 @@ MonoBehaviour:
   emailGO: {fileID: 622509665}
   passwordGO: {fileID: 1157358680}
   loginErrorGO: {fileID: 1094670244}
+--- !u!114 &1715957358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715957352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610b21f78942b3a46ab12d8c64f05fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1741931908
 GameObject:
   m_ObjectHideFlags: 0

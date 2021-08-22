@@ -56,7 +56,7 @@ public class ChangeScene : MonoBehaviour
             buttonText = "Build Story";
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
             openMenuButton.transform.SetParent(sentenceBuilderCanvas);
-            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-479,350,0);
+            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,335,0);
             this.transform.SetParent(sentenceBuilderCanvas);
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
             // deactivate sentence bank to ensure it gets refreshed again when changing scenes
