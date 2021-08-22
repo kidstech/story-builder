@@ -42,3 +42,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+Assets/GoogleService-Info.plist
+
+Assets/GoogleService-Info.plist.meta

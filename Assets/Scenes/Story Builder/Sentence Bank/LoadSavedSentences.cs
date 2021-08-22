@@ -1,26 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System;
+using System.Linq;
+using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using Newtonsoft.Json;
 
 public static class LoadSavedSentences
 {
-    private static SavedSentence savedSentence;
+    public static string path = Path.Combine(Application.persistentDataPath, "Resources", "Sentences");
+
     public static List<SavedSentence> LoadSentences()
     {
-        // make sure we actually have a directory made
-        SaveSentenceHandler.CheckPath();
-        // grab sentences from said directory
-        string[] savedSentences = Directory.GetFiles(Path.Combine(Application.persistentDataPath, "Resources", "Sentences"), "*.json");
+        // Create a DirectoryInfo of the directory of the files to enumerate.
+        DirectoryInfo DirInfo = new DirectoryInfo(@path);
+        // DateTime StartDate = new DateTime(2021, 02, 20);
+        DateTime today = DateTime.Today;
+
+        // LINQ query for all files created past a certain date.
+        var files = from f in DirInfo.EnumerateFiles()
+                        // where f.CreationTimeUtc > StartDate
+                    where f.CreationTimeUtc > today
+                    where f.Name.EndsWith(".json")
+                    orderby f.CreationTimeUtc descending
+                    select f;
+
+        // Show results.
         List<SavedSentence> sentencesToReturn = new List<SavedSentence>();
-        // deserialize all our json sentence files into SavedSentence objects
-        for(int i = 0; i < savedSentences.Length; i++)
+
+        foreach (var file in files)
         {
-                savedSentence = JsonConvert.DeserializeObject<SavedSentence>(File.ReadAllText(savedSentences[i]));
-                sentencesToReturn.Add(savedSentence);
+            string filePath = file.FullName;
+            string jsonFile = File.ReadAllText(filePath);
+            SavedSentence thisSentence = JsonConvert.DeserializeObject<SavedSentence>(jsonFile);
+            sentencesToReturn.Add(thisSentence);
         }
+
         return sentencesToReturn;
     }
 
-    
+
 }
