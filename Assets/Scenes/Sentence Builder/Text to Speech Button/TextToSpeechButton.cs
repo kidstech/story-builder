@@ -64,7 +64,7 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         // track all the words in the sentence
         foreach(WordTile wordTile in words)
         {
-            LearnerDataHandler.UpdateWordCount(wordTile.word.word);
+            LearnerDataHandler.UpdateWordCount(wordTile.word.baseWord);
         }
         LearnerDataHandler.StoreLearnerData();
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());

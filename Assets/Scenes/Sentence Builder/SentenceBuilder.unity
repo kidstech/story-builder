@@ -6271,7 +6271,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99461144
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11993,6 +11993,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 138288539}
     m_Modifications:
+    - target: {fileID: 7598417966969124098, guid: 35ae01cc62795f349aaec6010f24a81c,
+        type: 3}
+      propertyPath: SentenceBuilderCanvas
+      value: 
+      objectReference: {fileID: 138288539}
     - target: {fileID: 7598417966969124099, guid: 35ae01cc62795f349aaec6010f24a81c,
         type: 3}
       propertyPath: audio
