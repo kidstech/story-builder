@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -34,7 +34,11 @@ public static class LoadSavedSentences
             string filePath = file.FullName;
             string jsonFile = File.ReadAllText(filePath);
             SavedSentence thisSentence = JsonConvert.DeserializeObject<SavedSentence>(jsonFile);
-            sentencesToReturn.Add(thisSentence);
+            // only show sentences that the current learner made
+            if (thisSentence.learnerId == LearnerLogin.staticLearner._id)
+            {
+                sentencesToReturn.Add(thisSentence);
+            }
         }
 
         return sentencesToReturn;
