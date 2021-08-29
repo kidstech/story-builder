@@ -111,7 +111,7 @@ public class PageContainer : MonoBehaviour
         // decrement to account for deleted index, unless we've deleted the first object
         if(selectedPageGlobal != 0) selectedPageGlobal--;
 
-        UpdateSelectedPage(selectedPage);
+        UpdateSelectedPage(selectedPageGlobal);
 
     }
 

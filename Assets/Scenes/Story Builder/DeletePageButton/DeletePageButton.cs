@@ -17,7 +17,7 @@ public class DeletePageButton : MonoBehaviour
         button.onClick.AddListener(DeletePage);
     }
 
-    private void DeletePage()
+    public void DeletePage()
     {
         pageIconContainer.RemovePage();
     }

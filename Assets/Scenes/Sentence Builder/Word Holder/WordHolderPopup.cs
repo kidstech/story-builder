@@ -26,7 +26,7 @@ public class WordHolderPopup : MonoBehaviour
         midButton.GetComponent<RectTransform>().localPosition = new Vector2(0, 0);
         midButton.GetComponent<Image>().color = Color.yellow;
         midButton.GetComponent<Button>().interactable = false;
-        midButton.GetComponentInChildren<Text>().text = word.word;
+        midButton.GetComponentInChildren<Text>().text = word.baseWord;
         midButton.transform.SetParent(this.transform, false);
 
         previousIndex = midButton.transform.GetSiblingIndex();

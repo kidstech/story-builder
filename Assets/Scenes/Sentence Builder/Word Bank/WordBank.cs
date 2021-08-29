@@ -38,7 +38,7 @@ public class WordBank : MonoBehaviour
         }
 
         //
-        words = words.OrderBy(word => word.word.word).ToList();
+        words = words.OrderBy(wordTile => wordTile.word.baseWord).ToList();
 
         //
         for (int i = 0; i < words.Count; i++)

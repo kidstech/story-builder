@@ -90,9 +90,9 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public void SetUpTile(Word word)
     {
         this.word = word;
-        this.name = word.word;
-        this.transform.GetComponentInChildren<Text>().text = word.word;
-        this.textToDisplay = word.word;
+        this.name = word.baseWord;
+        this.transform.GetComponentInChildren<Text>().text = word.baseWord;
+        this.textToDisplay = word.baseWord;
         this.contextPackId = word.contextPackId; 
     }
 }

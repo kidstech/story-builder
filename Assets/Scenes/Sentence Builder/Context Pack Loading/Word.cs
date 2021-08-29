@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 public class Word
@@ -22,6 +21,7 @@ public class Word
     public int partOfSpeechId;
 
     // The actual information about the word itself
-    public string word;
+    [JsonProperty("word")] // kept as word when serialized because that's the naming convention used by wordriver
+    public string baseWord;
     public List<string> forms;
 }
