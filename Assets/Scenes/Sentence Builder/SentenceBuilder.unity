@@ -10548,7 +10548,6 @@ GameObject:
   - component: {fileID: 1900388511}
   - component: {fileID: 1900388514}
   - component: {fileID: 1900388515}
-  - component: {fileID: 1900388517}
   m_Layer: 5
   m_Name: WordBankContentNew
   m_TagString: Untagged
