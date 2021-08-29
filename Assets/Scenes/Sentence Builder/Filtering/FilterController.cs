@@ -52,7 +52,7 @@ public class FilterController : MonoBehaviour
             for (int o = 0; o < totalLetters; o++)
             {
                 //
-                if (word.word.ToLower()[0] == lettersToFilter[o].ToLower()[0])
+                if (word.baseWord.ToLower()[0] == lettersToFilter[o].ToLower()[0])
                 {
                     //
                     matchesLetter = true;
