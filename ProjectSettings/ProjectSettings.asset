@@ -173,7 +173,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: edu.umn.morris.StoryBuilder
+    Android: edu.umn.morris.StoryBuilderAndroid
     Standalone: unity.DefaultCompany.MultiPlatformStoryBuilder
     iPhone: edu.umn.morris.StoryBuilder
     tvOS: edu.umn.morris.StoryBuilder

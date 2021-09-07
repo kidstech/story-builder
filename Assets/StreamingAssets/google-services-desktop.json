@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "631848148168",
-    "project_id": "word-river",
-    "storage_bucket": "word-river.appspot.com"
+    "project_number": "414776996526",
+    "firebase_url": "https://word-river-26472-default-rtdb.firebaseio.com",
+    "project_id": "word-river-26472",
+    "storage_bucket": "word-river-26472.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:631848148168:android:f4857cbef05c62711159fd",
+        "mobilesdk_app_id": "1:414776996526:android:fe4517bddda028ab63b33f",
         "android_client_info": {
-          "package_name": "edu.umn.morris.StoryBuilder"
+          "package_name": "edu.umn.morris.StoryBuilderAndroid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "631848148168-2ppoto2qt8lbhclgpmtpooh7s8fo8pef.apps.googleusercontent.com",
+          "client_id": "414776996526-jagee8i6elj8i0emlvdnrrmgct1v2gm8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB6AI5EW9LtpAve04HnxhKCX-gYUCLyoqc"
+          "current_key": "AIzaSyAS8btFg8log9W_CYTW4NHYDrM_jCdf52Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "631848148168-2ppoto2qt8lbhclgpmtpooh7s8fo8pef.apps.googleusercontent.com",
+              "client_id": "414776996526-jagee8i6elj8i0emlvdnrrmgct1v2gm8.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "414776996526-v02nbbdgh5e7stp5e2sue57p1g25bvc2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "edu.umn.morris.StoryBuilderIOS"
+              }
             }
           ]
         }
