@@ -50,7 +50,7 @@ public class TextToSpeechHandler : MonoBehaviour
     private List<WordTile> wordTiles;
 
     // In general, we are not currently speaking the sentence
-    private bool speakingSentence = false;
+    public bool speakingSentence = false;
 
     // A tick variable represents the number of words inside a single tile
     private int tick = 0;
@@ -64,6 +64,9 @@ public class TextToSpeechHandler : MonoBehaviour
     
     // max number of word tiles that can be in view at once, needs to be changed if the size of the sentence bar or its tiles change
     private int maxTilesPerSentence = 6;
+
+    // uncomment the line below to use animatePipes
+    //private SubmitSentenceButton submitSentenceButton;
     //
     private void Start()
     {
@@ -81,28 +84,12 @@ public class TextToSpeechHandler : MonoBehaviour
         }
         voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
 
-        //==================
-        // CONCEPT: Being able to change your selected voices
-        // THIS IS NOT IMPLEMENTED CURRENTLY
-        //==================
-
-        // Select a Random Voice from the available voices
-        // int voiceNum = Random.Range(0, Speaker.Voices.Count);
-
-        // Assign that random voice
-        // selectedVoice = Speaker.Voices[voiceNum];
-
-        // OR YOU CAN ASSIGN VOICES MANUALLY BY CREATING SOME SORT OF MENU DROPDOWN SOMEWHERE
-        // And give users the option to pick and choose -- probably best to allow for demo speaking
-        // Put this in options and or the sentence builder scene
-        /*
-        foreach(Voice voice in Speaker.Voices)
+        if (ChangeScene.sceneState == ChangeScene.SceneType.SentenceBuilder)
         {
-            //Generate Menu Option
-                // Allow for demo of voice
-                // Set voice on selection
+            sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
         }
-        */
+        // uncomment the line below to use animatePipes
+        //submitSentenceButton = GameObject.Find("SubmitSentenceButton").GetComponent<SubmitSentenceButton>();
     }
 
     //
@@ -168,6 +155,7 @@ public class TextToSpeechHandler : MonoBehaviour
 
         this.wordTiles = wordTiles;
         this.highlight = highlight;
+        
         // if TTS is already going, we will stop it from saying something else
         if(speakingSentence == true){
             stopSpeaking();
@@ -200,7 +188,7 @@ public class TextToSpeechHandler : MonoBehaviour
             string tileText = wordTile.GetComponentInChildren<Text>().text;
 
             // approx how long it takes TTS to speak the word
-            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) * (1/voiceRate);
+            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) / (voiceRate);
             int numberTilesReadBeforeScrolling = 4; // change this if you want begin scrolling earlier or later. (so if this were 6, the max number of tiles in view, scrolling wouldn't begin until TTS reached the last tile in the sentence bar)
 
             if (loopCounter > numberTilesReadBeforeScrolling) {  
@@ -208,7 +196,8 @@ public class TextToSpeechHandler : MonoBehaviour
                 sentenceScrollbar.value += scrollbarValueIncrement;
                 incrementCounter++;
             }
-
+            // uncomment the line below to use animatePipes
+            //StartCoroutine(animatePipes(timeToSpeak));
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
             Speaker.Speak(tileText.ToLower(), audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
             //Debug.Log(voiceName);
@@ -217,6 +206,7 @@ public class TextToSpeechHandler : MonoBehaviour
             yield return new WaitForSeconds(timeToSpeak);
             
         }
+        speakingSentence = false; 
     }
 
     // Event hook for the start of a speech
@@ -290,6 +280,15 @@ public class TextToSpeechHandler : MonoBehaviour
             tick--;
         }
     }
+    // experimenting with basing animation duration/speed to match each word tile
+    // still need to figure out how to modify animation speed to coincide with TTS modulation.
+    // currently the animation speed is static, so while how long the animation plays changes, it will end on different frames, depending on TTS speed.
+    // public IEnumerator animatePipes(float duration)
+    // {
+    //     submitSentenceButton.pipesAnimator.SetBool("ProcessingTile", true);
+    //     yield return new WaitForSeconds(duration);
+    //     submitSentenceButton.pipesAnimator.SetBool("ProcessingTile", false);
+    // }
 
     // Stops an existing speech
     public void stopSpeaking()
