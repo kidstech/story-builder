@@ -13,9 +13,10 @@ public class ChangeScene : MonoBehaviour
     public GameObject openMenuButton;
     public GameObject updateWordBankButton;
     public GameObject sentenceBank;
+    public GameObject currentLearnerInfo; // name and profile image of current learner
     private Vector3 newCameraPosition = new Vector3(0,0,-10); // initialized as default camera position
     private float sceneHeight = 0;
-    private float transitionTime = 2f; // used to keep the wait function in line with animation time easily
+    private float transitionTime = 2f; // used to keep the wait function in line with animation time
     private string buttonText;
     private enum SceneType{
         SentenceBuilder,
@@ -52,6 +53,7 @@ public class ChangeScene : MonoBehaviour
 
             this.transform.SetParent(storyBuilderCanvas); // changescene button is moved over to the active canvas, so if/when we shut it down the previous canvas, it will remain
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
+            currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-1060f,0f); // move learner profile to new scene
             // enable/refresh the sentence bank
             sentenceBank.SetActive(true);
             
@@ -66,7 +68,7 @@ public class ChangeScene : MonoBehaviour
 
             // move options menu stuff back
             openMenuButton.transform.SetParent(sentenceBuilderCanvas);
-            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-479,350,0);
+            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450f,335f,0f);
             openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
             openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
             // enable word bank updating for sentencebuilder scene
@@ -74,6 +76,7 @@ public class ChangeScene : MonoBehaviour
 
             this.transform.SetParent(sentenceBuilderCanvas);
             this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
+            currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-335f,0f);// move learner profile to new scene
             // deactivate sentence bank to ensure it gets refreshed again when changing scenes
             sentenceBank.SetActive(false);
         }
