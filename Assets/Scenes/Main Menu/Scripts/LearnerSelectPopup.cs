@@ -39,8 +39,6 @@ public class LearnerSelectPopup : MonoBehaviour
 
     public void SetUpLearnerButtons()
     {
-        Debug.Log("making buttons for user: " + currentUser?.name);
-        Debug.Log("User doesn't have the appropriate sprites: " + !AlreadyHaveAppropriateLearnerSprites());
         //if we don't have the learner sprites we need already, go get them
         if (!AlreadyHaveAppropriateLearnerSprites())
         {
@@ -49,7 +47,6 @@ public class LearnerSelectPopup : MonoBehaviour
                 //for every learner that actually has an icon...
                 if (learner.icon != null)
                 {
-                    Debug.Log("grabbing learner icon for: " + learner.name);
                     //grabs the firebase image URI => sends server request => updates image component field in the button
                     GetLearnerIconAndMakeButton(learner);
                 }
@@ -60,7 +57,6 @@ public class LearnerSelectPopup : MonoBehaviour
         //otherwise, if we already have the sprites, just make the buttons without talking to firebase
         else
         {
-            Debug.Log("making buttons with local files...");
             foreach (Learner learner in currentUser.learners)
             {
                 CreateLearnerButton(learner);
@@ -91,7 +87,6 @@ public class LearnerSelectPopup : MonoBehaviour
         {
             if (learner._id == Path.GetFileNameWithoutExtension(fileName))
             {
-                Debug.Log("adding learner sprite to button from local file...");
                 byte[] icon = File.ReadAllBytes(fileName);
                 //LearnerImage component of learner button prefab
                 button.transform.GetChild(1).GetComponent<Image>().sprite = GetSprite(icon);
@@ -130,7 +125,6 @@ public class LearnerSelectPopup : MonoBehaviour
             {
                 if (Path.GetFileNameWithoutExtension(fileName) == learner._id)
                 {
-                    Debug.Log("matching file name found! We have the appropriate learner sprites!");
                     return true;
                 }
             }

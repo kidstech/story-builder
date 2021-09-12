@@ -12,21 +12,22 @@ using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
 using Crosstales.RTVoice.Model.Event;
 
-public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler  {
-	
+public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+{
 
-	// Blue speaker image
+
+    // Blue speaker image
     [Header("Images")]
-	public Image playAudioImage;
+    public Image playAudioImage;
 
-	// Red square image
-	public Image stopAudioImage;
+    // Red square image
+    public Image stopAudioImage;
 
-	// Red cross image
-	public Image noVoicesImage;
+    // Red cross image
+    public Image noVoicesImage;
 
-	// Play/stop image must be changed accordingly
-	private Image buttonImage;
+    // Play/stop image must be changed accordingly
+    private Image buttonImage;
 
     //
     [Header("Objects in Scene")]
@@ -37,51 +38,57 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     private Vector2 defaultSize, highlightSize;
 
     //
-	void Start()
+    void Start()
     {
-		// Get a reference to the button image to swap play/stop images
-		buttonImage = this.GetComponent<Image>();
+        // Get a reference to the button image to swap play/stop images
+        buttonImage = this.GetComponent<Image>();
 
-		// No voices available
-		if (!TextToSpeechHandler.voicesAvailable)
+        // No voices available
+        if (!TextToSpeechHandler.voicesAvailable)
         {
-			buttonImage.sprite = noVoicesImage.sprite;
-			buttonImage.rectTransform.sizeDelta = new Vector2 (75, 75);
-		}
+            buttonImage.sprite = noVoicesImage.sprite;
+            buttonImage.rectTransform.sizeDelta = new Vector2(75, 75);
+        }
 
-		// Set resize image dimensions
-		defaultSize = buttonImage.rectTransform.sizeDelta;
-		highlightSize = new Vector2 (defaultSize.x + 10, defaultSize.y + 10);
-	}
+        // Set resize image dimensions
+        defaultSize = buttonImage.rectTransform.sizeDelta;
+        highlightSize = new Vector2(defaultSize.x + 10, defaultSize.y + 10);
+    }
 
     //
     public void OnPointerClick(PointerEventData eventData)
     {
         List<WordTile> words;
         words = sentence.GatherWordTiles();
-        // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
-        StartCoroutine(tts.startSpeakingSentenceSlowly(words, true));
-        // track all the words in the sentence
-        foreach(WordTile wordTile in words)
+        if (TextToSpeechHandler.speakingSentence == false)
         {
-            LearnerDataHandler.UpdateWordCount(wordTile.word.baseWord);
+            // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
+            StartCoroutine(tts.startSpeakingSentenceSlowly(words, true));
+            // track all the words in the sentence
+            foreach (WordTile wordTile in words)
+            {
+                LearnerDataHandler.UpdateWordCount(wordTile.word.baseWord);
+            }
+            LearnerDataHandler.StoreLearnerData();
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
         }
-        LearnerDataHandler.StoreLearnerData();
-        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
-        
+        else
+        {
+            Debug.Log("TTS already reading sentence, please wait.");
+        }
     }
 
     //
-    public void OnPointerEnter (PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
         //
-		buttonImage.rectTransform.sizeDelta = highlightSize;
-	}
-		
+        buttonImage.rectTransform.sizeDelta = highlightSize;
+    }
+
     //
-	public void OnPointerExit (PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)
     {
         //
         buttonImage.rectTransform.sizeDelta = defaultSize;
-	}
+    }
 }
