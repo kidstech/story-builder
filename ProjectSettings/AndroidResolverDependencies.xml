@@ -69,7 +69,7 @@
   </files>
   <settings>
     <setting name="androidAbis" value="armeabi-v7a" />
-    <setting name="bundleId" value="edu.umn.morris.StoryBuilder" />
+    <setting name="bundleId" value="edu.umn.morris.StoryBuilderAndroid" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="False" />

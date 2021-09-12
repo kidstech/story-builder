@@ -54,7 +54,6 @@ public class LearnerDataHandler : MonoBehaviour
         return formattedTime;
     }
 
-    // definitely need to refactor this at some point...
     public static void StoreLearnerData()
     {
         // create learnerdata object for serialization later

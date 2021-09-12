@@ -18,11 +18,11 @@ public class ChangeScene : MonoBehaviour
     private float sceneHeight = 0;
     private float transitionTime = 2f; // used to keep the wait function in line with animation time
     private string buttonText;
-    private enum SceneType{
+    public enum SceneType{
         SentenceBuilder,
         StoryBuilder,
     }
-    private SceneType sceneState = SceneType.SentenceBuilder;
+    public static SceneType sceneState = SceneType.SentenceBuilder;
 
     // ideally this would be attached to the SavedSentenceBank script, but that game object starts disabled which means the start function isn't actually triggered until scene change (which is too late)
     void Start()

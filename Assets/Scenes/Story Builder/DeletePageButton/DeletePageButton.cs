@@ -14,7 +14,7 @@ public class DeletePageButton : MonoBehaviour
     private void Start()
     {
         button = GetComponent<Button>();
-        //button.onClick.AddListener(ShowDialog);
+        button.onClick.AddListener(DeletePage);
     }
 
     public void DeletePage()
