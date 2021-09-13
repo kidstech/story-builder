@@ -40,6 +40,29 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
         }
     }
+    public static IEnumerator GetContextPackIconFromFirebase(ContextPack pack, Action<Sprite> action)
+    {
+        UnityWebRequest getIcon = UnityWebRequest.Get(pack.icon);
+        yield return getIcon.SendWebRequest();
+        switch (getIcon.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                byte[] icon = getIcon.downloadHandler.data;
+                Sprite sprite = LearnerSelectPopup.GetSprite(icon);
+                Debug.Log("you should have the context pack sprite now");
+                action(sprite);
+                break;
+        }
+    }
     // assumes user is logged in firebase
     public static IEnumerator GetUserFromServer(Action action) // action here allows the coroutine to call another function upon completion of the coroutine
     {
@@ -133,13 +156,9 @@ public class ServerRequestHandler : MonoBehaviour
         string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
-        LearnerData learnerData = new LearnerData();
-        // populate non-static fields
-        learnerData._id = LearnerData.static_id;
-        learnerData.learnerId = LearnerData.staticLearnerId;
-        learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.wordCounts = LearnerData.staticWordCounts;
-        learnerData.sessionTimes = LearnerData.staticSessionTimes;
+        LearnerData learnerData = new LearnerData(
+            LearnerData.static_id, LearnerData.staticLearnerId, LearnerData.staticLearnerName, LearnerData.staticWordCounts, LearnerData.staticSessionTimes
+            );
         // convert learnerDataobject to json
         jsonLearnerData = JsonConvert.SerializeObject(learnerData);
         using (UnityWebRequest postRequest = UnityWebRequest.Post(requestURL, jsonLearnerData))
@@ -163,6 +182,7 @@ public class ServerRequestHandler : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log("LearnerData successfully posted!");
+                    Debug.Log(jsonLearnerData);
                     break;
             }
         }
@@ -173,13 +193,9 @@ public class ServerRequestHandler : MonoBehaviour
         string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
-        LearnerData learnerData = new LearnerData();
-        // populate non-static fields
-        learnerData._id = LearnerData.static_id;
-        learnerData.learnerId = LearnerData.staticLearnerId;
-        learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.wordCounts = LearnerData.staticWordCounts;
-        learnerData.sessionTimes = LearnerData.staticSessionTimes;
+       LearnerData learnerData = new LearnerData(
+            LearnerData.static_id, LearnerData.staticLearnerId, LearnerData.staticLearnerName, LearnerData.staticWordCounts, LearnerData.staticSessionTimes
+            );
         // convert learnerDataobject to json
         jsonLearnerData = JsonConvert.SerializeObject(learnerData);
 

@@ -22,7 +22,6 @@ public class BuildWorldBankNew : MonoBehaviour
     {
         // get the user from the server and then set up the packs
         StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
-        setupWordBankAndPackFilterButtons();
     }
     // same as awake, but callable elsewhere
     public void UpdateWordBank()

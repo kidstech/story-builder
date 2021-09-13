@@ -110,7 +110,7 @@ public class LoadContextPacks
                     if (contextPack.name.Equals(cp["name"].str))
                     {
                         // make a ContextPack from our local json file
-                        ContextPack pack = new ContextPack(cp["_id"].str, cp["schema"].str, cp["name"].str, cp["icon"].str, cp["enabled"], JsonConvert.DeserializeObject<List<WordList>>(cp["wordlists"].ToString()), null);
+                        ContextPack pack = new ContextPack(cp["_id"].str, cp["schema"].str, cp["name"].str, cp["icon"].str, cp["enabled"], JsonConvert.DeserializeObject<List<WordList>>(cp["wordlists"].ToString()));
                         activeContextPacks.Add(pack);
                     }
                 }
