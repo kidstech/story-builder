@@ -19,8 +19,6 @@ public class ContextPack
     public string icon;
     public bool enabled;
     public List<WordList> wordlists;
-    [NonSerialized]
-    public Sprite image;
 
     public ContextPack(string id, string schema, string name, string icon, bool enabled, List<WordList> cWordLists)
     {

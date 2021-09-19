@@ -31,7 +31,7 @@ public class SavedSentence
     private void GetContextPackIds()
     {
         List<string> packIds = new List<string>();
-        foreach (ContextPack pack in LoadContextPacks.activeContextPacks)
+        foreach (ContextPack pack in ContextPackHandler.activeContextPacks)
         {
             foreach (Word word in this.words)
             {

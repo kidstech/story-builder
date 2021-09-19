@@ -40,7 +40,7 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
         }
     }
-    public static IEnumerator GetContextPackIconFromFirebase(ContextPack pack, Action<Sprite> action)
+    public static IEnumerator GetContextPackIconFromFirebase(ContextPack pack, Action<byte[], string> action)
     {
         UnityWebRequest getIcon = UnityWebRequest.Get(pack.icon);
         yield return getIcon.SendWebRequest();
@@ -57,9 +57,8 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
             case UnityWebRequest.Result.Success:
                 byte[] icon = getIcon.downloadHandler.data;
-                Sprite sprite = LearnerSelectPopup.GetSprite(icon);
                 Debug.Log("you should have the context pack sprite now");
-                action(sprite);
+                action(icon, pack._id);
                 break;
         }
     }
@@ -108,7 +107,7 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
             case UnityWebRequest.Result.Success:
                 string response = getLearnerPacks.downloadHandler.text;
-                LoadContextPacks.contextPackList = JsonConvert.DeserializeObject<List<ContextPack>>(response);
+                ContextPackHandler.contextPackList = JsonConvert.DeserializeObject<List<ContextPack>>(response);
                 Debug.Log("learnercontextpacks grabbed successfully!");
                 action();
                 break;
