@@ -57,7 +57,6 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
             case UnityWebRequest.Result.Success:
                 byte[] icon = getIcon.downloadHandler.data;
-                Debug.Log("you should have the context pack sprite now");
                 action(icon, pack._id);
                 break;
         }
@@ -181,7 +180,6 @@ public class ServerRequestHandler : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log("LearnerData successfully posted!");
-                    Debug.Log(jsonLearnerData);
                     break;
             }
         }
