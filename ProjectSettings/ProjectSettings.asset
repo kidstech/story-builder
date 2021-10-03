@@ -655,7 +655,17 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: 
+    1: CT_RTV;CT_PROC
+    4: CT_RTV;CT_PROC
+    7: CT_RTV;CT_PROC
+    13: CT_RTV;CT_PROC
+    14: CT_RTV;CT_PROC
+    19: CT_RTV;CT_PROC
+    21: CT_RTV;CT_PROC
+    25: CT_RTV;CT_PROC
+    27: CT_RTV;CT_PROC
+    28: CT_RTV;CT_PROC
+    29: CT_RTV;CT_PROC
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
