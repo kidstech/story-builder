@@ -30,7 +30,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         string textToRead = this.textToDisplay.ToLower();
 
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
-        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead)));
+        StartCoroutine(HighlightCoroutine(Speaker.Instance.ApproximateSpeechLength(textToRead)));
         // update word counts for the learner
         LearnerDataHandler.UpdateWordCount(textToRead);
         // store it locally
