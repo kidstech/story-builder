@@ -133,10 +133,8 @@ public class UserLogin : MonoBehaviour
     }
     public async void Login()
     {
-        Debug.Log("login called");
         if (userInputIsValid())
         {
-            Debug.Log("starting firebase sign-in task...");
             // waiting for this task to finish kinda kills the point of having an async function, but (as far as I know) a syncronous version doesn't exist
             // and this is just a login button anyway
             await firebaseAuth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(getUser =>
