@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using Newtonsoft.Json;
 
-public class LoadContextPacks
+public class ContextPackHandler
 {
     //
     public static List<Word> wordList = new List<Word>();
@@ -16,6 +16,8 @@ public class LoadContextPacks
     // learner specific context packs grabbed from the server
     //public static List<ServerContextPack> serverPacks = new List<ServerContextPack>();
     public static string dirPath = Path.Combine(Application.persistentDataPath, "Resources", "Packs");
+    private static string iconDirpath = Path.Combine(Application.persistentDataPath, "Resources", "PackIcons");
+    private static string[] contextPackIconPaths;
 
     //
     public static List<Word> loadWords()
@@ -110,7 +112,7 @@ public class LoadContextPacks
                     if (contextPack.name.Equals(cp["name"].str))
                     {
                         // make a ContextPack from our local json file
-                        ContextPack pack = new ContextPack(cp["_id"].str, cp["schema"].str, cp["name"].str, cp["icon"].str, cp["enabled"], JsonConvert.DeserializeObject<List<WordList>>(cp["wordlists"].ToString()), null);
+                        ContextPack pack = new ContextPack(cp["_id"].str, cp["schema"].str, cp["name"].str, cp["icon"].str, cp["enabled"], JsonConvert.DeserializeObject<List<WordList>>(cp["wordlists"].ToString()));
                         activeContextPacks.Add(pack);
                     }
                 }
@@ -130,6 +132,60 @@ public class LoadContextPacks
             filePath = Path.Combine(dirPath, contextPack.name) + ".json";
             File.WriteAllText(filePath, jsonContextPack);
         }
+    }
+
+    // stores the icon of the pack passed to the function (packs only know the string to form a request to grab an icon)
+    public static void StoreContextPackIcon(string packId, byte[] icon)
+    {
+        if (!Directory.Exists(iconDirpath)) Directory.CreateDirectory(iconDirpath);
+        string filePath = "";
+        filePath = Path.Combine(iconDirpath, packId);
+        File.WriteAllBytes(filePath, icon);
+    }
+
+    public static Sprite GetContextPackIconFromStorage(string packId)
+    {
+        Sprite icon = null;
+        byte[] iconBytes = null;
+        try
+        {
+            string filePath = Path.Combine(iconDirpath, packId);
+            iconBytes = File.ReadAllBytes(filePath);
+            icon = LearnerSelectPopup.GetSprite(iconBytes);
+        }
+        catch (FileNotFoundException e)
+        {
+            Debug.LogError("File not found: " + e);
+        }
+        return icon;
+    }
+
+    // Looks through the list of context packs passed to it and sees if we already have a matching context pack icon in storage
+    // This doesn't check anything beyond the first matching pack icon (assumes we downloaded all sprites together originally so if one exists, all should exist)
+    // Need to make an button that updates the pack icons to account for this. (although refresh wordbank might do this already by accident? because it clears the context pack list?)
+    public static bool AlreadyHaveAppropriateContextPackIcons(List<ContextPack> packs)
+    {
+        if (!Directory.Exists(iconDirpath)) Directory.CreateDirectory(iconDirpath);
+        contextPackIconPaths = Directory.GetFiles(iconDirpath);
+
+        if (contextPackIconPaths == null)
+        {
+            //Debug.Log("filepaths was null... User doesn't have appropriate context pack sprites");
+            return false;
+        }
+        foreach (ContextPack pack in packs)
+        {
+            foreach (string fileName in contextPackIconPaths)
+            {
+                if (Path.GetFileNameWithoutExtension(fileName) == pack._id)
+                {
+                    //Debug.Log("matching file name found! We have the appropriate context pack sprites!");
+                    return true;
+                }
+            }
+        }
+        //Debug.Log("no pack Id matches locally stored image names...");
+        return false;
     }
 
     private static void AddWord(string contextPackId, int partOfSpeechId, string word, List<string> forms)

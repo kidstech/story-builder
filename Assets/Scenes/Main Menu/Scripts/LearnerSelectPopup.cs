@@ -39,8 +39,6 @@ public class LearnerSelectPopup : MonoBehaviour
 
     public void SetUpLearnerButtons()
     {
-        Debug.Log("making buttons for user: " + currentUser?.name);
-        Debug.Log("User doesn't have the appropriate sprites: " + !AlreadyHaveAppropriateLearnerSprites());
         //if we don't have the learner sprites we need already, go get them
         if (!AlreadyHaveAppropriateLearnerSprites())
         {
@@ -49,7 +47,6 @@ public class LearnerSelectPopup : MonoBehaviour
                 //for every learner that actually has an icon...
                 if (learner.icon != null)
                 {
-                    Debug.Log("grabbing learner icon for: " + learner.name);
                     //grabs the firebase image URI => sends server request => updates image component field in the button
                     GetLearnerIconAndMakeButton(learner);
                 }
@@ -106,7 +103,7 @@ public class LearnerSelectPopup : MonoBehaviour
 
     // credit to: https://www.programmersought.com/article/74693938105/
     // converts a byte array into a Unity Sprite
-    public Sprite GetSprite(Byte[] bytes)
+    public static Sprite GetSprite(Byte[] bytes)
     {
         //First create a Texture2D object, which is used to convert the streaming data to Texture2D
         Texture2D texture = new Texture2D(10, 10);
