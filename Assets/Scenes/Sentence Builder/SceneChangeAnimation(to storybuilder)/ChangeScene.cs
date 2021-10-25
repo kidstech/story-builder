@@ -68,6 +68,7 @@ public class ChangeScene : MonoBehaviour
 
             // move options menu stuff back
             openMenuButton.transform.SetParent(sentenceBuilderCanvas);
+            openMenuButton.transform.SetSiblingIndex(0); // needs to be higher up in hierarchy so it doesn't go over top of the actual options menu popup
             openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450f,335f,0f);
             openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
             openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
