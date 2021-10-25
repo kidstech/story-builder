@@ -166,11 +166,12 @@ public class ContextPackHandler
     public static bool AlreadyHaveAppropriateContextPackIcons(List<ContextPack> packs)
     {
         if (!Directory.Exists(iconDirpath)) Directory.CreateDirectory(iconDirpath);
+        Debug.Log(iconDirpath);
         contextPackIconPaths = Directory.GetFiles(iconDirpath);
 
-        if (contextPackIconPaths == null)
+        if (contextPackIconPaths.Length == 0)
         {
-            //Debug.Log("filepaths was null... User doesn't have appropriate context pack sprites");
+            Debug.Log("filepaths was null... User doesn't have appropriate context pack sprites");
             return false;
         }
         foreach (ContextPack pack in packs)
@@ -179,12 +180,12 @@ public class ContextPackHandler
             {
                 if (Path.GetFileNameWithoutExtension(fileName) == pack._id)
                 {
-                    //Debug.Log("matching file name found! We have the appropriate context pack sprites!");
+                    Debug.Log("matching file name found! We have the appropriate context pack sprites!");
                     return true;
                 }
             }
         }
-        //Debug.Log("no pack Id matches locally stored image names...");
+        Debug.Log("no pack Id matches locally stored image names...");
         return false;
     }
 

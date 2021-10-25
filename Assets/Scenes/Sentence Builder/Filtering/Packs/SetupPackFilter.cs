@@ -27,22 +27,29 @@ public class SetupPackFilter : MonoBehaviour
         }
         // load the packs
         filterByPacks = ContextPackHandler.loadContextPacks();
+        // it definitely has gotten at least secondPack
 
         // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
         if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
         {
+            //Debug.Log("didn't have matching stored context pack");
             foreach (ContextPack pack in filterByPacks)
             {
+                //Debug.Log("pack.icon is: " + pack.icon);
                 if (pack.icon != "" && pack.icon != null)
                 {
                     iconCount++;
+                    //Debug.Log("iconCount is: " + iconCount);
                     // then we query firebase and store them
                     GetPackIconAndStoreLocally(pack);
                 }
             }
+            // call needed to ensure we actually still set things up if we don't find any icons
+            SetUpContextPackSortButtons();
         }
         else
         {
+            //Debug.Log("already have the icons, grabbing them from storage");
             // we already have the icons, just grab them locally
             SetUpContextPackSortButtons();
         }
@@ -58,13 +65,13 @@ public class SetupPackFilter : MonoBehaviour
     // then setup the context pack sort buttons
     private void StorePackIconLocally(byte[] icon, string id)
     {
-        ContextPackHandler.StoreContextPackIcon(id, icon);
-        iconCount--;
         if (iconCount <= 0)
         {
-            //Debug.Log("firebase requests finished... setting up context pack buttons");
+            Debug.Log("firebase requests finished... setting up context pack buttons");
             SetUpContextPackSortButtons();
         }
+        iconCount--;
+        
     }
 
     private void SetUpContextPackSortButtons()
@@ -84,7 +91,7 @@ public class SetupPackFilter : MonoBehaviour
             /*
              * Need to try to load an image from the path above ^ 
              */
-            if (filterByPacks[i].icon != "")
+            if (filterByPacks[i]?.icon != "" )
             {
                 Sprite packSprite = ContextPackHandler.GetContextPackIconFromStorage(filterByPacks[i]._id);
                 AssignSprite(packSprite);

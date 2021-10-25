@@ -78,5 +78,6 @@ public class BuildWorldBankNew : MonoBehaviour
         GetComponent<WordBank>().SortWordBank();
         // set up pack filter buttons now that words and context packs have been grabbed from the server
         ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
+        Debug.Log("setup packs called");
     }
 }

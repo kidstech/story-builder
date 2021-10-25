@@ -42,6 +42,7 @@ public class ServerRequestHandler : MonoBehaviour
     }
     public static IEnumerator GetContextPackIconFromFirebase(ContextPack pack, Action<byte[], string> action)
     {
+        Debug.Log("server queried for context pack icon");
         UnityWebRequest getIcon = UnityWebRequest.Get(pack.icon);
         yield return getIcon.SendWebRequest();
         switch (getIcon.result)
