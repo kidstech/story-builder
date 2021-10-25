@@ -16,8 +16,8 @@ public class BuildWorldBankNew : MonoBehaviour
     public Transform wordTile;
     // game object storing the SetupPackFilter script
     public GameObject ContextPackFilter;
+    public GameObject WBUpdateConfirmationPrompt;
 
-    //
     private void Awake()
     {
         // get the user from the server and then set up the packs
@@ -26,6 +26,7 @@ public class BuildWorldBankNew : MonoBehaviour
     // same as awake, but callable elsewhere
     public void UpdateWordBank()
     {
+        StartCoroutine(UpdateWordBankFeedback());
         StartCoroutine(ServerRequestHandler.GetLearnerContextPacks(LearnerLogin.staticLearner._id, setupWordBankAndPackFilterButtons));
     }
 
@@ -79,5 +80,11 @@ public class BuildWorldBankNew : MonoBehaviour
         // set up pack filter buttons now that words and context packs have been grabbed from the server
         ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
         Debug.Log("setup packs called");
+    }
+    private IEnumerator UpdateWordBankFeedback()
+    {
+        WBUpdateConfirmationPrompt.SetActive(true);
+        yield return new WaitForSecondsRealtime(2f);
+        WBUpdateConfirmationPrompt.SetActive(false);
     }
 }

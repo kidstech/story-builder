@@ -57,7 +57,6 @@ public class LearnerSelectPopup : MonoBehaviour
         //otherwise, if we already have the sprites, just make the buttons without talking to firebase
         else
         {
-            Debug.Log("making buttons with local files...");
             foreach (Learner learner in currentUser.learners)
             {
                 CreateLearnerButton(learner);
@@ -88,10 +87,8 @@ public class LearnerSelectPopup : MonoBehaviour
         {
             if (learner._id == Path.GetFileNameWithoutExtension(fileName))
             {
-                Debug.Log("adding learner sprite to button from local file...");
-                byte[] icon = File.ReadAllBytes(fileName);
                 //LearnerImage component of learner button prefab
-                button.transform.GetChild(1).GetComponent<Image>().sprite = GetSprite(icon);
+                button.transform.GetChild(1).GetComponent<Image>().sprite = LearnerIconStorageHandler.GetLearnerSprite(learner._id);
             }
         }
         button.transform.GetComponent<RectTransform>().localPosition = correctedZPosition;
@@ -127,7 +124,6 @@ public class LearnerSelectPopup : MonoBehaviour
             {
                 if (Path.GetFileNameWithoutExtension(fileName) == learner._id)
                 {
-                    Debug.Log("matching file name found! We have the appropriate learner sprites!");
                     return true;
                 }
             }
