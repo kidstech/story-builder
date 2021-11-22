@@ -12,28 +12,28 @@ public class SaveStoryButton : MonoBehaviour
     private void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(SaveStory);
+        //button.onClick.AddListener(SaveStory);
     }
 
     // no real story saving implemented just yet
-    private void SaveStory()
-    {
-        List<SavedSentence> toSave = pageContainer.GetAllSentencesInPages();
+    // private void SaveStory()
+    // {
+    //     List<StoryPage> toSave = pageContainer.GetAllSentencesInPages();
 
-        SaveStoryHandler.SaveStory(toSave);
+    //     SaveStoryHandler.SaveStory(toSave);
 
-        // for(int i = 0; i < toSave.Count; i++)
-        // {
-        //     string blah = "";
+    //     // for(int i = 0; i < toSave.Count; i++)
+    //     // {
+    //     //     string blah = "";
 
-        //     for (int o = 0; o < toSave[i].wordTiles.Count; o++)
-        //     {
+    //     //     for (int o = 0; o < toSave[i].wordTiles.Count; o++)
+    //     //     {
                 
 
-        //         blah += toSave[i].wordTiles[o].textToDisplay;
-        //     }
+    //     //         blah += toSave[i].wordTiles[o].textToDisplay;
+    //     //     }
 
-        //     Debug.Log(blah);
-        // }
-    }
+    //     //     Debug.Log(blah);
+    //     // }
+    // }
 }
