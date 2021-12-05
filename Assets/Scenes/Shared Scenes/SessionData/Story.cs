@@ -7,9 +7,15 @@ namespace ServerTypes
     ///</summary>
     public class Story
     {
+        public string learnerId;
         public string storyName;
         public string font;
-        public List<Page> pages;
+        public List<StoryPage> pages;
+
+        public Story(List<StoryPage> storyPages)
+        {
+            pages = storyPages;
+        }
 
     }
     public class StoryPage

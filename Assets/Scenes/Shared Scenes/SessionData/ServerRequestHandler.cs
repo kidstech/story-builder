@@ -287,4 +287,35 @@ public class ServerRequestHandler : MonoBehaviour
             }
         }
     }
+
+    public static IEnumerator PostStory(Story story)
+    {
+        string requestUrl = serverIp + "/api/stories/" + LearnerLogin.staticLearner._id;
+        string jsonStory = "";
+        jsonStory = JsonConvert.SerializeObject(story);
+
+        using (UnityWebRequest postRequest = UnityWebRequest.Post(requestUrl, jsonStory))
+        {
+            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(jsonStory);
+            postRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+            postRequest.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            postRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return postRequest.SendWebRequest();
+            switch (postRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Unable to connect to server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error processing data received from server... Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("Communication successful, but received HTTP Error: " + postRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    Debug.Log("Story successfully posted!");
+                    break;
+            }
+        }
+    }
 }

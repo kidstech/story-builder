@@ -260,7 +260,7 @@ public class PageContainer : MonoBehaviour
     }
 
 
-    public void GetPagesForStorySubmission()
+    public List<StoryPage> GetPagesForStorySubmission()
     {
         List<StoryPage> storyPages = new List<StoryPage>();
 
@@ -272,14 +272,14 @@ public class PageContainer : MonoBehaviour
 
             if (currentPage.type == PAGE.NO_PICTURE)
             {
-                // 
+                // add every sentence on the page to the sentences list of the storyPage
                 for (int o = 0; o < currentPage.transform.childCount; o++)
                 {
                     storyPage.sentences.Add(currentPage.transform.GetChild(o).GetComponent<SentenceObject>().savedSentence.sentenceText);
                 }
                 storyPages.Add(storyPage);
             }
-            else 
+            else // needed different for loop for image pages because the child structure is different
             {
                 for (int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
                 {
@@ -299,6 +299,16 @@ public class PageContainer : MonoBehaviour
                 Debug.Log(sentence);
             }
         }
+        return storyPages;
+
+    }
+
+    public void PutStoryInDatabase()
+    {
+        List<StoryPage> storyPages = GetPagesForStorySubmission();
+        Story story = new Story(storyPages); // story with no name or font
+        story.learnerId = LearnerLogin.staticLearner._id;
+        StartCoroutine(ServerRequestHandler.PostStory(story));
 
     }
 }
