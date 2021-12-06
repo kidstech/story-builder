@@ -27,6 +27,8 @@ public class PageContainer : MonoBehaviour
 
     [Header("Scene References")]
     public GameObject pageIconContainer;
+    public GameObject StoryNamePrompt;
+    public GameObject StorySubmissionStatus;
 
     //
     [Header("Settings")]
@@ -303,12 +305,34 @@ public class PageContainer : MonoBehaviour
 
     }
 
-    public void PutStoryInDatabase()
+    private void PutStoryInDatabase(string storyName)
     {
         List<StoryPage> storyPages = GetPagesForStorySubmission();
         Story story = new Story(storyPages); // story with no name or font
-        story.learnerId = LearnerLogin.staticLearner._id;
+        story.learnerId = LearnerLogin.staticLearner._id; // should make another constructor if these get made more often
+        story.storyName = storyName;
         StartCoroutine(ServerRequestHandler.PostStory(story));
+    }
 
+    public void OpenStoryNameMenu()
+    {
+        StoryNamePrompt.SetActive(true);
+    }
+    public void CloseStoryNameMenu()
+    {
+        string storyName = StoryNamePrompt.GetComponentInChildren<Text>().text;
+        StoryNamePrompt.SetActive(false);
+        PutStoryInDatabase(storyName);
+        // if story submitted successfully... (should check this eventually)
+        DisplaySubmissionStatus();
+    }
+    private void DisplaySubmissionStatus()
+    {
+        // might be nice to have the success message contain the name of the submitted story
+        StorySubmissionStatus.SetActive(true);
+    }
+    public void CloseSubmissionStatus()
+    {
+        StorySubmissionStatus.SetActive(false);
     }
 }
