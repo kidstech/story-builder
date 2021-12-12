@@ -5,17 +5,28 @@ using System.Linq;
 using UnityEngine;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
+using ServerTypes;
 
-public class SaveStoryHandler
+
+public class SaveStoryHandler : MonoBehaviour
 {
+    // PageContainer game object that contains all the different pages a user has created for their story
+    public GameObject PageContainer;
+    public static string path;
     //
-    public static string path = Path.Combine(Application.dataPath, "Saves", "Stories");
+
+    public void Start()
+    {
+        path = Path.Combine(Application.dataPath, "Saves", "Stories");
+    }
+    
 
     //
     public static void SaveStory(ArrayList pages, string storyName)
     {
         
     }
+    
     
     
     
@@ -78,5 +89,16 @@ public class SaveStoryHandler
             //
             Directory.CreateDirectory(path);
         }
+    }
+
+
+    // save story to mongo database
+    public void PutStoryInDatabase(string storyName)
+    {
+        List<StoryPage> storyPages = PageContainer.GetComponent<PageContainer>().GetPagesForStorySubmission();
+        Story story = new Story(storyPages); // story with no name or font
+        story.learnerId = LearnerLogin.staticLearner._id; // should make another constructor if these get made more often
+        story.storyName = storyName;
+        StartCoroutine(ServerRequestHandler.PostStory(story));
     }
 }
