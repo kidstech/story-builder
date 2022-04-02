@@ -40,5 +40,23 @@ namespace DatabaseEntry
         {
             return JsonConvert.DeserializeObject<LearnerData>(jsonLearnerData);
         }
+
+        public LearnerData()
+        {
+            this._id = null;
+            this.learnerId = null;
+            this.learnerName = null;
+            this.wordCounts = null;
+            this.sessionTimes = null;
+        }
+
+        public LearnerData(string mongo_id, string learner_id, string name, Dictionary<string, int> wordCounts, Dictionary<string, string> sessionTimes)
+        {
+            this._id = mongo_id;
+            this.learnerId = learner_id;
+            this.learnerName = name;
+            this.wordCounts = wordCounts;
+            this.sessionTimes = sessionTimes;
+        } 
     }
 }

@@ -6,6 +6,8 @@
 /Assets/AssetStoreTools*
 /Assets/Saves/Sentences/
 /Assets/Saves/Stories/
+/[L1]ogs
+/Logs/
 
 # Visual Studio 2015 cache directory
 /.vs/
@@ -43,6 +45,12 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+# Firebase API stuff
 Assets/GoogleService-Info.plist
-
 Assets/GoogleService-Info.plist.meta
+
+# Assets we don't want/can't have publicly available
+Assets/crosstales/
+Assets/Editor Default Resources/RTVoice/
+Assets/Editor Default Resources/crosstales
+Assets/Plugins/crosstales

@@ -89,7 +89,7 @@ public class SentenceBar : MonoBehaviour
             // estimate the time it will take to speak a tile
             // so we can run this in parallel with text to speech
             string tileText = child.GetComponentInChildren<Text>().text;
-            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) / tts.getVoiceRate(); // voice rate is a float that acts as a percentage so 1 = 100% and 1.5 = 150%
+            float timeToSpeak = Speaker.Instance.ApproximateSpeechLength(tileText) / tts.getVoiceRate(); // voice rate is a float that acts as a percentage so 1 = 100% and 1.5 = 150%
             // logic here is that if we have x animations, we want each of their times to add up to timeToSpeak, so each animation gets timeToSpeak/x time to animate
             animation_time = timeToSpeak / animation_segments;
 

@@ -10,7 +10,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
-using Crosstales.RTVoice.Model.Event;
 
 public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {

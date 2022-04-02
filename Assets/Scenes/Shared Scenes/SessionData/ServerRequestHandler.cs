@@ -8,6 +8,7 @@ using System;
 using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
+    // DON'T COMMIT THIS UNLESS YOU'VE REMOVED YOUR IP
     private static readonly string serverIp = "http://localhost:4567"; // change localhost to ip of target machine if using separate device
     public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
     {
@@ -37,6 +38,28 @@ public class ServerRequestHandler : MonoBehaviour
                     Debug.Log("Error, tried to write outside the length of the array. (Image size greater than 1MB) Details: " + e);
                 }
                 action(learner);
+                break;
+        }
+    }
+    public static IEnumerator GetContextPackIconFromFirebase(ContextPack pack, Action<byte[], string> action)
+    {
+        Debug.Log("server queried for context pack icon");
+        UnityWebRequest getIcon = UnityWebRequest.Get(pack.icon);
+        yield return getIcon.SendWebRequest();
+        switch (getIcon.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + getIcon.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                byte[] icon = getIcon.downloadHandler.data;
+                action(icon, pack._id);
                 break;
         }
     }
@@ -85,7 +108,7 @@ public class ServerRequestHandler : MonoBehaviour
                 break;
             case UnityWebRequest.Result.Success:
                 string response = getLearnerPacks.downloadHandler.text;
-                LoadContextPacks.contextPackList = JsonConvert.DeserializeObject<List<ContextPack>>(response);
+                ContextPackHandler.contextPackList = JsonConvert.DeserializeObject<List<ContextPack>>(response);
                 Debug.Log("learnercontextpacks grabbed successfully!");
                 action();
                 break;
@@ -133,13 +156,9 @@ public class ServerRequestHandler : MonoBehaviour
         string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
-        LearnerData learnerData = new LearnerData();
-        // populate non-static fields
-        learnerData._id = LearnerData.static_id;
-        learnerData.learnerId = LearnerData.staticLearnerId;
-        learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.wordCounts = LearnerData.staticWordCounts;
-        learnerData.sessionTimes = LearnerData.staticSessionTimes;
+        LearnerData learnerData = new LearnerData(
+            LearnerData.static_id, LearnerData.staticLearnerId, LearnerData.staticLearnerName, LearnerData.staticWordCounts, LearnerData.staticSessionTimes
+            );
         // convert learnerDataobject to json
         jsonLearnerData = JsonConvert.SerializeObject(learnerData);
         using (UnityWebRequest postRequest = UnityWebRequest.Post(requestURL, jsonLearnerData))
@@ -173,13 +192,9 @@ public class ServerRequestHandler : MonoBehaviour
         string requestURL = serverIp + "/api/learnerData/" + LearnerData.static_id;
         string jsonLearnerData;
         // make learnerData object
-        LearnerData learnerData = new LearnerData();
-        // populate non-static fields
-        learnerData._id = LearnerData.static_id;
-        learnerData.learnerId = LearnerData.staticLearnerId;
-        learnerData.learnerName = LearnerData.staticLearnerName;
-        learnerData.wordCounts = LearnerData.staticWordCounts;
-        learnerData.sessionTimes = LearnerData.staticSessionTimes;
+       LearnerData learnerData = new LearnerData(
+            LearnerData.static_id, LearnerData.staticLearnerId, LearnerData.staticLearnerName, LearnerData.staticWordCounts, LearnerData.staticSessionTimes
+            );
         // convert learnerDataobject to json
         jsonLearnerData = JsonConvert.SerializeObject(learnerData);
 

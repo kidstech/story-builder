@@ -19,10 +19,8 @@ public class ContextPack
     public string icon;
     public bool enabled;
     public List<WordList> wordlists;
-    [NonSerialized]
-    public string contextPackIconPath = "";
 
-    public ContextPack(string id, string schema, string name, string icon, bool enabled, List<WordList> cWordLists, string iconPath)
+    public ContextPack(string id, string schema, string name, string icon, bool enabled, List<WordList> cWordLists)
     {
         this._id = id;
         this.schema = schema;
@@ -30,6 +28,5 @@ public class ContextPack
         this.icon = icon;
         this.enabled = enabled;
         this.wordlists = cWordLists;
-        this.contextPackIconPath = iconPath;
     }
 }

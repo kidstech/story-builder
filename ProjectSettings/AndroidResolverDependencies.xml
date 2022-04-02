@@ -68,7 +68,7 @@
     <file>Assets/Plugins/Android/com.google.firebase.firebase-storage-unity-7.2.0.aar</file>
   </files>
   <settings>
-    <setting name="androidAbis" value="armeabi-v7a" />
+    <setting name="androidAbis" value="armeabi-v7a,x86" />
     <setting name="bundleId" value="edu.umn.morris.StoryBuilderAndroid" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />

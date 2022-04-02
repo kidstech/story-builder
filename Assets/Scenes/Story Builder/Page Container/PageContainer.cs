@@ -194,7 +194,7 @@ public class PageContainer : MonoBehaviour
                 // example:          PageContainer => PagePrefab => SentencePrefab
                 iteratedPagePrefab = transform.GetChild(selectedPageGlobal).GetChild(o);
                 textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
-                speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
                 iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
                 yield return new WaitForSeconds(speechDuration);
             }
@@ -207,7 +207,7 @@ public class PageContainer : MonoBehaviour
                 // example:          PageContainer => PagePrefab => SentenceDropzone => SentencePrefab
                 iteratedPagePrefab = transform.GetChild(selectedPageGlobal).GetChild(0).GetChild(o);
                 textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
-                speechDuration = Speaker.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
                 iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
                 yield return new WaitForSeconds(speechDuration);
             }

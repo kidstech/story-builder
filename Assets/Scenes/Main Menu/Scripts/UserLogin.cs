@@ -14,10 +14,9 @@ public class UserLogin : MonoBehaviour
     public static Firebase.Auth.FirebaseUser user = null;
     public GameObject emailGO;
     public GameObject passwordGO;
-    System.Threading.Tasks.Task<FirebaseUser> getUserTask;
-    private bool loginFailed = false;
     // text box used for showing login errors to user
     public GameObject loginErrorGO;
+    private bool loginFailed = false;
     private ColorBlock errorColors = new ColorBlock();
     private ColorBlock defaultColors = new ColorBlock();
     private string loginErrorMessage = "Incorrect username/password. Please ensure details are correct and try again.";
@@ -27,16 +26,14 @@ public class UserLogin : MonoBehaviour
     void Start()
     {
         InitializeFirebase();
-        // change the physics update interval to once every 1 second to reduce number of update calls (if we end up using physics change this back)
-        Time.fixedDeltaTime = 1f;
         // track original email/pass input field colors (assuming email field = pass field)
         defaultColors = emailGO.GetComponent<InputField>().colors;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         // ideally we would just call this from login() when it fails, but seeing as that method takes place off the main thread, we can't use the Unity API
-        // so instead we just store the login result in a bool and check each second to see if a login has failed and then do the usual function call
+        // so instead we just store the login result in a bool and check each frame to see if a login has failed and then do the usual function call
         if (loginFailed)
         {
             ShowErrorMessage();

@@ -8,7 +8,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Crosstales.RTVoice;
-using Crosstales.RTVoice.Model.Event;
 using Crosstales.RTVoice.Model;
 using UnityEngine.UI;
 using Crosstales.RTVoice.Tool;
@@ -72,17 +71,16 @@ public class TextToSpeechHandler : MonoBehaviour
     {
         // Hook functions to run each time an event is triggered from Speaker, namely when we start and stop speaking, as well as while we are speaking.
         //Speaker.OnSpeakNativeCurrentWord += SpeakNativeCurrentWord; //An event triggered whenever a new word is spoken (native, Windows and iOS only)
-        Speaker.OnSpeakStart += speakStartMethod;
-        Speaker.OnSpeakComplete += speakCompleteMethod;
+        // Speaker.OnSpeakStart += speakStartMethod;
+        // Speaker.OnSpeakComplete += speakCompleteMethod;
         //Debug.Log("there are " + Speaker.Voices.Count + " voices on the system.");
 
         // Check if voices are available
-        if (Speaker.Voices.Count <= 0)
+        if (Speaker.Instance.Voices.Count <= 0)
         {
-            //
             voicesAvailable = false;
         }
-        voiceName = Speaker.Voices[0].Name; // default voice assigned here so compiler stops whining
+        voiceName = Speaker.Instance.Voices[0].Name; // default voice assigned here so compiler stops whining
 
         if (ChangeScene.sceneState == ChangeScene.SceneType.SentenceBuilder)
         {
@@ -96,8 +94,8 @@ public class TextToSpeechHandler : MonoBehaviour
     private void OnDestroy()
     {
         //Speaker.OnSpeakNativeCurrentWord -= SpeakNativeCurrentWord;
-        Speaker.OnSpeakStart -= speakStartMethod;
-        Speaker.OnSpeakComplete -= speakCompleteMethod;
+        // Speaker.OnSpeakStart -= speakStartMethod;
+        // Speaker.OnSpeakComplete -= speakCompleteMethod;
     }
 
     // this will take the text stored in a button and set the speaker to that voice
@@ -105,7 +103,7 @@ public class TextToSpeechHandler : MonoBehaviour
     public void changeSpeaker()
     {
         voiceName = this.gameObject.GetComponentInChildren<Text>().text;
-        Speaker.Speak("Hello!", audio, Speaker.VoiceForName(voiceName), true, voiceRate, voicePitch);
+        Speaker.Instance.Speak("Hello!", audio,  Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
     }
 
     // keeping this because we want the sentence to be read more fluently once the sentence has been "built"
@@ -128,13 +126,12 @@ public class TextToSpeechHandler : MonoBehaviour
         sentence = sentence.Substring(0, sentence.Length - 1);
 
         //
-        Speaker.Speak(sentence, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
-
+        Speaker.Instance.Speak(sentence, audio, Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
+        
     }
 
-    public void startSpeakingWordTile(string word)
-    {
-        Speaker.Speak(word, audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, "", voicePitch);
+    public void startSpeakingWordTile(string word){
+        Speaker.Instance.Speak(word, audio, Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
         //Debug.Log(voicePitch);
     }
 
@@ -190,7 +187,7 @@ public class TextToSpeechHandler : MonoBehaviour
             string tileText = wordTile.GetComponentInChildren<Text>().text;
 
             // approx how long it takes TTS to speak the word
-            float timeToSpeak = Speaker.ApproximateSpeechLength(tileText) / (voiceRate);
+            float timeToSpeak = Speaker.Instance.ApproximateSpeechLength(tileText) / (voiceRate);
             int numberTilesReadBeforeScrolling = 4; // change this if you want begin scrolling earlier or later. (so if this were 6, the max number of tiles in view, scrolling wouldn't begin until TTS reached the last tile in the sentence bar)
 
             if (loopCounter > numberTilesReadBeforeScrolling)
@@ -202,7 +199,7 @@ public class TextToSpeechHandler : MonoBehaviour
             // uncomment the line below to use animatePipes
             //StartCoroutine(animatePipes(timeToSpeak));
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
-            Speaker.Speak(tileText.ToLower(), audio, Speaker.VoiceForName(voiceName), true, voiceRate, 1f, null, voicePitch);
+            Speaker.Instance.Speak(tileText.ToLower(), audio, Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
             //Debug.Log(voiceName);
 
             // Wait for TTS to go through the current word before saying the next.
@@ -212,77 +209,77 @@ public class TextToSpeechHandler : MonoBehaviour
         speakingSentence = false;
     }
 
-    // Event hook for the start of a speech
-    private void speakStartMethod(SpeakEventArgs e)
-    {
-        // Starting to speak
-        isSpeaking = true;
-    }
+    // // Event hook for the start of a speech
+    // private void speakStartMethod(SpeakEventArgs e)
+    // {
+    //     // Starting to speak
+    //     isSpeaking = true;
+    // }
 
-    // Event hook for the finishing of a speech
-    private void speakCompleteMethod(SpeakEventArgs e)
-    {
-        // No longer speaking
-        isSpeaking = false;
+    // // Event hook for the finishing of a speech
+    // private void speakCompleteMethod(SpeakEventArgs e)
+    // {
+    //     // No longer speaking
+    //     isSpeaking = false;
+        
+    //     // Reset Variables
+    //     index = -1;
+    //     tick = 0;
 
-        // Reset Variables
-        index = -1;
-        tick = 0;
+    //     //
+    //     if(speakingSentence)
+    //     {
+    //         //
+    //         speakingSentence = false;
 
-        //
-        if (speakingSentence)
-        {
-            //
-            speakingSentence = false;
+    //         // not sure what the intention was here, but this seems to have been causing the last tile to stay highlighted after pushing the button.
+    //         // if(highlight)
+    //         // {
+    //         //     //
+    //         //     wordTiles.Last().Highlight();
+    //         // }
+            
+    //     }
+    // }
 
-            // not sure what the intention was here, but this seems to have been causing the last tile to stay highlighted after pushing the button.
-            // if(highlight)
-            // {
-            //     //
-            //     wordTiles.Last().Highlight();
-            // }
+    // // Event hook fired each time a new word is spoken.
+    // private void SpeakNativeCurrentWord(SpeakEventArgs e)
+    // {
+    //     //
+    //     if (!highlight) return;
 
-        }
-    }
+    //     //
+    //     if(speakingSentence)
+    //     {
+    //         // The variable tick will be 0 when the previous tile is done
+    //         // When that is the case...
+    //         if (tick == 0)
+    //         {
+    //             // Progress to the next word tile (tracked by index)
+    //             index++;
 
-    // Event hook fired each time a new word is spoken.
-    private void SpeakNativeCurrentWord(SpeakEventArgs e)
-    {
-        //
-        if (!highlight) return;
+    //             // The text on this tile
+    //             WordTile wt = wordTiles[index] as WordTile;
+    //             string textToRead =  wt.textToDisplay;
 
-        //
-        if (speakingSentence)
-        {
-            // The variable tick will be 0 when the previous tile is done
-            // When that is the case...
-            if (tick == 0)
-            {
-                // Progress to the next word tile (tracked by index)
-                index++;
+    //             // Calculate the number of ticks this tile will get depending upon how many words are on the tile
+    //             tick = textToRead.Split(' ').Length;
 
-                // The text on this tile
-                WordTile wt = wordTiles[index] as WordTile;
-                string textToRead = wt.textToDisplay;
+    //             //
+    //             if (index > 0)
+    //             {
+    //                 //
+    //                 wordTiles[index - 1].Highlight();
+    //             }
 
-                // Calculate the number of ticks this tile will get depending upon how many words are on the tile
-                tick = textToRead.Split(' ').Length;
+    //             //
+    //             wordTiles[index].Highlight();
+    //         }
 
-                //
-                if (index > 0)
-                {
-                    //
-                    wordTiles[index - 1].Highlight();
-                }
-
-                //
-                wordTiles[index].Highlight();
-            }
-
-            //
-            tick--;
-        }
-    }
+    //         //
+    //         tick--;
+    //     }
+    // }
     // experimenting with basing animation duration/speed to match each word tile
     // still need to figure out how to modify animation speed to coincide with TTS modulation.
     // currently the animation speed is static, so while how long the animation plays changes, it will end on different frames, depending on TTS speed.
@@ -297,7 +294,7 @@ public class TextToSpeechHandler : MonoBehaviour
     public void stopSpeaking()
     {
         // Stop speaking
-        Speaker.Silence();
+        Speaker.Instance.Silence();
 
         isSpeaking = false;
     }
@@ -305,9 +302,8 @@ public class TextToSpeechHandler : MonoBehaviour
     public float getApproxSpeechTime(List<WordTile> wordTiles)
     {
         float speechDuration = 0;
-        foreach (WordTile tile in wordTiles)
-        {
-            speechDuration += Speaker.ApproximateSpeechLength(tile.word.baseWord);
+        foreach(WordTile tile in wordTiles){
+            speechDuration += Speaker.Instance.ApproximateSpeechLength(tile.word.baseWord);
         }
         speechDuration = speechDuration / voiceRate; // account for changing voice speed
         return speechDuration;

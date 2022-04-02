@@ -14,7 +14,7 @@ public class SpeakSentence : MonoBehaviour, IPointerClickHandler
     }
     private void SpeakSentenceText()
     {
-        Speaker.Silence(); // silence any previous speech
-        Speaker.Speak(this.transform.GetComponentInChildren<Text>().text);
+        Speaker.Instance.Silence(); // silence any previous speech
+        Speaker.Instance.Speak(this.transform.GetComponentInChildren<Text>().text);
     }
 }

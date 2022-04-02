@@ -27,14 +27,14 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
         int i = 0;
         int numEnVoices = 0; // tracking index of next voice insertion point
         int numVoiceButtons = 3;
-        int totalNumberOfVoices = Speaker.Voices.Count;
+        int totalNumberOfVoices = Speaker.Instance.Voices.Count;
         // iterate through available voices to find english cultures
         for(i = 0; i < totalNumberOfVoices; i++) {
 
             // we only want english voices for pronunciation learning purposes
-            if (Speaker.Voices[i].Culture == "en-US") {
+            if (Speaker.Instance.Voices[i].Culture == "en-US") {
                 // assign the voice name to the text box of the buttons in VoiceSelectionHub
-                voiceButtons[numEnVoices].gameObject.GetComponentInChildren<Text>().text = Speaker.Voices[i].Name;
+                voiceButtons[numEnVoices].gameObject.GetComponentInChildren<Text>().text = Speaker.Instance.Voices[i].Name;
                 numEnVoices++; // track which voice button we will add text to next
             }
 

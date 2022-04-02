@@ -87,9 +87,8 @@ public class LearnerSelectPopup : MonoBehaviour
         {
             if (learner._id == Path.GetFileNameWithoutExtension(fileName))
             {
-                byte[] icon = File.ReadAllBytes(fileName);
                 //LearnerImage component of learner button prefab
-                button.transform.GetChild(1).GetComponent<Image>().sprite = GetSprite(icon);
+                button.transform.GetChild(1).GetComponent<Image>().sprite = LearnerIconStorageHandler.GetLearnerSprite(learner._id);
             }
         }
         button.transform.GetComponent<RectTransform>().localPosition = correctedZPosition;
@@ -101,7 +100,7 @@ public class LearnerSelectPopup : MonoBehaviour
 
     // credit to: https://www.programmersought.com/article/74693938105/
     // converts a byte array into a Unity Sprite
-    public Sprite GetSprite(Byte[] bytes)
+    public static Sprite GetSprite(Byte[] bytes)
     {
         //First create a Texture2D object, which is used to convert the streaming data to Texture2D
         Texture2D texture = new Texture2D(10, 10);

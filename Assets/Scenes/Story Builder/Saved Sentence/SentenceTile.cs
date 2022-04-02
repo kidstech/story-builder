@@ -29,7 +29,7 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         string textToRead = this.textToDisplay.ToLower();
         
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
-        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead) * 1/TextToSpeechHandler.voiceRate));
+        StartCoroutine(HighlightCoroutine(Speaker.Instance.ApproximateSpeechLength(textToRead) * 1/TextToSpeechHandler.voiceRate));
 
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
@@ -53,7 +53,7 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         string textToRead = this.textToDisplay.ToLower();
         
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
-        StartCoroutine(HighlightCoroutine(Speaker.ApproximateSpeechLength(textToRead) * 1/TextToSpeechHandler.voiceRate));
+        StartCoroutine(HighlightCoroutine(Speaker.Instance.ApproximateSpeechLength(textToRead) * 1/TextToSpeechHandler.voiceRate));
 
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
