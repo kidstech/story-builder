@@ -38,17 +38,21 @@ public class NewWordHolder : MonoBehaviour
     }
 
     public void setUpForms() {
+        float offset = 40;
          for (int i = 0; i < word2.forms.Count; i++)
         {
-            Debug.Log("Hello");
-            if(word2.forms.Count != 1) {
             GameObject button = Instantiate(newFormButton);
-            float offset = 1;
-            button.GetComponent<RectTransform>().localPosition = new Vector2(baseWordT.position.x, baseWordT.position.y - offset);
+            button.transform.SetParent(baseWordT, false); 
             button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
-            button.transform.SetParent(this.transform, false);
-            buttons.Add(button);
+            button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
+
+            offset += 40;
+            // float offset = 1;
+            // button.GetComponent<RectTransform>().localPosition = new Vector2(baseWordT.position.x, baseWordT.position.y - offset);
+            // button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
+            // button.transform.SetParent(this.transform, false);
+            // buttons.Add(button);
             }
         }
     }
-}
+
