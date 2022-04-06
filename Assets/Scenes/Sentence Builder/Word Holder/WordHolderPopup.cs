@@ -14,10 +14,16 @@ public class WordHolderPopup : MonoBehaviour
     private Word word;
 
     public List<GameObject> buttons = new List<GameObject>();
+    
+    [SerializeField]
+    private Button closeForms;
+    [SerializeField]
+    private GameObject newFormsPopUp;
 
     void Start()
     {
         WordHolderDrop = GameObject.Find("WordHolderDrop");
+        closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
     }
     public void SetupWordHolderPopup(Word word)
     {
