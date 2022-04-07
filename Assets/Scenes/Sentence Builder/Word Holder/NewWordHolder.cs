@@ -23,7 +23,7 @@ public class NewWordHolder : MonoBehaviour
     [SerializeField]
     private Transform baseWordT;
 
-    public List<GameObject> buttons = new List<GameObject>();
+    private List<GameObject> buttons = new List<GameObject>();
 
     public static Word word2;
     void Start()
@@ -37,16 +37,22 @@ public class NewWordHolder : MonoBehaviour
         baseWord.text = word2.baseWord;
     }
 
+    void OnDisable() {
+        foreach(GameObject go in buttons) {
+            Destroy(go);
+        }
+    }
+
     public void setUpForms() {
         float offset = 40;
          for (int i = 0; i < word2.forms.Count; i++)
         {
             GameObject button = Instantiate(newFormButton);
-            button.transform.SetParent(baseWordT, false); 
+            button.transform.SetParent(newFormsPopUp.GetComponentInChildren<Canvas>().transform, false); 
             button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
             button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
-
             offset += 40;
+            buttons.Add(button);
             // float offset = 1;
             // button.GetComponent<RectTransform>().localPosition = new Vector2(baseWordT.position.x, baseWordT.position.y - offset);
             // button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
