@@ -23,12 +23,19 @@ public class NewWordHolder : MonoBehaviour
     [SerializeField]
     private Transform baseWordT;
 
+    [SerializeField]
+    private GameObject baseWordGO;
+
+    [SerializeField] 
+    private GameObject wordHolderDrop; 
+
     private List<GameObject> buttons = new List<GameObject>();
 
     public static Word word2;
     void Start()
     {
         closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
+         baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
         instance = this;
     }
 
@@ -45,20 +52,33 @@ public class NewWordHolder : MonoBehaviour
 
     public void setUpForms() {
         float offset = 40;
-         for (int i = 0; i < word2.forms.Count; i++)
+         for (int i = 1; i < word2.forms.Count; i++)
         {
-            GameObject button = Instantiate(newFormButton);
-            button.transform.SetParent(newFormsPopUp.GetComponentInChildren<Canvas>().transform, false); 
-            button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
-            button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
-            offset += 40;
-            buttons.Add(button);
+                GameObject button = Instantiate(newFormButton);
+                button.transform.SetParent(newFormsPopUp.GetComponentInChildren<Canvas>().transform, false); 
+                button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
+                string wordFormText = word2.forms[i];
+                Debug.Log(i);
+                button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
+                button.GetComponent<Button>().onClick.AddListener(() => TaskOnClick(word2, wordFormText));
+                offset += 40;
+                buttons.Add(button);
             // float offset = 1;
             // button.GetComponent<RectTransform>().localPosition = new Vector2(baseWordT.position.x, baseWordT.position.y - offset);
             // button.GetComponentInChildren<TMP_Text>().text = word2.forms[i];
             // button.transform.SetParent(this.transform, false);
             // buttons.Add(button);
             }
+        }
+
+        void TaskOnClick(Word word2, string i) {
+            //Debug.Log("You have been clicked");
+            Debug.Log(i);
+            wordHolderDrop.GetComponentInChildren<Text>().text = i;
+        }
+
+        void TaskOnClick2() {
+             wordHolderDrop.GetComponentInChildren<Text>().text = baseWord.text;
         }
     }
 
