@@ -75,10 +75,12 @@ public class NewWordHolder : MonoBehaviour
             //Debug.Log("You have been clicked");
             Debug.Log(i);
             wordHolderDrop.GetComponentInChildren<Text>().text = i;
+            wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = i;
         }
 
         void TaskOnClick2() {
              wordHolderDrop.GetComponentInChildren<Text>().text = baseWord.text;
+             wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = baseWord.text;
         }
     }
 
