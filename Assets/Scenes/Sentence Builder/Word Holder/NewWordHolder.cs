@@ -18,7 +18,6 @@ public class NewWordHolder : MonoBehaviour
 
     [SerializeField]
      private GameObject newFormButton;
-    // Start is called before the first frame update
 
     [SerializeField]
     private Transform baseWordT;
@@ -32,6 +31,8 @@ public class NewWordHolder : MonoBehaviour
     private List<GameObject> buttons = new List<GameObject>();
 
     public static Word word2;
+
+    // Start is called before the first frame update
     void Start()
     {
         closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
