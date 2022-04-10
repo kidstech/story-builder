@@ -1906,7 +1906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00026}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00012}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -3355,7 +3355,7 @@ GameObject:
   - component: {fileID: 609052965}
   - component: {fileID: 609052967}
   - component: {fileID: 609052966}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4092,7 +4092,7 @@ GameObject:
   - component: {fileID: 786042618}
   - component: {fileID: 786042620}
   - component: {fileID: 786042619}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4248,7 +4248,7 @@ GameObject:
   - component: {fileID: 838959883}
   - component: {fileID: 838959880}
   - component: {fileID: 838959882}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankSortingAlphabet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4739,7 +4739,7 @@ GameObject:
   - component: {fileID: 960626490}
   - component: {fileID: 960626489}
   - component: {fileID: 960626488}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankScrollviewNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7088,6 +7088,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 26003515047326672, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3210380516625576972, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689419039299384539, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
         type: 3}
       propertyPath: m_RootOrder
@@ -7158,10 +7173,25 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6178612903955815686, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300234188869882796, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7387002060171799739, guid: e35375678d445d548a58e0fb3572c1c0,
         type: 3}
       propertyPath: m_Name
       value: NewWordHolderPopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387002060171799739, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7387002060171799739, guid: e35375678d445d548a58e0fb3572c1c0,
         type: 3}
@@ -7252,6 +7282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 8.605408
+      objectReference: {fileID: 0}
+    - target: {fileID: 8766358314689055379, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e35375678d445d548a58e0fb3572c1c0, type: 3}
@@ -7495,7 +7530,7 @@ GameObject:
   - component: {fileID: 1428679922}
   - component: {fileID: 1428679921}
   - component: {fileID: 1428679920}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7954,7 +7989,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1479658061}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sliding Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8948,7 +8983,7 @@ GameObject:
   - component: {fileID: 1645252451}
   - component: {fileID: 1645252454}
   - component: {fileID: 1645252455}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankSortingToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9715,7 +9750,7 @@ GameObject:
   - component: {fileID: 1697865872}
   - component: {fileID: 1697865871}
   - component: {fileID: 1697865874}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10924,7 +10959,7 @@ GameObject:
   - component: {fileID: 1900388514}
   - component: {fileID: 1900388515}
   - component: {fileID: 1900388513}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankContentNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11837,7 +11872,7 @@ GameObject:
   - component: {fileID: 2054149462}
   - component: {fileID: 2054149461}
   - component: {fileID: 2054149464}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankSortingPacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
