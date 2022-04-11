@@ -14,6 +14,9 @@ public class NewWordHolder : MonoBehaviour
     private GameObject newFormsPopUp;
 
     [SerializeField]
+    private RectTransform popUpBackground;
+
+    [SerializeField]
     private TMP_Text baseWord; 
 
     [SerializeField]
@@ -70,7 +73,13 @@ public class NewWordHolder : MonoBehaviour
             // button.transform.SetParent(this.transform, false);
             // buttons.Add(button);
             }
+
+            float popUpWidth = popUpBackground.sizeDelta.x;
+            float popUpHeight = 10 + (word2.forms.Count * 22);
+            popUpBackground.sizeDelta = new Vector2(popUpWidth, popUpHeight);
         }
+
+
 
         void TaskOnClick(Word word2, string i) {
             //Debug.Log("You have been clicked");
