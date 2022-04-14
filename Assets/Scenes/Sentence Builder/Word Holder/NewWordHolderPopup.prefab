@@ -132,7 +132,6 @@ GameObject:
   - component: {fileID: 7855274499609504506}
   - component: {fileID: 8821390988903261607}
   - component: {fileID: 3445160401277807448}
-  - component: {fileID: 3348457747325265978}
   m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
@@ -157,8 +156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 115.40001, y: -94.371704}
-  m_SizeDelta: {x: 50, y: 142.05658}
+  m_AnchoredPosition: {x: 120.287796, y: -66.59802}
+  m_SizeDelta: {x: 59.7756, y: 169.8303}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8821390988903261607
 CanvasRenderer:
@@ -188,8 +187,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: d7839a2f7a947524a89c0001f80eff8f, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -197,33 +196,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!61 &3348457747325265978
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3689419039299384539}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.36636734}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 1
-  serializedVersion: 2
-  m_Size: {x: 50.31787, y: 142.18835}
-  m_EdgeRadius: 0
+  m_PixelsPerUnitMultiplier: 6.4
 --- !u!1 &6178612903955815686
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4453322926571518430
 Transform:
   m_ObjectHideFlags: 0
@@ -411,6 +384,7 @@ MonoBehaviour:
   baseWordT: {fileID: 8020127765842824983}
   baseWordGO: {fileID: 3210380516625576972}
   wordHolderDrop: {fileID: 0}
+  defaultHeightWidth: {x: 59.7756, y: 169.8303}
 --- !u!1 &8766358314689055379
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,12 +532,12 @@ PrefabInstance:
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 41.6298
+      value: 49.0229
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 21.4943
+      value: 25.3115
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
@@ -588,27 +562,27 @@ PrefabInstance:
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 115.4
+      value: 120.29001
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 107.3
+      value: 131.5
       objectReference: {fileID: 0}
     - target: {fileID: 2280058525942738606, guid: 63c7e22329e17a24f900e9465a368b11,
         type: 3}
@@ -677,6 +651,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TintScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 49216984468572079, guid: b637e4dc7c3e5434eb1c219a5974d3e9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5173062281137550761, guid: b637e4dc7c3e5434eb1c219a5974d3e9,
         type: 3}

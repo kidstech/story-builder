@@ -30,6 +30,8 @@ public class NewWordHolder : MonoBehaviour
 
     [SerializeField] 
     private GameObject wordHolderDrop; 
+    [SerializeField]
+    private Vector2 defaultHeightWidth;
 
     private List<GameObject> buttons = new List<GameObject>();
 
@@ -52,10 +54,13 @@ public class NewWordHolder : MonoBehaviour
         foreach(GameObject go in buttons) {
             Destroy(go);
         }
+        
+        popUpBackground.sizeDelta = defaultHeightWidth;
+
     }
 
     public void setUpForms() {
-        float offset = 40;
+        float offset = 50;
          for (int i = 1; i < word2.forms.Count; i++)
         {
                 GameObject button = Instantiate(newFormButton);
@@ -65,7 +70,7 @@ public class NewWordHolder : MonoBehaviour
                 Debug.Log(i);
                 button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
                 button.GetComponent<Button>().onClick.AddListener(() => TaskOnClick(word2, wordFormText));
-                offset += 40;
+                offset += 50;
                 buttons.Add(button);
             // float offset = 1;
             // button.GetComponent<RectTransform>().localPosition = new Vector2(baseWordT.position.x, baseWordT.position.y - offset);
@@ -74,9 +79,12 @@ public class NewWordHolder : MonoBehaviour
             // buttons.Add(button);
             }
 
-            float popUpWidth = popUpBackground.sizeDelta.x;
-            float popUpHeight = 10 + (word2.forms.Count * 22);
-            popUpBackground.sizeDelta = new Vector2(popUpWidth, popUpHeight);
+            if(word2.forms.Count > 5) {
+                float popUpWidth = popUpBackground.sizeDelta.x;
+                float popUpHeight = 10 + (word2.forms.Count * 28);
+                popUpBackground.sizeDelta = new Vector2(popUpWidth, popUpHeight);
+            }
+            
         }
 
 
