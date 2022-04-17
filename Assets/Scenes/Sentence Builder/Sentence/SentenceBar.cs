@@ -106,9 +106,11 @@ public class SentenceBar : MonoBehaviour
             }
             yield return new WaitForSeconds(animation_time);
             // we need the sentence bar length to match our changed number of game objects
-            ResizeSentence(-1);
+            //ResizeSentence(-1);
         }
         TransferTiles();
+         r.sizeDelta = originalSize;
+        //ResizeSentence(-length);
     }
 
     ///<summary>
