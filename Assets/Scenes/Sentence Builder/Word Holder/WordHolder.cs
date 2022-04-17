@@ -9,10 +9,16 @@ public class WordHolder : MonoBehaviour
     [SerializeField]
     private Transform SentenceBuilderCanvas;
 
+    [SerializeField]
+    private GameObject wordForms;
+
     public void OpenWordHolder(Word word)
     {
-        GameObject popup = Instantiate(WordHolderPopupPrefab);
-        popup.GetComponent<WordHolderPopup>().SetupWordHolderPopup(word);
-        popup.transform.SetParent(SentenceBuilderCanvas, false);
+        // GameObject popup = Instantiate(WordHolderPopupPrefab);
+        // popup.GetComponent<WordHolderPopup>().SetupWordHolderPopup(word);
+        NewWordHolder.word2 = word;
+        wordForms.GetComponent<NewWordHolder>().setUpForms();
+        // popup.transform.SetParent(SentenceBuilderCanvas, false);
+         wordForms.SetActive(true);
     }
 }

@@ -14,10 +14,16 @@ public class WordHolderPopup : MonoBehaviour
     private Word word;
 
     public List<GameObject> buttons = new List<GameObject>();
+    
+    [SerializeField]
+    private Button closeForms;
+    [SerializeField]
+    private GameObject newFormsPopUp;
 
     void Start()
     {
         WordHolderDrop = GameObject.Find("WordHolderDrop");
+        closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
     }
     public void SetupWordHolderPopup(Word word)
     {
@@ -34,6 +40,7 @@ public class WordHolderPopup : MonoBehaviour
         buttons.Add(midButton);
         for (int i = 0; i < word.forms.Count; i++)
         {
+            if(word.forms.Count != 1) {
             GameObject button = Instantiate(WordHolderPopupPrefabButton);
             float offset = i * 2 * Mathf.PI / word.forms.Count + Mathf.PI / 2;
             button.GetComponent<RectTransform>().localPosition = new Vector2(200 * Mathf.Cos(offset), 200 * Mathf.Sin(offset));
@@ -42,6 +49,7 @@ public class WordHolderPopup : MonoBehaviour
             buttons.Add(button);
         }
         this.word = word;
+        }
     }
 
     public void SelectNewWord(int index)

@@ -495,7 +495,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &47135233
 GameObject:
@@ -816,7 +815,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &138288538
 Canvas:
   m_ObjectHideFlags: 0
@@ -1907,7 +1906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00081}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00002}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -1961,7 +1960,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &406503547
 GameObject:
@@ -2720,7 +2718,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &500401014
 MonoBehaviour:
@@ -2979,7 +2976,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &531332699
 GameObject:
@@ -3353,7 +3349,7 @@ GameObject:
   - component: {fileID: 609052965}
   - component: {fileID: 609052967}
   - component: {fileID: 609052966}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3849,7 +3845,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &690792490
 MonoBehaviour:
@@ -4091,7 +4086,7 @@ GameObject:
   - component: {fileID: 786042618}
   - component: {fileID: 786042620}
   - component: {fileID: 786042619}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4247,7 +4242,7 @@ GameObject:
   - component: {fileID: 838959883}
   - component: {fileID: 838959880}
   - component: {fileID: 838959882}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankSortingAlphabet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4700,7 +4695,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 455542564}
 --- !u!114 &934462498
 MonoBehaviour:
@@ -4739,7 +4733,7 @@ GameObject:
   - component: {fileID: 960626490}
   - component: {fileID: 960626489}
   - component: {fileID: 960626488}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankScrollviewNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5390,7 +5384,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1100041177
 MonoBehaviour:
@@ -6080,7 +6073,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1122934823
 Canvas:
   m_ObjectHideFlags: 0
@@ -6498,7 +6491,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 455542564}
 --- !u!1 &1218507556
 GameObject:
@@ -6583,7 +6575,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9698985
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6909,7 +6901,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1354707513
 MonoBehaviour:
@@ -7084,6 +7075,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372341102}
   m_CullTransparentMesh: 0
+--- !u!1001 &1377594291
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1377594294, guid: e35375678d445d548a58e0fb3572c1c0, type: 3}
+      propertyPath: wordHolderDrop
+      value: 
+      objectReference: {fileID: 7598417968809258705}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 45.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.3945923
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4453322926571518430, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4583794292457192493, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1630840809}
+    - target: {fileID: 7387002060171799739, guid: e35375678d445d548a58e0fb3572c1c0,
+        type: 3}
+      propertyPath: m_Name
+      value: NewWordHolderPopup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e35375678d445d548a58e0fb3572c1c0, type: 3}
+--- !u!1 &1377594292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7387002060171799739, guid: e35375678d445d548a58e0fb3572c1c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1377594291}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1407614019
 GameObject:
   m_ObjectHideFlags: 0
@@ -7268,7 +7343,7 @@ GameObject:
   - component: {fileID: 1428679922}
   - component: {fileID: 1428679921}
   - component: {fileID: 1428679920}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7727,7 +7802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1479658061}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Sliding Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7885,7 +7960,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1494685789
 MonoBehaviour:
@@ -8003,7 +8077,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1566122288
 MonoBehaviour:
@@ -8723,7 +8796,7 @@ GameObject:
   - component: {fileID: 1645252451}
   - component: {fileID: 1645252454}
   - component: {fileID: 1645252455}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankSortingToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9376,7 +9449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &1696695519
 GameObject:
@@ -9491,7 +9563,7 @@ GameObject:
   - component: {fileID: 1697865872}
   - component: {fileID: 1697865871}
   - component: {fileID: 1697865874}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10700,7 +10772,7 @@ GameObject:
   - component: {fileID: 1900388514}
   - component: {fileID: 1900388515}
   - component: {fileID: 1900388513}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankContentNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10804,7 +10876,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &1927914321
 GameObject:
@@ -11068,7 +11139,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1458278303}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!114 &1962836668
 MonoBehaviour:
@@ -11505,7 +11575,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 138376906}
-  speakingSentence: 0
   sentenceScrollbar: {fileID: 0}
 --- !u!1 &2023912233
 GameObject:
@@ -11616,7 +11685,7 @@ GameObject:
   - component: {fileID: 2054149462}
   - component: {fileID: 2054149461}
   - component: {fileID: 2054149464}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: WordBankSortingPacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12190,6 +12259,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7598417966969124098, guid: 35ae01cc62795f349aaec6010f24a81c,
         type: 3}
+      propertyPath: wordForms
+      value: 
+      objectReference: {fileID: 1377594292}
+    - target: {fileID: 7598417966969124098, guid: 35ae01cc62795f349aaec6010f24a81c,
+        type: 3}
       propertyPath: SentenceBuilderCanvas
       value: 
       objectReference: {fileID: 138288539}
@@ -12310,3 +12384,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ae01cc62795f349aaec6010f24a81c, type: 3}
+--- !u!1 &7598417968809258705 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7598417966969124126, guid: 35ae01cc62795f349aaec6010f24a81c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7598417968809258704}
+  m_PrefabAsset: {fileID: 0}
