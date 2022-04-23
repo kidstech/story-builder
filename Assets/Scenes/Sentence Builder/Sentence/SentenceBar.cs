@@ -16,6 +16,9 @@ public class SentenceBar : MonoBehaviour
     // game object that contains the word tiles of the most recently submitted sentence
     public GameObject sentenceInTiles;
 
+    [SerializeField]
+    private Vector2 maxSize;
+
     private void Start()
     {
         //
@@ -23,6 +26,7 @@ public class SentenceBar : MonoBehaviour
 
         //
         originalSize = r.sizeDelta;
+        maxSize = new Vector2(1300, originalSize.y);
     }
 
     //
@@ -55,7 +59,7 @@ public class SentenceBar : MonoBehaviour
 
         futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
 
-        if (futureWidth > originalSize.x)
+        if (futureWidth > originalSize.x )
         {
             //
             r.sizeDelta = new Vector2(futureWidth, originalSize.y);

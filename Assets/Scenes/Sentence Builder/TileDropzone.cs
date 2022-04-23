@@ -48,7 +48,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             //
             if(d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
-                //
                 GetComponent<SentenceBar>().ResizeSentence(1);
             }
             if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
@@ -148,10 +147,20 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.Sentence:
-                //Debug.Log("You have placed a tile in the sentence zone.");              
+                //Debug.Log("You have placed a tile in the sentence zone.");  
 
-                    //
-                    d.parentToReturnTo = this.transform;
+                    if (d.draggedFrom == Behavior.Sentence)
+                        {
+                        GetComponent<SentenceBar>().ResizeSentence(-1);
+                     }            
+
+                     if(GetComponent<SentenceBar>().GatherWordTiles().Count != 10) {
+                         Debug.Log(GetComponent<SentenceBar>().GatherWordTiles().Count);
+                        d.parentToReturnTo = this.transform;
+                     }
+                     else {
+                         GetComponent<SentenceBar>().ResizeSentence(-1);
+                     }
 
                     break;
 
