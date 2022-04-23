@@ -11,7 +11,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public Word word;
     public string textToDisplay;
     public string contextPackId;
-    private Color originalColor;
+    public Color originalColor;
     private bool highlighted = false;
     public TextToSpeechHandler TTS;
     private Image image = null;

@@ -58,11 +58,11 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         //
         if(draggedFrom == TileDropzone.Behavior.WordBank)
         {
-            //
             GameObject o = Instantiate(this.gameObject);
 
             //
             o.GetComponent<WordTile>().word = this.gameObject.GetComponent<WordTile>().word;
+            o.GetComponent<Image>().color = this.gameObject.GetComponent<WordTile>().originalColor;
 
             //
             o.transform.SetParent(this.transform.parent, false);
