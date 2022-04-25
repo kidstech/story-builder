@@ -1906,7 +1906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 308.39908}
+  m_AnchoredPosition: {x: -142.99988, y: 252}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -2418,6 +2418,7 @@ GameObject:
   - component: {fileID: 461907524}
   - component: {fileID: 461907523}
   - component: {fileID: 461907525}
+  - component: {fileID: 461907526}
   m_Layer: 5
   m_Name: MostRecentSavedSentence
   m_TagString: Untagged
@@ -2497,6 +2498,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savedSentence: []
   sentence: {fileID: 934462491}
+  TTS: {fileID: 0}
+--- !u!114 &461907526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461907521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41175d977c86004ea456bfc404791a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audio: {fileID: 138376906}
+  sentenceScrollbar: {fileID: 455542564}
 --- !u!1 &470935014
 GameObject:
   m_ObjectHideFlags: 0
@@ -6576,7 +6592,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.50793666
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     public static GameObject draggedObject;
     int startSibIndex;
@@ -12,6 +12,26 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private bool dragging;
     public GameObject sentence;
     private bool drop = false;  
+     public TextToSpeechHandler TTS;
+
+public void OnPointerClick(PointerEventData eventData)
+    { 
+        if(savedSentence.Count != 0) {
+            savedSentence.Clear();
+        }
+        // Speak the text on the tile using the correct voice
+        Debug.Log(savedSentence.ToString());
+        //savedSentence.Add(child.GetComponent<WordTile>());
+        TTS = GetComponentInParent<TextToSpeechHandler>();
+        //savedSentence.Clear();
+        Transform sentenceInTiles = this.transform.GetChild(0);
+        foreach(Transform child in sentenceInTiles) 
+                {
+                savedSentence.Add(child.GetComponent<WordTile>());
+            }
+        TTS.startSpeakingSentence(this.savedSentence, false);
+        savedSentence.Clear();
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -20,8 +40,8 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
         startSibIndex = this.transform.GetSiblingIndex();
         this.transform.SetAsLastSibling();
         this.transform.GetComponent<Image>().raycastTarget = false; // stop the object from blocking raycasts
+        Debug.Log("Hello");
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 mousePos = Input.mousePosition;

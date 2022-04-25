@@ -127,6 +127,7 @@ public class TextToSpeechHandler : MonoBehaviour
 
         //
         Speaker.Instance.Speak(sentence, audio, Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
+        speakingSentence = false;
         
     }
 
