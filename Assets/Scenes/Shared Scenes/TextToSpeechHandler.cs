@@ -161,21 +161,6 @@ public class TextToSpeechHandler : MonoBehaviour
 
         speakingSentence = true;
 
-        // 6 tiles fit in the sentence bar, so if we have more than that, we need to consider moving the scrollbar alongside the highlighting/TTS
-        if (wordTiles.Count > 6)
-        {
-            // making sure the first tile is in view when TTS begins speaking
-            // seems to be working, but gives the slider a weird initial value. Not sure why that is
-            sentenceScrollbar.value = 0;
-
-            // formula to calculate the value change needed to move the scrollbar one tile over is: (n) / (n)^2
-            // where n = numTiles - 6 and comes from our knowledge that only 6 tiles will fit in the viewport at a time, 
-            // so we only care about moving the scrollbar after things start getting out of view
-            float n = wordTiles.Count - 6; // move scrollbar before reaching final word in viewport for context
-
-            scrollbarValueIncrement = n / (n * n);
-        }
-
         int loopCounter = 0;
         int incrementCounter = 0;
 
@@ -190,13 +175,6 @@ public class TextToSpeechHandler : MonoBehaviour
             // approx how long it takes TTS to speak the word
             float timeToSpeak = Speaker.Instance.ApproximateSpeechLength(tileText) / (voiceRate);
             int numberTilesReadBeforeScrolling = 4; // change this if you want begin scrolling earlier or later. (so if this were 6, the max number of tiles in view, scrolling wouldn't begin until TTS reached the last tile in the sentence bar)
-
-            if (loopCounter > numberTilesReadBeforeScrolling)
-            {
-                // move the scrollbar one tile over so they stay in view
-                sentenceScrollbar.value += scrollbarValueIncrement;
-                incrementCounter++;
-            }
             // uncomment the line below to use animatePipes
             //StartCoroutine(animatePipes(timeToSpeak));
             StartCoroutine(wordTile.HighlightCoroutine(timeToSpeak));
