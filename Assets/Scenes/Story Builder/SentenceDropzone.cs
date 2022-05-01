@@ -9,8 +9,7 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
     {
         Default,
         SentenceBank,
-        Page,
-        Trash,
+        Page
     }
     public Behavior behavior = Behavior.Default;
 
@@ -65,11 +64,6 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
                     //Debug.Log("sentencebank");
                     Destroy(droppedSentence);
                     Destroy(d.placeholder);
-                    break;
-
-                case Behavior.Trash:
-                    //Debug.Log("trash");
-                    Destroy(eventData.pointerDrag);
                     break;
 
                 case Behavior.Page:

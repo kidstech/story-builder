@@ -30,9 +30,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
     private Image currentImage;
-
-    GameObject sentenceScrollBar;
-
     public Animator conveyorAnimator;
     public Animator pipesAnimator;
 
@@ -46,7 +43,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         defaultSize = this.transform.GetComponent<Image>().rectTransform.sizeDelta;
         highlightSize = new Vector2(defaultSize.x + 10, defaultSize.y + 10);
-        sentenceScrollBar = GameObject.FindGameObjectWithTag("SentenceBar");
     }
 
     /// <summary>
@@ -85,8 +81,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             // Pull the lever kronk!
             StartCoroutine(pullLever());
 
-            // reset the scrollbar when the submit sentence animation begins
-            sentenceScrollBar.GetComponent<Scrollbar>().value = 0;
             List<WordTile> tiles = sentence.GatherWordTiles();
             // If there are words in the sentence
             if (tiles.Count > 0)

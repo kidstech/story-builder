@@ -50,25 +50,26 @@ public class SentenceBar : MonoBehaviour
     public void ResizeSentence(int amountOfTileSpaceToAdd)
     {
 
-        // if the word tiles haven't taken up more space than can be displayed...
-        if (GatherWordTiles().Count * tileSize < originalSize.x)
-        {
-            // do nothing
-            return;
-        }
+        Debug.Log("Hello");
+        // // if the word tiles haven't taken up more space than can be displayed...
+        // if (GatherWordTiles().Count * tileSize < originalSize.x)
+        // {
+        //     // do nothing
+        //     return;
+        // }
 
-        futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
+        // futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
 
-        if (futureWidth > originalSize.x )
-        {
-            //
-            r.sizeDelta = new Vector2(futureWidth, originalSize.y);
-        }
-        else
-        {
-            //
-            r.sizeDelta = originalSize;
-        }
+        // if (futureWidth > originalSize.x )
+        // {
+        //     //
+        //     r.sizeDelta = new Vector2(futureWidth, originalSize.y);
+        // }
+        // else
+        // {
+        //     //
+        //     r.sizeDelta = originalSize;
+        // }
     }
     // combines animation and transfer of tiles because coroutines complicate the timing of function calls (can't have transfer occur during/before execution of animation)
     public IEnumerator AnimateAndTransferTiles()

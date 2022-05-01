@@ -155,7 +155,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         GetComponent<SentenceBar>().ResizeSentence(-1);
                      }            
 
-                     if(GetComponent<SentenceBar>().GatherWordTiles().Count != 10) {
+                     if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9) {
                          Debug.Log(GetComponent<SentenceBar>().GatherWordTiles().Count);
                         d.parentToReturnTo = this.transform;
                      }
