@@ -15,6 +15,7 @@ public class SentenceBar : MonoBehaviour
     float futureWidth = 0;
     // game object that contains the word tiles of the most recently submitted sentence
     public GameObject sentenceInTiles;
+    public GameObject sentence;
 
     [SerializeField]
     private Vector2 maxSize;
@@ -44,6 +45,14 @@ public class SentenceBar : MonoBehaviour
 
         //
         return results;
+    }
+
+    public void clearTiles() {
+        foreach(Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+
+        }
     }
 
     //

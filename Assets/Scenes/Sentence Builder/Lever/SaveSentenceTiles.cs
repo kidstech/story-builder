@@ -40,7 +40,7 @@ public void OnPointerClick(PointerEventData eventData)
         startSibIndex = this.transform.GetSiblingIndex();
         this.transform.SetAsLastSibling();
         this.transform.GetComponent<Image>().raycastTarget = false; // stop the object from blocking raycasts
-        Debug.Log("Hello");
+        //Debug.Log("Hello");
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -74,6 +74,7 @@ public void OnPointerClick(PointerEventData eventData)
     // Not sure if we want to be able to stuff the resubmitted sentence between words that have already been placed or not.
     public void resubmitSentence(List<WordTile> sentenceTiles)
     {
+        sentence.GetComponent<SentenceBar>().clearTiles();
         foreach(WordTile wordtile in sentenceTiles)
         {
             // copy the word tile object and make it a child of SentenceInTiles 
@@ -82,7 +83,7 @@ public void OnPointerClick(PointerEventData eventData)
             wordTileCopy.GetComponent<WordTile>().word.contextPackId = wordtile.word.contextPackId;
             // wordtile game objects are deactivated originally so we need to activate the copies after instantiation
             wordTileCopy.gameObject.SetActive(true);
-            sentence.GetComponent<SentenceBar>().ResizeSentence(1);
+            //sentence.GetComponent<SentenceBar>().ResizeSentence(1);
         }
     }
 

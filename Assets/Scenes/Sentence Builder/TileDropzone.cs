@@ -88,11 +88,13 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if (d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
                 //
+                Debug.Log("Iam not sentence");
                 GetComponent<SentenceBar>().ResizeSentence(-1);
             }
 
             if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
             {
+                Debug.Log("I am sentence");
                 GetComponent<SentenceBar>().ResizeSentence(-1);
             }
         }
@@ -148,18 +150,22 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.Sentence:
-                //Debug.Log("You have placed a tile in the sentence zone.");  
+                Debug.Log("You have placed a tile in the sentence zone.");  
 
-                    if (d.draggedFrom == Behavior.Sentence)
+                    if (d.draggedFrom == Behavior.Sentence && GetComponent<SentenceBar>().GatherWordTiles().Count != 9)
                         {
+                            Debug.Log("Hello there");
+
                         GetComponent<SentenceBar>().ResizeSentence(-1);
                      }            
 
                      if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9) {
+                         Debug.Log("You are a bold one");
                          Debug.Log(GetComponent<SentenceBar>().GatherWordTiles().Count);
                         d.parentToReturnTo = this.transform;
                      }
-                     else {
+                     else if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9){
+                         Debug.Log("General Kenobi");
                          GetComponent<SentenceBar>().ResizeSentence(-1);
                      }
 
