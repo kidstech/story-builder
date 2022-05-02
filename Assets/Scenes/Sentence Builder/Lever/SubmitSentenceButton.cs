@@ -81,6 +81,9 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             // Pull the lever kronk!
             StartCoroutine(pullLever());
 
+            // set position to right so that the previous built sentence is hidden
+            completedSentences.position += new Vector3(870f, 0f, 0f); // sentence game object
+
             List<WordTile> tiles = sentence.GatherWordTiles();
             // If there are words in the sentence
             if (tiles.Count > 0)
