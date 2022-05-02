@@ -1,4 +1,4 @@
-﻿/// <summary>
+/// <summary>
 /// Each time a sentence is completed by submitting with the green checkmark button a new completed sentence scroll view is created.
 /// 
 /// <author> antin006@morris.umn.edu </author>
@@ -145,7 +145,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         // set position to right so animation actually moves from somewhere
         completedSentences.position += new Vector3(800f, 0f, 0f); // sentence game object
         LeanTween.moveLocalX(completedSentences.gameObject, -95f, tts.getApproxSpeechTime(wordTiles));
-        //yield return new WaitForSeconds(approxSpeechTime);
+        yield return new WaitForSeconds(approxSpeechTime/2);
         tts.startSpeakingSentence(wordTiles, false);
     }
 
@@ -159,7 +159,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public IEnumerator animatePipes(float duration)
     {
         pipesAnimator.SetBool("ProcessingTile", true);
-        yield return new WaitForSeconds(duration + 1f);
+        yield return new WaitForSeconds(duration);
         pipesAnimator.SetBool("ProcessingTile", false);
     }
 
