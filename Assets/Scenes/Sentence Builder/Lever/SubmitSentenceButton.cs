@@ -1,4 +1,4 @@
-/// <summary>
+﻿/// <summary>
 /// Each time a sentence is completed by submitting with the green checkmark button a new completed sentence scroll view is created.
 /// 
 /// <author> antin006@morris.umn.edu </author>
@@ -138,10 +138,11 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         float approxSpeechTime;
         approxSpeechTime = tts.getApproxSpeechTime(wordTiles);
+        yield return new WaitForSeconds(approxSpeechTime);
         // set position to right so animation actually moves from somewhere
         completedSentences.position += new Vector3(800f, 0f, 0f); // sentence game object
         LeanTween.moveLocalX(completedSentences.gameObject, -95f, tts.getApproxSpeechTime(wordTiles));
-        yield return new WaitForSeconds(approxSpeechTime);
+        //yield return new WaitForSeconds(approxSpeechTime);
         tts.startSpeakingSentence(wordTiles, false);
     }
 
