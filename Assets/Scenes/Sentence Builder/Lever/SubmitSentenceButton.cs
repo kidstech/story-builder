@@ -1,4 +1,4 @@
-/// <summary>
+﻿/// <summary>
 /// Each time a sentence is completed by submitting with the green checkmark button a new completed sentence scroll view is created.
 /// 
 /// <author> antin006@morris.umn.edu </author>

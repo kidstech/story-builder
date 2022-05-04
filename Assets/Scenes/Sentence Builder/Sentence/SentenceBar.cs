@@ -17,6 +17,9 @@ public class SentenceBar : MonoBehaviour
     public GameObject sentenceInTiles;
     public GameObject sentence;
 
+    [SerializeField] 
+    public AudioSource errorNoise;
+
     [SerializeField]
     private Vector2 maxSize;
 
