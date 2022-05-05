@@ -5,35 +5,37 @@ using UnityEngine.UI;
 
 public class SaveStoryButton : MonoBehaviour
 {
-    [Header("Page Icon Containers")]
-    public PageContainer pageContainer;
     private Button button;
+    public GameObject saveStoryHandler;
+    public GameObject StoryNamePrompt;
+    public GameObject StorySubmissionStatus;
 
     private void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(SaveStory);
+        //button.onClick.AddListener(SaveStory);
     }
 
-    // no real story saving implemented just yet
-    private void SaveStory()
+    public void OpenStoryNameMenu()
     {
-        List<SavedSentence> toSave = pageContainer.GetAllSentencesInPages();
-
-        SaveStoryHandler.SaveStory(toSave);
-
-        // for(int i = 0; i < toSave.Count; i++)
-        // {
-        //     string blah = "";
-
-        //     for (int o = 0; o < toSave[i].wordTiles.Count; o++)
-        //     {
-                
-
-        //         blah += toSave[i].wordTiles[o].textToDisplay;
-        //     }
-
-        //     Debug.Log(blah);
-        // }
+        StoryNamePrompt.SetActive(true);
     }
+    public void CloseStoryNameMenu()
+    {
+        string storyName = StoryNamePrompt.GetComponentInChildren<Text>().text;
+        StoryNamePrompt.SetActive(false);
+        saveStoryHandler.GetComponent<SaveStoryHandler>().PutStoryInDatabase(storyName);
+        // if story submitted successfully... (should check this eventually)
+        DisplaySubmissionStatus();
+    }
+    private void DisplaySubmissionStatus()
+    {
+        // might be nice to have the success message contain the name of the submitted story
+        StorySubmissionStatus.SetActive(true);
+    }
+    public void CloseSubmissionStatus()
+    {
+        StorySubmissionStatus.SetActive(false);
+    }
+
 }

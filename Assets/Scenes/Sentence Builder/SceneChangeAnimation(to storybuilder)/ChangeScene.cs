@@ -10,7 +10,7 @@ public class ChangeScene : MonoBehaviour
     public Transform sentenceBuilderCanvas;
     public Transform storyBuilderCanvas;
     public GameObject mainCamera;
-    public GameObject openMenuButton;
+    //public GameObject openMenuButton;
     public GameObject updateWordBankButton;
     public GameObject sentenceBank;
     public GameObject currentLearnerInfo; // name and profile image of current learner
@@ -44,10 +44,10 @@ public class ChangeScene : MonoBehaviour
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
 
             // move the options menu button/overlay over to storybuilder canvas
-            openMenuButton.transform.SetParent(storyBuilderCanvas);
-            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
-            openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0, -721, 0);
-            openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(475,-375,0);
+            // openMenuButton.transform.SetParent(storyBuilderCanvas);
+            // openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
+             currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0, -721, 0);
+             currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(475,-375,0);
             // don't need to update word bank in storybuilder scene
             updateWordBankButton.SetActive(false);
 
@@ -67,11 +67,11 @@ public class ChangeScene : MonoBehaviour
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
 
             // move options menu stuff back
-            openMenuButton.transform.SetParent(sentenceBuilderCanvas);
-            openMenuButton.transform.SetSiblingIndex(0); // needs to be higher up in hierarchy so it doesn't go over top of the actual options menu popup
-            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450f,335f,0f);
-            openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
-            openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
+            // openMenuButton.transform.SetParent(sentenceBuilderCanvas);
+            // openMenuButton.transform.SetSiblingIndex(0); // needs to be higher up in hierarchy so it doesn't go over top of the actual options menu popup
+            // openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450f,335f,0f);
+               currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
+               currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
             // enable word bank updating for sentencebuilder scene
             updateWordBankButton.SetActive(true);
 
