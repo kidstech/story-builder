@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Crosstales.RTVoice;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -12,23 +13,38 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private bool dragging;
     public GameObject sentence;
     private bool drop = false;  
-     public TextToSpeechHandler TTS;
+    public TextToSpeechHandler TTS;
 
+     [SerializeField]
+     private GameObject sentenceInTiles; 
+      private string sentenceText;
+      private Image image = null;
+      private Color originalColor;
+
+private void Start() {
+     image = GetComponent<Image>();
+     originalColor = image.color;
+}
 public void OnPointerClick(PointerEventData eventData)
     { 
         if(savedSentence.Count != 0) {
             savedSentence.Clear();
         }
-        // Speak the text on the tile using the correct voice
-        Debug.Log(savedSentence.ToString());
-        //savedSentence.Add(child.GetComponent<WordTile>());
+
+        image.color = originalColor;
         TTS = GetComponentInParent<TextToSpeechHandler>();
-        //savedSentence.Clear();
-        Transform sentenceInTiles = this.transform.GetChild(0);
-        foreach(Transform child in sentenceInTiles) 
-                {
-                savedSentence.Add(child.GetComponent<WordTile>());
+        string sentenceText = sentenceInTiles.GetComponent<Text>().text;
+        StartCoroutine(HighlightCoroutine(Speaker.Instance.ApproximateSpeechLength(sentenceText)));
+
+        foreach(Transform child in sentenceInTiles.transform) 
+            {
+                WordTile word = child.gameObject.GetComponent<WordTile>();
+                savedSentence.Add(word);
+                LearnerDataHandler.UpdateWordCount(word.textToDisplay);
+                LearnerDataHandler.StoreLearnerData();
+                StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
             }
+
         TTS.startSpeakingSentence(this.savedSentence, false);
         savedSentence.Clear();
     }
@@ -40,7 +56,6 @@ public void OnPointerClick(PointerEventData eventData)
         startSibIndex = this.transform.GetSiblingIndex();
         this.transform.SetAsLastSibling();
         this.transform.GetComponent<Image>().raycastTarget = false; // stop the object from blocking raycasts
-        //Debug.Log("Hello");
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -87,5 +102,13 @@ public void OnPointerClick(PointerEventData eventData)
         }
     }
 
+     public IEnumerator HighlightCoroutine(float seconds)
+    {
+        Image image = GetComponent<Image>();
+        Color previous = image.color;
+        image.color = Color.yellow;
+        yield return new WaitForSeconds(seconds);
+        image.color = originalColor;
+    }
 
 }
