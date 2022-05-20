@@ -82,10 +82,10 @@ public class TextToSpeechHandler : MonoBehaviour
         }
         voiceName = Speaker.Instance.Voices[0].Name; // default voice assigned here so compiler stops whining
 
-        if (ChangeScene.sceneState == ChangeScene.SceneType.SentenceBuilder)
-        {
-            sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
-        }
+        // if (ChangeScene.sceneState == ChangeScene.SceneType.SentenceBuilder)
+        // {
+        //     sentenceScrollbar = GameObject.Find("SentenceScrollbar").GetComponent<Scrollbar>();
+        // }
         // uncomment the line below to use animatePipes
         //submitSentenceButton = GameObject.Find("SubmitSentenceButton").GetComponent<SubmitSentenceButton>();
     }

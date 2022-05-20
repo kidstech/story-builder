@@ -17,6 +17,9 @@ public class SentenceBar : MonoBehaviour
     public GameObject sentenceInTiles;
     public GameObject sentence;
 
+    [SerializeField]
+    private GameObject touchBlock;
+
     [SerializeField] 
     public AudioSource errorNoise;
 
@@ -88,6 +91,8 @@ public class SentenceBar : MonoBehaviour
     {
         // animation time will be used to tell each part of the animation how long it gets to play.
         // we need this in order to keep our animations in sync with TTS.
+
+        touchBlock.SetActive(true);
         float animation_time = 0;
         int animation_segments = 3;
         int length = this.transform.childCount;

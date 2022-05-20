@@ -33,6 +33,9 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public Animator conveyorAnimator;
     public Animator pipesAnimator;
 
+    [SerializeField]
+    private GameObject touchBlock;
+
     /// <summary>
     /// Start this instance.
     /// </summary>
@@ -147,6 +150,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         LeanTween.moveLocalX(completedSentences.gameObject, -95f, tts.getApproxSpeechTime(wordTiles));
         yield return new WaitForSeconds(approxSpeechTime/2);
         tts.startSpeakingSentence(wordTiles, false);
+        touchBlock.SetActive(false);
     }
 
     public IEnumerator animateConveyorBelt(float duration)
