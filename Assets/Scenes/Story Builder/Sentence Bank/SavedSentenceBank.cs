@@ -22,8 +22,10 @@ public class SavedSentenceBank : MonoBehaviour
         GetComponent<RectTransform>().sizeDelta = new Vector2(sentencePrefabSize.x, sentencePrefabSize.y * sentences.Count);
 
         // create sentence game object for each sentence we have and populate its components
-        for (int i = 0; i < sentences.Count; i++)
+        Debug.Log(sentences.Count);
+        for (int i = sentences.Count-1; i >= 0; i--)
         {
+            Debug.Log("Hello there");
             GameObject newSentence = Instantiate(sentencePrefab);
 
             newSentence.GetComponent<SentenceObject>().savedSentence = sentences[i];
