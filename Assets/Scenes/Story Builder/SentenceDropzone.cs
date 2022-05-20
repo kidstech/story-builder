@@ -13,6 +13,13 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
     }
     public Behavior behavior = Behavior.Default;
 
+    private int sentenceNum = 0;
+    public Page page;
+
+    [SerializeField] 
+    public AudioSource errorNoise;
+
+    public int maxSentences = 8;
     public void OnPointerEnter(PointerEventData eventData)
     {
         if(eventData.pointerDrag == null)
@@ -68,7 +75,19 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
 
                 case Behavior.Page:
                     //Debug.Log("page");
-                    d.parentToReturnTo = this.transform;
+                    //page.sentenceNum ++;
+                    if (sentenceNum < maxSentences)
+                    {
+                        d.parentToReturnTo = this.transform;
+                        sentenceNum ++;
+                        Debug.Log("Current number of sentences: " + sentenceNum);
+                    }
+                   else {
+                        Destroy(droppedSentence);
+                        Destroy(d.placeholder);
+                        errorNoise.Play();
+                        Debug.Log("Play error noise");
+                    }
                     break;
 
                 default:
