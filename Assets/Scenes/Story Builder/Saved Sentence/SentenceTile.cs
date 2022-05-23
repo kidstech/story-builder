@@ -9,7 +9,7 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
 {
     //[HideInInspector]
     public string textToDisplay;
-    private Color originalColor;
+    public Color originalColor;
     private bool highlighted = false; 
     public TextToSpeechHandler TTS;
     public List<string> words;
@@ -60,26 +60,7 @@ public class SentenceTile : MonoBehaviour, IPointerClickHandler
         TTS.startSpeakingWordTile(textToRead);
     }
 
-    public void Highlight()
-    {
-        Image image = GetComponent<Image>();
-        highlighted = !highlighted;
 
-        if (highlighted)
-        {
-            originalColor = image.color;
-            image.color = Color.yellow;
-        }
-        else
-        {
-            image.color = originalColor;
-        }
-    }
-
-    public void Highlight(float seconds)
-    {
-        StartCoroutine(HighlightCoroutine(seconds));
-    }
 
     public IEnumerator HighlightCoroutine(float seconds)
     {

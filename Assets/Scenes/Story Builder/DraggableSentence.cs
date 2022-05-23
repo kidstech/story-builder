@@ -48,6 +48,7 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
             GameObject o = Instantiate(this.gameObject);
 
             o.GetComponent<SentenceObject>().savedSentence = this.gameObject.GetComponent<SentenceObject>().savedSentence;
+            o.GetComponent<Image>().color = this.gameObject.GetComponent<SentenceTile>().originalColor;
 
             o.transform.SetParent(this.transform.parent, false);
             o.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
