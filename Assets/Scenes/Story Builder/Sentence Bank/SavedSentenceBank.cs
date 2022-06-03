@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Crosstales.RTVoice;
 
 public class SavedSentenceBank : MonoBehaviour
 {
@@ -58,4 +59,41 @@ public class SavedSentenceBank : MonoBehaviour
 
         return compiledSentence;
     }
+
+    public void speakStory() {
+        StartCoroutine(ttsSpeakStory());
+        foreach(SavedSentence sentence in sentences) {
+            // iterate through all the words in a sentence
+            foreach(string selectedWord in sentence.selectedWordForms)
+            {
+                // update the word counts for each word
+                LearnerDataHandler.UpdateWordCount(selectedWord);
+            }
+        }
+        // store updated wordcounts locally
+        LearnerDataHandler.StoreLearnerData();
+        // update server with new word counts from speaking the page
+        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+    }
+
+     public IEnumerator ttsSpeakStory()
+    {
+        if (transform.childCount == 0) yield return null;
+
+        //
+        //string fullPage = "";
+        string textToRead = null;
+        float speechDuration = 0;
+            //
+            for (int o = 0; o < transform.childCount; o++)
+            {
+                // example:          PageContainer => PagePrefab => SentencePrefab
+                textToRead = transform.GetChild(o).GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
+                transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
+                yield return new WaitForSeconds(speechDuration);
+            }
+    }
+
+
 }

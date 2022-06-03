@@ -5,34 +5,17 @@ using UnityEngine.UI;
 
 public class SpeakPageButton : MonoBehaviour
 {
-    [Header("Page Icon Containers")]
-    public PageContainer pageContainer;
+    public SavedSentenceBank sentenceBank;
     private Button button;
 
     private void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(SpeakPage);
+        button.onClick.AddListener(SpeakStory);
     }
 
-    private void SpeakPage()
+    private void SpeakStory()
     {
-        StartCoroutine(pageContainer.SpeakPage());
-        // get all the sentences in the container
-        List<SavedSentence> savedSentences = pageContainer.GetAllSentencesInPages();
-        // iterate through the sentences in the container
-        foreach(SavedSentence sentence in savedSentences)
-        {
-            // iterate through all the words in a sentence
-            foreach(string selectedWord in sentence.selectedWordForms)
-            {
-                // update the word counts for each word
-                LearnerDataHandler.UpdateWordCount(selectedWord);
-            }
-        }
-        // store updated wordcounts locally
-        LearnerDataHandler.StoreLearnerData();
-        // update server with new word counts from speaking the page
-        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+        sentenceBank.speakStory();
     }
 }
