@@ -25,7 +25,6 @@ public class SavedSentenceBank : MonoBehaviour
         Debug.Log(sentences.Count);
         for (int i = sentences.Count-1; i >= 0; i--)
         {
-            Debug.Log("Hello there");
             GameObject newSentence = Instantiate(sentencePrefab);
 
             newSentence.GetComponent<SentenceObject>().savedSentence = sentences[i];

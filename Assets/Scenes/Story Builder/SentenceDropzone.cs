@@ -69,7 +69,7 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
             switch (behavior) {
                 case Behavior.SentenceBank:
                     //Debug.Log("sentencebank");
-                    Destroy(droppedSentence);
+                    //Destroy(droppedSentence);
                     Destroy(d.placeholder);
                     break;
 

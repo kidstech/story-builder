@@ -1951,6 +1951,7 @@ GameObject:
   - component: {fileID: 396208986}
   - component: {fileID: 396208987}
   - component: {fileID: 396208989}
+  - component: {fileID: 396208988}
   m_Layer: 5
   m_Name: SavedSentenceBank
   m_TagString: Untagged
@@ -1974,7 +1975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142.99988, y: 252.00002}
+  m_AnchoredPosition: {x: -142.99988, y: 252.00003}
   m_SizeDelta: {x: 280, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -2015,6 +2016,22 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &396208988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396208984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd53734b2f2c1a4e843dcc2236caa1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavior: 1
+  page: {fileID: 0}
+  errorNoise: {fileID: 0}
+  maxSentences: 8
 --- !u!114 &396208989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5036,7 +5053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6266,7 +6283,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999979
+  m_Size: 0.999925
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9617,7 +9634,6 @@ GameObject:
   - component: {fileID: 1778529703}
   - component: {fileID: 1778529702}
   - component: {fileID: 1778529701}
-  - component: {fileID: 1778529704}
   m_Layer: 5
   m_Name: SavedSentencesBankScrollview
   m_TagString: Untagged
@@ -9714,22 +9730,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778529699}
   m_CullTransparentMesh: 0
---- !u!114 &1778529704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1778529699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dd53734b2f2c1a4e843dcc2236caa1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  behavior: 1
-  page: {fileID: 0}
-  errorNoise: {fileID: 0}
-  maxSentences: 8
 --- !u!1 &1797039871
 GameObject:
   m_ObjectHideFlags: 0
