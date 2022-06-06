@@ -11,7 +11,7 @@ using ServerTypes;
 public class SaveStoryHandler : MonoBehaviour
 {
     // PageContainer game object that contains all the different pages a user has created for their story
-    public GameObject PageContainer;
+    public SavedSentenceBank sentenceBank;
     public static string path;
     //
 
@@ -95,8 +95,8 @@ public class SaveStoryHandler : MonoBehaviour
     // save story to mongo database
     public void PutStoryInDatabase(string storyName)
     {
-        List<StoryPage> storyPages = PageContainer.GetComponent<PageContainer>().GetPagesForStorySubmission();
-        Story story = new Story(storyPages); // story with no name or font
+        List<string> storySentences = sentenceBank.getSentencesInBank();
+        Story story = new Story(storySentences); // story with no name or font
         story.learnerId = LearnerLogin.staticLearner._id; // should make another constructor if these get made more often
         story.storyName = storyName;
         StartCoroutine(ServerRequestHandler.PostStory(story));

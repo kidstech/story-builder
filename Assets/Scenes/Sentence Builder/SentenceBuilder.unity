@@ -1689,7 +1689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0472cd64bf8d745a7216b4299ad3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PageContainer: {fileID: 526344197}
+  sentenceBank: {fileID: 396208986}
 --- !u!1 &346707162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1975,7 +1975,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252}
+  m_AnchoredPosition: {x: -400.50464, y: 252.00002}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -1992,6 +1992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sentencePrefab: {fileID: 3118777059502352368, guid: 237b72b7aeab0df4685c3a9a0d7f093b,
     type: 3}
+  sentences: []
 --- !u!114 &396208987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6290,7 +6291,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

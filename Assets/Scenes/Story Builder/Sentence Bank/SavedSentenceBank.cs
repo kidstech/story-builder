@@ -11,7 +11,7 @@ public class SavedSentenceBank : MonoBehaviour
 
     private Vector2 sentencePrefabSize;
     private string sentenceText;
-    private List<SavedSentence> sentences = new List<SavedSentence>();
+    public List<SavedSentence> sentences = new List<SavedSentence>();
 
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
@@ -93,6 +93,14 @@ public class SavedSentenceBank : MonoBehaviour
                 transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
                 yield return new WaitForSeconds(speechDuration);
             }
+    }
+
+    public List<string> getSentencesInBank() {
+        List<string> sentencesInBank = new List<string>();
+        foreach(Transform child in this.transform) {
+            sentencesInBank.Add(child.GetComponent<SentenceTile>().textToDisplay);
+        }
+        return sentencesInBank;
     }
 
 

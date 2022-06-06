@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 
 namespace ServerTypes
 {
@@ -10,11 +11,11 @@ namespace ServerTypes
         public string learnerId;
         public string storyName;
         public string font;
-        public List<StoryPage> pages;
+        public List<string> sentences;
 
-        public Story(List<StoryPage> storyPages)
+        public Story(List<string> storySentences)
         {
-            pages = storyPages;
+            sentences = storySentences;
         }
 
     }
