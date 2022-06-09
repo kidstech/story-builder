@@ -6,12 +6,14 @@ using UnityEngine;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using ServerTypes;
+using UnityEngine.UI;
 
 
 public class SaveStoryHandler : MonoBehaviour
 {
     // PageContainer game object that contains all the different pages a user has created for their story
     public SavedSentenceBank sentenceBank;
+    public GameObject storyNameInputField;
     public static string path;
     //
 
@@ -93,12 +95,17 @@ public class SaveStoryHandler : MonoBehaviour
 
 
     // save story to mongo database
-    public void PutStoryInDatabase(string storyName)
+    public void PutStoryInDatabase()
     {
         List<string> storySentences = sentenceBank.getSentencesInBank();
         Story story = new Story(storySentences); // story with no name or font
         story.learnerId = LearnerLogin.staticLearner._id; // should make another constructor if these get made more often
-        story.storyName = storyName;
+        if (storyNameInputField.GetComponent<Text>().text != "") {
+            story.storyName = storyNameInputField.GetComponent<Text>().text;
+        }
+        else {
+            story.storyName = storySentences[0];
+        }
         StartCoroutine(ServerRequestHandler.PostStory(story));
     }
 }
