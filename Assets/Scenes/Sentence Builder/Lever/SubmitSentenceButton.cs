@@ -27,11 +27,14 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     // Sentence at top of screen top pull sentence text from
     public SentenceBar sentence;
 
+    [SerializeField] public GameObject pipeWithWords;
+
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
     private Image currentImage;
     public Animator conveyorAnimator;
     public Animator pipesAnimator;
+    public Animator ejectAnimator;
 
     [SerializeField]
     private GameObject touchBlock;
@@ -151,6 +154,8 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         yield return new WaitForSeconds(approxSpeechTime/2);
         tts.startSpeakingSentence(wordTiles, false);
         touchBlock.SetActive(false);
+        //yield return new WaitForSecondsRealtime(1f);
+        pipeWithWords.SetActive(false);
     }
 
     public IEnumerator animateConveyorBelt(float duration)
@@ -163,8 +168,12 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public IEnumerator animatePipes(float duration)
     {
         pipesAnimator.SetBool("ProcessingTile", true);
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(1.25f);
+        pipeWithWords.SetActive(true);
+        yield return new WaitForSeconds(duration - 1.5f);
         pipesAnimator.SetBool("ProcessingTile", false);
+        // yield return new WaitForSecondsRealtime(1.4f);
+        // pipeWithWords.SetActive(false);
     }
 
 }
