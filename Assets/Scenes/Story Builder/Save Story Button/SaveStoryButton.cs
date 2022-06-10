@@ -22,6 +22,9 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private GameObject storyNameInputField;
     [SerializeField]
     private SavedSentenceBank sentenceBank;
+    [SerializeField]
+    private AudioSource successNoise;
+    
 
 
     public void Update() {
@@ -79,7 +82,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OpenStoryNameMenu()
     {
-        storyNameInputField.transform.FindChild("Placeholder").GetComponent<Text>().text = sentenceBank.getSentencesInBank()[0];
+        storyNameInputField.transform.Find("Placeholder").GetComponent<Text>().text = sentenceBank.getSentencesInBank()[0];
         StoryNamePrompt.SetActive(true);
     }
     public void CloseStoryNameMenu()
@@ -94,6 +97,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         // might be nice to have the success message contain the name of the submitted story
         StorySubmissionStatus.SetActive(true);
+        successNoise.Play();
     }
     public void CloseSubmissionStatus()
     {
