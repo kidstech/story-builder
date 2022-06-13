@@ -11,6 +11,16 @@ public class SavedSentenceBank : MonoBehaviour
 
     private Vector2 sentencePrefabSize;
     private string sentenceText;
+
+    [SerializeField]
+    private GameObject storyBuilderTouchBlock;
+
+    //Have this because the user could still click on the change scene button while the story was reading
+    [SerializeField]
+    private GameObject sentenceBuilderTouchBlock;
+
+    [SerializeField]
+    private ScrollRect scrollBar;
     public List<SavedSentence> sentences = new List<SavedSentence>();
 
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
@@ -61,6 +71,8 @@ public class SavedSentenceBank : MonoBehaviour
     }
 
     public void speakStory() {
+        storyBuilderTouchBlock.SetActive(true);
+        sentenceBuilderTouchBlock.SetActive(true);
         StartCoroutine(ttsSpeakStory());
         foreach(SavedSentence sentence in sentences) {
             // iterate through all the words in a sentence
@@ -78,6 +90,7 @@ public class SavedSentenceBank : MonoBehaviour
 
      public IEnumerator ttsSpeakStory()
     {
+        Canvas.ForceUpdateCanvases();
         if (transform.childCount == 0) yield return null;
 
         //
@@ -87,12 +100,19 @@ public class SavedSentenceBank : MonoBehaviour
             //
             for (int o = 0; o < transform.childCount; o++)
             {
+                Debug.Log("I am reading");
+                if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
+                    Debug.Log(scrollBar.verticalNormalizedPosition);
+                    scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - .1F;
+                }
                 // example:          PageContainer => PagePrefab => SentencePrefab
                 textToRead = transform.GetChild(o).GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
                 speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
                 transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
                 yield return new WaitForSeconds(speechDuration);
             }
+            storyBuilderTouchBlock.SetActive(false);
+            sentenceBuilderTouchBlock.SetActive(false);
     }
 
     public List<string> getSentencesInBank() {
