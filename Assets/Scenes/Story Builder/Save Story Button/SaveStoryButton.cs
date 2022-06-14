@@ -31,6 +31,8 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if(StoryNamePrompt.activeInHierarchy == true) {
             if (Input.GetKeyDown(KeyCode.Return)) {
                 CloseStoryNameMenu();
+                sentenceBank.speakStory();
+                StartCoroutine(removeSentenceBackground()); 
         }
     }
     }
@@ -70,6 +72,9 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
        StartCoroutine(pullLever());
        OpenStoryNameMenu();
+       //sentenceBank.speakStory();
+       //StartCoroutine(removeSentenceBackground()); 
+       
        //CloseStoryNameMenu();
     }
 
@@ -78,6 +83,17 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         currentImage.sprite = downLever;
         yield return new WaitForSecondsRealtime(2);
         currentImage.sprite = upLever;
+    }
+
+    private IEnumerator removeSentenceBackground()
+    {
+        for (int i=0; i<sentenceBank.transform.childCount; i++){
+            Debug.Log("We are at sentence: " + i);
+            Destroy(sentenceBank.transform.GetChild(i).GetComponent<Image>());
+            yield return new WaitForSecondsRealtime(3);
+        }    
+
+        DisplaySubmissionStatus();
     }
 
     public void OpenStoryNameMenu()
@@ -91,7 +107,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
          StoryNamePrompt.SetActive(false);
         saveStoryHandler.GetComponent<SaveStoryHandler>().PutStoryInDatabase();
         // if story submitted successfully... (should check this eventually)
-        DisplaySubmissionStatus();
+        //DisplaySubmissionStatus();
     }
     private void DisplaySubmissionStatus()
     {
