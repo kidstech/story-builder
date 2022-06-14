@@ -36,7 +36,7 @@ public class ChangeScene : MonoBehaviour
     {
         if (sceneState == SceneType.SentenceBuilder) // sentencebuilder -> storybuilder
         {
-            sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .9f; // multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
+            sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .92f; // multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
             //storyBuilderCanvas.gameObject.SetActive(true); // activate story builder
             LeanTween.moveY(mainCamera, -sceneHeight, transitionTime);
             sceneState = SceneType.StoryBuilder;
