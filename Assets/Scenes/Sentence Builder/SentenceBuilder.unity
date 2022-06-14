@@ -750,6 +750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upLever: {fileID: 21300000, guid: 90d8891f349d0da488b56d3e41a654b6, type: 3}
   downLever: {fileID: 21300000, guid: 2f07e7649a49232429975bf1f97edc1c, type: 3}
+  tts: {fileID: 396208989}
   saveStoryHandler: {fileID: 301490247}
   StoryNamePrompt: {fileID: 1254632426}
   StorySubmissionStatus: {fileID: 1462654760}
@@ -2344,7 +2345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252.00005}
+  m_AnchoredPosition: {x: -400.50464, y: 252}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -6883,7 +6884,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999278
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12417,6 +12418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upLever: {fileID: 21300000, guid: 90d8891f349d0da488b56d3e41a654b6, type: 3}
   downLever: {fileID: 21300000, guid: 2f07e7649a49232429975bf1f97edc1c, type: 3}
+  tts: {fileID: 0}
   saveStoryHandler: {fileID: 301490247}
   StoryNamePrompt: {fileID: 1254632426}
   StorySubmissionStatus: {fileID: 1462654760}

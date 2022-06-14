@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Crosstales.RTVoice;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private Image currentImage;
 
+    public TextToSpeechHandler tts;
     private Vector2 defaultSize, highlightSize;
 
     private Button button;
@@ -88,9 +90,11 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private IEnumerator removeSentenceBackground()
     {
         for (int i=0; i<sentenceBank.transform.childCount; i++){
-            Debug.Log("We are at sentence: " + i);
+            //Debug.Log("We are at sentence: " + i);
+            string tileText = sentenceBank.transform.GetChild(i).GetComponentInChildren<Text>().text;
+            float timeToSpeak = Speaker.Instance.ApproximateSpeechLength(tileText) / tts.getVoiceRate();
+            yield return new WaitForSecondsRealtime(timeToSpeak - 0.1f);
             Destroy(sentenceBank.transform.GetChild(i).GetComponent<Image>());
-            yield return new WaitForSecondsRealtime(3);
         }    
 
         DisplaySubmissionStatus();
