@@ -4,6 +4,7 @@ using Crosstales.RTVoice;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
+using Crosstales.RTVoice;
 
 public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -122,6 +123,15 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void CloseSubmissionStatus()
     {
         StorySubmissionStatus.SetActive(false);
+        //sentenceBank.GetComponent<SavedSentenceBank>().destroySentences();
+        clearSentences();
+    }
+
+    public void clearSentences(){
+        Debug.Log("Clearing sentences");
+        for (int i=0; i<sentenceBank.transform.childCount; i++){
+            Destroy(sentenceBank.transform.GetChild(i).gameObject);
+        }
     }
 
 }
