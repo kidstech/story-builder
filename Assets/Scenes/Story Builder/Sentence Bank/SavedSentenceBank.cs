@@ -23,6 +23,8 @@ public class SavedSentenceBank : MonoBehaviour
     private ScrollRect scrollBar;
     public List<SavedSentence> sentences = new List<SavedSentence>();
 
+    public List<string> sentenceIds = new List<string>();
+
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
     {
@@ -36,12 +38,14 @@ public class SavedSentenceBank : MonoBehaviour
         Debug.Log(sentences.Count);
         for (int i = sentences.Count-1; i >= 0; i--)
         {
+            if(!sentenceIds.Contains(sentences[i].sentenceId)) {
             GameObject newSentence = Instantiate(sentencePrefab);
 
             newSentence.GetComponent<SentenceObject>().savedSentence = sentences[i];
             newSentence.GetComponentInChildren<Text>().text = sentences[i].sentenceText;
             newSentence.transform.SetParent(this.transform, false);
-            newSentence.GetComponent<SentenceTile>().textToDisplay = sentences[i].sentenceText; // update textToDisplay for SentenceTile script bc that's what it uses for tts
+            newSentence.GetComponent<SentenceTile>().textToDisplay = sentences[i].sentenceText; 
+            } // update textToDisplay for SentenceTile script bc that's what it uses for tts
         }
     }
     void OnDisable()

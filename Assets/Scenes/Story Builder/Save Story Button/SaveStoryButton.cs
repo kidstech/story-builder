@@ -130,6 +130,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void clearSentences(){
         Debug.Log("Clearing sentences");
         for (int i=0; i<sentenceBank.transform.childCount; i++){
+            sentenceBank.sentenceIds.Add(sentenceBank.transform.GetChild(i).GetComponent<SentenceObject>().savedSentence.sentenceId);
             Destroy(sentenceBank.transform.GetChild(i).gameObject);
         }
     }
