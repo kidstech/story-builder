@@ -4,7 +4,6 @@ using Crosstales.RTVoice;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
-using Crosstales.RTVoice;
 
 public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -27,6 +26,9 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private SavedSentenceBank sentenceBank;
     [SerializeField]
     private AudioSource successNoise;
+
+    [SerializeField]
+    private Button finalStorySubmit;
     
 
 
@@ -42,6 +44,11 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
      void Start()
     {
+        finalStorySubmit.onClick.AddListener(() => {
+            CloseStoryNameMenu();
+                sentenceBank.speakStory();
+                StartCoroutine(removeSentenceBackground());
+        });
         // get a reference to the current image so it can be swapped later
         currentImage = this.GetComponent<Image>();
 
