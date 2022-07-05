@@ -27,14 +27,17 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     // Sentence at top of screen top pull sentence text from
     public SentenceBar sentence;
 
+    [SerializeField] public GameObject pipeWithWords;
+
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
     private Image currentImage;
-
-    GameObject sentenceScrollBar;
-
     public Animator conveyorAnimator;
     public Animator pipesAnimator;
+    public Animator ejectAnimator;
+
+    [SerializeField]
+    private GameObject touchBlock;
 
     /// <summary>
     /// Start this instance.
@@ -46,7 +49,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
         defaultSize = this.transform.GetComponent<Image>().rectTransform.sizeDelta;
         highlightSize = new Vector2(defaultSize.x + 10, defaultSize.y + 10);
-        sentenceScrollBar = GameObject.FindGameObjectWithTag("SentenceBar");
     }
 
     /// <summary>
@@ -85,8 +87,9 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
             // Pull the lever kronk!
             StartCoroutine(pullLever());
 
-            // reset the scrollbar when the submit sentence animation begins
-            sentenceScrollBar.GetComponent<Scrollbar>().value = 0;
+            // set position to right so that the previous built sentence is hidden
+            completedSentences.position += new Vector3(870f, 0f, 0f); // sentence game object
+
             List<WordTile> tiles = sentence.GatherWordTiles();
             // If there are words in the sentence
             if (tiles.Count > 0)
@@ -115,7 +118,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 //StartCoroutine(revealSentenceWordByWord(words));
                 completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
                                                                                       // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
-                revealSentenceAnimation(tiles);
+                StartCoroutine(revealSentenceAnimation(tiles));
 
                 StartCoroutine(sentence.GetComponent<SentenceBar>().AnimateAndTransferTiles());
 
@@ -140,13 +143,19 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
 
     // method to slowly reveal the already completed sentence
     // this will move from right to left, making it look like it's coming out of the pipe instead of just appearing.
-    private void revealSentenceAnimation(List<WordTile> wordTiles)
+    private IEnumerator revealSentenceAnimation(List<WordTile> wordTiles)
     {
         float approxSpeechTime;
         approxSpeechTime = tts.getApproxSpeechTime(wordTiles);
+        yield return new WaitForSeconds(approxSpeechTime);
         // set position to right so animation actually moves from somewhere
         completedSentences.position += new Vector3(800f, 0f, 0f); // sentence game object
-        LeanTween.moveLocalX(completedSentences.gameObject, 0f, tts.getApproxSpeechTime(wordTiles));
+        LeanTween.moveLocalX(completedSentences.gameObject, -95f, tts.getApproxSpeechTime(wordTiles));
+        yield return new WaitForSeconds(approxSpeechTime/2);
+        tts.startSpeakingSentence(wordTiles, false);
+        touchBlock.SetActive(false);
+        //yield return new WaitForSecondsRealtime(1f);
+        pipeWithWords.SetActive(false);
     }
 
     public IEnumerator animateConveyorBelt(float duration)
@@ -159,8 +168,12 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     public IEnumerator animatePipes(float duration)
     {
         pipesAnimator.SetBool("ProcessingTile", true);
-        yield return new WaitForSeconds(duration + 1f);
+        yield return new WaitForSecondsRealtime(1.25f);
+        pipeWithWords.SetActive(true);
+        yield return new WaitForSeconds(duration - 1.5f);
         pipesAnimator.SetBool("ProcessingTile", false);
+        // yield return new WaitForSecondsRealtime(1.4f);
+        // pipeWithWords.SetActive(false);
     }
 
 }

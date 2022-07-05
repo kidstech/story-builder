@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Crosstales.RTVoice;
+using ServerTypes;
 
 public class PageContainer : MonoBehaviour
 {
@@ -109,7 +110,7 @@ public class PageContainer : MonoBehaviour
         AdjustOtherPages();
 
         // decrement to account for deleted index, unless we've deleted the first object
-        if(selectedPageGlobal != 0) selectedPageGlobal--;
+        if (selectedPageGlobal != 0) selectedPageGlobal--;
 
         UpdateSelectedPage(selectedPageGlobal);
 
@@ -147,10 +148,10 @@ public class PageContainer : MonoBehaviour
         }
         else if (pageNumber == currentPageCount + 1) // different conditional to distinguish between clicking left arrow to cycle to last page vs right arrow
         {
-            if(transform.childCount != 0)
+            if (transform.childCount != 0)
             {
                 transform.GetChild(0).gameObject.SetActive(false); // deactivate first page
-                selectedPageGlobal = currentPageCount -1; // get index of last page
+                selectedPageGlobal = currentPageCount - 1; // get index of last page
                 transform.GetChild(selectedPageGlobal).gameObject.SetActive(true); // activate last page
             }
         }
@@ -194,7 +195,7 @@ public class PageContainer : MonoBehaviour
                 // example:          PageContainer => PagePrefab => SentencePrefab
                 iteratedPagePrefab = transform.GetChild(selectedPageGlobal).GetChild(o);
                 textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
-                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
                 iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
                 yield return new WaitForSeconds(speechDuration);
             }
@@ -207,7 +208,7 @@ public class PageContainer : MonoBehaviour
                 // example:          PageContainer => PagePrefab => SentenceDropzone => SentencePrefab
                 iteratedPagePrefab = transform.GetChild(selectedPageGlobal).GetChild(0).GetChild(o);
                 textToRead = iteratedPagePrefab.GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
-                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1/TextToSpeechHandler.voiceRate);
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
                 iteratedPagePrefab.GetComponent<SentenceTile>().ReadSentence();
                 yield return new WaitForSeconds(speechDuration);
             }
@@ -237,7 +238,9 @@ public class PageContainer : MonoBehaviour
                 // For every sentence in the page
                 for (int o = 0; o < currentPage.transform.childCount; o++)
                 {
-                    // Add in the sentence
+                    // transform.GetChild() => prefab -> GetChild() -> sentence object -> .TextToDisplay
+                    Debug.Log(transform.GetChild(0).name);
+
                     list.Add(currentPage.transform.GetChild(o).GetComponent<SentenceObject>().savedSentence);
                 }
             }
@@ -255,4 +258,49 @@ public class PageContainer : MonoBehaviour
         //
         return list;
     }
+
+
+    public List<StoryPage> GetPagesForStorySubmission()
+    {
+        List<StoryPage> storyPages = new List<StoryPage>();
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            List<string> sentences = new List<string>();
+            StoryPage storyPage = new StoryPage(sentences, i);
+            Page currentPage = transform.GetChild(i).GetComponent<Page>();
+
+            if (currentPage.type == PAGE.NO_PICTURE)
+            {
+                // add every sentence on the page to the sentences list of the storyPage
+                for (int o = 0; o < currentPage.transform.childCount; o++)
+                {
+                    storyPage.sentences.Add(currentPage.transform.GetChild(o).GetComponent<SentenceObject>().savedSentence.sentenceText);
+                }
+                storyPages.Add(storyPage);
+            }
+            else // needed different for loop for image pages because the child structure is different
+            {
+                for (int o = 0; o < currentPage.transform.GetChild(0).childCount; o++)
+                {
+                    storyPage.sentences.Add(currentPage.transform.GetChild(0).GetChild(o).GetComponent<SentenceObject>().savedSentence.sentenceText);
+                }
+                storyPages.Add(storyPage);
+            }
+        }
+
+
+        // testing
+        foreach (StoryPage page in storyPages)
+        {
+            Debug.Log("current page " + page.pageNumber);
+            foreach(string sentence in page.sentences)
+            {
+                Debug.Log(sentence);
+            }
+        }
+        return storyPages;
+
+    }
+
 }

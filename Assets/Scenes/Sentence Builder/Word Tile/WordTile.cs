@@ -11,7 +11,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public Word word;
     public string textToDisplay;
     public string contextPackId;
-    private Color originalColor;
+    public Color originalColor;
     private bool highlighted = false;
     public TextToSpeechHandler TTS;
     private Image image = null;
@@ -28,7 +28,7 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         string textToRead = this.textToDisplay.ToLower();
-
+        image.color = originalColor;
         // Highlight the word tile for approximately as long as it will take to say the text on the tile
         StartCoroutine(HighlightCoroutine(Speaker.Instance.ApproximateSpeechLength(textToRead)));
         // update word counts for the learner
@@ -42,31 +42,31 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         TTS.startSpeakingWordTile(textToRead);
     }
 
-    public void Highlight()
-    {
-        Image image = GetComponent<Image>();
-        highlighted = !highlighted;
+    // public void Highlight()
+    // {
+    //     Image image = GetComponent<Image>();
+    //     highlighted = true;
 
-        if (highlighted)
-        {
-            originalColor = image.color;
-            image.color = Color.yellow;
-        }
-        else
-        {
-            image.color = originalColor;
-        }
-    }
+    //     if (highlighted)
+    //     {
+    //         originalColor = image.color;
+    //         image.color = Color.yellow;
+    //     }
+    //     else
+    //     {
+    //         image.color = originalColor;
+    //     }
+    // }
 
-    public void Highlight(float seconds)
-    {
-        StartCoroutine(HighlightCoroutine(seconds));
-    }
+    // public void Highlight(float seconds)
+    // {
+    //     StartCoroutine(HighlightCoroutine(seconds));
+    // }
 
-    public void Highlight(float seconds, float delay)
-    {
-        StartCoroutine(HighlightCoroutine(seconds, delay));
-    }
+    // public void Highlight(float seconds, float delay)
+    // {
+    //     StartCoroutine(HighlightCoroutine(seconds, delay));
+    // }
     // this one
     // remove this comment when comitting
     public IEnumerator HighlightCoroutine(float seconds)
@@ -78,14 +78,14 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         image.color = originalColor;
     }
 
-    private IEnumerator HighlightCoroutine(float seconds, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        image.color = Color.yellow;
+    // private IEnumerator HighlightCoroutine(float seconds, float delay)
+    // {
+    //     yield return new WaitForSeconds(delay);
+    //     image.color = Color.yellow;
 
-        yield return new WaitForSeconds(seconds);
-        image.color = originalColor;
-    }
+    //     yield return new WaitForSeconds(seconds);
+    //     image.color = originalColor;
+    // }
 
     public void SetUpTile(Word word)
     {
@@ -93,6 +93,6 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         this.name = word.baseWord;
         this.transform.GetComponentInChildren<Text>().text = word.baseWord;
         this.textToDisplay = word.baseWord;
-        this.contextPackId = word.contextPackId; 
+        this.contextPackId = word.contextPackId;
     }
 }

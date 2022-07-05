@@ -15,6 +15,16 @@ public class SentenceBar : MonoBehaviour
     float futureWidth = 0;
     // game object that contains the word tiles of the most recently submitted sentence
     public GameObject sentenceInTiles;
+    public GameObject sentence;
+
+    [SerializeField]
+    private GameObject touchBlock;
+
+    [SerializeField] 
+    public AudioSource errorNoise;
+
+    [SerializeField]
+    private Vector2 maxSize;
 
     private void Start()
     {
@@ -23,6 +33,7 @@ public class SentenceBar : MonoBehaviour
 
         //
         originalSize = r.sizeDelta;
+        maxSize = new Vector2(1300, originalSize.y);
     }
 
     //
@@ -42,35 +53,46 @@ public class SentenceBar : MonoBehaviour
         return results;
     }
 
+    public void clearTiles() {
+        foreach(Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+
+        }
+    }
+
     //
     public void ResizeSentence(int amountOfTileSpaceToAdd)
     {
 
-        // if the word tiles haven't taken up more space than can be displayed...
-        if (GatherWordTiles().Count * tileSize < originalSize.x)
-        {
-            // do nothing
-            return;
-        }
+        Debug.Log("Hello");
+        // // if the word tiles haven't taken up more space than can be displayed...
+        // if (GatherWordTiles().Count * tileSize < originalSize.x)
+        // {
+        //     // do nothing
+        //     return;
+        // }
 
-        futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
+        // futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
 
-        if (futureWidth > originalSize.x)
-        {
-            //
-            r.sizeDelta = new Vector2(futureWidth, originalSize.y);
-        }
-        else
-        {
-            //
-            r.sizeDelta = originalSize;
-        }
+        // if (futureWidth > originalSize.x )
+        // {
+        //     //
+        //     r.sizeDelta = new Vector2(futureWidth, originalSize.y);
+        // }
+        // else
+        // {
+        //     //
+        //     r.sizeDelta = originalSize;
+        // }
     }
     // combines animation and transfer of tiles because coroutines complicate the timing of function calls (can't have transfer occur during/before execution of animation)
     public IEnumerator AnimateAndTransferTiles()
     {
         // animation time will be used to tell each part of the animation how long it gets to play.
         // we need this in order to keep our animations in sync with TTS.
+
+        touchBlock.SetActive(true);
         float animation_time = 0;
         int animation_segments = 3;
         int length = this.transform.childCount;
@@ -106,9 +128,11 @@ public class SentenceBar : MonoBehaviour
             }
             yield return new WaitForSeconds(animation_time);
             // we need the sentence bar length to match our changed number of game objects
-            ResizeSentence(-1);
+            //ResizeSentence(-1);
         }
         TransferTiles();
+         r.sizeDelta = originalSize;
+        //ResizeSentence(-length);
     }
 
     ///<summary>

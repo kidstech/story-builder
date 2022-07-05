@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Crosstales.RTVoice;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     public static GameObject draggedObject;
     int startSibIndex;
@@ -12,6 +13,41 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private bool dragging;
     public GameObject sentence;
     private bool drop = false;  
+    public TextToSpeechHandler TTS;
+
+     [SerializeField]
+     private GameObject sentenceInTiles; 
+      private string sentenceText;
+      private Image image = null;
+      private Color originalColor;
+
+private void Start() {
+     image = GetComponent<Image>();
+     originalColor = image.color;
+}
+public void OnPointerClick(PointerEventData eventData)
+    { 
+        if(savedSentence.Count != 0) {
+            savedSentence.Clear();
+        }
+
+        image.color = originalColor;
+        TTS = GetComponentInParent<TextToSpeechHandler>();
+        string sentenceText = sentenceInTiles.GetComponent<Text>().text;
+        StartCoroutine(HighlightCoroutine(Speaker.Instance.ApproximateSpeechLength(sentenceText)));
+
+        foreach(Transform child in sentenceInTiles.transform) 
+            {
+                WordTile word = child.gameObject.GetComponent<WordTile>();
+                savedSentence.Add(word);
+                LearnerDataHandler.UpdateWordCount(word.textToDisplay);
+                LearnerDataHandler.StoreLearnerData();
+                StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            }
+
+        TTS.startSpeakingSentence(this.savedSentence, false);
+        savedSentence.Clear();
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -21,7 +57,6 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
         this.transform.SetAsLastSibling();
         this.transform.GetComponent<Image>().raycastTarget = false; // stop the object from blocking raycasts
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         Vector3 mousePos = Input.mousePosition;
@@ -54,6 +89,7 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     // Not sure if we want to be able to stuff the resubmitted sentence between words that have already been placed or not.
     public void resubmitSentence(List<WordTile> sentenceTiles)
     {
+        sentence.GetComponent<SentenceBar>().clearTiles();
         foreach(WordTile wordtile in sentenceTiles)
         {
             // copy the word tile object and make it a child of SentenceInTiles 
@@ -62,9 +98,17 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
             wordTileCopy.GetComponent<WordTile>().word.contextPackId = wordtile.word.contextPackId;
             // wordtile game objects are deactivated originally so we need to activate the copies after instantiation
             wordTileCopy.gameObject.SetActive(true);
-            sentence.GetComponent<SentenceBar>().ResizeSentence(1);
+            //sentence.GetComponent<SentenceBar>().ResizeSentence(1);
         }
     }
 
+     public IEnumerator HighlightCoroutine(float seconds)
+    {
+        Image image = GetComponent<Image>();
+        Color previous = image.color;
+        image.color = Color.yellow;
+        yield return new WaitForSeconds(seconds);
+        image.color = originalColor;
+    }
 
 }

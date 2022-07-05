@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     //
+
     public enum Behavior
     {
         Default,
@@ -16,6 +17,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
     }
     private GameObject sentenceBar;
 
+    public SentenceBar sentenceToPlayNoise;
     public void start() {
         sentenceBar = GameObject.Find("Sentence");
     }
@@ -48,7 +50,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             //
             if(d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
-                //
                 GetComponent<SentenceBar>().ResizeSentence(1);
             }
             if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
@@ -88,11 +89,13 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             if (d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
             {
                 //
+                Debug.Log("Iam not sentence");
                 GetComponent<SentenceBar>().ResizeSentence(-1);
             }
 
             if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
             {
+                Debug.Log("I am sentence");
                 GetComponent<SentenceBar>().ResizeSentence(-1);
             }
         }
@@ -131,7 +134,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                     Destroy(d.placeholder);
 
                     break;
-
+                //The trash can has been removed, but removing this switch case seems to break everything
                 case Behavior.Trash:
                     //Debug.Log("You have placed the tile in the trash.");
                     //
@@ -148,10 +151,28 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.Sentence:
-                //Debug.Log("You have placed a tile in the sentence zone.");              
+                Debug.Log("You have placed a tile in the sentence zone.");  
 
-                    //
-                    d.parentToReturnTo = this.transform;
+                    if (d.draggedFrom == Behavior.Sentence && GetComponent<SentenceBar>().GatherWordTiles().Count != 9)
+                        {
+                            Debug.Log("Hello there");
+
+                        GetComponent<SentenceBar>().ResizeSentence(-1);
+                     }            
+
+                     if(GetComponent<SentenceBar>().GatherWordTiles().Count == 9) {
+                        Debug.Log("Play error noise");
+                        sentenceToPlayNoise.errorNoise.Play();
+                     }
+                    //  else if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9){
+                    //      Debug.Log("General Kenobi");
+                    //      GetComponent<SentenceBar>().ResizeSentence(-1);
+                    //  }
+                    else if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9) {
+                        Debug.Log("You are a bold one");
+                        Debug.Log(GetComponent<SentenceBar>().GatherWordTiles().Count);
+                        d.parentToReturnTo = this.transform;
+                    }
 
                     break;
 

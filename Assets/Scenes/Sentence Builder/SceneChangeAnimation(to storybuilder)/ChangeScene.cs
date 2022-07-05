@@ -10,7 +10,7 @@ public class ChangeScene : MonoBehaviour
     public Transform sentenceBuilderCanvas;
     public Transform storyBuilderCanvas;
     public GameObject mainCamera;
-    public GameObject openMenuButton;
+    //public GameObject openMenuButton;
     public GameObject updateWordBankButton;
     public GameObject sentenceBank;
     public GameObject currentLearnerInfo; // name and profile image of current learner
@@ -36,7 +36,7 @@ public class ChangeScene : MonoBehaviour
     {
         if (sceneState == SceneType.SentenceBuilder) // sentencebuilder -> storybuilder
         {
-            sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .9f; // multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
+            sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .92f; // multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
             //storyBuilderCanvas.gameObject.SetActive(true); // activate story builder
             LeanTween.moveY(mainCamera, -sceneHeight, transitionTime);
             sceneState = SceneType.StoryBuilder;
@@ -44,15 +44,15 @@ public class ChangeScene : MonoBehaviour
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
 
             // move the options menu button/overlay over to storybuilder canvas
-            openMenuButton.transform.SetParent(storyBuilderCanvas);
-            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
-            openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0, -721, 0);
-            openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(475,-375,0);
+            // openMenuButton.transform.SetParent(storyBuilderCanvas);
+            // openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450,326,0); // roughly top left of the storybuilder
+             currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0, -721, 0);
+             currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(475,-375,0);
             // don't need to update word bank in storybuilder scene
             updateWordBankButton.SetActive(false);
 
             this.transform.SetParent(storyBuilderCanvas); // changescene button is moved over to the active canvas, so if/when we shut it down the previous canvas, it will remain
-            this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
+            //this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
             currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-1060f,0f); // move learner profile to new scene
             // enable/refresh the sentence bank
             sentenceBank.SetActive(true);
@@ -67,16 +67,16 @@ public class ChangeScene : MonoBehaviour
             StartCoroutine(WaitForTransition(transitionTime, buttonText));
 
             // move options menu stuff back
-            openMenuButton.transform.SetParent(sentenceBuilderCanvas);
-            openMenuButton.transform.SetSiblingIndex(0); // needs to be higher up in hierarchy so it doesn't go over top of the actual options menu popup
-            openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450f,335f,0f);
-            openMenuButton.GetComponent<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
-            openMenuButton.GetComponent<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
+            // openMenuButton.transform.SetParent(sentenceBuilderCanvas);
+            // openMenuButton.transform.SetSiblingIndex(0); // needs to be higher up in hierarchy so it doesn't go over top of the actual options menu popup
+            // openMenuButton.transform.GetComponent<RectTransform>().localPosition = new Vector3(-450f,335f,0f);
+               currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().optionsPanel.transform.localPosition = new Vector3(0,0,0);
+               currentLearnerInfo.GetComponentInChildren<OptionsMenuHandler>().closeMenuButton.transform.localPosition = new Vector3(483,351,0);
             // enable word bank updating for sentencebuilder scene
             updateWordBankButton.SetActive(true);
 
             this.transform.SetParent(sentenceBuilderCanvas);
-            this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
+            //this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
             currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-335f,0f);// move learner profile to new scene
             // deactivate sentence bank to ensure it gets refreshed again when changing scenes
             sentenceBank.SetActive(false);
