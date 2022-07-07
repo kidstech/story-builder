@@ -29,6 +29,12 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     [SerializeField]
     private Button finalStorySubmit;
+
+    [SerializeField]
+    private GameObject touchBlock;
+
+    [SerializeField]
+    private GameObject touchBlock2;
     
 
 
@@ -112,6 +118,8 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         storyNameInputField.transform.Find("Placeholder").GetComponent<Text>().text = sentenceBank.getSentencesInBank()[0];
         StoryNamePrompt.SetActive(true);
+        touchBlock.SetActive(true);
+        touchBlock2.SetActive(true);
     }
     public void CloseStoryNameMenu()
     {
@@ -125,6 +133,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         // might be nice to have the success message contain the name of the submitted story
         StorySubmissionStatus.SetActive(true);
+        touchBlock.SetActive(true);
         successNoise.Play();
     }
     public void CloseSubmissionStatus()
@@ -132,6 +141,8 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         StorySubmissionStatus.SetActive(false);
         //sentenceBank.GetComponent<SavedSentenceBank>().destroySentences();
         clearSentences();
+        touchBlock.SetActive(false);
+        touchBlock.SetActive(false);
     }
 
     public void clearSentences(){
