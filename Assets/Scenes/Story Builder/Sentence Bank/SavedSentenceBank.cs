@@ -25,6 +25,12 @@ public class SavedSentenceBank : MonoBehaviour
 
     public List<string> sentenceIds = new List<string>();
 
+    [SerializeField]
+    private GameObject storySubmissionStatus;
+
+    [SerializeField]
+    private AudioSource successNoise;
+
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
     {
@@ -117,8 +123,7 @@ public class SavedSentenceBank : MonoBehaviour
                 yield return new WaitForSeconds(speechDuration + 0.5f);
                 Destroy(transform.GetChild(o).GetComponentInChildren<Image>());
             }
-            storyBuilderTouchBlock.SetActive(false);
-            sentenceBuilderTouchBlock.SetActive(false);
+            DisplaySubmissionStatus();
     }
 
     public List<string> getSentencesInBank() {
@@ -127,6 +132,33 @@ public class SavedSentenceBank : MonoBehaviour
             sentencesInBank.Add(child.GetComponent<SentenceTile>().textToDisplay);
         }
         return sentencesInBank;
+    }
+
+
+    public void clearSentences(){
+        Debug.Log("Clearing sentences");
+        GameObject sentenceBank = this.gameObject;
+        for (int i=0; i<sentenceBank.transform.childCount; i++){
+            sentenceIds.Add(sentenceBank.transform.GetChild(i).GetComponent<SentenceObject>().savedSentence.sentenceId);
+            Destroy(sentenceBank.transform.GetChild(i).gameObject);
+        }
+    }
+
+    private void DisplaySubmissionStatus()
+    {
+        // might be nice to have the success message contain the name of the submitted story
+        storySubmissionStatus.SetActive(true);
+        successNoise.Play();
+        StartCoroutine(CloseSubmissionStatus());
+    }
+    public IEnumerator CloseSubmissionStatus()
+    {
+        yield return new WaitForSecondsRealtime(2); 
+        storySubmissionStatus.SetActive(false);
+        //sentenceBank.GetComponent<SavedSentenceBank>().destroySentences();
+        clearSentences();
+        storyBuilderTouchBlock.SetActive(false);
+        sentenceBuilderTouchBlock.SetActive(false);
     }
 
 

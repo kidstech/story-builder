@@ -18,7 +18,6 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private Button button;
     public GameObject saveStoryHandler;
     public GameObject StoryNamePrompt;
-    public GameObject StorySubmissionStatus;
 
     [SerializeField]
     private GameObject storyNameInputField;
@@ -43,7 +42,6 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             if (Input.GetKeyDown(KeyCode.Return)) {
                 CloseStoryNameMenu();
                 sentenceBank.speakStory();
-                //StartCoroutine(removeSentenceBackground()); 
         }
     }
     }
@@ -53,7 +51,6 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         finalStorySubmit.onClick.AddListener(() => {
             CloseStoryNameMenu();
                 sentenceBank.speakStory();
-                //StartCoroutine(removeSentenceBackground());
         });
         // get a reference to the current image so it can be swapped later
         currentImage = this.GetComponent<Image>();
@@ -101,18 +98,6 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         currentImage.sprite = upLever;
     }
 
-    private IEnumerator removeSentenceBackground()
-    {
-        for (int i=0; i<sentenceBank.transform.childCount; i++){
-            //Debug.Log("We are at sentence: " + i);
-            string tileText = sentenceBank.transform.GetChild(i).GetComponentInChildren<Text>().text;
-            float timeToSpeak = Speaker.Instance.ApproximateSpeechLength(tileText) / tts.getVoiceRate();
-            yield return new WaitForSecondsRealtime(timeToSpeak - 0.1f);
-            Destroy(sentenceBank.transform.GetChild(i).GetComponent<Image>());
-        }    
-
-        DisplaySubmissionStatus();
-    }
 
     public void OpenStoryNameMenu()
     {
@@ -124,33 +109,11 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void CloseStoryNameMenu()
     {
         // string storyName = StoryNamePrompt.GetComponentInChildren<Text>().text;
-         StoryNamePrompt.SetActive(false);
+        StoryNamePrompt.SetActive(false);
         saveStoryHandler.GetComponent<SaveStoryHandler>().PutStoryInDatabase();
         // if story submitted successfully... (should check this eventually)
         //DisplaySubmissionStatus();
     }
-    private void DisplaySubmissionStatus()
-    {
-        // might be nice to have the success message contain the name of the submitted story
-        StorySubmissionStatus.SetActive(true);
-        touchBlock.SetActive(true);
-        successNoise.Play();
-    }
-    public void CloseSubmissionStatus()
-    {
-        StorySubmissionStatus.SetActive(false);
-        //sentenceBank.GetComponent<SavedSentenceBank>().destroySentences();
-        clearSentences();
-        touchBlock.SetActive(false);
-        touchBlock.SetActive(false);
-    }
-
-    public void clearSentences(){
-        Debug.Log("Clearing sentences");
-        for (int i=0; i<sentenceBank.transform.childCount; i++){
-            sentenceBank.sentenceIds.Add(sentenceBank.transform.GetChild(i).GetComponent<SentenceObject>().savedSentence.sentenceId);
-            Destroy(sentenceBank.transform.GetChild(i).gameObject);
-        }
-    }
+   
 
 }
