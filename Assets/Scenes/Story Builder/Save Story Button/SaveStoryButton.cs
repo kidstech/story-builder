@@ -43,7 +43,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
             if (Input.GetKeyDown(KeyCode.Return)) {
                 CloseStoryNameMenu();
                 sentenceBank.speakStory();
-                StartCoroutine(removeSentenceBackground()); 
+                //StartCoroutine(removeSentenceBackground()); 
         }
     }
     }
@@ -53,7 +53,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         finalStorySubmit.onClick.AddListener(() => {
             CloseStoryNameMenu();
                 sentenceBank.speakStory();
-                StartCoroutine(removeSentenceBackground());
+                //StartCoroutine(removeSentenceBackground());
         });
         // get a reference to the current image so it can be swapped later
         currentImage = this.GetComponent<Image>();

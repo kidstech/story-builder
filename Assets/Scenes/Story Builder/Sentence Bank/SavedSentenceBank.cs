@@ -101,19 +101,21 @@ public class SavedSentenceBank : MonoBehaviour
         //string fullPage = "";
         string textToRead = null;
         float speechDuration = 0;
+        float children = this.gameObject.transform.childCount;
             //
             for (int o = 0; o < transform.childCount; o++)
             {
                 Debug.Log("I am reading");
                 if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
                     Debug.Log(scrollBar.verticalNormalizedPosition);
-                    scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - .1F;
+                    scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - (1/(children - 1));
                 }
                 // example:          PageContainer => PagePrefab => SentencePrefab
                 textToRead = transform.GetChild(o).GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
                 speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
                 transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
-                yield return new WaitForSeconds(speechDuration);
+                yield return new WaitForSeconds(speechDuration + 0.5f);
+                Destroy(transform.GetChild(o).GetComponentInChildren<Image>());
             }
             storyBuilderTouchBlock.SetActive(false);
             sentenceBuilderTouchBlock.SetActive(false);
