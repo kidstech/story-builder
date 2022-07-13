@@ -80,10 +80,10 @@ public class SavedSentenceBank : MonoBehaviour
         return compiledSentence;
     }
 
-    public void speakStory() {
+    public void ttsUpdateLearnerData() {
         storyBuilderTouchBlock.SetActive(true);
         sentenceBuilderTouchBlock.SetActive(true);
-        StartCoroutine(ttsSpeakStory());
+        StartCoroutine(speakStory());
         foreach(SavedSentence sentence in sentences) {
             // iterate through all the words in a sentence
             foreach(string selectedWord in sentence.selectedWordForms)
@@ -98,7 +98,7 @@ public class SavedSentenceBank : MonoBehaviour
         StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
     }
 
-     public IEnumerator ttsSpeakStory()
+     public IEnumerator speakAndSaveStory()
     {
         Canvas.ForceUpdateCanvases();
         if (transform.childCount == 0) yield return null;
@@ -124,6 +124,32 @@ public class SavedSentenceBank : MonoBehaviour
                 Destroy(transform.GetChild(o).GetComponentInChildren<Image>());
             }
             DisplaySubmissionStatus();
+    }
+
+
+    public IEnumerator speakStory()
+    {
+        Canvas.ForceUpdateCanvases();
+        if (transform.childCount == 0) yield return null;
+
+        //
+        //string fullPage = "";
+        string textToRead = null;
+        float speechDuration = 0;
+        float children = this.gameObject.transform.childCount;
+        scrollBar.verticalNormalizedPosition = 1;
+            //
+            for (int o = 0; o < transform.childCount; o++)
+            {
+                if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
+                    scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - (1/(children - 1));
+                }
+                // example:          PageContainer => PagePrefab => SentencePrefab
+                textToRead = transform.GetChild(o).GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
+                transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
+                yield return new WaitForSeconds(speechDuration + 0.5f);
+            }
     }
 
     public List<string> getSentencesInBank() {

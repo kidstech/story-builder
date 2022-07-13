@@ -56,6 +56,7 @@ public class SaveSentenceHandler
             if (!File.Exists(Path.Combine(path, sentence.sentenceId)))
             {
                 // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
+                //Refine query so that we only store the sentences that the learner had from the time they last saved
                 File.WriteAllText(Path.Combine(path, sentence.sentenceId.ToString() + ".json"), jsonSentence);
             }
         }
