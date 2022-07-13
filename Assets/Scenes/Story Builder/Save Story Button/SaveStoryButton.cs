@@ -41,7 +41,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if(StoryNamePrompt.activeInHierarchy == true) {
             if (Input.GetKeyDown(KeyCode.Return)) {
                 CloseStoryNameMenu();
-                sentenceBank.speakStory();
+                StartCoroutine(sentenceBank.speakAndSaveStory());
         }
     }
     }
@@ -50,7 +50,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         finalStorySubmit.onClick.AddListener(() => {
             CloseStoryNameMenu();
-                sentenceBank.speakStory();
+            StartCoroutine(sentenceBank.speakAndSaveStory());
         });
         // get a reference to the current image so it can be swapped later
         currentImage = this.GetComponent<Image>();
