@@ -19,6 +19,9 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
     [SerializeField] 
     public AudioSource errorNoise;
 
+    [SerializeField] 
+    public SavedSentenceBank ssBank;
+
     public int maxSentences = 8;
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -63,6 +66,7 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
         GameObject droppedSentence = null;
         DraggableSentence d = eventData.pointerDrag.GetComponent<DraggableSentence>();
         droppedSentence = eventData.pointerDrag;
+        SentenceObject s = eventData.pointerDrag.GetComponent<SentenceObject>();
 
         if(d != null)
         {
@@ -95,6 +99,7 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
                     Destroy(droppedSentence);
                     Destroy(d.placeholder);
                     Destroy(eventData.pointerDrag);
+                    ssBank.sentenceIds.Add(s.savedSentence.sentenceId);
                     break;
             }
         }
