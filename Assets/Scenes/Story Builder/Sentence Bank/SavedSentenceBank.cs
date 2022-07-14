@@ -173,6 +173,8 @@ public class SavedSentenceBank : MonoBehaviour
                 }
                 // store updated wordcounts locally
                 LearnerDataHandler.StoreLearnerData();
+                speakerButton.SetActive(true);
+                stopSign.SetActive(false);
                 // update server with new word counts from speaking the page
                 StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
             }
