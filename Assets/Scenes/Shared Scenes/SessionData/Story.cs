@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 namespace ServerTypes
 {
@@ -12,10 +13,12 @@ namespace ServerTypes
         public string storyName;
         public string font;
         public List<string> sentences;
+        public string timeSubmitted;
 
         public Story(List<string> storySentences)
         {
             sentences = storySentences;
+            this.timeSubmitted = DateTime.Now.ToString();
         }
 
     }

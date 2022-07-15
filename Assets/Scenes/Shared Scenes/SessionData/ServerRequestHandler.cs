@@ -9,7 +9,7 @@ using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
     // DON'T COMMIT THIS UNLESS YOU'VE REMOVED YOUR IP
-    private static readonly string serverIp = "http://10.133.27.114:4567"; // change localhost to ip of target machine if using separate device
+    private static readonly string serverIp = "http://10.133.9.39:4567"; // change localhost to ip of target machine if using separate device
     public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
     {
         UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);
@@ -262,7 +262,7 @@ public class ServerRequestHandler : MonoBehaviour
     public static IEnumerator GetSentences(Action<List<SavedSentence>> action)
     {
         //Refine query so that we only get the learner's sentences from the previous session
-        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
+        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id + "/mostRecentSentences";
         using (UnityWebRequest getRequest = UnityWebRequest.Get(requestUrl))
         {
             yield return getRequest.SendWebRequest();
