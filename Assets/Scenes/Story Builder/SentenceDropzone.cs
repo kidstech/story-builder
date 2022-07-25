@@ -96,6 +96,7 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
 
                 default:
                     //Debug.Log("default");
+                    StartCoroutine(ServerRequestHandler.UpdateSentence(s.savedSentence.sentenceId));
                     Destroy(droppedSentence);
                     Destroy(d.placeholder);
                     Destroy(eventData.pointerDrag);

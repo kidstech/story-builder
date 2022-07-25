@@ -29,13 +29,14 @@ public class ChangeScene : MonoBehaviour
     {
         // get the learner's previously submitted sentences from the server and store them as local json files
         // potential race condition? immediately (faster than humanly possible?) after reaching sentence builder scene => press change scenes before coroutine completes => simultaneous write/read error as sentences are being loaded and stored at the same time?
-        StartCoroutine(ServerRequestHandler.GetSentences(SaveSentenceHandler.StoreSentences));
+        //StartCoroutine(ServerRequestHandler.GetSentences(SaveSentenceHandler.StoreSentences));
     }
 
     public void ToggleScene()
     {
         if (sceneState == SceneType.SentenceBuilder) // sentencebuilder -> storybuilder
         {
+            StartCoroutine(ServerRequestHandler.GetSentences(SaveSentenceHandler.StoreSentences));
             sceneHeight = storyBuilderCanvas.transform.GetComponent<RectTransform>().rect.height * .92f; // multiplier is arbitrary. It just ended up being a proportion that kept most of the submitted sentence tile in view alongside the storybuilder view.
             //storyBuilderCanvas.gameObject.SetActive(true); // activate story builder
             LeanTween.moveY(mainCamera, -sceneHeight, transitionTime);
@@ -62,6 +63,7 @@ public class ChangeScene : MonoBehaviour
         }
         else if (sceneState == SceneType.StoryBuilder) // storybuilder -> sentencebuilder
         {
+            //StartCoroutine(ServerRequestHandler.GetSentences(SaveSentenceHandler.StoreSentences));
             //sentenceBuilderCanvas.gameObject.SetActive(true); // activate sentence builder
             LeanTween.moveY(mainCamera, 0, 2f); 
             sceneState = SceneType.SentenceBuilder;

@@ -16,6 +16,7 @@ public class SavedSentence
     public List<string> selectedWordForms;
     public string userId;
     public List<string> contextPackIds;
+    public bool deleted;
 
     public SavedSentence(string sentenceId, string sentenceText, String timeSubmitted, string learnerId, List<Word> words, List<string> selectedWordForms, string userId)
     {
@@ -26,6 +27,7 @@ public class SavedSentence
         this.words = words;
         this.selectedWordForms = selectedWordForms;
         this.userId = userId;
+        this.deleted = false;
         GetContextPackIds();
     }
     private void GetContextPackIds()

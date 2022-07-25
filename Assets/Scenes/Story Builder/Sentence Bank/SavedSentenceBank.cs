@@ -42,15 +42,22 @@ public class SavedSentenceBank : MonoBehaviour
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
     {
-        //Debug.Log(this.transform.name + " has been enabled");
-        sentences = LoadSavedSentences.LoadSentences();
+        StartCoroutine(getSentences());
+    }
 
+    public IEnumerator getSentences() {
+        yield return new WaitForSecondsRealtime(1);
+        //Debug.Log(this.transform.name + " has been enabled");
+         sentences = SaveSentenceHandler.returnSentences();
+         foreach(SavedSentence s in sentences) {
+            Debug.Log(s.sentenceText);
+         }
         sentencePrefabSize = sentencePrefab.GetComponent<RectTransform>().sizeDelta;
         GetComponent<RectTransform>().sizeDelta = new Vector2(sentencePrefabSize.x, sentencePrefabSize.y * sentences.Count);
 
         // create sentence game object for each sentence we have and populate its components
         Debug.Log(sentences.Count);
-        for (int i = sentences.Count-1; i >= 0; i--)
+        for (int i = 0; i < sentences.Count; i++)
         {
             if(!sentenceIds.Contains(sentences[i].sentenceId)) {
             GameObject newSentence = Instantiate(sentencePrefab);
@@ -61,6 +68,7 @@ public class SavedSentenceBank : MonoBehaviour
             newSentence.GetComponent<SentenceTile>().textToDisplay = sentences[i].sentenceText; 
             } // update textToDisplay for SentenceTile script bc that's what it uses for tts
         }
+
     }
     void OnDisable()
     {

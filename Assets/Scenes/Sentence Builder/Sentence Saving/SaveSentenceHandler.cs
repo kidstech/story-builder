@@ -13,6 +13,7 @@ public class SaveSentenceHandler
     // static reference to the list of words that make up the most recent sentence
     // this is needed to preserve the contextPackId of the submitted
     public static List<Word> words;
+    public static List<SavedSentence> sentences;
 
     public static void SaveSentence(List<WordTile> tiles)
     {
@@ -44,22 +45,29 @@ public class SaveSentenceHandler
         mostRecentSentence = sentence;
         string jsonSentence = JsonConvert.SerializeObject(sentence);
         // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
-        File.WriteAllText(Path.Combine(path, id.ToString() + ".json"), jsonSentence);
+        //File.WriteAllText(Path.Combine(path, id.ToString() + ".json"), jsonSentence);
     }
 
-    public static void StoreSentences(List<SavedSentence> sentences)
+    public static void StoreSentences(List<SavedSentence> sentences2)
     {
-        foreach (SavedSentence sentence in sentences)
-        {
-            string jsonSentence = JsonConvert.SerializeObject(sentence);
-            // make sure we don't overwrite any existing files
-            if (!File.Exists(Path.Combine(path, sentence.sentenceId)))
-            {
-                // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
-                //Refine query so that we only store the sentences that the learner had from the time they last saved
-                File.WriteAllText(Path.Combine(path, sentence.sentenceId.ToString() + ".json"), jsonSentence);
-            }
-        }
+        sentences = sentences2;
+        // Debug.Log("Am i being called");
+        // foreach (SavedSentence sentence in sentences)
+        // {
+        //     string jsonSentence = JsonConvert.SerializeObject(sentence);
+        //     // make sure we don't overwrite any existing files
+        //     if (!File.Exists(Path.Combine(path, sentence.sentenceId)))
+        //     {
+        //         Debug.Log("I am writing a sentence");
+        //         // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
+        //         //Refine query so that we only store the sentences that the learner had from the time they last saved
+        //         File.WriteAllText(Path.Combine(path, sentence.sentenceId.ToString() + ".json"), jsonSentence);
+        //     }
+        // }
+    }
+
+    public static List<SavedSentence> returnSentences() {
+        return sentences;
     }
 
     // currently unused
