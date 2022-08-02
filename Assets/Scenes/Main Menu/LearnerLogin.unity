@@ -197,6 +197,11 @@ MonoBehaviour:
   learnerButtonPrefab: {fileID: 7716928836417605933, guid: b7d05d8b38480224d9de4dfed91c55d9,
     type: 3}
   learnerSelect: {fileID: 14897887}
+  moose: {fileID: 21300000, guid: b815994e5924f4f908890ba3121a25af, type: 3}
+  narwhal: {fileID: 21300000, guid: 03688360a32ee41fda8a11066406f878, type: 3}
+  penguin: {fileID: 21300000, guid: 8b4c3d56d959f479696f23f6bf7f3b40, type: 3}
+  pig: {fileID: 21300000, guid: b4ab7c20af1d44212947c91a4bb282db, type: 3}
+  duck: {fileID: 21300000, guid: e139ff0f1b97c4cc6b9153a96c6cd89f, type: 3}
 --- !u!114 &14897892
 MonoBehaviour:
   m_ObjectHideFlags: 0
