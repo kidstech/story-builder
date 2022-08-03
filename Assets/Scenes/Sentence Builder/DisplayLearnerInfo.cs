@@ -40,6 +40,9 @@ public class DisplayLearnerInfo : MonoBehaviour
                     case "/assets/duck.png":
                         currentLearnerSpriteGO.GetComponent<Image>().sprite = duck;
                         break;
+                    case "/assets/narwhal.png":
+                        currentLearnerSpriteGO.GetComponent<Image>().sprite = narwhal;
+                        break;
             default: 
              Sprite currentSprite = LearnerIconStorageHandler.GetLearnerSprite(LearnerLogin.staticLearner._id);
 

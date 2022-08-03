@@ -105,6 +105,10 @@ public class LearnerSelectPopup : MonoBehaviour
                         Debug.Log("Am I being called3");
                         button.transform.GetChild(1).GetComponent<Image>().sprite = duck;
                         break;
+                    case "/assets/narwhal.png":
+                        Debug.Log("Am I being called3");
+                        button.transform.GetChild(1).GetComponent<Image>().sprite = narwhal;
+                        break;
                     default:
                         foreach (string fileName in filePaths) {
                             if (learner._id == Path.GetFileNameWithoutExtension(fileName))
