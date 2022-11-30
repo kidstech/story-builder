@@ -2582,7 +2582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252.00035}
+  m_AnchoredPosition: {x: -400.50464, y: 252.00034}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -6347,7 +6347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLearnerNameGO: {fileID: 1065732574}
   currentLearnerSpriteGO: {fileID: 514360511}
-  defaultSprite: {fileID: 21300000, guid: 5f7fa9a7940a64e79b5a42d9f661d42c, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 03688360a32ee41fda8a11066406f878, type: 3}
   moose: {fileID: 21300000, guid: b815994e5924f4f908890ba3121a25af, type: 3}
   narwhal: {fileID: 21300000, guid: 03688360a32ee41fda8a11066406f878, type: 3}
   penguin: {fileID: 21300000, guid: 8b4c3d56d959f479696f23f6bf7f3b40, type: 3}
@@ -7391,7 +7391,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.999989
+  m_Size: 0.91973025
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
