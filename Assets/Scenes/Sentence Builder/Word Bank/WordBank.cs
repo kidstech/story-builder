@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +14,8 @@ public class WordBank : MonoBehaviour
     //
     private readonly int tileHeight = 50;
 
+    public static bool canTouch;
+
     //
     void Start() {
         Input.multiTouchEnabled = false;
@@ -26,7 +28,6 @@ public class WordBank : MonoBehaviour
         //
         GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<RectTransform>().sizeDelta.x, newHeight);
     }
-
     //
     public void SortWordBank()
     {

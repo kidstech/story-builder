@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
 
-public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class SpeakSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
 
@@ -28,6 +28,25 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     // Play/stop image must be changed accordingly
     private Image buttonImage;
 
+    // Used to disable Raycast Target option on the submit sentence button to disable it while the sentence is being read
+    public Image submitSentenceButttonImage;
+
+    // Used to disable Raycast Target option to prevent the user from being able to click on the learner while the sentence is being read
+    public Image currentLearnerSprite;
+    
+    // Used to disable the interactable option to prevent the user from being able to change the scene while the sentence is being read
+    public Button changeSceneButton;
+
+    // Used to prevent the wordBankHolder from being interactable while the sentence is being read
+    public CanvasGroup wordBankHolder;
+
+
+    // Used to disable interaction with the mostRecentSavedSentence while the sentence in the conveyor is being read
+    public Image mostRecentSavedSentence;
+
+
+    // Used
+
     //
     [Header("Objects in Scene")]
     public SentenceBar sentence;
@@ -35,6 +54,26 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     // Resize image on mouseover
     private Vector2 defaultSize, highlightSize;
+
+
+    void Update() {
+        if(TextToSpeechHandler.isSpeaking) {
+            submitSentenceButttonImage.raycastTarget = false;
+            currentLearnerSprite.raycastTarget = false;
+            changeSceneButton.interactable = false;
+            wordBankHolder.interactable = false;
+            wordBankHolder.blocksRaycasts = false;
+            mostRecentSavedSentence.raycastTarget = false;
+        }
+        else {
+            submitSentenceButttonImage.raycastTarget = true;
+            currentLearnerSprite.raycastTarget = true;
+            changeSceneButton.interactable = true;
+            wordBankHolder.interactable = true;
+            wordBankHolder.blocksRaycasts = true;
+            mostRecentSavedSentence.raycastTarget = true;
+        }
+    }
 
     //
     void Start()
@@ -59,8 +98,9 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         List<WordTile> words;
         words = sentence.GatherWordTiles();
-        if (TextToSpeechHandler.speakingSentence == false)
+        if (TextToSpeechHandler.isSpeaking == false)
         {
+
             // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
             StartCoroutine(tts.startSpeakingSentenceSlowly(words, true));
             // track all the words in the sentence
