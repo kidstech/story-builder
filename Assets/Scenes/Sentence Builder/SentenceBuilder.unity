@@ -2595,7 +2595,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252.00009}
+  m_AnchoredPosition: {x: -400.50464, y: 252.00096}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -6766,7 +6766,7 @@ GameObject:
   - component: {fileID: 1107509833}
   - component: {fileID: 1107509836}
   m_Layer: 5
-  m_Name: SpeakPageButton
+  m_Name: SpeakStoryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6882,7 +6882,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1107509831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd19ac939482d5546909785d68040fb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 71f99a9fe3767ec44b264daabc7e5088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sentenceBank: {fileID: 396208986}
