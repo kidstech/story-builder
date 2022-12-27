@@ -14,12 +14,6 @@ public class WordBank : MonoBehaviour
     //
     private readonly int tileHeight = 50;
 
-    public static bool canTouch;
-
-    //
-    void Start() {
-        Input.multiTouchEnabled = false;
-    }
     public void ResizeWordBank(int numEnabledTiles)
     {
         // casting numEnabledTiles to float so that integer division doesn't break the rounding here
