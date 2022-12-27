@@ -16,7 +16,6 @@ public class SpeakStoryButton : MonoBehaviour
 
     private void SpeakStory()
     {
-        //StartCoroutine(sentenceBank.speakStory());
         sentenceBank.ttsUpdateLearnerData();
     }
 }

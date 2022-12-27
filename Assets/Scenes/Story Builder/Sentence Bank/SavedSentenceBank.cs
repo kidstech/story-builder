@@ -39,6 +39,8 @@ public class SavedSentenceBank : MonoBehaviour
 
     public bool stopSpeaking = false;
 
+    public static bool isReadingStory;
+
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
     {
@@ -116,7 +118,6 @@ public class SavedSentenceBank : MonoBehaviour
 
      public IEnumerator speakAndSaveStory()
     {
-        Debug.Log("I am being called");
         Canvas.ForceUpdateCanvases();
         if (transform.childCount == 0) yield return null;
 
@@ -128,7 +129,6 @@ public class SavedSentenceBank : MonoBehaviour
             //
             for (int o = 0; o < transform.childCount; o++)
             {
-                Debug.Log("I am reading");
                 if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
                     Debug.Log(scrollBar.verticalNormalizedPosition);
                     scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - (1/(children - 1));
@@ -146,6 +146,7 @@ public class SavedSentenceBank : MonoBehaviour
 
     public IEnumerator speakStory()
     {
+        isReadingStory = true;
         Canvas.ForceUpdateCanvases();
         if (transform.childCount == 0) yield return null;
 
@@ -157,9 +158,7 @@ public class SavedSentenceBank : MonoBehaviour
         scrollBar.verticalNormalizedPosition = 1;
         speakerButton.SetActive(false);
         stopSign.SetActive(true); 
-                  //
-                  Debug.Log("The stopSpeaking bool is set to: " + stopSpeaking);
-                  Debug.Log("Am I stopping here?");
+
             for (int o = 0; o < transform.childCount; o++)
             {
                 if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
@@ -171,17 +170,17 @@ public class SavedSentenceBank : MonoBehaviour
                 transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
                 foreach(string word in transform.GetChild(o).GetComponentInChildren<SentenceObject>().savedSentence.selectedWordForms) {
                      LearnerDataHandler.UpdateWordCount(word);
-                     Debug.Log("What about here?");
                 }
                 yield return new WaitForSeconds(speechDuration + 0.5f);
                 if(stopSpeakingSentences()) {
-                    Debug.Log("I am stopping");
+                    isReadingStory = false;
                     yield break;
                 };
                 }
                 // store updated wordcounts locally
                 LearnerDataHandler.StoreLearnerData();
                 speakerButton.SetActive(true);
+                isReadingStory  = false;
                 stopSign.SetActive(false);
                 // update server with new word counts from speaking the page
                 StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
