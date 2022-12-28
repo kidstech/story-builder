@@ -9,7 +9,7 @@ using DatabaseEntry;
 public class ServerRequestHandler : MonoBehaviour
 {
     // DON'T COMMIT THIS UNLESS YOU'VE REMOVED YOUR IP
-    private static readonly string serverIp = "http://localhost:4567"; // change localhost to ip of target machine if using separate device
+    private static readonly string serverIp = "http://10.133.9.39:4567"; // change localhost to ip of target machine if using separate device
     public static IEnumerator GetLearnerIconFromFirebase(Learner learner, Action<Learner> action)
     {
         UnityWebRequest getIcon = UnityWebRequest.Get(learner.icon);
@@ -259,10 +259,33 @@ public class ServerRequestHandler : MonoBehaviour
         }
     }
 
+    public static IEnumerator UpdateSentence(String sentenceId) {
+        string requestUrl = serverIp + "/api/sentences/" + sentenceId;
+        using (UnityWebRequest putRequest = UnityWebRequest.Put(requestUrl, sentenceId)) {
+            yield return putRequest.SendWebRequest();
+        switch (putRequest.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Unable to connect to server... Error: " + putRequest.error);
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Error processing data received from server... Error: " + putRequest.error);
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Communication successful, but received HTTP Error: " + putRequest.error);
+                break;
+            case UnityWebRequest.Result.Success:
+                Debug.Log("Sentence successfully updated!");
+                break;
+        }
+        }
+    }
+
     public static IEnumerator GetSentences(Action<List<SavedSentence>> action)
     {
-        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id;
-        using (UnityWebRequest getRequest = UnityWebRequest.Get(requestUrl))
+        //Refine query so that we only get the learner's sentences from the previous session
+        string requestUrl = serverIp + "/api/sentences/" + LearnerLogin.staticLearner._id + "/mostRecentSentences";
+        using (UnityWebRequest getRequest = UnityWebRequest.Get(requestUrl))    
         {
             yield return getRequest.SendWebRequest();
             switch (getRequest.result)

@@ -18,8 +18,8 @@ public class TextToSpeechHandler : MonoBehaviour
     // ----------------- TTS SETTINGS ---------------
 
     // Is a phrase or word currently being spoken?
-    [HideInInspector]
-    public static bool isSpeaking = false;
+    // [HideInInspector]
+    // public static bool isSpeaking = false;
 
     // Are there TTS voices available?
     [HideInInspector]
@@ -49,7 +49,7 @@ public class TextToSpeechHandler : MonoBehaviour
     private List<WordTile> wordTiles;
 
     // In general, we are not currently speaking the sentence
-    public static bool speakingSentence = false;
+    public static bool isSpeaking = false;
 
     // A tick variable represents the number of words inside a single tile
     private int tick = 0;
@@ -112,7 +112,7 @@ public class TextToSpeechHandler : MonoBehaviour
         this.wordTiles = wordTiles;
         this.highlight = highlight;
 
-        speakingSentence = true;
+        isSpeaking = true;
 
         string sentence = "";
 
@@ -127,12 +127,14 @@ public class TextToSpeechHandler : MonoBehaviour
 
         //
         Speaker.Instance.Speak(sentence, audio, Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
-        speakingSentence = false;
+        isSpeaking = false;
         
     }
 
     public void startSpeakingWordTile(string word){
+        isSpeaking = true;
         Speaker.Instance.Speak(word, audio, Speaker.Instance.VoiceForName(voiceName), true, voiceRate, voicePitch);
+        isSpeaking = false;
         //Debug.Log(voicePitch);
     }
 
@@ -159,7 +161,7 @@ public class TextToSpeechHandler : MonoBehaviour
         this.wordTiles = wordTiles;
         this.highlight = highlight;
 
-        speakingSentence = true;
+        isSpeaking = true;
 
         int loopCounter = 0;
         int incrementCounter = 0;
@@ -185,7 +187,7 @@ public class TextToSpeechHandler : MonoBehaviour
             yield return new WaitForSeconds(timeToSpeak);
 
         }
-        speakingSentence = false;
+        isSpeaking = false;
     }
 
     // // Event hook for the start of a speech

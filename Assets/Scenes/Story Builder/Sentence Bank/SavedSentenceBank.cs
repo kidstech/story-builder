@@ -29,20 +29,37 @@ public class SavedSentenceBank : MonoBehaviour
     private GameObject storySubmissionStatus;
 
     [SerializeField]
+    private GameObject stopSign;
+
+    [SerializeField]
+    private GameObject speakerButton;
+
+    [SerializeField]
     private AudioSource successNoise;
+
+    public bool stopSpeaking = false;
+
+    public static bool isReadingStory;
 
     // saved sentence bank disabled when not in use => change scene sentencebuilder -> storybuilder needs to activate the
     void OnEnable()
     {
-        //Debug.Log(this.transform.name + " has been enabled");
-        sentences = LoadSavedSentences.LoadSentences();
+        StartCoroutine(getSentences());
+    }
 
+    public IEnumerator getSentences() {
+        yield return new WaitForSecondsRealtime(1);
+        //Debug.Log(this.transform.name + " has been enabled");
+         sentences = SaveSentenceHandler.returnSentences();
+         foreach(SavedSentence s in sentences) {
+            Debug.Log(s.sentenceText);
+         }
         sentencePrefabSize = sentencePrefab.GetComponent<RectTransform>().sizeDelta;
         GetComponent<RectTransform>().sizeDelta = new Vector2(sentencePrefabSize.x, sentencePrefabSize.y * sentences.Count);
 
         // create sentence game object for each sentence we have and populate its components
         Debug.Log(sentences.Count);
-        for (int i = sentences.Count-1; i >= 0; i--)
+        for (int i = 0; i < sentences.Count; i++)
         {
             if(!sentenceIds.Contains(sentences[i].sentenceId)) {
             GameObject newSentence = Instantiate(sentencePrefab);
@@ -53,6 +70,7 @@ public class SavedSentenceBank : MonoBehaviour
             newSentence.GetComponent<SentenceTile>().textToDisplay = sentences[i].sentenceText; 
             } // update textToDisplay for SentenceTile script bc that's what it uses for tts
         }
+
     }
     void OnDisable()
     {
@@ -80,25 +98,25 @@ public class SavedSentenceBank : MonoBehaviour
         return compiledSentence;
     }
 
-    public void speakStory() {
-        storyBuilderTouchBlock.SetActive(true);
-        sentenceBuilderTouchBlock.SetActive(true);
-        StartCoroutine(ttsSpeakStory());
-        foreach(SavedSentence sentence in sentences) {
+    public void ttsUpdateLearnerData() {
+        //storyBuilderTouchBlock.SetActive(true);
+        //sentenceBuilderTouchBlock.SetActive(true);
+        StartCoroutine(speakStory());
+        //foreach(SavedSentence sentence in sentences) {
             // iterate through all the words in a sentence
-            foreach(string selectedWord in sentence.selectedWordForms)
-            {
+           // foreach(string selectedWord in sentence.selectedWordForms)
+            //{
                 // update the word counts for each word
-                LearnerDataHandler.UpdateWordCount(selectedWord);
-            }
-        }
+              //  LearnerDataHandler.UpdateWordCount(selectedWord);
+           // }
+       // }
         // store updated wordcounts locally
-        LearnerDataHandler.StoreLearnerData();
+        //LearnerDataHandler.StoreLearnerData();
         // update server with new word counts from speaking the page
-        StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+        //StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
     }
 
-     public IEnumerator ttsSpeakStory()
+     public IEnumerator speakAndSaveStory()
     {
         Canvas.ForceUpdateCanvases();
         if (transform.childCount == 0) yield return null;
@@ -111,7 +129,6 @@ public class SavedSentenceBank : MonoBehaviour
             //
             for (int o = 0; o < transform.childCount; o++)
             {
-                Debug.Log("I am reading");
                 if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
                     Debug.Log(scrollBar.verticalNormalizedPosition);
                     scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - (1/(children - 1));
@@ -124,6 +141,75 @@ public class SavedSentenceBank : MonoBehaviour
                 Destroy(transform.GetChild(o).GetComponentInChildren<Image>());
             }
             DisplaySubmissionStatus();
+    }
+
+
+    public IEnumerator speakStory()
+    {
+        isReadingStory = true;
+        Canvas.ForceUpdateCanvases();
+        if (transform.childCount == 0) yield return null;
+
+        //
+        //string fullPage = "";
+        string textToRead = null;
+        float speechDuration = 0;
+        float children = this.gameObject.transform.childCount;
+        scrollBar.verticalNormalizedPosition = 1;
+        speakerButton.SetActive(false);
+        stopSign.SetActive(true); 
+
+            for (int o = 0; o < transform.childCount; o++)
+            {
+                if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
+                    scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - (1/(children - 1));
+                }
+                // example:          PageContainer => PagePrefab => SentencePrefab
+                textToRead = transform.GetChild(o).GetComponentInChildren<SentenceTile>().textToDisplay.ToLower();
+                speechDuration = Speaker.Instance.ApproximateSpeechLength(textToRead) * (1 / TextToSpeechHandler.voiceRate);
+                transform.GetChild(o).GetComponentInChildren<SentenceTile>().ReadSentence();
+                foreach(string word in transform.GetChild(o).GetComponentInChildren<SentenceObject>().savedSentence.selectedWordForms) {
+                     LearnerDataHandler.UpdateWordCount(word);
+                }
+                yield return new WaitForSeconds(speechDuration + 0.5f);
+                if(stopSpeakingSentences()) {
+                    isReadingStory = false;
+                    yield break;
+                };
+                }
+                // store updated wordcounts locally
+                LearnerDataHandler.StoreLearnerData();
+                speakerButton.SetActive(true);
+                isReadingStory  = false;
+                stopSign.SetActive(false);
+                // update server with new word counts from speaking the page
+                StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            }
+                
+
+
+    public void setStopSpeaking() {
+        if (stopSpeaking == false){
+            stopSpeaking = true;
+        }
+        Debug.Log("Stop speaking has been set to true and is: " + stopSpeaking);
+    }
+    
+    public bool stopSpeakingSentences() {
+        if(stopSpeaking == true) {
+            stopSign.SetActive(false);
+            speakerButton.SetActive(true);
+            LearnerDataHandler.StoreLearnerData();
+            // update server with new word counts from speaking the page
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            stopSpeaking = false;
+            storyBuilderTouchBlock.SetActive(false);
+            sentenceBuilderTouchBlock.SetActive(false);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public List<string> getSentencesInBank() {

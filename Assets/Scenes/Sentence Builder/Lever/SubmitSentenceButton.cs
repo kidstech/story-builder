@@ -82,7 +82,7 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
     /// <param name="eventData">Event data.</param>
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (TextToSpeechHandler.speakingSentence == false)
+        if (TextToSpeechHandler.isSpeaking == false)
         {
             // Pull the lever kronk!
             StartCoroutine(pullLever());

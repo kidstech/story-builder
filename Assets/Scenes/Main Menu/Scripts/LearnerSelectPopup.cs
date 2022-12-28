@@ -17,6 +17,12 @@ public class LearnerSelectPopup : MonoBehaviour
     public static User currentUser;
     // array of files that contain previously stored learner icons
     private string[] filePaths;
+    public Sprite moose;
+    public Sprite narwhal;
+    public Sprite penguin;
+    public Sprite pig;
+    public Sprite duck;
+
     void Start()
     {
         filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath);
@@ -45,7 +51,7 @@ public class LearnerSelectPopup : MonoBehaviour
             foreach (Learner learner in currentUser.learners)
             {
                 //for every learner that actually has an icon...
-                if (learner.icon != null)
+                if (learner.icon != null && !learner.icon.Contains("assets"))
                 {
                     //grabs the firebase image URI => sends server request => updates image component field in the button
                     GetLearnerIconAndMakeButton(learner);
@@ -62,7 +68,6 @@ public class LearnerSelectPopup : MonoBehaviour
                 CreateLearnerButton(learner);
             }
         }
-
     }
     public void GetLearnerIconAndMakeButton(Learner learner)
     {
@@ -83,14 +88,38 @@ public class LearnerSelectPopup : MonoBehaviour
         // make sure we grab any local icons that may have been added from most recent server call
         filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath);
         //check and see if we have an image file for the learner
-        foreach (string fileName in filePaths)
-        {
-            if (learner._id == Path.GetFileNameWithoutExtension(fileName))
-            {
-                //LearnerImage component of learner button prefab
-                button.transform.GetChild(1).GetComponent<Image>().sprite = LearnerIconStorageHandler.GetLearnerSprite(learner._id);
-            }
-        }
+         switch(learner.icon) {
+                    case "/assets/penguin.png":
+                        Debug.Log("Am I being called");
+                        button.transform.GetChild(1).GetComponent<Image>().sprite = penguin;
+                        break;
+                    case "/assets/moose.png":
+                        Debug.Log("Am I being called1");
+                        button.transform.GetChild(1).GetComponent<Image>().sprite = moose;
+                        break;
+                    case "/assets/pig.png":
+                        Debug.Log("Am I being called2");
+                        button.transform.GetChild(1).GetComponent<Image>().sprite = pig;
+                        break;
+                    case "/assets/duck.png":
+                        Debug.Log("Am I being called3");
+                        button.transform.GetChild(1).GetComponent<Image>().sprite = duck;
+                        break;
+                    case "/assets/narwhal.png":
+                        Debug.Log("Am I being called3");
+                        button.transform.GetChild(1).GetComponent<Image>().sprite = narwhal;
+                        break;
+                    default:
+                        foreach (string fileName in filePaths) {
+                            if (learner._id == Path.GetFileNameWithoutExtension(fileName))
+                        {
+                                //LearnerImage component of learner button prefab
+                                button.transform.GetChild(1).GetComponent<Image>().sprite = LearnerIconStorageHandler.GetLearnerSprite(learner._id);
+                        }
+                     }
+                     break;
+                    
+    } 
         button.transform.GetComponent<RectTransform>().localPosition = correctedZPosition;
         // add learner name to their button
         button.GetComponentInChildren<Text>().text = learner.name;

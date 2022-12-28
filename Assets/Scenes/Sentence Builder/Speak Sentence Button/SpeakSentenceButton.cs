@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Crosstales.RTVoice;
 
-public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class SpeakSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
 
@@ -59,8 +59,9 @@ public class TextToSpeechButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         List<WordTile> words;
         words = sentence.GatherWordTiles();
-        if (TextToSpeechHandler.speakingSentence == false)
+        if (TextToSpeechHandler.isSpeaking == false)
         {
+
             // Slowly here meaning each word tile is processed individually rather than as an entire sentence.
             StartCoroutine(tts.startSpeakingSentenceSlowly(words, true));
             // track all the words in the sentence

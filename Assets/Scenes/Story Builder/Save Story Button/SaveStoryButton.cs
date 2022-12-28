@@ -30,6 +30,9 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private Button finalStorySubmit;
 
     [SerializeField]
+    private Button cancelStorySubmit;
+
+    [SerializeField]
     private GameObject touchBlock;
 
     [SerializeField]
@@ -41,7 +44,7 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if(StoryNamePrompt.activeInHierarchy == true) {
             if (Input.GetKeyDown(KeyCode.Return)) {
                 CloseStoryNameMenu();
-                sentenceBank.speakStory();
+                StartCoroutine(sentenceBank.speakAndSaveStory());
         }
     }
     }
@@ -50,7 +53,13 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         finalStorySubmit.onClick.AddListener(() => {
             CloseStoryNameMenu();
-                sentenceBank.speakStory();
+            StartCoroutine(sentenceBank.speakAndSaveStory());
+        });
+
+        cancelStorySubmit.onClick.AddListener(() => {
+            StoryNamePrompt.SetActive(false);
+            touchBlock.SetActive(false);
+            touchBlock2.SetActive(false);
         });
         // get a reference to the current image so it can be swapped later
         currentImage = this.GetComponent<Image>();

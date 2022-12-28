@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpeakPageButton : MonoBehaviour
+public class SpeakStoryButton : MonoBehaviour
 {
     public SavedSentenceBank sentenceBank;
     private Button button;
@@ -16,6 +16,6 @@ public class SpeakPageButton : MonoBehaviour
 
     private void SpeakStory()
     {
-        sentenceBank.speakStory();
+        sentenceBank.ttsUpdateLearnerData();
     }
 }

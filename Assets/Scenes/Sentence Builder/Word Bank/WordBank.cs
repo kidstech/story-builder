@@ -14,7 +14,6 @@ public class WordBank : MonoBehaviour
     //
     private readonly int tileHeight = 50;
 
-    //
     public void ResizeWordBank(int numEnabledTiles)
     {
         // casting numEnabledTiles to float so that integer division doesn't break the rounding here
@@ -23,7 +22,6 @@ public class WordBank : MonoBehaviour
         //
         GetComponent<RectTransform>().sizeDelta = new Vector2(GetComponent<RectTransform>().sizeDelta.x, newHeight);
     }
-
     //
     public void SortWordBank()
     {
