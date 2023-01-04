@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Crosstales.RTVoice;
@@ -24,29 +24,41 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
     // method that assigns voices to the three different change voice buttons
     // currently just nabs first 3 en-US voices in system
     public void AssignVoices() {
-        int i = 0;
-        int numEnVoices = 0; // tracking index of next voice insertion point
-        int numVoiceButtons = 3;
-        int totalNumberOfVoices = Speaker.Instance.Voices.Count;
-        // iterate through available voices to find english cultures
-        for(i = 0; i < totalNumberOfVoices; i++) {
 
-            // we only want english voices for pronunciation learning purposes
-            if (Speaker.Instance.Voices[i].Culture == "en-US") {
-                // assign the voice name to the text box of the buttons in VoiceSelectionHub
-                voiceButtons[numEnVoices].gameObject.GetComponentInChildren<Text>().text = Speaker.Instance.Voices[i].Name;
-                numEnVoices++; // track which voice button we will add text to next
+        int numVoices = 0; // tracking index of next voice insertion point
+        int numVoiceButtons = 3;
+
+        // Get all available English voices
+        List<Crosstales.RTVoice.Model.Voice> englishVoices = Speaker.Instance.VoicesForCulture("en");
+
+
+        foreach(Crosstales.RTVoice.Model.Voice voice in englishVoices) {
+            if(voice.Name == "Bad News" || voice.Name == "Karen" || voice.Name == "Nathan") {
+                voiceButtons[numVoices].gameObject.GetComponentInChildren<Text>().text = voice.Name;
+                numVoices++;
             }
 
-            // if we've found enough voices to fill all our buttons, we break from the loop (we only have three buttons max)
-            if (numEnVoices == numVoiceButtons) {
+            if(numVoices == numVoiceButtons) {
                 break;
             }
         }
 
-        // if we end up having less than 3 english voices, delete any empty voice change buttons
-        if (numEnVoices < numVoiceButtons) {
-            for(int c = numVoiceButtons; c > numEnVoices; c--) {
+        if(numVoices < numVoiceButtons) {
+            foreach(Crosstales.RTVoice.Model.Voice voice in englishVoices) {
+                if(numVoices == numVoiceButtons) {
+                    break;
+                }
+                
+                else {
+                    voiceButtons[numVoices].gameObject.GetComponentInChildren<Text>().text = voice.Name;
+                    numVoices++;
+                }
+            }
+        }
+
+        // if we end up having less than 3 voices, delete any empty voice change buttons
+        if (numVoices < numVoiceButtons) {
+            for(int c = numVoiceButtons; c > numVoices; c--) {
                 //Debug.Log("there are: " + voiceButtons.Count + "voice buttons");
                 Destroy(voiceButtons[c-1].gameObject); // translate the length to an index value
             }
