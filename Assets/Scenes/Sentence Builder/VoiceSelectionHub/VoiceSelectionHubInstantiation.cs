@@ -33,7 +33,7 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
 
 
         foreach(Crosstales.RTVoice.Model.Voice voice in englishVoices) {
-            if(voice.Name == "Bad News" || voice.Name == "Karen" || voice.Name == "Nathan") {
+            if(voice.Name == "Bad News" || voice.Name == "Zoe" || voice.Name == "Evan") {
                 voiceButtons[numVoices].gameObject.GetComponentInChildren<Text>().text = voice.Name;
                 numVoices++;
             }
