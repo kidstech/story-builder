@@ -16,6 +16,7 @@ public class FilterController : MonoBehaviour
     private int partOfSpeechToFilter = -1;
 
     private LetterFilterButton[] letterButtons = new LetterFilterButton[25];
+    private PartOfSpeechFilterButton[] partOfSpeechButtons = new PartOfSpeechFilterButton[4];
 
     //
     private void Start()
@@ -25,6 +26,8 @@ public class FilterController : MonoBehaviour
 
         // array of all the LetterFilterButton game objects so we can toggle their filter states without them being clicked on.
         letterButtons = GameObject.FindObjectsOfType<LetterFilterButton>();
+        
+        partOfSpeechButtons = GameObject.FindObjectsOfType<PartOfSpeechFilterButton>();
 
     }
 
@@ -165,10 +168,21 @@ public class FilterController : MonoBehaviour
 
 
     public void UpdatePartOfSpeechFilter(int partOfSpeech, bool isSelected) {
+
         if(!isSelected) {
             partOfSpeechToFilter = -1;
         }
         else {
+
+            // Check if other parts of speech buttons are currently selected.
+            // If there is one that is already selected, then reset its colors to the default colors and change isSelected to false
+            for(int i = 0; i < partOfSpeechButtons.Length; i++) {
+                PartOfSpeechFilterButton x = partOfSpeechButtons[i].GetComponent<PartOfSpeechFilterButton>();
+                if(x.partOfSpeech != partOfSpeech && x.filterButton.colors.normalColor == x.defaultCB.selectedColor) {
+                    x.filterButton.colors = x.defaultCB;
+                    x.isSelected = false;
+                }
+            }
             partOfSpeechToFilter = partOfSpeech;
         }
         FilterWordBank();

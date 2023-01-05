@@ -36,6 +36,14 @@ public class PartOfSpeechFilterButton : MonoBehaviour
         
     }
 
+
+    /*
+        * This code chunk is called whenever a filter by part of speech button is selected.
+        * If the button is selected, then we set the default color of the button to be its selected color. 
+            This is done because of how default Unity Buttons cannot be selected, stay selected, and then be deselected by pressing on the button again.
+        * If the button is not selected, then we set the buttons colors to the default colors that the button was instantiated with
+         
+    */
     private void UpdateFilter()
     {   
         isSelected = !isSelected;
@@ -49,8 +57,6 @@ public class PartOfSpeechFilterButton : MonoBehaviour
             filterButton.colors = defaultCB;
         }
 
-        //and the letter that was toggled is thrown into the filterwordbank() which activates/deactivates word tiles based on whether the selected letter matches the first
-        //character of the first word in the word bank (which then recurses through the other letters it has)
         fc.UpdatePartOfSpeechFilter(partOfSpeech, isSelected);
     }
 }
