@@ -58,6 +58,7 @@ public class BuildWorldBankNew : MonoBehaviour
         bank.sizeDelta = new Vector2(bank.sizeDelta.x, TILE_HEIGHT * numOfRows);
 
         // Pre-define colors for nouns, verbs, adj, and extra parts of speech
+        // Nouns id is 0, Verb id is 1, Adjective id is 2, and Misc id is 3
         Color[] colors = { new Color(0.357f, 0.608f, 0.835f), new Color(0.439f, 0.678f, 0.278f), new Color(0.929f, 0.49f, 0.192f), new Color(1f, 0.753f, 0f) };
         // For every word
         for (int word = 0; word < words.Count; word++)

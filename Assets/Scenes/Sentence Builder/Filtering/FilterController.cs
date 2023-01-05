@@ -10,7 +10,10 @@ public class FilterController : MonoBehaviour
 
     // The current letters to filter the search by
     private List<string> lettersToFilter = new List<string>();
+
     private List<string> packsToFilter = new List<string>();
+    
+    private int partOfSpeechToFilter = -1;
 
     private LetterFilterButton[] letterButtons = new LetterFilterButton[25];
 
@@ -47,6 +50,12 @@ public class FilterController : MonoBehaviour
             // Bools for processing combination of OR and AND filters
             bool matchesLetter = false;
             bool matchesPack = false;
+            bool matchesPartOfSpeech = false;
+
+            // Check if the part of the speech of the current word matches the part of speech we want to filter by
+            if(word.partOfSpeechId == partOfSpeechToFilter) {
+                matchesPartOfSpeech = true;
+            }
 
             // For every letter we need to sort by
             for (int o = 0; o < totalLetters; o++)
@@ -78,9 +87,10 @@ public class FilterController : MonoBehaviour
 
             if (totalLetters == 0) matchesLetter = true;
             if (totalPacks == 0) matchesPack = true;
+            if(partOfSpeechToFilter == -1) matchesPartOfSpeech = true;
 
             // Determine if the tile should be enabled or not.
-            if(matchesLetter && matchesPack)
+            if(matchesLetter && matchesPack && matchesPartOfSpeech)
             {
                 //
                 wordTile.gameObject.SetActive(true);
@@ -150,6 +160,17 @@ public class FilterController : MonoBehaviour
         }
 
         //
+        FilterWordBank();
+    }
+
+
+    public void UpdatePartOfSpeechFilter(int partOfSpeech, bool isSelected) {
+        if(!isSelected) {
+            partOfSpeechToFilter = -1;
+        }
+        else {
+            partOfSpeechToFilter = partOfSpeech;
+        }
         FilterWordBank();
     }
 }

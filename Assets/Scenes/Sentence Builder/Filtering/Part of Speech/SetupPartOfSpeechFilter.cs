@@ -20,7 +20,7 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
     /*
         * In this code chunk, we instantiate filter buttons to allow users to filter the word bank by their part of speech.
         * In the word bank, parts of speech are separated by colors: nouns are blue, verbs are green, adjectives are red, and misc is yellow.
-        * Colors were created based on the RGB values of the word tile colors in the word bank.
+        * Colors were created based on the colors identified in the BuildWordBankNew.cs script
     */
     private void Start()
     {
@@ -46,7 +46,7 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
                     cb.pressedColor = Color.Lerp(nounColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(nounColor, Color.black, 0.5f);
                     button.colors = cb;
-                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = nounColor;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = 0;
                     break;
 
                 case "Verb" :
@@ -56,7 +56,7 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
                     cb.pressedColor = Color.Lerp(verbColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(verbColor, Color.black, 0.5f);
                     button.colors = cb;
-                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = verbColor;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = 1;
                     break;
 
                 case "Adjective" :
@@ -66,7 +66,7 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
                     cb.pressedColor = Color.Lerp(adjectiveColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(adjectiveColor, Color.black, 0.5f);
                     button.colors = cb;
-                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = adjectiveColor;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = 2;
                     break;
 
                 case "Misc" :
@@ -76,7 +76,7 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
                     cb.pressedColor = Color.Lerp(miscColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(miscColor, Color.black, 0.5f);
                     button.colors = cb;
-                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = miscColor;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = 3;
                     break;
             }
 
