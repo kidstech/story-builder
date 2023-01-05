@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PartOfSpeechFilterButton : MonoBehaviour
+{
+    private FilterController fc;
+
+    public Image image;
+
+    public bool state = false;
+
+    [HideInInspector]
+    public Color partOfSpeech;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //
+        fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
+
+        //
+        image = GetComponent<Image>();
+
+        //make it so that when you click on a letter filter button, it calls UpdateFilter
+        GetComponent<Button>().onClick.AddListener(UpdateFilter);
+    }
+
+    private void UpdateFilter()
+    {   
+
+        //and the letter that was toggled is thrown into the filterwordbank() which activates/deactivates word tiles based on whether the selected letter matches the first
+        //character of the first word in the word bank (which then recurses through the other letters it has)
+        //fc.UpdateLetterFilter(partOfSpeech, state);
+
+        //
+        state = !state;
+    }
+}
