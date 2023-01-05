@@ -40,39 +40,43 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
             switch(filterByPartOfSpeech[i]) {
 
                 case "Noun" :
-                    Color nounColor = new Color32(91, 155, 213, 255);
+                    Color nounColor = new Color(0.357f, 0.608f, 0.835f);
                     cb.normalColor = nounColor;
                     cb.highlightedColor = Color.Lerp(nounColor, Color.black, 0.2f);
                     cb.pressedColor = Color.Lerp(nounColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(nounColor, Color.black, 0.5f);
                     button.colors = cb;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = nounColor;
                     break;
 
                 case "Verb" :
-                    Color verbColor = new Color32(112, 173, 71, 255);
+                    Color verbColor = new Color(0.439f, 0.678f, 0.278f);
                     cb.normalColor = verbColor;
                     cb.highlightedColor = Color.Lerp(verbColor, Color.black, 0.2f);
                     cb.pressedColor = Color.Lerp(verbColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(verbColor, Color.black, 0.5f);
                     button.colors = cb;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = verbColor;
                     break;
 
                 case "Adjective" :
-                    Color adjectiveColor = new Color32(237, 125, 49, 255);
+                    Color adjectiveColor = new Color(0.929f, 0.49f, 0.192f);
                     cb.normalColor = adjectiveColor;
                     cb.highlightedColor = Color.Lerp(adjectiveColor, Color.black, 0.2f);
                     cb.pressedColor = Color.Lerp(adjectiveColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(adjectiveColor, Color.black, 0.5f);
                     button.colors = cb;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = adjectiveColor;
                     break;
 
                 case "Misc" :
-                    Color miscColor = new Color32(255, 192, 0, 255);
+                    Color miscColor = new Color(1f, 0.753f, 0f);
                     cb.normalColor = miscColor;
                     cb.highlightedColor = Color.Lerp(miscColor, Color.black, 0.2f);
                     cb.pressedColor = Color.Lerp(miscColor, Color.black, 0.35f);
                     cb.selectedColor = Color.Lerp(miscColor, Color.black, 0.5f);
                     button.colors = cb;
+                    sortButton.AddComponent<PartOfSpeechFilterButton>().partOfSpeech = miscColor;
                     break;
             }
 
