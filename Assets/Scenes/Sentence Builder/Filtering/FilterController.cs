@@ -10,9 +10,13 @@ public class FilterController : MonoBehaviour
 
     // The current letters to filter the search by
     private List<string> lettersToFilter = new List<string>();
+
     private List<string> packsToFilter = new List<string>();
+    
+    private int partOfSpeechToFilter = -1;
 
     private LetterFilterButton[] letterButtons = new LetterFilterButton[25];
+    private PartOfSpeechFilterButton[] partOfSpeechButtons = new PartOfSpeechFilterButton[4];
 
     //
     private void Start()
@@ -22,6 +26,8 @@ public class FilterController : MonoBehaviour
 
         // array of all the LetterFilterButton game objects so we can toggle their filter states without them being clicked on.
         letterButtons = GameObject.FindObjectsOfType<LetterFilterButton>();
+        
+        partOfSpeechButtons = GameObject.FindObjectsOfType<PartOfSpeechFilterButton>();
 
     }
 
@@ -47,6 +53,12 @@ public class FilterController : MonoBehaviour
             // Bools for processing combination of OR and AND filters
             bool matchesLetter = false;
             bool matchesPack = false;
+            bool matchesPartOfSpeech = false;
+
+            // Check if the part of the speech of the current word matches the part of speech we want to filter by
+            if(word.partOfSpeechId == partOfSpeechToFilter) {
+                matchesPartOfSpeech = true;
+            }
 
             // For every letter we need to sort by
             for (int o = 0; o < totalLetters; o++)
@@ -78,9 +90,10 @@ public class FilterController : MonoBehaviour
 
             if (totalLetters == 0) matchesLetter = true;
             if (totalPacks == 0) matchesPack = true;
+            if(partOfSpeechToFilter == -1) matchesPartOfSpeech = true;
 
             // Determine if the tile should be enabled or not.
-            if(matchesLetter && matchesPack)
+            if(matchesLetter && matchesPack && matchesPartOfSpeech)
             {
                 //
                 wordTile.gameObject.SetActive(true);
@@ -150,6 +163,28 @@ public class FilterController : MonoBehaviour
         }
 
         //
+        FilterWordBank();
+    }
+
+
+    public void UpdatePartOfSpeechFilter(int partOfSpeech, bool isSelected) {
+
+        if(!isSelected) {
+            partOfSpeechToFilter = -1;
+        }
+        else {
+
+            // Check if other parts of speech buttons are currently selected.
+            // If there is one that is already selected, then reset its colors to the default colors and change isSelected to false
+            for(int i = 0; i < partOfSpeechButtons.Length; i++) {
+                PartOfSpeechFilterButton x = partOfSpeechButtons[i].GetComponent<PartOfSpeechFilterButton>();
+                if(x.partOfSpeech != partOfSpeech && x.filterButton.colors.normalColor == x.defaultCB.selectedColor) {
+                    x.filterButton.colors = x.defaultCB;
+                    x.isSelected = false;
+                }
+            }
+            partOfSpeechToFilter = partOfSpeech;
+        }
         FilterWordBank();
     }
 }
