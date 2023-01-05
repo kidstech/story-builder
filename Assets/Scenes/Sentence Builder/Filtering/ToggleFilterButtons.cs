@@ -9,6 +9,8 @@ public class ToggleFilterButtons : MonoBehaviour
     public Animator sortingPacksAnim;
     public Animator sortingAlphabetAnim;
 
+    public Animator sortingPartOfSpeechAnim;
+
     //
     private void Start()
     {
@@ -22,5 +24,6 @@ public class ToggleFilterButtons : MonoBehaviour
         //
         sortingPacksAnim.SetTrigger("Toggle");
         sortingAlphabetAnim.SetTrigger("Toggle");
+        sortingPartOfSpeechAnim.SetTrigger("Toggle");
     }
 }

@@ -17,7 +17,11 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
         "Misc"
     };
 
-    //
+    /*
+        * In this code chunk, we instantiate filter buttons to allow users to filter the word bank by their part of speech.
+        * In the word bank, parts of speech are separated by colors: nouns are blue, verbs are green, adjectives are red, and misc is yellow.
+        * Colors were created based on the RGB values of the word tile colors in the word bank.
+    */
     private void Start()
     {
 
