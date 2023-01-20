@@ -41,18 +41,22 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         TTS = GetComponentInParent<TextToSpeechHandler>();
         TTS.startSpeakingWordTile(textToRead);
 
-        GameObject o = Instantiate(this.gameObject);
-        o.GetComponent<WordTile>().word = this.gameObject.GetComponent<WordTile>().word;
-        o.GetComponent<Image>().color = this.gameObject.GetComponent<WordTile>().originalColor;
 
-        if(WordHolder.wordHolderDropZoneTransform.childCount > 0) {
-            GameObject.Destroy(WordHolder.wordHolderDropZoneTransform.GetChild(0).gameObject);
-            o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
-            o.GetComponent<DraggableTile>().draggedFrom = TileDropzone.Behavior.WordHolder;
-        }
-        else {
-            o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
-            o.GetComponent<DraggableTile>().draggedFrom = TileDropzone.Behavior.WordHolder;
+        if(this.gameObject.GetComponent<DraggableTile>().draggedFrom != TileDropzone.Behavior.WordHolder) {
+
+            GameObject o = Instantiate(this.gameObject);
+            o.GetComponent<WordTile>().word = this.gameObject.GetComponent<WordTile>().word;
+            o.GetComponent<Image>().color = this.gameObject.GetComponent<WordTile>().originalColor;
+
+            if(WordHolder.wordHolderDropZoneTransform.childCount > 0) {
+                GameObject.Destroy(WordHolder.wordHolderDropZoneTransform.GetChild(0).gameObject);
+                o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
+                o.GetComponent<DraggableTile>().draggedFrom = TileDropzone.Behavior.WordHolder;
+            }
+            else {
+                o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
+                o.GetComponent<DraggableTile>().draggedFrom = TileDropzone.Behavior.WordHolder;
+            }
         }
     }
 

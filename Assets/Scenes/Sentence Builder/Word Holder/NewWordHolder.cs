@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Crosstales.RTVoice;
 
 public class NewWordHolder : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class NewWordHolder : MonoBehaviour
 
     [SerializeField]
     private GameObject baseWordGO;
+
+    [SerializeField]
+    private TextToSpeechHandler TTS;
 
     [SerializeField] 
     private GameObject wordHolderDrop; 
@@ -89,14 +93,26 @@ public class NewWordHolder : MonoBehaviour
 
 
 
-        void TaskOnClick(Word word2, string i) {
-            //Debug.Log("You have been clicked");
-            Debug.Log(i);
-            wordHolderDrop.GetComponentInChildren<Text>().text = i;
-            wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = i;
+        void TaskOnClick(Word word2, string wordFormText) {
+             // update word counts for the learner
+            LearnerDataHandler.UpdateWordCount(wordFormText);
+            // store it locally
+            LearnerDataHandler.StoreLearnerData();
+            // update the server's copy
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            TTS.startSpeakingWordTile(wordFormText);
+            wordHolderDrop.GetComponentInChildren<Text>().text = wordFormText;
+            wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = wordFormText;
         }
 
         void TaskOnClick2() {
+             // update word counts for the learner
+            LearnerDataHandler.UpdateWordCount(baseWord.text);
+            // store it locally
+            LearnerDataHandler.StoreLearnerData();
+            // update the server's copy
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            TTS.startSpeakingWordTile(baseWord.text);
              wordHolderDrop.GetComponentInChildren<Text>().text = baseWord.text;
              wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = baseWord.text;
         }
