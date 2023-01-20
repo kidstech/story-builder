@@ -189,7 +189,7 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         Destroy(this.transform.GetChild(0).gameObject);
                     }
                     
-                    GetComponent<WordHolder>().OpenWordHolder(eventData.pointerDrag.GetComponent<WordTile>().word);
+                    //GetComponent<WordHolder>().OpenWordHolder(eventData.pointerDrag.GetComponent<WordTile>().word);
 
                     //
                     Destroy(d.placeholder);
