@@ -48,9 +48,11 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         if(WordHolder.wordHolderDropZoneTransform.childCount > 0) {
             GameObject.Destroy(WordHolder.wordHolderDropZoneTransform.GetChild(0).gameObject);
             o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
+            o.GetComponent<DraggableTile>().draggedFrom = TileDropzone.Behavior.WordHolder;
         }
         else {
             o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
+            o.GetComponent<DraggableTile>().draggedFrom = TileDropzone.Behavior.WordHolder;
         }
     }
 
