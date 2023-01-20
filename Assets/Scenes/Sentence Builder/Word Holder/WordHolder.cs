@@ -11,6 +11,11 @@ public class WordHolder : MonoBehaviour
 
     [SerializeField]
     private GameObject wordForms;
+    public static Transform wordHolderDropZoneTransform;
+
+    public void Start() {
+        wordHolderDropZoneTransform = this.transform;
+    }
 
     public void OpenWordHolder(Word word)
     {

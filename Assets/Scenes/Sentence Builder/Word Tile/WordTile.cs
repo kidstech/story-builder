@@ -40,6 +40,18 @@ public class WordTile : MonoBehaviour, IPointerClickHandler
         // Speak the text on the tile using the correct voice
         TTS = GetComponentInParent<TextToSpeechHandler>();
         TTS.startSpeakingWordTile(textToRead);
+
+        GameObject o = Instantiate(this.gameObject);
+        o.GetComponent<WordTile>().word = this.gameObject.GetComponent<WordTile>().word;
+        o.GetComponent<Image>().color = this.gameObject.GetComponent<WordTile>().originalColor;
+
+        if(WordHolder.wordHolderDropZoneTransform.childCount > 0) {
+            GameObject.Destroy(WordHolder.wordHolderDropZoneTransform.GetChild(0).gameObject);
+            o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
+        }
+        else {
+            o.transform.SetParent(WordHolder.wordHolderDropZoneTransform, false);
+        }
     }
 
     // public void Highlight()
