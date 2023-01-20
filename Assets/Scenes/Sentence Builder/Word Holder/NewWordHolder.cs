@@ -32,8 +32,12 @@ public class NewWordHolder : MonoBehaviour
     [SerializeField]
     private TextToSpeechHandler TTS;
 
+    [SerializeField]
+    private Transform wordHolder;
+
     [SerializeField] 
     private GameObject wordHolderDrop; 
+
     [SerializeField]
     private Vector2 defaultHeightWidth;
 
@@ -41,17 +45,29 @@ public class NewWordHolder : MonoBehaviour
 
     public static Word word2;
 
+    private int wordHolderSiblingIndex;
+    private int wordHolderDropZoneSiblingIndex;
+
+    private int wordFormPopupSiblingIndex;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
-         baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
+        baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
         instance = this;
+        wordHolderSiblingIndex = wordHolder.GetSiblingIndex();
+         Debug.Log("Word Holder sibling index: " + wordHolderSiblingIndex);
+        wordHolderDropZoneSiblingIndex = wordHolderDrop.transform.GetSiblingIndex();
+        wordFormPopupSiblingIndex = this.transform.GetSiblingIndex();
     }
 
     void OnEnable()
     {
         baseWord.text = word2.baseWord;
+        wordHolder.SetSiblingIndex(wordFormPopupSiblingIndex + 1);
+        wordHolderDrop.transform.SetSiblingIndex(wordFormPopupSiblingIndex + 2);
+        wordHolderDrop.GetComponentInChildren<CanvasGroup>().blocksRaycasts = false;
     }
 
     void OnDisable() {
@@ -60,7 +76,9 @@ public class NewWordHolder : MonoBehaviour
         }
         
         popUpBackground.sizeDelta = defaultHeightWidth;
-
+        wordHolder.SetSiblingIndex(wordHolderSiblingIndex);
+        wordHolderDrop.transform.SetSiblingIndex(wordHolderDropZoneSiblingIndex);
+        wordHolderDrop.GetComponentInChildren<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void setUpForms() {

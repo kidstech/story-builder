@@ -144,6 +144,7 @@ MonoBehaviour:
   baseWordT: {fileID: 8020127765071357092}
   baseWordGO: {fileID: 3210380517934440383}
   TTS: {fileID: 1214538165}
+  wordHolder: {fileID: 107012080}
   wordHolderDrop: {fileID: 7598417968809258705}
   defaultHeightWidth: {x: 59.7756, y: 169.8303}
 --- !u!1 &11255648
@@ -1142,11 +1143,11 @@ RectTransform:
   - {fileID: 1944421430}
   - {fileID: 1696695520}
   - {fileID: 107012080}
+  - {fileID: 1844566991}
   - {fileID: 960626487}
   - {fileID: 138376905}
   - {fileID: 1109885698}
   - {fileID: 690792488}
-  - {fileID: 1844566991}
   - {fileID: 1494685787}
   - {fileID: 170142081}
   - {fileID: 1460180230}
@@ -1208,7 +1209,7 @@ RectTransform:
   - {fileID: 1692775391}
   - {fileID: 2010578503}
   m_Father: {fileID: 138288539}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2665,7 +2666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252.01114}
+  m_AnchoredPosition: {x: -400.50464, y: 252.00002}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -5003,7 +5004,7 @@ RectTransform:
   - {fileID: 2023912234}
   - {fileID: 182701609}
   m_Father: {fileID: 138288539}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6393,7 +6394,7 @@ RectTransform:
   - {fileID: 1697865870}
   - {fileID: 1428679919}
   m_Father: {fileID: 138288539}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7314,7 +7315,7 @@ RectTransform:
   m_Children:
   - {fileID: 819087555}
   m_Father: {fileID: 138288539}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7789,7 +7790,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9049614
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15214,7 +15215,7 @@ PrefabInstance:
     - target: {fileID: 7598417966969124127, guid: 35ae01cc62795f349aaec6010f24a81c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7598417966969124127, guid: 35ae01cc62795f349aaec6010f24a81c,
         type: 3}
