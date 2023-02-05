@@ -10,8 +10,6 @@ public class NewWordHolder : MonoBehaviour
     public static NewWordHolder instance;
 
     [SerializeField]
-    private Button closeForms;
-    [SerializeField]
     private GameObject newFormsPopUp;
 
     [SerializeField]
@@ -53,7 +51,6 @@ public class NewWordHolder : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
         baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
         instance = this;
         wordHolderSiblingIndex = wordHolder.GetSiblingIndex();

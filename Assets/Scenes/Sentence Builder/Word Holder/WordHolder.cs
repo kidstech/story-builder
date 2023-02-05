@@ -21,8 +21,11 @@ public class WordHolder : MonoBehaviour
     public void Start() {
         wordHolderDropZoneTransform = this.transform;
         formDialButton.onClick.AddListener(()=> {
-            if(WordHolder.wordHolderDropZoneTransform.childCount > 0) {
+            if(WordHolder.wordHolderDropZoneTransform.childCount > 0 && !wordForms.activeSelf) {
                  OpenWordHolder(wordHolderDropZoneTransform.GetChild(0).GetComponent<WordTile>().word);
+            }
+            else {
+                wordForms.SetActive(false);
             }
         });
     }
