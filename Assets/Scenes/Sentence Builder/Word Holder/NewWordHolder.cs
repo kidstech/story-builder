@@ -63,7 +63,6 @@ public class NewWordHolder : MonoBehaviour
         baseWord.text = word2.baseWord;
         wordHolder.SetSiblingIndex(wordFormPopupSiblingIndex + 1);
         wordHolderDrop.transform.SetSiblingIndex(wordFormPopupSiblingIndex + 2);
-        wordHolderDrop.GetComponentInChildren<CanvasGroup>().blocksRaycasts = false;
     }
 
     void OnDisable() {
@@ -74,7 +73,6 @@ public class NewWordHolder : MonoBehaviour
         popUpBackground.sizeDelta = defaultHeightWidth;
         wordHolder.SetSiblingIndex(wordHolderSiblingIndex);
         wordHolderDrop.transform.SetSiblingIndex(wordHolderDropZoneSiblingIndex);
-        wordHolderDrop.GetComponentInChildren<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void setUpForms() {
