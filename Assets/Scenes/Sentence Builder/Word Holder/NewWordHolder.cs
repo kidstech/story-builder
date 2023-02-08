@@ -54,7 +54,6 @@ public class NewWordHolder : MonoBehaviour
         baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
         instance = this;
         wordHolderSiblingIndex = wordHolder.GetSiblingIndex();
-         Debug.Log("Word Holder sibling index: " + wordHolderSiblingIndex);
         wordHolderDropZoneSiblingIndex = wordHolderDrop.transform.GetSiblingIndex();
         wordFormPopupSiblingIndex = this.transform.GetSiblingIndex();
     }

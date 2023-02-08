@@ -71,9 +71,15 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             //
             placeholder.transform.SetAsLastSibling();
         }
-        else
+        else if (draggedFrom == TileDropzone.Behavior.WordHolder && NewWordHolder.instance != null)
         {
+            if(NewWordHolder.instance.gameObject.activeSelf) {
+                NewWordHolder.instance.gameObject.SetActive(false);
+            }
             //
+            placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
+        }
+        else {
             placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
         }
 
