@@ -375,7 +375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbaba73dbda36144b8c90f4f0b29e662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeForms: {fileID: 8054022033925131304}
   newFormsPopUp: {fileID: 7387002060171799739}
   popUpBackground: {fileID: 7855274499609504506}
   baseWord: {fileID: 314866217714788197}
@@ -383,6 +382,8 @@ MonoBehaviour:
     type: 3}
   baseWordT: {fileID: 8020127765842824983}
   baseWordGO: {fileID: 3210380516625576972}
+  TTS: {fileID: 0}
+  wordHolder: {fileID: 0}
   wordHolderDrop: {fileID: 0}
   defaultHeightWidth: {x: 59.7756, y: 169.8303}
 --- !u!1 &8766358314689055379

@@ -51,7 +51,7 @@ public class NewWordHolder : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
+        baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => baseWordClick(baseWordGO.GetComponent<Image>()));
         instance = this;
         wordHolderSiblingIndex = wordHolder.GetSiblingIndex();
         wordHolderDropZoneSiblingIndex = wordHolderDrop.transform.GetSiblingIndex();
@@ -85,7 +85,7 @@ public class NewWordHolder : MonoBehaviour
                 string wordFormText = word2.forms[i];
                 Debug.Log(i);
                 button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
-                button.GetComponent<Button>().onClick.AddListener(() => TaskOnClick(word2, wordFormText));
+                button.GetComponent<Button>().onClick.AddListener(() => formClick(word2, wordFormText, button.GetComponent<Image>()));
                 offset += 50;
                 buttons.Add(button);
             // float offset = 1;
@@ -103,30 +103,36 @@ public class NewWordHolder : MonoBehaviour
             
         }
 
-
-
-        void TaskOnClick(Word word2, string wordFormText) {
+        void formClick(Word word2, string wordFormText, Image buttonImage) {
              // update word counts for the learner
             LearnerDataHandler.UpdateWordCount(wordFormText);
             // store it locally
             LearnerDataHandler.StoreLearnerData();
             // update the server's copy
             StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            StartCoroutine(HighlightButton(Speaker.Instance.ApproximateSpeechLength(wordFormText), buttonImage));
             TTS.startSpeakingWordTile(wordFormText);
             wordHolderDrop.GetComponentInChildren<Text>().text = wordFormText;
             wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = wordFormText;
         }
 
-        void TaskOnClick2() {
+        void baseWordClick(Image buttonImage) {
              // update word counts for the learner
             LearnerDataHandler.UpdateWordCount(baseWord.text);
             // store it locally
             LearnerDataHandler.StoreLearnerData();
             // update the server's copy
             StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            StartCoroutine(HighlightButton(Speaker.Instance.ApproximateSpeechLength(baseWord.text), buttonImage));
             TTS.startSpeakingWordTile(baseWord.text);
              wordHolderDrop.GetComponentInChildren<Text>().text = baseWord.text;
              wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = baseWord.text;
+        }
+
+        private IEnumerator HighlightButton(float seconds, Image buttonImage) {
+            buttonImage.color = Color.yellow;
+            yield return new WaitForSeconds(seconds);
+            buttonImage.color = Color.white;
         }
     }
 
