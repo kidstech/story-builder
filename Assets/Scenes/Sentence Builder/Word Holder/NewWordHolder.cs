@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Crosstales.RTVoice;
 
 public class NewWordHolder : MonoBehaviour
 {
     public static NewWordHolder instance;
 
-    [SerializeField]
-    private Button closeForms;
     [SerializeField]
     private GameObject newFormsPopUp;
 
@@ -28,8 +27,15 @@ public class NewWordHolder : MonoBehaviour
     [SerializeField]
     private GameObject baseWordGO;
 
+    [SerializeField]
+    private TextToSpeechHandler TTS;
+
+    [SerializeField]
+    private Transform wordHolder;
+
     [SerializeField] 
     private GameObject wordHolderDrop; 
+
     [SerializeField]
     private Vector2 defaultHeightWidth;
 
@@ -37,17 +43,26 @@ public class NewWordHolder : MonoBehaviour
 
     public static Word word2;
 
+    private int wordHolderSiblingIndex;
+    private int wordHolderDropZoneSiblingIndex;
+
+    private int wordFormPopupSiblingIndex;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        closeForms.onClick.AddListener(()=> newFormsPopUp.SetActive(false));
-         baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => TaskOnClick2());
+        baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => baseWordClick(baseWordGO.GetComponent<Image>()));
         instance = this;
+        wordHolderSiblingIndex = wordHolder.GetSiblingIndex();
+        wordHolderDropZoneSiblingIndex = wordHolderDrop.transform.GetSiblingIndex();
+        wordFormPopupSiblingIndex = this.transform.GetSiblingIndex();
     }
 
     void OnEnable()
     {
         baseWord.text = word2.baseWord;
+        wordHolder.SetSiblingIndex(wordFormPopupSiblingIndex + 1);
+        wordHolderDrop.transform.SetSiblingIndex(wordFormPopupSiblingIndex + 2);
     }
 
     void OnDisable() {
@@ -56,7 +71,8 @@ public class NewWordHolder : MonoBehaviour
         }
         
         popUpBackground.sizeDelta = defaultHeightWidth;
-
+        wordHolder.SetSiblingIndex(wordHolderSiblingIndex);
+        wordHolderDrop.transform.SetSiblingIndex(wordHolderDropZoneSiblingIndex);
     }
 
     public void setUpForms() {
@@ -69,7 +85,7 @@ public class NewWordHolder : MonoBehaviour
                 string wordFormText = word2.forms[i];
                 Debug.Log(i);
                 button.transform.position = new Vector3(baseWordT.position.x, baseWordT.position.y - offset, baseWordT.position.z);
-                button.GetComponent<Button>().onClick.AddListener(() => TaskOnClick(word2, wordFormText));
+                button.GetComponent<Button>().onClick.AddListener(() => formClick(word2, wordFormText, button.GetComponent<Image>()));
                 offset += 50;
                 buttons.Add(button);
             // float offset = 1;
@@ -87,18 +103,36 @@ public class NewWordHolder : MonoBehaviour
             
         }
 
-
-
-        void TaskOnClick(Word word2, string i) {
-            //Debug.Log("You have been clicked");
-            Debug.Log(i);
-            wordHolderDrop.GetComponentInChildren<Text>().text = i;
-            wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = i;
+        void formClick(Word word2, string wordFormText, Image buttonImage) {
+             // update word counts for the learner
+            LearnerDataHandler.UpdateWordCount(wordFormText);
+            // store it locally
+            LearnerDataHandler.StoreLearnerData();
+            // update the server's copy
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            StartCoroutine(HighlightButton(Speaker.Instance.ApproximateSpeechLength(wordFormText), buttonImage));
+            TTS.startSpeakingWordTile(wordFormText);
+            wordHolderDrop.GetComponentInChildren<Text>().text = wordFormText;
+            wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = wordFormText;
         }
 
-        void TaskOnClick2() {
+        void baseWordClick(Image buttonImage) {
+             // update word counts for the learner
+            LearnerDataHandler.UpdateWordCount(baseWord.text);
+            // store it locally
+            LearnerDataHandler.StoreLearnerData();
+            // update the server's copy
+            StartCoroutine(ServerRequestHandler.PostLearnerDataToServer());
+            StartCoroutine(HighlightButton(Speaker.Instance.ApproximateSpeechLength(baseWord.text), buttonImage));
+            TTS.startSpeakingWordTile(baseWord.text);
              wordHolderDrop.GetComponentInChildren<Text>().text = baseWord.text;
              wordHolderDrop.GetComponentInChildren<WordTile>().textToDisplay = baseWord.text;
+        }
+
+        private IEnumerator HighlightButton(float seconds, Image buttonImage) {
+            buttonImage.color = Color.yellow;
+            yield return new WaitForSeconds(seconds);
+            buttonImage.color = Color.white;
         }
     }
 

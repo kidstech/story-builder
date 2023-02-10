@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WordHolder : MonoBehaviour
 {
@@ -11,6 +12,23 @@ public class WordHolder : MonoBehaviour
 
     [SerializeField]
     private GameObject wordForms;
+
+
+    [SerializeField]
+    private Button formDialButton;
+    public static Transform wordHolderDropZoneTransform;
+
+    public void Start() {
+        wordHolderDropZoneTransform = this.transform;
+        formDialButton.onClick.AddListener(()=> {
+            if(WordHolder.wordHolderDropZoneTransform.childCount > 0 && !wordForms.activeSelf) {
+                 OpenWordHolder(wordHolderDropZoneTransform.GetChild(0).GetComponent<WordTile>().word);
+            }
+            else {
+                wordForms.SetActive(false);
+            }
+        });
+    }
 
     public void OpenWordHolder(Word word)
     {
