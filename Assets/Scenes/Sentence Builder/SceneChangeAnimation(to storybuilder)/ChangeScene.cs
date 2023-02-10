@@ -18,6 +18,16 @@ public class ChangeScene : MonoBehaviour
     private float sceneHeight = 0;
     private float transitionTime = 2f; // used to keep the wait function in line with animation time
     private string buttonText;
+
+    [SerializeField]
+    private Slider sentenceVoicePitch;
+    [SerializeField]
+    private Slider sentenceVoiceRate;
+    [SerializeField]
+    private Slider storyVoicePitch;
+    [SerializeField]
+    private Slider storyVoiceRate;
+
     public enum SceneType{
         SentenceBuilder,
         StoryBuilder,
@@ -58,6 +68,11 @@ public class ChangeScene : MonoBehaviour
             //currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-1060f,0f); // move learner profile to new scene
             currentLearnerInfoSentenceBuilder.SetActive(false); // disable the current learner info in the sentence builder scene / unused scene
             // enable/refresh the sentence bank
+
+            // Change the pitch and rate in the story builder scene to match the pitch and rate in the sentence builder scene
+            storyVoicePitch.value = sentenceVoicePitch.value;
+            storyVoiceRate.value = sentenceVoiceRate.value;
+
             sentenceBank.SetActive(true);
             
         }
@@ -85,7 +100,13 @@ public class ChangeScene : MonoBehaviour
             // currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-335f,0f);// move learner profile to new scene
             // deactivate sentence bank to ensure it gets refreshed again when changing scenes
             currentLearnerInfoSentenceBuilder.SetActive(true); // re-enable the current learner info in the sentence builder view
+
+            // Change the pitch and rate in the sentence builder scene to match the pitch and rate in the story builder scene
+            sentenceVoicePitch.value = storyVoicePitch.value;
+            sentenceVoiceRate.value = storyVoiceRate.value;
+
             sentenceBank.SetActive(false);
+
         }
         Debug.Log(sceneState);
     }
