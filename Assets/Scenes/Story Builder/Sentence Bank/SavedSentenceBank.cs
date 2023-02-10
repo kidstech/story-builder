@@ -126,11 +126,11 @@ public class SavedSentenceBank : MonoBehaviour
         string textToRead = null;
         float speechDuration = 0;
         float children = this.gameObject.transform.childCount;
+        scrollBar.verticalNormalizedPosition = 1;
             //
             for (int o = 0; o < transform.childCount; o++)
             {
                 if( o != 0 && scrollBar.verticalNormalizedPosition >= 0) {
-                    Debug.Log(scrollBar.verticalNormalizedPosition);
                     scrollBar.verticalNormalizedPosition = scrollBar.verticalNormalizedPosition - (1/(children - 1));
                 }
                 // example:          PageContainer => PagePrefab => SentencePrefab
