@@ -19,7 +19,7 @@ public class LetterFilterButton : MonoBehaviour
     void Start()
     {
         //
-        fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
+        //fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
 
         //
         image = GetComponent<Image>();
