@@ -21,11 +21,12 @@ public class PartOfSpeechFilterButton : MonoBehaviour
     public Button filterButton;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
         //
-        //fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
+        fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
 
         filterButton = GetComponent<Button>();
         filterButton.onClick.AddListener(UpdateFilter);
