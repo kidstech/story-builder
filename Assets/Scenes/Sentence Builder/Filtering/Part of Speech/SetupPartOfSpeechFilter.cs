@@ -81,7 +81,7 @@ public class SetupPartOfSpeechFilter : MonoBehaviour
             }
 
             // parent is WordBankSortingPartOfSpeech
-            sortButton.transform.SetParent(this.transform, true);
+            sortButton.transform.SetParent(this.transform, false);
         }
     }
 }

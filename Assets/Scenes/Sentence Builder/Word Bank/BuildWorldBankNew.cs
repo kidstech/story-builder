@@ -18,6 +18,10 @@ public class BuildWorldBankNew : MonoBehaviour
     public GameObject ContextPackFilter;
     public GameObject WBUpdateConfirmationPrompt;
 
+    // Should be ContextPackList
+    [SerializeField]
+    private GameObject contextPackMenu;
+
     private void Awake()
     {
         // get the user from the server and then set up the packs
@@ -80,6 +84,7 @@ public class BuildWorldBankNew : MonoBehaviour
         GetComponent<WordBank>().SortWordBank();
         // set up pack filter buttons now that words and context packs have been grabbed from the server
         ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
+        contextPackMenu.GetComponent<SetupPackFilter>().SetUpPacks();
         Debug.Log("setup packs called");
     }
     private IEnumerator UpdateWordBankFeedback()
