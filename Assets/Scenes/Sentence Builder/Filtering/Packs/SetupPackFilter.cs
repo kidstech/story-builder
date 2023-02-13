@@ -14,13 +14,16 @@ public class SetupPackFilter : MonoBehaviour
     ///</summary>
     private int iconCount = 0;
 
+    [SerializeField]
+    private GameObject contextPackList;
+
     public void SetUpPacks()
     {
         // clear old filter buttons if they exist
         if (filterByPacks != null)
         {
             filterByPacks.Clear();
-            foreach (Transform child in this.transform)
+            foreach (Transform child in contextPackList.transform)
             {
                 Destroy(child.gameObject);
             }
@@ -32,7 +35,7 @@ public class SetupPackFilter : MonoBehaviour
         // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
         if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
         {
-            //Debug.Log("didn't have matching stored context pack");
+            Debug.Log("didn't have matching stored context pack");
             foreach (ContextPack pack in filterByPacks)
             {
                 //Debug.Log("pack.icon is: " + pack.icon);
@@ -108,7 +111,7 @@ public class SetupPackFilter : MonoBehaviour
             sortButton.AddComponent<PackFilterButton>().pack = filterByPacks[i];
 
             //
-            sortButton.transform.SetParent(this.transform, false);
+            sortButton.transform.SetParent(contextPackList.transform, false);
         }
     }
 
