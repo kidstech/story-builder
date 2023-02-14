@@ -19,6 +19,7 @@ public class SetupPackFilter : MonoBehaviour
 
     public void SetUpPacks()
     {
+        Debug.Log("Set up packs is being called");
         // clear old filter buttons if they exist
         if (filterByPacks != null)
         {
@@ -32,34 +33,50 @@ public class SetupPackFilter : MonoBehaviour
         filterByPacks = ContextPackHandler.loadContextPacks();
         // it definitely has gotten at least secondPack
 
-        // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
-        if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
-        {
-            Debug.Log("didn't have matching stored context pack");
-            foreach (ContextPack pack in filterByPacks)
-            {
-                //Debug.Log("pack.icon is: " + pack.icon);
-                if (pack.icon != "" && pack.icon != null)
-                {
-                    iconCount++;
-                    Debug.Log("iconCount is: " + iconCount);
-                    // then we query firebase and store them
-                    GetPackIconAndStoreLocally(pack);
+        // // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
+        // if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
+        // {
+        //     Debug.Log("didn't have matching stored context pack");
+        //     foreach (ContextPack pack in filterByPacks)
+        //     {
+        //         //Debug.Log("pack.icon is: " + pack.icon);
+        //         if (pack.icon != "" && pack.icon != null)
+        //         {
+        //             iconCount++;
+        //             Debug.Log("iconCount is: " + iconCount);
+        //             // then we query firebase and store them
+        //             GetPackIconAndStoreLocally(pack);
 
+        //         }
+        //     }
+
+            
+
+
+        //     if (iconCount == 0)
+        //     {
+        //         // call needed to ensure we actually still set things up if we don't find any icons
+        //         SetUpContextPackSortButtons();
+        //     }
+        // }
+        // else
+        // {
+        //     //Debug.Log("already have the icons, grabbing them from storage");
+        //     // we already have the icons, just grab them locally
+        //     SetUpContextPackSortButtons();
+        // }
+
+
+        foreach(ContextPack pack in filterByPacks) {
+            if(!ContextPackHandler.checkContextPackIcon(pack)) {
+                if(pack.icon != "" && pack.icon != null) {
+                    Debug.Log("iconCount is: " + iconCount);
+                    GetPackIconAndStoreLocally(pack);
                 }
             }
-            if (iconCount == 0)
-            {
-                // call needed to ensure we actually still set things up if we don't find any icons
-                SetUpContextPackSortButtons();
-            }
         }
-        else
-        {
-            //Debug.Log("already have the icons, grabbing them from storage");
-            // we already have the icons, just grab them locally
-            SetUpContextPackSortButtons();
-        }
+
+        SetUpContextPackSortButtons();
     }
     public void GetPackIconAndStoreLocally(ContextPack pack)
     {

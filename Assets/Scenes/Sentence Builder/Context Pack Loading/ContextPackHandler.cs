@@ -181,13 +181,42 @@ public class ContextPackHandler
                 if (Path.GetFileNameWithoutExtension(fileName) == pack._id)
                 {
                     Debug.Log("matching file name found! We have the appropriate context pack sprites!");
-                    return true;
+                }
+                
+                else {
                 }
             }
         }
         Debug.Log("no pack Id matches locally stored image names...");
         return false;
     }
+
+    public static bool checkContextPackIcon(ContextPack pack) {
+
+        if(!Directory.Exists(iconDirpath)) {
+            Directory.CreateDirectory(iconDirpath);
+        }
+
+        contextPackIconPaths = Directory.GetFiles(iconDirpath);
+
+        if(contextPackIconPaths.Length == 0) {
+            Debug.Log("filepath was null... User doesn't have appropriate context pack sprite");
+            return false;
+        }
+
+        // Check if we have the icon stored locally
+        foreach(string fileName in contextPackIconPaths) {
+             if(Path.GetFileNameWithoutExtension(fileName) == pack._id) {
+                Debug.Log("Matching file name found! Appropriate context pack sprite acquired");
+                return true;
+            }
+        }
+
+        Debug.Log("No pack Id matches locally stored icon names");
+        return false;
+    }
+
+
 
     private static void AddWord(string contextPackId, int partOfSpeechId, string word, List<string> forms)
     {
