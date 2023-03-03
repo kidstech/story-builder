@@ -2085,8 +2085,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -484.03, y: -44.25}
-  m_SizeDelta: {x: -968.06, y: 711.5}
+  m_AnchoredPosition: {x: 26.5368, y: -25}
+  m_SizeDelta: {x: -137.0463, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &264337976
 MonoBehaviour:
@@ -2955,7 +2955,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252}
+  m_AnchoredPosition: {x: -400.50464, y: 252.0009}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -3378,8 +3378,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.4713, y: -3.1131}
-  m_SizeDelta: {x: 100, y: 673}
+  m_AnchoredPosition: {x: 0.00027466, y: -0.0025024}
+  m_SizeDelta: {x: 928.07, y: 49.995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &412239399
 MonoBehaviour:
@@ -6625,8 +6625,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00001347065, y: 336.5}
-  m_SizeDelta: {x: 95.059, y: 0}
+  m_AnchoredPosition: {x: 0, y: 24.997002}
+  m_SizeDelta: {x: 926.9299, y: 47.247}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &935023285
 MonoBehaviour:
@@ -6645,11 +6645,11 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 1
+  m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 75, y: 75}
-  m_Spacing: {x: 0, y: 10}
+  m_CellSize: {x: 55, y: 55}
+  m_Spacing: {x: 5, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &935023286
@@ -6665,7 +6665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!1001 &936525061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8361,7 +8361,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999714
+  m_Size: 0.87420493
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
