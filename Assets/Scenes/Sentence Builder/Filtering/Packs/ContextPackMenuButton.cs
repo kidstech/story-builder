@@ -7,6 +7,14 @@ public class ContextPackMenuButton: MonoBehaviour {
     private GameObject contextPackMenu;
 
     void Start() {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(()=> contextPackMenu.SetActive(true));
+        this.gameObject.GetComponent<Button>().onClick.AddListener(()=> {
+            if(contextPackMenu.activeSelf == false) {
+                contextPackMenu.SetActive(true);
+            }
+
+            else {
+                contextPackMenu.SetActive(false);
+            }
+        });
     }
 }
