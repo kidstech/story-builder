@@ -12,15 +12,21 @@ public class SetupPackFilter : MonoBehaviour
     ///<summary>
     /// counter to track how many context pack icons we are waiting on requests for from firebase
     ///</summary>
-    private int iconCount = 0;
+    private int missingIcons = 0;
+
+    [SerializeField]
+    private GameObject contextPackList;
 
     public void SetUpPacks()
     {
+
+        bool haveAllIcons = true;
+        Debug.Log("Set up packs is being called");
         // clear old filter buttons if they exist
         if (filterByPacks != null)
         {
             filterByPacks.Clear();
-            foreach (Transform child in this.transform)
+            foreach (Transform child in contextPackList.transform)
             {
                 Destroy(child.gameObject);
             }
@@ -29,33 +35,52 @@ public class SetupPackFilter : MonoBehaviour
         filterByPacks = ContextPackHandler.loadContextPacks();
         // it definitely has gotten at least secondPack
 
-        // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
-        if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
-        {
-            //Debug.Log("didn't have matching stored context pack");
-            foreach (ContextPack pack in filterByPacks)
-            {
-                //Debug.Log("pack.icon is: " + pack.icon);
-                if (pack.icon != "" && pack.icon != null)
-                {
-                    iconCount++;
-                    Debug.Log("iconCount is: " + iconCount);
-                    // then we query firebase and store them
-                    GetPackIconAndStoreLocally(pack);
+        // // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
+        // if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
+        // {
+        //     Debug.Log("didn't have matching stored context pack");
+        //     foreach (ContextPack pack in filterByPacks)
+        //     {
+        //         //Debug.Log("pack.icon is: " + pack.icon);
+        //         if (pack.icon != "" && pack.icon != null)
+        //         {
+        //             iconCount++;
+        //             Debug.Log("iconCount is: " + iconCount);
+        //             // then we query firebase and store them
+        //             GetPackIconAndStoreLocally(pack);
 
+        //         }
+        //     }
+
+            
+
+
+        //     if (iconCount == 0)
+        //     {
+        //         // call needed to ensure we actually still set things up if we don't find any icons
+        //         SetUpContextPackSortButtons();
+        //     }
+        // }
+        // else
+        // {
+        //     //Debug.Log("already have the icons, grabbing them from storage");
+        //     // we already have the icons, just grab them locally
+        //     SetUpContextPackSortButtons();
+        // }
+
+
+        foreach(ContextPack pack in filterByPacks) {
+            if(!ContextPackHandler.checkContextPackIcon(pack)) {
+                if(pack.icon != "" && pack.icon != null) {
+                    haveAllIcons = false;
+                    missingIcons++;
+                    GetPackIconAndStoreLocally(pack);
                 }
             }
-            if (iconCount == 0)
-            {
-                // call needed to ensure we actually still set things up if we don't find any icons
-                SetUpContextPackSortButtons();
-            }
         }
-        else
-        {
-            //Debug.Log("already have the icons, grabbing them from storage");
-            // we already have the icons, just grab them locally
-            SetUpContextPackSortButtons();
+
+        if(haveAllIcons) {
+             SetUpContextPackSortButtons();
         }
     }
     public void GetPackIconAndStoreLocally(ContextPack pack)
@@ -73,8 +98,8 @@ public class SetupPackFilter : MonoBehaviour
     {
         Debug.Log("storing context pack locally");
         ContextPackHandler.StoreContextPackIcon(id, icon);
-        iconCount--;
-        if (iconCount <= 0)
+        missingIcons--;
+        if (missingIcons <= 0)
         {
             Debug.Log("firebase requests finished... setting up context pack buttons");
             SetUpContextPackSortButtons();
@@ -108,7 +133,7 @@ public class SetupPackFilter : MonoBehaviour
             sortButton.AddComponent<PackFilterButton>().pack = filterByPacks[i];
 
             //
-            sortButton.transform.SetParent(this.transform, false);
+            sortButton.transform.SetParent(contextPackList.transform, false);
         }
     }
 

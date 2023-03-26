@@ -15,8 +15,12 @@ public class BuildWorldBankNew : MonoBehaviour
     // Prefab for word tile to be stored in word bank columns
     public Transform wordTile;
     // game object storing the SetupPackFilter script
-    public GameObject ContextPackFilter;
+    public GameObject setUpContextPacks;
     public GameObject WBUpdateConfirmationPrompt;
+
+    // Should be ContextPackList
+    [SerializeField]
+    private GameObject contextPackMenu;
 
     private void Awake()
     {
@@ -79,7 +83,8 @@ public class BuildWorldBankNew : MonoBehaviour
         //
         GetComponent<WordBank>().SortWordBank();
         // set up pack filter buttons now that words and context packs have been grabbed from the server
-        ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
+        //ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
+        setUpContextPacks.GetComponent<SetupPackFilter>().SetUpPacks();
         Debug.Log("setup packs called");
     }
     private IEnumerator UpdateWordBankFeedback()
