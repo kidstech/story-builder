@@ -44,11 +44,12 @@ public class NewWordHolder : MonoBehaviour
     public static Word word2;
 
     private int wordHolderSiblingIndex;
+    
     private int wordHolderDropZoneSiblingIndex;
 
     private int wordFormPopupSiblingIndex;
 
-    // Start is called before the first frame update
+    
     void Awake()
     {
         baseWordGO.GetComponentInChildren<Button>().onClick.AddListener(() => baseWordClick(baseWordGO.GetComponent<Image>()));

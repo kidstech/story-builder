@@ -65,7 +65,6 @@ public class SentenceBar : MonoBehaviour
     public void ResizeSentence(int amountOfTileSpaceToAdd)
     {
 
-        Debug.Log("Hello");
         // // if the word tiles haven't taken up more space than can be displayed...
         // if (GatherWordTiles().Count * tileSize < originalSize.x)
         // {
