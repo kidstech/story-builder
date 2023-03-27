@@ -63,7 +63,7 @@ public class ChangeScene : MonoBehaviour
             updateWordBankButton.SetActive(false);
 
             this.transform.SetParent(storyBuilderCanvas); // changescene button is moved over to the active canvas, so if/when we shut it down the previous canvas, it will remain
-            this.transform.SetSiblingIndex(14);
+            this.transform.SetSiblingIndex(9);
             //this.transform.GetComponent<RectTransform>().localPosition = new Vector3(15, 315, 90); // move the changescene button down slightly so it doesn't overlap with the sentence tile
             //currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-1060f,0f); // move learner profile to new scene
             currentLearnerInfoSentenceBuilder.SetActive(false); // disable the current learner info in the sentence builder scene / unused scene
@@ -95,7 +95,7 @@ public class ChangeScene : MonoBehaviour
             updateWordBankButton.SetActive(true);
 
             this.transform.SetParent(sentenceBuilderCanvas);
-            this.transform.SetSiblingIndex(15);
+            this.transform.SetSiblingIndex(11);
             //this.transform.GetComponent<RectTransform>().localPosition = new Vector3(0.298447847f,-352.858398f, 0);  // copy pasted position of change scene button in original render of scene
             // currentLearnerInfo.transform.GetComponent<RectTransform>().localPosition = new Vector3(-230f,-335f,0f);// move learner profile to new scene
             // deactivate sentence bank to ensure it gets refreshed again when changing scenes
