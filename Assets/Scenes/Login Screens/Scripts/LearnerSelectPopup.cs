@@ -7,16 +7,24 @@ using System.IO;
 public class LearnerSelectPopup : MonoBehaviour
 {
     public GameObject learnerButtonPrefab;
+
     // LearnerSelect game object this script is attached to
     public GameObject learnerSelect;
+
     const long maxImageSize = 1 * 1024 * 1024; // 1 MB of space for our image byte array
+
     public static byte[] learnerIcon = new byte[maxImageSize];
+
     // boolean indication of whether the array is empty to avoid iterating through the whole array every time and seeing if it's really empty
     public static bool learnerIconArrayIsEmpty = true;
+
     // current wordriver user logged in
     public static User currentUser;
+
     // array of files that contain previously stored learner icons
     private string[] filePaths;
+
+    // Default Learner Sprite Icons
     public Sprite moose;
     public Sprite narwhal;
     public Sprite penguin;
@@ -87,26 +95,22 @@ public class LearnerSelectPopup : MonoBehaviour
         correctedZPosition.z = 0;
         // make sure we grab any local icons that may have been added from most recent server call
         filePaths = Directory.GetFiles(LearnerIconStorageHandler.dirPath);
-        //check and see if we have an image file for the learner
+
+        // Check and see if learner icon is one of the default options, If not, then get icon
          switch(learner.icon) {
                     case "/assets/penguin.png":
-                        Debug.Log("Am I being called");
                         button.transform.GetChild(1).GetComponent<Image>().sprite = penguin;
                         break;
                     case "/assets/moose.png":
-                        Debug.Log("Am I being called1");
                         button.transform.GetChild(1).GetComponent<Image>().sprite = moose;
                         break;
                     case "/assets/pig.png":
-                        Debug.Log("Am I being called2");
                         button.transform.GetChild(1).GetComponent<Image>().sprite = pig;
                         break;
                     case "/assets/duck.png":
-                        Debug.Log("Am I being called3");
                         button.transform.GetChild(1).GetComponent<Image>().sprite = duck;
                         break;
                     case "/assets/narwhal.png":
-                        Debug.Log("Am I being called3");
                         button.transform.GetChild(1).GetComponent<Image>().sprite = narwhal;
                         break;
                     default:

@@ -8,6 +8,7 @@ public class LearnerLogin : MonoBehaviour
 {
     // instantiated from the learnerselectpopup script
     public Learner selectedLearner;
+    
     // static learner so we have a way to access the current learner without passing around the LearnerLogin object
     public static Learner staticLearner;
 

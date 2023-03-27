@@ -8,6 +8,7 @@ public class LearnerIconStorageHandler : MonoBehaviour
 {
     public static string dirPath;
     public static string filePath;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,7 @@ public class LearnerIconStorageHandler : MonoBehaviour
         filePath = "";
         CheckDirPath();
     }
+    
     // store the learner icon byte array to a file named after the learnerId
     public static void StoreLearnerSprite(string learnerId, byte[] learnerIcon)
     {
