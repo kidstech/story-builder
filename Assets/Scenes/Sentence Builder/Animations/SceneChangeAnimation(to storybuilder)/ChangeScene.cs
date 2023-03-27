@@ -18,6 +18,7 @@ public class ChangeScene : MonoBehaviour
     private float transitionTime = 2f; // used to keep the wait function in line with animation time
     private string buttonText;
 
+    // Voice manipulation options. Used to ensure that the voice sliders always match between the sentence builder and story builder scenes
     [SerializeField]
     private Slider sentenceVoicePitch;
     [SerializeField]

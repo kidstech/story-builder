@@ -10,21 +10,26 @@ public class SaveSentenceTiles : MonoBehaviour, IBeginDragHandler, IDragHandler,
     int startSibIndex;
     private Vector3 startPosition;
     public List<WordTile> savedSentence; // storage for the latest submitted word tiles in case the user wishes to modify their sentence
-    private bool dragging;
     public GameObject sentence;
-    private bool drop = false;  
     public TextToSpeechHandler TTS;
 
      [SerializeField]
      private GameObject sentenceInTiles; 
-      private string sentenceText;
-      private Image image = null;
-      private Color originalColor;
+     private Image image = null;
+     private Color originalColor;
 
+
+// Get original color of the sentence tile
 private void Start() {
      image = GetComponent<Image>();
      originalColor = image.color;
 }
+/*
+    * When tile is clicked
+    * Highlight tile
+    * Have TTS speak words in the tile
+    * Update the learner data to reflect words heard
+*/
 public void OnPointerClick(PointerEventData eventData)
     { 
         if(savedSentence.Count != 0) {
