@@ -9,17 +9,13 @@ using System;
 
 public class LearnerDataHandler : MonoBehaviour
 {
-    //public static string dirPath;
-    //public static string filePath;
+
     public static string sessionDate;
 
     void Start()
     {
         sessionDate = DateTime.Now.ToString();
-        //dirPath = Path.Combine(Application.persistentDataPath + "Resources/LearnerData");
-        // make our persistent directory if it doesn't already exist
-        //if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
-        //filePath = "";
+    
         //store name and object id in static LearnerData fields
         LearnerData.staticLearnerName = LearnerLogin.staticLearner.name;
         LearnerData.staticLearnerId = LearnerLogin.staticLearner._id;
@@ -58,22 +54,12 @@ public class LearnerDataHandler : MonoBehaviour
     {
         // create learnerdata object for serialization later
         LearnerData learnerData = new LearnerData();
-        //string jsonLearnerData;
-        // if there isn't already a filepath made for this learner...
-        // if (!FileExists())
-        // {
-        //     filePath = Path.Combine(dirPath, LearnerData.staticLearnerName + ".json"); // should this be object ID so we don't have to worry so much about file name syntax?
-        //     jsonLearnerData = null;
-        // }
+    
         // populate non-static serializable fields
         learnerData.learnerName = LearnerData.staticLearnerName;
         learnerData.learnerId = LearnerData.staticLearnerId;
         learnerData.wordCounts = LearnerData.staticWordCounts;
         learnerData.sessionTimes = LearnerData.staticSessionTimes;
-        // convert Learnerdata to json
-        //jsonLearnerData = JsonConvert.SerializeObject(learnerData, Formatting.Indented);
-        // make the file
-        //CreateJsonFile(jsonLearnerData);
     }
 
     // ///<summary>
@@ -89,29 +75,11 @@ public class LearnerDataHandler : MonoBehaviour
         // if the word isn't in the dictionary... (haven't heard it yet)
         if (!LearnerData.staticWordCounts.ContainsKey(word))
         {
-            //Debug.Log("new word heard!");
             LearnerData.staticWordCounts.Add(word, 1); // create entry for newly heard word
         }
         else // we've heard the word again
         {
-           //Debug.Log("repeat word heard.");
             LearnerData.staticWordCounts[word]++; // increment word counter
         }
     }
-    // public static void CreateJsonFile(string jsonLearnerData)
-    // {
-    //     CheckDirPath();
-    //     Debug.Log("writing learnerdata to a local file...");
-    //     File.WriteAllText(filePath, jsonLearnerData);
-    // }
-
-    // public static void CheckDirPath()
-    // {
-    //     if (!Directory.Exists(dirPath))
-    //     {
-    //         Directory.CreateDirectory(dirPath);
-    //     }
-    //     else return;
-    // }
-
 }

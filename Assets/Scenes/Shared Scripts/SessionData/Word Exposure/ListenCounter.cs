@@ -4,10 +4,6 @@ public class ListenCounter{
 
 	public static int counter;
 
-//	void createCounter(){
-//		counter = new ListenCounter();
-//	}
-
 	public int initialCount(){
 		return counter = 0;
 		}

@@ -17,16 +17,4 @@ public class ContextPackMenu: MonoBehaviour {
             this.gameObject.SetActive(false);
         });
     }
-
-    /*
-    * Prevents the speak sentence button from being able to be pressed while the context pack menu is open to prevent potential misclicks
-    */
-    void OnEnable() {
-        speakSentence.raycastTarget = false;
-    }
-    
-    void OnDisable() {
-        speakSentence.raycastTarget = true;
-    }
-
 }

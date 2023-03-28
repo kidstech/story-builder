@@ -32,6 +32,7 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
         List<Crosstales.RTVoice.Model.Voice> englishVoices = Speaker.Instance.VoicesForCulture("en");
 
 
+        // Looks for the 3 desired voices that we want to use
         foreach(Crosstales.RTVoice.Model.Voice voice in englishVoices) {
             if(voice.Name == "Bad News" || voice.Name == "Zoe" || voice.Name == "Evan") {
                 voiceButtons[numVoices].gameObject.GetComponentInChildren<Text>().text = voice.Name;
@@ -59,7 +60,6 @@ public class VoiceSelectionHubInstantiation : MonoBehaviour
         // if we end up having less than 3 voices, delete any empty voice change buttons
         if (numVoices < numVoiceButtons) {
             for(int c = numVoiceButtons; c > numVoices; c--) {
-                //Debug.Log("there are: " + voiceButtons.Count + "voice buttons");
                 Destroy(voiceButtons[c-1].gameObject); // translate the length to an index value
             }
         }

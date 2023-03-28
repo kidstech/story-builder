@@ -33,42 +33,8 @@ public class SetupPackFilter : MonoBehaviour
         }
         // load the packs
         filterByPacks = ContextPackHandler.loadContextPacks();
-        // it definitely has gotten at least secondPack
-
-        // // if filterByPacks doesn't have a contextPackId that matches a stored context pack Icon file
-        // if (!ContextPackHandler.AlreadyHaveAppropriateContextPackIcons(filterByPacks))
-        // {
-        //     Debug.Log("didn't have matching stored context pack");
-        //     foreach (ContextPack pack in filterByPacks)
-        //     {
-        //         //Debug.Log("pack.icon is: " + pack.icon);
-        //         if (pack.icon != "" && pack.icon != null)
-        //         {
-        //             iconCount++;
-        //             Debug.Log("iconCount is: " + iconCount);
-        //             // then we query firebase and store them
-        //             GetPackIconAndStoreLocally(pack);
-
-        //         }
-        //     }
-
-            
-
-
-        //     if (iconCount == 0)
-        //     {
-        //         // call needed to ensure we actually still set things up if we don't find any icons
-        //         SetUpContextPackSortButtons();
-        //     }
-        // }
-        // else
-        // {
-        //     //Debug.Log("already have the icons, grabbing them from storage");
-        //     // we already have the icons, just grab them locally
-        //     SetUpContextPackSortButtons();
-        // }
-
-
+        
+        // Check if we have the pack icon
         foreach(ContextPack pack in filterByPacks) {
             if(!ContextPackHandler.checkContextPackIcon(pack)) {
                 if(pack.icon != "" && pack.icon != null) {
@@ -145,7 +111,6 @@ public class SetupPackFilter : MonoBehaviour
     private void AssignSprite(Sprite sprite)
     {
         // WIP for getting sprites with rounded edges 
-        //Sprite borderedSprite = Sprite.Create(sprite.texture, new Rect(0,0,40,30), new Vector2(0,0), 1, 0, SpriteMeshType.Tight, new Vector4(0,0,0,0));
         sortButton.GetComponent<Image>().sprite = sprite;
     }
 }
