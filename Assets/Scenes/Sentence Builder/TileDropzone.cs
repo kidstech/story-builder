@@ -46,16 +46,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
             //
             d.heldOver = behavior;
-
-            //
-            if(d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
-            {
-                GetComponent<SentenceBar>().ResizeSentence(1);
-            }
-            if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
-            {
-                GetComponent<SentenceBar>().ResizeSentence(1);
-            }
         }
     }
 
@@ -84,20 +74,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
             //
             d.heldOver = Behavior.Default;
-
-            //
-            if (d.draggedFrom != Behavior.Sentence && behavior == Behavior.Sentence)
-            {
-                //
-                Debug.Log("Iam not sentence");
-                GetComponent<SentenceBar>().ResizeSentence(-1);
-            }
-
-            if (d.draggedFrom == Behavior.Sentence && behavior == Behavior.Sentence)
-            {
-                Debug.Log("I am sentence");
-                GetComponent<SentenceBar>().ResizeSentence(-1);
-            }
         }
     }
 
@@ -117,10 +93,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
             {
                 //
                 case Behavior.Default:
-                    //Debug.Log("You have place the tile in the default space.");
-
-                    // pretty sure the eventData no longer knows what object it was dragging
-                    //Destroy(eventData.pointerDrag);
                     Destroy(droppedtile);
                     Destroy(d.placeholder);
 
@@ -128,49 +100,28 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.WordBank:
-                    //Debug.Log("You have placed the tile in the wordbank.");
                     Destroy(droppedtile);
                     // fixes the New Game Objects that were being leftover when we dragged a tile from the wordbank to itself
                     Destroy(d.placeholder);
 
                     break;
-                //The trash can has been removed, but removing this switch case seems to break everything
-                case Behavior.Trash:
-                    //Debug.Log("You have placed the tile in the trash.");
-                    //
-                    if(behavior == Behavior.Sentence)
-                    {
-                        //
-                        GetComponent<SentenceBar>().ResizeSentence(-1);
-                    }
 
-                    //
+                // All references to the Trash in other scripts have been removed, but for some reason, if you remove this case, it completely breaks the sentence bar
+                // I have no idea why...
+                case Behavior.Trash:
+                
                     Destroy(eventData.pointerDrag);
 
                     break;
 
-                //
+                // Only allow a max of 9 tiles in the sentence bar at a time
                 case Behavior.Sentence:
-                Debug.Log("You have placed a tile in the sentence zone.");  
-
-                    if (d.draggedFrom == Behavior.Sentence && GetComponent<SentenceBar>().GatherWordTiles().Count != 9)
-                        {
-                            Debug.Log("Hello there");
-
-                        GetComponent<SentenceBar>().ResizeSentence(-1);
-                     }            
-
+                
                      if(GetComponent<SentenceBar>().GatherWordTiles().Count == 9) {
-                        Debug.Log("Play error noise");
                         sentenceToPlayNoise.errorNoise.Play();
                      }
-                    //  else if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9){
-                    //      Debug.Log("General Kenobi");
-                    //      GetComponent<SentenceBar>().ResizeSentence(-1);
-                    //  }
+        
                     else if(GetComponent<SentenceBar>().GatherWordTiles().Count != 9) {
-                        Debug.Log("You are a bold one");
-                        Debug.Log(GetComponent<SentenceBar>().GatherWordTiles().Count);
                         d.parentToReturnTo = this.transform;
                     }
 
@@ -178,8 +129,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
 
                 //
                 case Behavior.WordHolder:
-                //Debug.Log("You have placed a tile in the wordholder zone.");
-
                     //
                     d.parentToReturnTo = this.transform;
 
@@ -189,8 +138,6 @@ public class TileDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandler, I
                         Destroy(this.transform.GetChild(0).gameObject);
                     }
                     
-                    //GetComponent<WordHolder>().OpenWordHolder(eventData.pointerDrag.GetComponent<WordTile>().word);
-
                     //
                     Destroy(d.placeholder);
 

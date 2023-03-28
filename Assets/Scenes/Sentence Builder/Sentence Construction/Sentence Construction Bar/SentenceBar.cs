@@ -7,15 +7,11 @@ using UnityEngine.UI;
 
 public class SentenceBar : MonoBehaviour
 {
-    private float tileSize = 130f;
     private Vector2 originalSize;
     private RectTransform r;
-    int animcount = 1;
     public TextToSpeechHandler tts;
-    float futureWidth = 0;
     // game object that contains the word tiles of the most recently submitted sentence
     public GameObject sentenceInTiles;
-    public GameObject sentence;
 
     [SerializeField]
     private GameObject touchBlock;
@@ -61,30 +57,7 @@ public class SentenceBar : MonoBehaviour
         }
     }
 
-    //
-    public void ResizeSentence(int amountOfTileSpaceToAdd)
-    {
 
-        // // if the word tiles haven't taken up more space than can be displayed...
-        // if (GatherWordTiles().Count * tileSize < originalSize.x)
-        // {
-        //     // do nothing
-        //     return;
-        // }
-
-        // futureWidth = r.sizeDelta.x + (amountOfTileSpaceToAdd * tileSize);
-
-        // if (futureWidth > originalSize.x )
-        // {
-        //     //
-        //     r.sizeDelta = new Vector2(futureWidth, originalSize.y);
-        // }
-        // else
-        // {
-        //     //
-        //     r.sizeDelta = originalSize;
-        // }
-    }
     // combines animation and transfer of tiles because coroutines complicate the timing of function calls (can't have transfer occur during/before execution of animation)
     public IEnumerator AnimateAndTransferTiles()
     {
@@ -126,12 +99,10 @@ public class SentenceBar : MonoBehaviour
                 LeanTween.moveX(childA.gameObject, childA.position.x - left_move_distance, animation_time);
             }
             yield return new WaitForSeconds(animation_time);
-            // we need the sentence bar length to match our changed number of game objects
-            //ResizeSentence(-1);
+            
         }
         TransferTiles();
          r.sizeDelta = originalSize;
-        //ResizeSentence(-length);
     }
 
     ///<summary>
