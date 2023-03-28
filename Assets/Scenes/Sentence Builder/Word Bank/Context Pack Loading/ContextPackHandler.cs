@@ -13,8 +13,6 @@ public class ContextPackHandler
     // context pack list from server
     public static List<ContextPack> contextPackList = new List<ContextPack>();
     public static List<ContextPack> activeContextPacks = new List<ContextPack>();
-    // learner specific context packs grabbed from the server
-    //public static List<ServerContextPack> serverPacks = new List<ServerContextPack>();
     public static string dirPath = Path.Combine(Application.persistentDataPath, "Resources", "Packs");
     private static string iconDirpath = Path.Combine(Application.persistentDataPath, "Resources", "PackIcons");
     private static string[] contextPackIconPaths;

@@ -146,6 +146,10 @@ MonoBehaviour:
   wordHolder: {fileID: 107012080}
   wordHolderDrop: {fileID: 7598417968809258705}
   defaultHeightWidth: {x: 59.7756, y: 169.8303}
+  buttons: []
+  wordHolderSiblingIndex: 0
+  wordHolderDropZoneSiblingIndex: 0
+  wordFormPopupSiblingIndex: 0
 --- !u!1 &11255648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2872,7 +2876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400.50464, y: 252.00002}
+  m_AnchoredPosition: {x: -400.50464, y: 252.00003}
   m_SizeDelta: {x: 801.01, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &396208986
@@ -5860,7 +5864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tts: {fileID: 1214538165}
   sentenceInTiles: {fileID: 2092331155}
-  sentence: {fileID: 934462491}
   touchBlock: {fileID: 1270179279}
   errorNoise: {fileID: 934462499}
   maxSize: {x: 0, y: 0}
@@ -7564,7 +7567,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999955
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14366,6 +14369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4453322925801050733}
   - component: {fileID: 5}
+  - component: {fileID: 7387002058794206985}
   m_Layer: 7
   m_Name: Word Form Options Popup
   m_TagString: Untagged
@@ -14373,6 +14377,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &7387002058794206985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387002058794206984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c7bed8e23ac6c4d8d50e7aa14e0852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newFormsPopUp: {fileID: 7387002058794206984}
+  popUpBackground: {fileID: 7855274498234564937}
+  baseWord: {fileID: 314866219024207062}
+  newFormButton: {fileID: 6657660011938354613, guid: 63c7e22329e17a24f900e9465a368b11,
+    type: 3}
+  baseWordT: {fileID: 8020127765071357092}
+  baseWordGO: {fileID: 3210380517934440383}
+  TTS: {fileID: 1214538165}
+  wordHolder: {fileID: 107012080}
+  wordHolderDrop: {fileID: 7598417968809258705}
+  defaultHeightWidth: {x: 59.7756, y: 169.8303}
 --- !u!222 &7498441756303508769
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -5,19 +5,15 @@ using UnityEngine.UI;
 
 public class WordHolder : MonoBehaviour
 {
-    [Header("Prefabs")]
-    public GameObject WordHolderPopupPrefab;
-    [SerializeField]
-    private Transform SentenceBuilderCanvas;
-
     [SerializeField]
     private GameObject wordForms;
-
-
     [SerializeField]
     private Button formDialButton;
     public static Transform wordHolderDropZoneTransform;
 
+    /*
+        * Sets up the word form dial button
+    */
     public void Start() {
         wordHolderDropZoneTransform = this.transform;
         formDialButton.onClick.AddListener(()=> {
@@ -30,13 +26,13 @@ public class WordHolder : MonoBehaviour
         });
     }
 
+    /*
+        * Passes the word to the NewWordHolderPopup and calls the setUpForms method and enables the popup window
+    */
     public void OpenWordHolder(Word word)
     {
-        // GameObject popup = Instantiate(WordHolderPopupPrefab);
-        // popup.GetComponent<WordHolderPopup>().SetupWordHolderPopup(word);
-        NewWordHolder.word2 = word;
-        wordForms.GetComponent<NewWordHolder>().setUpForms();
-        // popup.transform.SetParent(SentenceBuilderCanvas, false);
-         wordForms.SetActive(true);
+        NewWordHolderPopup.word = word;
+        wordForms.GetComponent<NewWordHolderPopup>().setUpForms();
+        wordForms.SetActive(true);
     }
 }

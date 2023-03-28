@@ -71,10 +71,10 @@ public class DraggableTile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             //
             placeholder.transform.SetAsLastSibling();
         }
-        else if (draggedFrom == TileDropzone.Behavior.WordHolder && NewWordHolder.instance != null)
+        else if (draggedFrom == TileDropzone.Behavior.WordHolder && NewWordHolderPopup.instance != null)
         {
-            if(NewWordHolder.instance.gameObject.activeSelf) {
-                NewWordHolder.instance.gameObject.SetActive(false);
+            if(NewWordHolderPopup.instance.gameObject.activeSelf) {
+                NewWordHolderPopup.instance.gameObject.SetActive(false);
             }
             //
             placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());

@@ -114,8 +114,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
                 StartCoroutine(animatePipes(speakDuration));
                 StartCoroutine(tts.startSpeakingSentenceSlowly(tiles, false));
 
-                //
-                //StartCoroutine(revealSentenceWordByWord(words));
                 completedSentences.GetComponentInChildren<Text>().text = rawSentence; // place the raw text of the completed sentence into the most recent saved sentence game object
                                                                                       // animate the big block of sentence to the left for approximately how long it takes for the speaker to speak it
                 StartCoroutine(revealSentenceAnimation(tiles));
@@ -154,7 +152,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         yield return new WaitForSeconds(approxSpeechTime/2);
         tts.startSpeakingSentence(wordTiles, false);
         touchBlock.SetActive(false);
-        //yield return new WaitForSecondsRealtime(1f);
         pipeWithWords.SetActive(false);
     }
 
@@ -172,8 +169,6 @@ public class SubmitSentenceButton : MonoBehaviour, IPointerEnterHandler, IPointe
         pipeWithWords.SetActive(true);
         yield return new WaitForSeconds(duration - 1.5f);
         pipesAnimator.SetBool("ProcessingTile", false);
-        // yield return new WaitForSecondsRealtime(1.4f);
-        // pipeWithWords.SetActive(false);
     }
 
 }
