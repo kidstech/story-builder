@@ -40,30 +40,15 @@ public class SaveSentenceHandler
 
         // create new SavedSentence object
         SavedSentence sentence = new SavedSentence(id.ToString(), sentenceText, DateTime.Now.ToString(), LearnerLogin.staticLearner._id, words, selectedWords, LearnerSelectPopup.currentUser._id);
-        //Debug.Log("saving sentence: ... at " + Path.Combine(path, id.ToString() + ".json"));
+
         // store the sentence in static variable for server call (can't call coroutine from static method)
         mostRecentSentence = sentence;
         string jsonSentence = JsonConvert.SerializeObject(sentence);
-        // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
-        //File.WriteAllText(Path.Combine(path, id.ToString() + ".json"), jsonSentence);
     }
 
     public static void StoreSentences(List<SavedSentence> sentences2)
     {
         sentences = sentences2;
-        // Debug.Log("Am i being called");
-        // foreach (SavedSentence sentence in sentences)
-        // {
-        //     string jsonSentence = JsonConvert.SerializeObject(sentence);
-        //     // make sure we don't overwrite any existing files
-        //     if (!File.Exists(Path.Combine(path, sentence.sentenceId)))
-        //     {
-        //         Debug.Log("I am writing a sentence");
-        //         // Write the object to the file, this will allow us to load the SavedSentence object back into Unity
-        //         //Refine query so that we only store the sentences that the learner had from the time they last saved
-        //         File.WriteAllText(Path.Combine(path, sentence.sentenceId.ToString() + ".json"), jsonSentence);
-        //     }
-        // }
     }
 
     public static List<SavedSentence> returnSentences() {
