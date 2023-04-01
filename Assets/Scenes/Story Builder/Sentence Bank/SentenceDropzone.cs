@@ -72,30 +72,23 @@ public class SentenceDropzone : MonoBehaviour, IDropHandler, IPointerEnterHandle
         {
             switch (behavior) {
                 case Behavior.SentenceBank:
-                    //Debug.Log("sentencebank");
-                    //Destroy(droppedSentence);
                     Destroy(d.placeholder);
                     break;
 
                 case Behavior.Page:
-                    //Debug.Log("page");
-                    //page.sentenceNum ++;
                     if (sentenceNum < maxSentences)
                     {
                         d.parentToReturnTo = this.transform;
                         sentenceNum ++;
-                        Debug.Log("Current number of sentences: " + sentenceNum);
                     }
                    else {
                         Destroy(droppedSentence);
                         Destroy(d.placeholder);
                         errorNoise.Play();
-                        Debug.Log("Play error noise");
                     }
                     break;
 
                 default:
-                    //Debug.Log("default");
                     StartCoroutine(ServerRequestHandler.UpdateSentence(s.savedSentence.sentenceId));
                     Destroy(droppedSentence);
                     Destroy(d.placeholder);

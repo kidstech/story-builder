@@ -11,7 +11,6 @@ using UnityEngine.UI;
 
 public class SaveStoryHandler : MonoBehaviour
 {
-    // PageContainer game object that contains all the different pages a user has created for their story
     public SavedSentenceBank sentenceBank;
     public GameObject storyNameInputField;
     public static string path;
@@ -28,33 +27,6 @@ public class SaveStoryHandler : MonoBehaviour
     {
         
     }
-    
-    
-    
-    
-    // public static void SaveStory(List<SavedSentence> sentences)
-    // {
-    //     // Make sure the path where we are saving exists (if directory doesn't exist, create it).
-    //     CheckPath();
-
-    //     // Create a GUID for each sentence, just as identifier.
-    //     Guid id = Guid.NewGuid();
-
-    //     // Create a new SavedSentence object
-    //     SavedStory s = new SavedStory(id, "Test Client", sentences);
-
-    //     // Fancy way to save in an unformated manner
-    //     BinaryFormatter bf = new BinaryFormatter();
-
-    //     // Create a new file at the desired location with the UUID being the name and the extension .story
-    //     FileStream file = File.Create(Path.Combine(path, id.ToString() + ".story"));
-
-    //     // Write the object to the file, this will allow us to load the SavedStory object back into Unity
-    //     bf.Serialize(file, s);
-
-    //     // Clean up
-    //     file.Close();
-    // }
 
     public static List<SavedStory> LoadJson()
     {

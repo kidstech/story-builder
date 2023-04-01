@@ -42,26 +42,8 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
         le.flexibleWidth = 0;
         le.flexibleHeight = 0;
 
-        // if(draggedFrom == SentenceDropzone.Behavior.SentenceBank)
-        // {
-        //     GameObject o = Instantiate(this.gameObject);
-
-        //     o.GetComponent<SentenceObject>().savedSentence = this.gameObject.GetComponent<SentenceObject>().savedSentence;
-        //     o.GetComponent<Image>().color = this.gameObject.GetComponent<SentenceTile>().originalColor;
-
-        //     o.transform.SetParent(this.transform.parent, false);
-        //     o.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-
-        //     placeholder.transform.SetAsLastSibling();
-        // }
-        // else
-        // {
-          //  placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
-        // }
-
         placeholder.transform.SetSiblingIndex(this.transform.GetSiblingIndex());
         parentToReturnTo = this.transform.parent;
-       // You = this.transform.parent;
 
         placeholderParent = parentToReturnTo;
 
@@ -79,17 +61,8 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
         mousePos.z = Camera.main.nearClipPlane;
         this.transform.position = Camera.main.ScreenToWorldPoint(mousePos);
 
-        //this.transform.position = eventData.position + offset;
-        //
         if(heldOver == SentenceDropzone.Behavior.SentenceBank)
         {
-            
-            // if (placeholder.transform.parent != placeholderParent)
-            // {
-            //     Debug.Log("Is this happening");
-            //     placeholder.transform.SetParent(placeholderParent);
-            // }
-
             //
             int newSiblingIndex = placeholderParent.childCount;
 
@@ -117,14 +90,6 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
             //
             placeholder.transform.SetSiblingIndex(newSiblingIndex);
         }
-        // else
-        // {
-        //     // Remove the placeholder from the sentencebank
-        //     if (placeholder.transform.parent != placeholderParent)
-        //     {
-        //         placeholder.transform.SetParent(placeholderParent, false);
-        //     }
-        // }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -134,9 +99,6 @@ public class DraggableSentence : MonoBehaviour, IBeginDragHandler, IDragHandler,
         RectTransform sentenceTileCoords = this.transform.GetComponent<RectTransform>();
         // give the sentence tile a draggable z position
         this.transform.GetComponent<RectTransform>().position = new Vector3(sentenceTileCoords.position.x, sentenceTileCoords.position.y, 0);
-
-        //draggedFrom = parentToReturnTo.GetComponent<SentenceDropzone>().behavior;
-
         canvasGroup.blocksRaycasts = true;
 
         Destroy(placeholder);

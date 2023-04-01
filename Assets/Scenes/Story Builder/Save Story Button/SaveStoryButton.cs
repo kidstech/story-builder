@@ -9,13 +9,8 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     public Sprite upLever;
     public Sprite downLever;
-
     private Image currentImage;
-
-    public TextToSpeechHandler tts;
     private Vector2 defaultSize, highlightSize;
-
-    private Button button;
     public GameObject saveStoryHandler;
     public GameObject StoryNamePrompt;
 
@@ -23,9 +18,6 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private GameObject storyNameInputField;
     [SerializeField]
     private SavedSentenceBank sentenceBank;
-    [SerializeField]
-    private AudioSource successNoise;
-
     [SerializeField]
     private Button finalStorySubmit;
 
@@ -94,10 +86,6 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
        StartCoroutine(pullLever());
        OpenStoryNameMenu();
-       //sentenceBank.speakStory();
-       //StartCoroutine(removeSentenceBackground()); 
-       
-       //CloseStoryNameMenu();
     }
 
      private IEnumerator pullLever()
@@ -117,11 +105,8 @@ public class SaveStoryButton : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
     public void CloseStoryNameMenu()
     {
-        // string storyName = StoryNamePrompt.GetComponentInChildren<Text>().text;
         StoryNamePrompt.SetActive(false);
         saveStoryHandler.GetComponent<SaveStoryHandler>().PutStoryInDatabase();
-        // if story submitted successfully... (should check this eventually)
-        //DisplaySubmissionStatus();
     }
    
 

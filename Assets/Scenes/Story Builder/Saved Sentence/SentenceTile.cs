@@ -7,10 +7,8 @@ using Crosstales.RTVoice;
 
 public class SentenceTile : MonoBehaviour, IPointerClickHandler
 {
-    //[HideInInspector]
     public string textToDisplay;
     public Color originalColor;
-    private bool highlighted = false; 
     public TextToSpeechHandler TTS;
     public List<string> words;
     Image image = null;

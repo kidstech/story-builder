@@ -15,7 +15,6 @@ public static class LoadSavedSentences
     {
         // Create a DirectoryInfo of the directory of the files to enumerate.
         DirectoryInfo DirInfo = new DirectoryInfo(@path);
-        // DateTime StartDate = new DateTime(2021, 02, 20);
         DateTime today = DateTime.Today;
 
         // LINQ query for all files created past a certain date.
