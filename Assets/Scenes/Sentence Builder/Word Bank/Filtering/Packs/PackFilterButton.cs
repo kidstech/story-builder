@@ -19,7 +19,7 @@ public class PackFilterButton : MonoBehaviour
     void Start()
     {
         //
-        fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
+        fc = GameObject.Find("Filter Controller").GetComponent<FilterController>();
 
         //
         image = GetComponent<Image>();

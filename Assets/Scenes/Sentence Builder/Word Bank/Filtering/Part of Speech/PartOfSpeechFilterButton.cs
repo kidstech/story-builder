@@ -26,7 +26,7 @@ public class PartOfSpeechFilterButton : MonoBehaviour
     void Start()
     {
         //
-        fc = GameObject.Find("WordBankSortingToggle").GetComponent<FilterController>();
+        fc = GameObject.Find("Filter Controller").GetComponent<FilterController>();
 
         filterButton = GetComponent<Button>();
         filterButton.onClick.AddListener(UpdateFilter);
