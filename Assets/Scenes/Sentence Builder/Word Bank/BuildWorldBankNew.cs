@@ -47,8 +47,6 @@ public class BuildWorldBankNew : MonoBehaviour
         }
         ContextPackHandler.StoreContextPacks();
         words = ContextPackHandler.loadWords();
-        // activate the contextpackfilter game object now that we've downloaded the learnercontextpacks
-        //ContextPackFilter.SetActive(true);
         // Get the word bank's transform object
         RectTransform bank = (RectTransform)this.transform;
 
@@ -83,9 +81,7 @@ public class BuildWorldBankNew : MonoBehaviour
         //
         GetComponent<WordBank>().SortWordBank();
         // set up pack filter buttons now that words and context packs have been grabbed from the server
-        //ContextPackFilter.GetComponent<SetupPackFilter>().SetUpPacks();
         setUpContextPacks.GetComponent<SetupPackFilter>().SetUpPacks();
-        Debug.Log("setup packs called");
     }
     private IEnumerator UpdateWordBankFeedback()
     {

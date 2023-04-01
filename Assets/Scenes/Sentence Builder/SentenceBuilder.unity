@@ -123,33 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &5
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387002058794206984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbaba73dbda36144b8c90f4f0b29e662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  newFormsPopUp: {fileID: 7387002058794206984}
-  popUpBackground: {fileID: 7855274498234564937}
-  baseWord: {fileID: 314866219024207062}
-  newFormButton: {fileID: 6657660011938354613, guid: 63c7e22329e17a24f900e9465a368b11,
-    type: 3}
-  baseWordT: {fileID: 8020127765071357092}
-  baseWordGO: {fileID: 3210380517934440383}
-  TTS: {fileID: 1214538165}
-  wordHolder: {fileID: 107012080}
-  wordHolderDrop: {fileID: 7598417968809258705}
-  defaultHeightWidth: {x: 59.7756, y: 169.8303}
-  buttons: []
-  wordHolderSiblingIndex: 0
-  wordHolderDropZoneSiblingIndex: 0
-  wordFormPopupSiblingIndex: 0
 --- !u!1 &11255648
 GameObject:
   m_ObjectHideFlags: 0
@@ -4223,7 +4196,6 @@ GameObject:
   - component: {fileID: 563397611}
   - component: {fileID: 563397614}
   - component: {fileID: 563397613}
-  - component: {fileID: 563397612}
   - component: {fileID: 563397615}
   m_Layer: 0
   m_Name: Part of Speech Filters
@@ -4251,25 +4223,6 @@ RectTransform:
   m_AnchoredPosition: {x: -464, y: -0.003982544}
   m_SizeDelta: {x: 31.5708, y: 149.99}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &563397612
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563397610}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8a6a79d3761cee148bd100fd7b41d7ad, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &563397613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5471,7 +5424,6 @@ GameObject:
   - component: {fileID: 838959879}
   - component: {fileID: 838959881}
   - component: {fileID: 838959883}
-  - component: {fileID: 838959880}
   - component: {fileID: 838959882}
   m_Layer: 0
   m_Name: Alphabet Filters
@@ -5499,25 +5451,6 @@ RectTransform:
   m_AnchoredPosition: {x: 25.299011, y: 97.5}
   m_SizeDelta: {x: 925.6, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &838959880
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838959878}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8a6a79d3761cee148bd100fd7b41d7ad, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!222 &838959881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7600,7 +7533,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1969722462}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999356
+  m_Size: 0.9998454
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14183,7 +14116,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4453322925801050733}
-  - component: {fileID: 5}
   - component: {fileID: 7387002058794206985}
   m_Layer: 7
   m_Name: Word Form Options Popup

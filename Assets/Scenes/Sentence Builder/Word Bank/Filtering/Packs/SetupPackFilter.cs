@@ -21,7 +21,6 @@ public class SetupPackFilter : MonoBehaviour
     {
 
         bool haveAllIcons = true;
-        Debug.Log("Set up packs is being called");
         // clear old filter buttons if they exist
         if (filterByPacks != null)
         {

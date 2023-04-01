@@ -205,12 +205,9 @@ public class ContextPackHandler
         // Check if we have the icon stored locally
         foreach(string fileName in contextPackIconPaths) {
              if(Path.GetFileNameWithoutExtension(fileName) == pack._id) {
-                Debug.Log("Matching file name found! Appropriate context pack sprite acquired");
                 return true;
             }
         }
-
-        Debug.Log("No pack Id matches locally stored icon names");
         return false;
     }
 
