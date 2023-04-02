@@ -5,7 +5,9 @@ using UnityEngine;
 public class UpdateWordBank : MonoBehaviour
 {
     public GameObject wordBank;
-    public GameObject packFilters;
+
+    
+    //public GameObject packFilters;
     // pull any changes to words/contextpacks from wordriver
     public void UpdateWords()
     {
